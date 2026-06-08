@@ -1,0 +1,24 @@
+[
+  {
+    "strName": "FzTestGUI",
+    "dictGUIPropMap": [
+      "strGUIPrefab",
+      "FzTestGUI",
+
+      "strFriendlyName",
+      "Test GUI",
+
+      "strGUIPrefabRight",
+      null,
+
+      "strGUIPrefabLeft",
+      null,
+
+      "strGUIPrefabUp",
+      null,
+
+      "strGUIPrefabDown",
+      null
+    ]
+  }
+]

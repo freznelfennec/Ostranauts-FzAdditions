@@ -1,0 +1,52 @@
+[
+  {
+    "strName": "FzTestGUI",
+    "strTitle": "FZ Control Panel",
+    "strDesc": "(FZ) [us] [accesses] [them]'s panel.",
+    "strTooltip": "(FZ) Accesses target's control panel dials, switches, and signal links.",
+    "strActionGroup": "Use",
+    "strTargetPoint": "use",
+    "fTargetPointRange": 1,
+    "strAnim": "Use",
+    "strBubble": "BblTouch",
+    "aInverse": [
+      "FzTestGUIAllow"
+    ],
+    "fDuration": 0.00001,
+    "strThemType": "Other",
+    "strRaiseUI": null,
+    "nLogging": 1,
+    "bOpener": true,
+    "bHumanOnly": true,
+    "bIgnoreFeelings": true,
+    "LootCTsUs": null,
+    "LootCTsThem": null,
+    "CTTestUs": "TIsHuman",
+    "CTTestThem": "TIsAirPump",
+    "aLootItms": [
+    ],
+    "objLootModeSwitch": null
+  },
+  {
+    "strName": "FzTestGUIAllow",
+    "strTitle": "",
+    "strDesc": "[them] [checks] the wiring.",
+    "strActionGroup": "Use",
+    "strTargetPoint": null,
+    "fTargetPointRange": 0,
+    "strAnim": null,
+    "strBubble": "BblTouch",
+    "aInverse": [
+    ],
+    "fDuration": 1.0,
+    "strThemType": "Other",
+    "strRaiseUI": "FzTestGUI",
+    "LootCTsUs": null,
+    "LootCTsThem": null,
+    "CTTestUs": null,
+    "CTTestThem": null,
+    "aLootItms": [
+    ],
+    "objLootModeSwitch": null
+  }
+]
