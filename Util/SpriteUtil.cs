@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +12,8 @@ namespace Freznel.FzAdditions.Util
 {
     public static class SpriteUtil
     {
+        private static readonly string DataModName = "FzAdditions";
+
         private static Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
         private static Dictionary<string, GameObject> prefabCache = new Dictionary<string, GameObject>();
 
@@ -50,6 +54,27 @@ namespace Freznel.FzAdditions.Util
                 }
             }
             return null;
+        }
+
+        public static Sprite LoadModSprite(string name)
+        {
+            string spritePath = Path.Combine(Application.dataPath, "Mods", DataModName, "images", name);
+            
+            if (!File.Exists(spritePath))
+            {
+                FzAdditions.Logger.LogError("Could not find sprite image at " + spritePath);
+                return null;
+            }
+
+            Texture2D texture = new Texture2D(1, 1);
+
+            if (!ImageConversion.LoadImage(texture, File.ReadAllBytes(spritePath)))
+            {
+                FzAdditions.Logger.LogError("Failed to load image " + spritePath);
+                return null;
+            }
+
+            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         }
     }
 }

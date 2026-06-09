@@ -73,6 +73,9 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Ostranauts\Ostranauts_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Ostranauts\Ostranauts_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>$(GameManagedPath)\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
@@ -85,6 +88,7 @@
   <ItemGroup>
     <Folder Include="DataMods\FzAdditions\data\interactions\" />
     <Folder Include="DataMods\FzAdditions\data\guipropmaps\" />
+    <Folder Include="DataMods\FzAdditions\images\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

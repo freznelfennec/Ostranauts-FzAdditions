@@ -1,9 +1,9 @@
 [
   {
     "strName": "FzTestGUI",
-    "strTitle": "FZ Control Panel",
-    "strDesc": "(FZ) [us] [accesses] [them]'s panel.",
-    "strTooltip": "(FZ) Accesses target's control panel dials, switches, and signal links.",
+    "strTitle": "FZ Test GUI",
+    "strDesc": "FZ Test GUI",
+    "strTooltip": "FZ Test GUI",
     "strActionGroup": "Use",
     "strTargetPoint": "use",
     "fTargetPointRange": 1,
@@ -30,7 +30,7 @@
   {
     "strName": "FzTestGUIAllow",
     "strTitle": "",
-    "strDesc": "[them] [checks] the wiring.",
+    "strDesc": "[them] [opens] the test GUI",
     "strActionGroup": "Use",
     "strTargetPoint": null,
     "fTargetPointRange": 0,
