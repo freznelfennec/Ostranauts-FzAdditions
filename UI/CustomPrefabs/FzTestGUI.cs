@@ -1,4 +1,5 @@
-﻿using Freznel.FzAdditions.Util;
+﻿using Freznel.FzAdditions.UI.Controls;
+using Freznel.FzAdditions.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +15,31 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
 
         public static GameObject CreatePrefab()
         {
-            GameObject mainPanel = Controls.Panel.CreatePanel("FzGUITest", 0.6f, 0.5f, 0.2f, 0.25f);
+            GameObject mainPanel = Controls.Panel.CreatePanel("FzGUITest", 0.5f, 0.7f, 0.25f, 0.15f);
             mainPanel.AddComponent<Animator>();
             mainPanel.AddComponent<FzTestGUI>();
+
+            var btn = LampBtn.Create(mainPanel, "TestLampBtn", "TEST\nBTN", 0.15f, 0.2f, 0.02f, 0.025f);
 
             return mainPanel;
         }
 
+        protected void Start()
+        {
+            base.Awake();
+            var btn = gameObject.GetComponent<RectTransform>().Find("TestLampBtn").gameObject;
+            btn.GetComponent<LampBtn>().OnChanged += (bool val) =>
+            {
+                FzAdditions.Logger.LogInfo($"Btn state: ${val}");
+            };
+
+
+        }
+
+        private void OnBtnChange(bool val)
+        {
+
+        }
 
 
 

@@ -76,5 +76,7 @@ namespace Freznel.FzAdditions.Util
 
             return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         }
+
+        public static Color ColorFromHex(string color) => ColorUtility.TryParseHtmlString(color, out var result) ? result : Color.white;
     }
 }
