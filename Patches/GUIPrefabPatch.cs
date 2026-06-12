@@ -29,18 +29,17 @@ namespace Freznel.FzAdditions.Patches
             if (prefabName.StartsWith("GUIShip/Fz"))
             {
                 string customPrefabName = prefabName.Substring(8);
-                if (CustomPrefabRegistry.Prefabs.ContainsKey(customPrefabName))
+                GameObject prefab = CustomPrefabRegistry.GetPrefab(customPrefabName);
+                if (prefab != null)
                 {
                     FzAdditions.Logger.LogInfo("Found custom GUI prefab " + customPrefabName);
-                    return CustomPrefabRegistry.Prefabs[customPrefabName];
+                    return prefab;
                 }
                 else
                 {
                     FzAdditions.Logger.LogError("Could not find custom GUI prefab " + customPrefabName);
                 }
             }
-
-            if (prefabName == "GUIShip/FzTestGUI") return CustomPrefabRegistry.Prefabs["TestGUI"];
 
             return UnityEngine.Resources.Load<GameObject>(prefabName);
         }

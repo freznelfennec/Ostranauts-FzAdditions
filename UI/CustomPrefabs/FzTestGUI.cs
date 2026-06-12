@@ -24,24 +24,34 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             return mainPanel;
         }
 
-        protected void Start()
+        private LampBtn testBtn;
+
+        public override void Init(CondOwner coSelf, Dictionary<string, string> dict, string strCOKey)
         {
-            base.Awake();
-            var btn = gameObject.GetComponent<RectTransform>().Find("TestLampBtn").gameObject;
-            btn.GetComponent<LampBtn>().OnChanged += (bool val) =>
+            base.Init(coSelf, dict, strCOKey);
+
+            //Test lamp button
+
+            testBtn = UnityUtil.FindDescendant(gameObject.transform, "TestLampBtn").GetComponent<LampBtn>();
+            testBtn.OnChanged += (bool val) =>
             {
                 FzAdditions.Logger.LogInfo($"Btn state: ${val}");
+                SetPropMapData("bTest", val.ToString().ToLower());
             };
 
+            bool testBtnState = GetPropMapData("bTest", false);
+            testBtn.On = testBtnState;
+
+
+
+
+
+
+
+
+
 
         }
-
-        private void OnBtnChange(bool val)
-        {
-
-        }
-
-
 
 
     }

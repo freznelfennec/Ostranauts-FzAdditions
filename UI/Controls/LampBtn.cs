@@ -12,15 +12,23 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Windows;
+
+using UnityEngine.InputSystem;
 
 namespace Freznel.FzAdditions.UI.Controls
 {
-    public class LampBtn : FzUIElement, IPointerClickHandler //TODO: Use MouseDownEvent/MouseUpEvent to animate the button like base game buttons
+    public class LampBtn : FzUIElement, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
     {
         private static readonly Sprite BtnOffSprite = SpriteUtil.LoadModSprite("LampBtnOff.png");
         private static readonly Sprite BtnOnSprite = SpriteUtil.LoadModSprite("LampBtnOn.png");
+        private static readonly Sprite BtnHoverSprite = SpriteUtil.LoadModSprite("LampBtnHover.png");
         private static readonly Color OffColor = SpriteUtil.ColorFromHex("#565656FF");
         private static readonly Color DefaultOnColor = SpriteUtil.ColorFromHex("#FFF9EFFF");
+        private static readonly string DownAudio = "ShipUIBtnReactorCoilFwdIn";
+        private static readonly string UpAudio = "ShipUIBtnReactorCoilFwdOut";
+
+        public enum LampBtnState { Off, Hover, On }
 
         static LampBtn() { }
 
@@ -64,21 +72,32 @@ namespace Freznel.FzAdditions.UI.Controls
         }
 
         [SerializeField]
-        private bool _on;
+        private bool _enabled;
+        [SerializeField]
+        private LampBtnState _state;
+        [SerializeField]
+        private LampBtnState _downState;
+        [SerializeField]
+        private LampBtnState _upState;
         [SerializeField]
         private Color _onColor;
 
         public event Action<bool> OnChanged;
 
+        public bool Enabled
+        {
+            get => _enabled;
+            set => _enabled = value;
+        }
+
         public bool On
         {
-            get => _on;
+            get => _state == LampBtnState.On || (_state == LampBtnState.Hover && _downState == LampBtnState.On);
             set {
-                if (gameObject == null || value == _on) return;
-                _on = value;
-                Image image = gameObject.GetComponent<Image>();
-                image.sprite = value ? BtnOnSprite : BtnOffSprite;
-                SetColor(_on ? _onColor : OffColor);
+                LampBtnState newState = value ? LampBtnState.On : LampBtnState.Off;
+                if (gameObject == null || _state == newState) return;
+                _state = newState;
+                SetVisual();
                 OnChanged?.Invoke(value);
             }
         }
@@ -90,10 +109,7 @@ namespace Freznel.FzAdditions.UI.Controls
             {
                 _onColor = value;
                 FzAdditions.Logger.LogInfo($"Set on color: {_onColor.ToString()}");
-                if (_on)
-                {
-                    SetColor(value);
-                }
+                if (_state == LampBtnState.On) SetVisual();
             }
         }
 
@@ -101,19 +117,67 @@ namespace Freznel.FzAdditions.UI.Controls
         public LampBtn() : base()
         {
             On = false;
+            Enabled = true;
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        private void SetVisual()
         {
-            On = !_on;
-        }
-
-        private void SetColor(Color color)
-        {
+            if (gameObject == null) return;
             TextMeshProUGUI tmp = gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            if (tmp == null) return;
-            FzAdditions.Logger.LogInfo($"Apply color: {color.ToString()}");
-            tmp.color = color;
+            Image image = gameObject.GetComponent<Image>();
+            if (tmp == null || image == null) return;
+            switch (_state)
+            {
+                case LampBtnState.On:
+                    tmp.color = _onColor;
+                    image.sprite = BtnOnSprite;
+                    break;
+                case LampBtnState.Off:
+                    tmp.color = OffColor;
+                    image.sprite = BtnOffSprite;
+                    break;
+                case LampBtnState.Hover:
+                    tmp.color = _downState == LampBtnState.On ? _onColor : OffColor;
+                    image.sprite = BtnHoverSprite;
+                    break;
+            }
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            _downState = _state;
+            _upState = _state == LampBtnState.On ? LampBtnState.Off : LampBtnState.On;
+            _state = LampBtnState.Hover;
+            SetVisual();
+            AudioManager.am.PlayAudioEmitter(DownAudio, false);
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            if (_state == LampBtnState.Hover)
+            {
+                if (_enabled)
+                {
+                    _state = _upState;
+                    OnChanged?.Invoke(_state == LampBtnState.On);
+                }
+                else
+                {
+                    _state = _downState;
+                }
+                SetVisual();
+                AudioManager.am.PlayAudioEmitter(UpAudio, false);
+            }
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (_state == LampBtnState.Hover)
+            {
+                _state = _downState;
+                SetVisual();
+                AudioManager.am.PlayAudioEmitter(UpAudio, false);
+            }
         }
     }
 }
