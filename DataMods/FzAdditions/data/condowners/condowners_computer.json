@@ -137,15 +137,10 @@
       "LOS,0,-8"
     ],
     "aUpdateCommands": [
-      "Destructable,StatDamage,ACTFzComputerDamage,StatDamageMax,1.0",
-      "Electrical,Electrical"
+      "Destructable,StatDamage,ACTMechDestroy,StatDamageMax,1.0"
     ],
-    "aTickers": [
-      "Power"
-    ],
-    "jsonPI": "FzComputer",
+    "aTickers": [],
     "mapGUIPropMaps": null,
-    "strAudioEmitter": "ItmChargerBattEVASound",
     "strPortraitImg": "containers/ItmStorageBin2x101"
   },
 
@@ -191,11 +186,10 @@
       "Blank"
     ],
     "aUpdateCommands": [
-      "Destructable,StatDamage,ACTFzComputerDamage,StatDamageMax,1.0"
+      "Destructable,StatDamage,ACTFzComputerLooseDamage,StatDamageMax,1.0"
     ],
     "strPortraitImg": "containers/ItmStorageBin2x101Loose"
   },
-
   {
     "strName": "ItmFzComputerLooseDmgOff",
     "strNameShort": "Computer",
@@ -238,10 +232,11 @@
       "Blank"
     ],
     "aUpdateCommands": [
-      "Destructable,StatDamage,ACTFzComputerDamage,StatDamageMax,1.0"
+      "Destructable,StatDamage,ACTMechDestroy,StatDamageMax,1.0"
     ],
     "strPortraitImg": "containers/ItmStorageBin2x101Dmg02Loose"
   }
+
 
 
 

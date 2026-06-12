@@ -22,7 +22,7 @@
     "aCOs": [
       "ItmFzComputerDmgOff=1.0x1"
     ],
-    "aLoots": [],
+    "aLoots": [ "ItmFzComputerComponents=1.0x1" ],
     "strType": "item"
   },
   {
@@ -30,7 +30,18 @@
     "aCOs": [
       "ItmFzComputerLooseDmgOff=1.0x1"
     ],
-    "aLoots": [],
+    "aLoots": [ "ItmFzComputerComponents=1.0x1" ],
+    "strType": "item"
+  },
+
+  {
+    "strName": "ItmFzComputerComponents",
+    "aCOs": [
+      "ItmScrapAluminum=0.5x1-2",
+      "ItmPartsMechSmall01=0.5x1"
+    ],
+    "aLoots": [
+    ],
     "strType": "item"
   },
 
@@ -40,7 +51,7 @@
       "ItmFzComputer=1.0x1"
     ],
     "aLoots": [],
-    "strType": "condition"
+    "strType": "item"
   },
   {
     "strName": "ItmFzComputerOff",
@@ -48,7 +59,15 @@
       "ItmFzComputerOff=1.0x1"
     ],
     "aLoots": [],
-    "strType": "condition"
+    "strType": "item"
+  },
+  {
+    "strName": "ItmFzComputerDmgOff",
+    "aCOs": [
+      "ItmFzComputerDmgOff=1.0x1"
+    ],
+    "aLoots": [],
+    "strType": "item"
   },
 
   {

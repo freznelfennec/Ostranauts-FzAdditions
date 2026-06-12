@@ -112,6 +112,7 @@
     <Folder Include="DataMods\FzAdditions\data\items\" />
     <Folder Include="DataMods\FzAdditions\images\containers\" />
     <Folder Include="DataMods\FzAdditions\data\powerinfos\" />
+    <Folder Include="DataMods\FzAdditions\NewFolder\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

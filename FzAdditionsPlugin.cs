@@ -1,6 +1,9 @@
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using System;
+using System.IO;
+using UnityEngine;
 
 namespace Freznel.FzAdditions
 {
@@ -20,6 +23,16 @@ namespace Freznel.FzAdditions
             _harmony.PatchAll(typeof(FzAdditions).Assembly);
             
             Logger.LogInfo("Harmony patches applied successfully!");
+
+            Logger.LogInfo("Attaching last chance exception handler");
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            {
+                Exception ex = e.ExceptionObject as Exception;
+                if (ex == null) return;
+                File.WriteAllText("C:/crash.txt", $"Unhandled Exception: {ex.GetType().Name}: ${ex.Message}\n{ex.StackTrace}");
+            };
+
+
         }
 
         private void OnDestroy()
