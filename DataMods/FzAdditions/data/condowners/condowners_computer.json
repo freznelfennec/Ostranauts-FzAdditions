@@ -1,0 +1,293 @@
+[
+  {
+    "strName": "ItmFzComputer",
+    "strNameShort": "Computer",
+    "strItemDef": "ItmFzComputer",
+    "strNameFriendly": "Computer",
+    "strDesc": "A programmable computer",
+    "strType": "Item",
+    "aInteractions": [
+      "Inventory"
+    ],
+    "aStartingConds": [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsRigid=1.0x1",
+      "IsContainer=1.0x1",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x882.00",
+      "StatDismantleProgressMax=1.0x240",
+      "StatInstallProgressMax=1.0x300",
+      "StatUninstallProgressMax=1.0x300",
+      "StatMass=1.0x14.0",
+      "StatDamageMax=1.0x10",
+      "IsMechanical=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1",
+      "IsFzComputer=1.0x1",
+      "IsPowered=1.0x1"
+    ],
+    "strContainerCT": "TIsFitContainerSolid",
+    "nContainerHeight": 2,
+    "nContainerWidth": 2,
+    "mapPoints": [
+      "use,0,-24",
+      "LOS,0,-8",
+      "PowerA,8,16",
+      "PowerB,-8,16"
+    ],
+    "aUpdateCommands": [
+      "Destructable,StatDamage,ACTFzComputerDamage,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "aTickers": [
+      "Power"
+    ],
+    "jsonPI": "FzComputer",
+    "mapGUIPropMaps": null,
+    "strAudioEmitter": "ItmChargerBattEVASound",
+    "strPortraitImg": "containers/ItmStorageBin2x101"
+  },
+
+  {
+    "strName": "ItmFzComputerOff",
+    "strNameShort": "Computer",
+    "strItemDef": "ItmFzComputerOff",
+    "strNameFriendly": "Computer (Off)",
+    "strDesc": "A programmable computer",
+    "strType": "Item",
+    "aInteractions": [
+      "Inventory"
+    ],
+    "aStartingConds": [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsRigid=1.0x1",
+      "IsContainer=1.0x1",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x882.00",
+      "StatDismantleProgressMax=1.0x240",
+      "StatInstallProgressMax=1.0x300",
+      "StatUninstallProgressMax=1.0x300",
+      "StatMass=1.0x14.0",
+      "StatDamageMax=1.0x10",
+      "IsMechanical=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1",
+      "IsFzComputer=1.0x1",
+      "IsOff=1.0x1"
+    ],
+    "strContainerCT": "TIsFitContainerSolid",
+    "nContainerHeight": 2,
+    "nContainerWidth": 2,
+    "mapPoints": [
+      "use,0,-24",
+      "LOS,0,-8",
+      "PowerA,8,16",
+      "PowerB,-8,16"
+    ],
+    "aUpdateCommands": [
+      "Destructable,StatDamage,ACTFzComputerDamage,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "aTickers": [
+      "Power"
+    ],
+    "jsonPI": "FzComputer",
+    "mapGUIPropMaps": null,
+    "strAudioEmitter": "ItmChargerBattEVASound",
+    "strPortraitImg": "containers/ItmStorageBin2x101"
+  },
+
+  {
+    "strName": "ItmFzComputerDmgOff",
+    "strNameShort": "Computer",
+    "strItemDef": "ItmFzComputerDmgOff",
+    "strNameFriendly": "Computer (Off, Damaged)",
+    "strDesc": "A non-functional programmable computer",
+    "strType": "Item",
+    "aInteractions": [
+      "Inventory"
+    ],
+    "aStartingConds": [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsRigid=1.0x1",
+      "IsContainer=1.0x1",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x882.00",
+      "StatDismantleProgressMax=1.0x240",
+      "StatInstallProgressMax=1.0x300",
+      "StatUninstallProgressMax=1.0x300",
+      "StatMass=1.0x14.0",
+      "StatDamageMax=1.0x10",
+      "IsMechanical=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1",
+      "IsFzComputer=1.0x1",
+      "IsOff=1.0x1",
+      "IsDamaged=1.0x1",
+      "StatRepairProgressMax=1.0x1200"
+    ],
+    "strContainerCT": "TIsFitContainerSolid",
+    "nContainerHeight": 2,
+    "nContainerWidth": 2,
+    "mapPoints": [
+      "use,0,-24",
+      "LOS,0,-8"
+    ],
+    "aUpdateCommands": [
+      "Destructable,StatDamage,ACTFzComputerDamage,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "aTickers": [
+      "Power"
+    ],
+    "jsonPI": "FzComputer",
+    "mapGUIPropMaps": null,
+    "strAudioEmitter": "ItmChargerBattEVASound",
+    "strPortraitImg": "containers/ItmStorageBin2x101"
+  },
+
+  {
+    "strName": "ItmFzComputerLooseOff",
+    "strNameShort": "Computer",
+    "strItemDef": "ItmFzComputerLooseOff",
+    "strNameFriendly": "Computer (Loose)",
+    "strDesc": "A programmable computer",
+    "strType": "Item",
+    "aInteractions": [
+      "Inventory",
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds": [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsRigid=1.0x1",
+      "IsContainer=1.0x1",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x882.00",
+      "StatDismantleProgressMax=1.0x240",
+      "StatInstallProgressMax=1.0x300",
+      "StatUninstallProgressMax=1.0x300",
+      "StatMass=1.0x14.0",
+      "StatDamageMax=1.0x10",
+      "IsMechanical=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1",
+      "IsFzComputer=1.0x1",
+      "IsCumbersome=1.0x1"
+    ],
+    "strContainerCT": "TIsFitContainerSolid",
+    "nContainerHeight": 2,
+    "nContainerWidth": 2,
+    "mapPoints": [
+      "use,0,-24",
+      "LOS,0,-8"
+    ],
+    "mapSlotEffects": [
+      "drag",
+      "Blank"
+    ],
+    "aUpdateCommands": [
+      "Destructable,StatDamage,ACTFzComputerDamage,StatDamageMax,1.0"
+    ],
+    "strPortraitImg": "containers/ItmStorageBin2x101Loose"
+  },
+
+  {
+    "strName": "ItmFzComputerLooseDmgOff",
+    "strNameShort": "Computer",
+    "strItemDef": "ItmFzComputerLooseDmgOff",
+    "strNameFriendly": "Computer (Off, Damaged)",
+    "strDesc": "A non-functional programmable computer",
+    "strType": "Item",
+    "aInteractions": [
+      "Inventory"
+    ],
+    "aStartingConds": [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsRigid=1.0x1",
+      "IsContainer=1.0x1",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x882.00",
+      "StatDismantleProgressMax=1.0x240",
+      "StatInstallProgressMax=1.0x300",
+      "StatUninstallProgressMax=1.0x300",
+      "StatMass=1.0x14.0",
+      "StatDamageMax=1.0x10",
+      "IsMechanical=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1",
+      "IsFzComputer=1.0x1",
+      "IsOff=1.0x1",
+      "IsDamaged=1.0x1",
+      "StatRepairProgressMax=1.0x1200"
+    ],
+    "strContainerCT": "TIsFitContainerSolid",
+    "nContainerHeight": 2,
+    "nContainerWidth": 2,
+    "mapPoints": [
+      "use,0,-24",
+      "LOS,0,-8"
+    ],
+    "mapSlotEffects": [
+      "drag",
+      "Blank"
+    ],
+    "aUpdateCommands": [
+      "Destructable,StatDamage,ACTFzComputerDamage,StatDamageMax,1.0"
+    ],
+    "strPortraitImg": "containers/ItmStorageBin2x101Dmg02Loose"
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]

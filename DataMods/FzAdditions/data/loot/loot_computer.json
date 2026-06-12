@@ -1,0 +1,64 @@
+[
+
+  {
+    "strName": "ACTFzComputerDamage",
+    "aCOs": [
+      "MSFzComputerDamage=1.0x1"
+    ],
+    "aLoots": [],
+    "strType": "interaction"
+  },
+  {
+    "strName": "ACTFzComputerLooseDamage",
+    "aCOs": [
+      "MSFzComputerLooseDamage=1.0x1"
+    ],
+    "aLoots": [],
+    "strType": "interaction"
+  },
+
+  {
+    "strName": "ItmFzComputerDamage",
+    "aCOs": [
+      "ItmFzComputerDmgOff=1.0x1"
+    ],
+    "aLoots": [],
+    "strType": "item"
+  },
+  {
+    "strName": "ItmFzComputerLooseDamage",
+    "aCOs": [
+      "ItmFzComputerLooseDmgOff=1.0x1"
+    ],
+    "aLoots": [],
+    "strType": "item"
+  },
+
+  {
+    "strName": "ItmFzComputer",
+    "aCOs": [
+      "ItmFzComputer=1.0x1"
+    ],
+    "aLoots": [],
+    "strType": "condition"
+  },
+  {
+    "strName": "ItmFzComputerOff",
+    "aCOs": [
+      "ItmFzComputerOff=1.0x1"
+    ],
+    "aLoots": [],
+    "strType": "condition"
+  },
+
+  {
+    "strName": "ItmFurnitureInvFzComputer",
+    "aCOs": [
+      "ItmFzComputerLooseOff=1.0x1"
+    ],
+    "aLoots": [],
+    "strType": "item"
+  }
+
+
+]

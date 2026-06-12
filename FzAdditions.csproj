@@ -105,9 +105,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DataMods\FzAdditions\data\interactions\" />
     <Folder Include="DataMods\FzAdditions\data\guipropmaps\" />
-    <Folder Include="DataMods\FzAdditions\images\" />
+    <Folder Include="DataMods\FzAdditions\data\conditions\" />
+    <Folder Include="DataMods\FzAdditions\data\loot\" />
+    <Folder Include="DataMods\FzAdditions\data\conditions_simple\" />
+    <Folder Include="DataMods\FzAdditions\data\items\" />
+    <Folder Include="DataMods\FzAdditions\images\containers\" />
+    <Folder Include="DataMods\FzAdditions\data\powerinfos\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

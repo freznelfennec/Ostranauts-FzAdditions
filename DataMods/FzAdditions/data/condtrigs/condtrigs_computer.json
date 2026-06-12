@@ -1,0 +1,49 @@
+[
+  {
+    "strName": "TIsFzComputerInstalled",
+    "strCondName": "",
+    "fChance": 1.0,
+    "fCount": 1.0,
+    "aReqs": [
+      "IsFzComputer",
+      "IsInstalled"
+    ],
+    "aForbids": [
+      "IsDamaged"
+    ],
+    "aTriggers": [],
+    "bAND": true
+  },
+  {
+    "strName": "TIsFzComputerOn",
+    "strCondName": "",
+    "fChance": 1.0,
+    "fCount": 1.0,
+    "aReqs": [
+      "IsFzComputer",
+      "IsInstalled"
+    ],
+    "aForbids": [
+      "IsDamaged",
+      "IsOff"
+    ],
+    "aTriggers": [],
+    "bAND": true
+  },
+  {
+    "strName": "TIsFzComputerOff",
+    "strCondName": "",
+    "fChance": 1.0,
+    "fCount": 1.0,
+    "aReqs": [
+      "IsFzComputer",
+      "IsInstalled",
+      "IsOff"
+    ],
+    "aForbids": [
+      "IsDamaged"
+    ],
+    "aTriggers": [],
+    "bAND": true
+  }
+]

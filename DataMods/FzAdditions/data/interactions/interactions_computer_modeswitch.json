@@ -1,0 +1,45 @@
+[
+  {
+    "strName": "MSFzComputerSwitchOffAllow",
+    "strTitle": "",
+    "strDesc": "[us] [switches] off.",
+    "fDuration": 0.0,
+    "strThemType": "Other",
+    "bIgnoreFeelings": true,
+    "CTTestUs": "TIsFzComputerOn",
+    "objLootModeSwitch": "ItmFzComputerOff"
+  },
+  {
+    "strName": "MSFzComputerSwitchOnAllow",
+    "strTitle": "",
+    "strDesc": "[us] [switches] on.",
+    "fDuration": 0.0,
+    "strThemType": "Other",
+    "bIgnoreFeelings": true,
+    "CTTestUs": "TIsFzComputerOff",
+    "objLootModeSwitch": "ItmFzComputer"
+  },
+
+
+
+  {
+    "strName": "MSFzComputerDamage",
+    "strTitle": "",
+    "strDesc": "[us] [is] damaged.",
+    "fDuration": 0.0,
+    "strThemType": "Other",
+    "bIgnoreFeelings": true,
+    "nLogging": 1,
+    "objLootModeSwitch": "ItmFzComputerDamage"
+  },
+  {
+    "strName": "MSFzComputerLooseDamage",
+    "strTitle": "",
+    "strDesc": "[us] [is] damaged.",
+    "fDuration": 0.0,
+    "strThemType": "Other",
+    "bIgnoreFeelings": true,
+    "nLogging": 1,
+    "objLootModeSwitch": "ItmFzComputerLooseDamage"
+  }
+]

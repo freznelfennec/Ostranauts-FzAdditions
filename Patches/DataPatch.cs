@@ -45,6 +45,19 @@ namespace Freznel.FzAdditions.Patches
                 FzAdditions.Logger.LogError("Cound not find guipropmap FzTestGUI");
             }
 
+            //Sundries Kiosk Patch
+            var kioskInv = DataHandler.GetLoot("ItmOKLGFurnishingsKioskInv");
+            if (kioskInv != null)
+            {
+                kioskInv.aLoots = kioskInv.aLoots.Append("ItmFurnitureInvFzComputer=1.0x1-5").ToArray();
+            }
+            else
+            {
+                FzAdditions.Logger.LogError("Cound not find loot ItmOKLGFurnishingsKioskInv");
+            }
+
+
+
             FzAdditions.Logger.LogMessage("Data patch complete");
         }
 

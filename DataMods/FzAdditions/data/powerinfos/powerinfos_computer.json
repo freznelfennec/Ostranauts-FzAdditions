@@ -1,0 +1,16 @@
+[
+  {
+    "strName": "FzComputer",
+    "aInputPts": [
+      "PowerA",
+      "PowerB"
+    ],
+    "fAmount": 0.00000013,
+    "strIntPowerOn": "MSFzComputerSwitchOnAllow",
+    "strIntPowerOff": "MSFzComputerSwitchOffAllow",
+    "strShutDownCT": "TIsConnctedSignalledOff",
+    "strUsePowerCT": "TIsReadyUsePower",
+    "strRechargeCT": null,
+    "bAllowExtPower": true
+  }
+]
