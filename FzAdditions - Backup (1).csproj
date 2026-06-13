@@ -9,7 +9,6 @@
     <DebugType>embedded</DebugType>
     <Nullable>disable</Nullable>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	 
     
 <!-- Ostranauts installation directory - tries common Steam locations -->
@@ -27,10 +26,10 @@
     <UserSecretsId>d9bdfa46-a674-4104-8b79-6af910c79769</UserSecretsId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,7 +39,6 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Mono.pdb2mdb" Version="0.1.0.20130128" />
-    <PackageReference Include="protobuf-net" Version="3.2.56" />
 
     <!-- Harmony from BepInEx installation -->
     <Reference Include="0Harmony">
@@ -122,10 +120,13 @@
     <Folder Include="DataMods\FzAdditions\images\containers\" />
     <Folder Include="DataMods\FzAdditions\data\powerinfos\" />
     <Folder Include="DataMods\FzAdditions\NewFolder\" />
-    <Folder Include="VM\Compiler\" />
   </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="C:\Windows\System32\robocopy &quot;$(SolutionDir)DataMods/FzAdditions&quot; &quot;$(ModsPath)/FzAdditions&quot; /MIR /E&#xD;&#xA;C:\tools\pdb2mdb\pdb2mdb.exe &quot;$(OutputPath)FzAdditions.dll&quot;" IgnoreExitCode="true" />
+    <Exec Command="C:\Windows\System32\robocopy &quot;$(SolutionDir)DataMods/FzAdditions&quot; &quot;$(ModsPath)/FzAdditions&quot; /MIR /E&#xD;&#xA;C:\Users\Freznel\.nuget\packages\mono.pdb2mdb\0.1.0.20130128\tools\pdb2mdb.exe &quot;${TargetDir}FzAdditions.dll&quot;" IgnoreExitCode="true" />
+  </Target>
+  <Target Name="PostBuild2" AfterTargets="PostBuild">
+	<Exec Command="wC:\Users\Freznel\.nuget\packages\mono.pdb2mdb\0.1.0.20130128\tools\pdb2mdb.exe" IgnoreExitCode="true" />
   </Target>
 </Project>
 

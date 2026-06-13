@@ -1,5 +1,7 @@
 using BepInEx;
 using BepInEx.Logging;
+using Freznel.FzAdditions.VM;
+using Freznel.FzAdditions.VM.Objects;
 using HarmonyLib;
 using System;
 using System.IO;
@@ -32,6 +34,8 @@ namespace Freznel.FzAdditions
                 File.WriteAllText("C:/crash.txt", $"Unhandled Exception: {ex.GetType().Name}: ${ex.Message}\n{ex.StackTrace}");
             };
 
+            Logger.LogInfo($"{VMOperatorUtil.Operate(VM.Enum.UnaryOperator.Length, new NumberObject(-123))}");
+            ProtoBuf.Serializer.Serialize(new MemoryStream(new byte[] { }), new NumberObject());
 
         }
 
