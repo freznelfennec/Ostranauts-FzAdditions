@@ -9,18 +9,18 @@ using System.Text;
 namespace Freznel.FzAdditions.VM.Objects.Operator
 {
     [ProtoContract]
-    public class UnaryOperatorObject : VMObject, IEvaluatable
+    public class BinaryOperatorObject : VMObject, IEvaluatable
     {
         [ProtoMember(1)]
-        private UnaryOperator _operator; //Write-only
-        public UnaryOperator Operator { get; }
+        private BinaryOperator _operator; //Write-only
+        public BinaryOperator Operator { get; }
 
-        public UnaryOperatorObject(UnaryOperator @operator)
+        public BinaryOperatorObject(BinaryOperator @operator)
         {
             _operator = @operator;
         }
 
-        public UnaryOperatorObject() { }
+        public BinaryOperatorObject() { }
 
         public override VMObject Clone() => this;
 
@@ -30,9 +30,10 @@ namespace Freznel.FzAdditions.VM.Objects.Operator
 
         public void Evaluate(VirtualMachine vm)
         {
-            if (vm.OperandsCount() < 1) throw new VMException($"{_operator} operator expected at least 1 operand");
+            if (vm.OperandsCount() < 2) throw new VMException($"{_operator} operator expected at least 2 operands");
+            VMObject b = vm.PopOperand();
             VMObject a = vm.PopOperand();
-            vm.PushOperand(VMOperatorUtil.Operate(_operator, a));
+            vm.PushOperand(VMOperatorUtil.Operate(_operator, a, b));
         }
     }
 }

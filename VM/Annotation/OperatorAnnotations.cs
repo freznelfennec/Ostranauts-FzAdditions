@@ -34,4 +34,15 @@ namespace Freznel.FzAdditions.VM.Annotation
         }
     }
 
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
+    public class WordAttribute : Attribute
+    {
+        public string Word { get; private set; }
+
+        public WordAttribute(string word)
+        {
+            Word = word;
+        }
+    }
+
 }

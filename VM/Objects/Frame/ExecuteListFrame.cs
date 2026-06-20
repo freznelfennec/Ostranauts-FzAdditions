@@ -8,14 +8,21 @@ using System.Text;
 namespace Freznel.FzAdditions.VM.Objects.Frame
 {
     [ProtoContract]
-    public class ExecuteListFrame : VMFrame
+    public class ExecuteListFrame : VMFrame, IReadableFrame
     {
         [ProtoMember(1)]
         private List<VMObject> _contents;
         [ProtoMember(2)]
         private int _next;
+        [ProtoMember(3)]
+        private int _debugTag;
 
         public override bool Finished => _next >= (_contents?.Count ?? 0);
+
+        public int Length => _contents?.Count ?? 0;
+
+        public int Position => _next;
+        public int DebugTag => _debugTag;
 
         public ExecuteListFrame() { }
 
@@ -52,5 +59,13 @@ namespace Freznel.FzAdditions.VM.Objects.Frame
                 vm.ExecutionBudget--;
             }
         }
+
+        public VMObject Peek(int index = 0)
+        {
+            if (_contents == null) return null;
+            return _contents[_next + index];
+        }
+
+        public VMObject Next() => _contents[_next++];
     }
 }

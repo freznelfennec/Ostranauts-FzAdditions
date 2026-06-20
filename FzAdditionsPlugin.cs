@@ -1,10 +1,15 @@
 using BepInEx;
 using BepInEx.Logging;
 using Freznel.FzAdditions.VM;
+using Freznel.FzAdditions.VM.Execution;
 using Freznel.FzAdditions.VM.Objects;
+using Freznel.FzAdditions.VM.Objects.Frame;
+using Freznel.FzAdditions.VM.Objects.Operator;
 using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace Freznel.FzAdditions
@@ -34,9 +39,10 @@ namespace Freznel.FzAdditions
                 File.WriteAllText("C:/crash.txt", $"Unhandled Exception: {ex.GetType().Name}: ${ex.Message}\n{ex.StackTrace}");
             };
 
-            Logger.LogInfo($"{VMOperatorUtil.Operate(VM.Enum.UnaryOperator.Length, new NumberObject(-123))}");
-            ProtoBuf.Serializer.Serialize(new MemoryStream(new byte[] { }), new NumberObject());
-
+            var vm = new VirtualMachine();
+            vm.PushFrame(new ExecuteListFrame(new List<VMObject>() { new NumberObject(1), new NumberObject(2), new BinaryOperatorObject(VM.Enum.BinaryOperator.Add) }));
+            vm.Run(1000);
+            Logger.LogInfo($"\n-- Top Of Stack --\n{string.Join('\n', vm.EnumerateOperands().Select(o => o.ToString()))}\n-- Bottom Of Stack --");
         }
 
         private void OnDestroy()

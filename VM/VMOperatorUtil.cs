@@ -10,9 +10,9 @@ namespace Freznel.FzAdditions.VM
 {
     public static class VMOperatorUtil
     {
-        private static Dictionary<(UnaryOperator, Type), object> UnaryFuncs = new Dictionary<(UnaryOperator, Type), object>();
-        private static Dictionary<(BinaryOperator, Type, Type), object> BinaryFuncs = new Dictionary<(BinaryOperator, Type, Type), object>();
-        private static HashSet<(BinaryOperator, Type, Type)> CommutativeBinaryFuncFlags = new HashSet<(BinaryOperator, Type, Type)>();
+        private static Dictionary<(UnaryOperator, Type), Delegate> UnaryFuncs = new();
+        private static Dictionary<(BinaryOperator, Type, Type), Delegate> BinaryFuncs = new();
+        private static HashSet<(BinaryOperator, Type, Type)> CommutativeBinaryFuncFlags = new();
 
         static VMOperatorUtil()
         {
@@ -26,11 +26,12 @@ namespace Freznel.FzAdditions.VM
             foreach (var type in operatorSets)
             {
                 var methods = type.GetMethods();
-
+                
                 foreach (var method in methods)
                 {
                     if (!method.IsStatic) continue;
                     if (method.IsDefined(typeof(UnaryOperatorAttribute), false)) RegisterUnaryOperator(method);
+                    else if (method.IsDefined(typeof(BinaryOperatorAttribute), false)) RegisterBinaryOperator(method);
                 }
             }
         }
@@ -91,31 +92,31 @@ namespace Freznel.FzAdditions.VM
             }
         }
 
-        public static VMObject Operate<TypeA>(UnaryOperator @operator, TypeA a) where TypeA : VMObject
+        public static VMObject Operate(UnaryOperator @operator, dynamic a)
         {
-            Type typeA = typeof(TypeA);
+            Type typeA = a.GetType();
             var key = (@operator, typeA);
             if (!UnaryFuncs.ContainsKey(key)) throw new VMException($"Attempted to perform operation {@operator} on {typeA.Name}");
-            return ((Func<TypeA, VMObject>)UnaryFuncs[key])(a);
+            return ((dynamic)UnaryFuncs[key])(a);
         }
 
-        public static VMObject Operate<TypeA, TypeB>(BinaryOperator @operator, TypeA a, TypeB b) where TypeA : VMObject where TypeB : VMObject
+        public static VMObject Operate(BinaryOperator @operator, dynamic a, dynamic b)
         {
-            Type typeA = typeof(TypeA);
-            Type typeB = typeof(TypeB);
+            Type typeA = a.GetType();
+            Type typeB = b.GetType();
             var key = (@operator, typeA, typeB);
             if (!BinaryFuncs.ContainsKey(key))
             {
                 if (CommutativeBinaryFuncFlags.Contains(key))
                 {
-                    return ((Func<TypeB, TypeA, VMObject>)BinaryFuncs[key])(b, a);
+                    return ((dynamic)BinaryFuncs[key])(b, a);
                 }
                 else
                 {
                     throw new VMException($"Attempted to perform operation {@operator} on {typeA.Name} and {typeB.Name}");
                 }
             }
-            return ((Func<TypeA, TypeB, VMObject>)BinaryFuncs[key])(a, b);
+            return ((dynamic)BinaryFuncs[key])(a, b);
         }
 
 

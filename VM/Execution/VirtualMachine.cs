@@ -45,7 +45,7 @@ namespace Freznel.FzAdditions.VM.Execution
             _operands.RemoveAt(idx);
             return last;
         }
-        public VMObject PeekOperand(int topIdx)
+        public VMObject PeekOperand(int topIdx = 0)
         {
             if (_operands.Count < topIdx + 1) return null;
             int idx = _operands.Count - (topIdx + 1);
@@ -57,6 +57,13 @@ namespace Freznel.FzAdditions.VM.Execution
             int idx = _operands.Count - (topIdx + 1);
             _operands[idx] = item;
             return true;
+        }
+        public IEnumerable<VMObject> EnumerateOperands()
+        {
+            for (int i = _operands.Count - 1; i >= 0; i--)
+            {
+                yield return _operands[i];
+            }
         }
 
         //Frame Stack Methods
@@ -70,7 +77,7 @@ namespace Freznel.FzAdditions.VM.Execution
             _frames.RemoveAt(idx);
             return last;
         }
-        public VMFrame PeekFrame(int topIdx)
+        public VMFrame PeekFrame(int topIdx = 0)
         {
             if (_frames.Count < topIdx + 1) return null;
             int idx = _frames.Count - (topIdx + 1);
