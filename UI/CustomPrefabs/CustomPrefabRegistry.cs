@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +16,11 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         static CustomPrefabRegistry()
         {
             Factories.Add("FzTestGUI", FzTestGUI.CreatePrefab);
+            Factories.Add("FzJumpFieldEmitterGUI", FzJumpFieldEmitterGUI.CreatePrefab);
+            Factories.Add("FzJumpEnergyCellGUI", FzJumpEnergyCellGUI.CreatePrefab);
+            Factories.Add("FzJumpReactorTapGUI", FzJumpReactorTapGUI.CreatePrefab);
+            Factories.Add("FzJumpNavCom", FzJumpNavCom.CreatePrefab);
+            Factories.Add("FzJumpNavComDmg", FzJumpNavCom.CreateDamagedPrefab);
         }
 
         public static GameObject GetPrefab(string name)

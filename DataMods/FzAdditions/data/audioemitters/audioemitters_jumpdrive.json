@@ -1,0 +1,4 @@
+[
+  { "strName" : "ItmFzJumpFieldEmitter", "strMixerName" : "Ambient", "strClipSteady" : null, "strClipTrans" : "SoundDogs/osBeep01c", "strClipPickup" : null, "strFalloffCurve" : "FalloffLogShallowMin20Max500", "fLoPassFreq" : 20000.0,
+    "fLoPassFreqOccluded" : 5000.0, "fMinDistance" : 20.0, "fMaxDistance" : 50.0, "fSpatialBlend" : 1.0, "fSteadyDelay" : 0.9, "fTransDuration" : 1.0, "fVolumeSteady" : 0.5, "fVolumeTrans" : 0.5, "fVolumePickup" : 0.5 }
+]

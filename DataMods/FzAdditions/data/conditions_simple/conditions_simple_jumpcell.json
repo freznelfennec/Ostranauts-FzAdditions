@@ -1,0 +1,8 @@
+[
+  {
+    "strName": "Fz Jump Cell Simple Conditions",
+    "aValues": [
+      "IsFzJumpEnergyCell","Jump Energy Cell","[us] [is] a jump energy cell.","2","2","Neutral","false"
+    ]
+  }
+]

@@ -13,11 +13,14 @@ namespace Freznel.FzAdditions.Patches
     [HarmonyPatch]
     public static class GUIPrefabPatch
     {
+        private const string NavModFolder = "GUIShip/GUIOrbitDraw/";
+
         static IEnumerable<MethodBase> TargetMethods()
         {
             var result = new List<MethodBase>
             {
-                typeof(CrewSim).GetMethod("RaiseUI", [typeof(string), typeof(CondOwner)])
+                typeof(CrewSim).GetMethod("RaiseUI", [typeof(string), typeof(CondOwner)]),
+                AccessTools.Method(typeof(GUIOrbitDraw), "LoadModules")
             };
             return result;
         }
@@ -26,9 +29,11 @@ namespace Freznel.FzAdditions.Patches
         {
             FzAdditions.Logger.LogInfo("Intercepting call to UnityEngine.Resources.Load() for " + prefabName);
 
-            if (prefabName.StartsWith("GUIShip/Fz"))
+            //Nav modules load from a folder of their own
+            string folder = prefabName.StartsWith(NavModFolder + "Fz") ? NavModFolder : "GUIShip/";
+            if (prefabName.StartsWith(folder + "Fz"))
             {
-                string customPrefabName = prefabName.Substring(8);
+                string customPrefabName = prefabName.Substring(folder.Length);
                 GameObject prefab = CustomPrefabRegistry.GetPrefab(customPrefabName);
                 if (prefab != null)
                 {

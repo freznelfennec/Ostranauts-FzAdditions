@@ -1,0 +1,25 @@
+[
+  {
+    "strName" : "FzJumpFieldEmitterUI",
+    "dictGUIPropMap"       : [
+      "strGUIPrefab", "GUIOnOff",
+      "strFriendlyName", "Field Emitter",
+      "strGUIPrefabRight", null,
+      "strGUIPrefabLeft", "FzJumpFieldEmitterGUI",
+      "strGUIPrefabUp", null,
+      "strGUIPrefabDown", null,
+      "strTitle", "Field Emitter"
+    ]
+  },
+  {
+    "strName" : "FzJumpFieldEmitterGUI",
+    "dictGUIPropMap"       : [
+      "strGUIPrefab", "FzJumpFieldEmitterGUI",
+      "strFriendlyName", "Field Emitter",
+      "strGUIPrefabRight", "Panel A",
+      "strGUIPrefabLeft", null,
+      "strGUIPrefabUp", null,
+      "strGUIPrefabDown", null
+    ]
+  }
+]

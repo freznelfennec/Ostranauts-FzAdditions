@@ -1,0 +1,52 @@
+[
+  {
+    "strName": "FzJumpEnergyCellGUI",
+    "strTitle": "Control Panel",
+    "strDesc": "[us] [accesses] [them]'s panel.",
+    "strTooltip": "Accesses target's control panel override settings, dials, and switches.",
+    "strActionGroup": "Use",
+    "strTargetPoint": "use",
+    "fTargetPointRange": 2,
+    "strAnim": "Use",
+    "strBubble": "BblTouch",
+    "aInverse": [
+      "FzJumpEnergyCellGUIAllow"
+    ],
+    "fDuration": 0.00027,
+    "strThemType": "Other",
+    "strRaiseUI": null,
+    "nLogging": 1,
+    "bOpener": true,
+    "bHumanOnly": true,
+    "bIgnoreFeelings": true,
+    "LootCTsUs": null,
+    "LootCTsThem": null,
+    "CTTestUs": "TIsHuman",
+    "CTTestThem": "TIsFzJumpEnergyCellInstalled",
+    "aLootItms": [
+    ],
+    "objLootModeSwitch": null
+  },
+  {
+    "strName": "FzJumpEnergyCellGUIAllow",
+    "strTitle": "",
+    "strDesc": "[them] [checks] the panel.",
+    "strActionGroup": "Use",
+    "strTargetPoint": null,
+    "fTargetPointRange": 0,
+    "strAnim": null,
+    "strBubble": "BblTouch",
+    "aInverse": [
+    ],
+    "fDuration": 1.0,
+    "strThemType": "Other",
+    "strRaiseUI": "FzJumpEnergyCellGUI",
+    "LootCTsUs": null,
+    "LootCTsThem": null,
+    "CTTestUs": null,
+    "CTTestThem": null,
+    "aLootItms": [
+    ],
+    "objLootModeSwitch": null
+  }
+]

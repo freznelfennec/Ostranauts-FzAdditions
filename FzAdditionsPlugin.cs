@@ -1,10 +1,5 @@
 using BepInEx;
 using BepInEx.Logging;
-using Freznel.FzAdditions.VM;
-using Freznel.FzAdditions.VM.Execution;
-using Freznel.FzAdditions.VM.Objects;
-using Freznel.FzAdditions.VM.Objects.Frame;
-using Freznel.FzAdditions.VM.Objects.Operator;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -31,6 +26,8 @@ namespace Freznel.FzAdditions
             
             Logger.LogInfo("Harmony patches applied successfully!");
 
+            Util.JumpSequence.Init();
+
             Logger.LogInfo("Attaching last chance exception handler");
             AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
             {
@@ -39,10 +36,6 @@ namespace Freznel.FzAdditions
                 File.WriteAllText("C:/crash.txt", $"Unhandled Exception: {ex.GetType().Name}: ${ex.Message}\n{ex.StackTrace}");
             };
 
-            var vm = new VirtualMachine();
-            vm.PushFrame(new ExecuteListFrame(new List<VMObject>() { new NumberObject(1), new NumberObject(2), new BinaryOperatorObject(VM.Enum.BinaryOperator.Add) }));
-            vm.Run(1000);
-            Logger.LogInfo($"\n-- Top Of Stack --\n{string.Join('\n', vm.EnumerateOperands().Select(o => o.ToString()))}\n-- Bottom Of Stack --");
         }
 
         private void OnDestroy()

@@ -1,0 +1,14 @@
+[
+  {
+    "strName" : "FzJumpEnergyCell",
+    "aInputPts"      : [
+      "PowerSource"
+    ],
+    "fAmount": 1.0e-5,
+    "strIntPowerOn": "",
+    "strIntPowerOff": "",
+    "strUsePowerCT": "TIsFzJumpEnergyCellInstalled",
+    "strRechargeCT": null,
+    "bAllowExtPower" :  true
+  }
+]

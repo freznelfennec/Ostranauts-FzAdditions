@@ -1,0 +1,280 @@
+[
+  {
+    "strName" : "ItmFzJumpFieldEmitterOff",
+    "strNameShort" : "Jump Drive Field Emitter",
+    "strNameFriendly" : "Jump Drive Field Emitter (Off)",
+    "strItemDef" : "ItmFzJumpFieldEmitterOff",
+    "strDesc" : "A field emitter for a jump drive. Generates the field that surrounds a ship during a jump.",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+      "FzJumpFieldEmitterGUI"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzJumpFieldEmitter=1.0x1",
+      "StatFzFieldEnergyMin=1.0x11",
+      "StatFzFieldEnergyMax=1.0x410",
+      "StatFzFieldOffsetMax=1.0x5",
+      "StatFzFieldSegmentMax=1.0x15",
+      "IsOff=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsBrittle=1.0x1.0",
+      "StatBasePrice=1.0x5000.0",
+      "StatDismantleProgressMax=1.0x100",
+      "StatInstallProgressMax=1.0x250",
+      "StatUninstallProgressMax=1.0x250",
+      "StatMass=1.0x7.0",
+      "StatDamageMax=1.0x3",
+      "IsElectronic=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategorySensors=1.0x1",
+      "IsSignalable=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapPoints"      : [
+      "use,0,-24",
+      "PowerA,0,0"
+    ],
+    "mapGUIPropMaps"  : [
+      "Panel A",
+      "FzJumpFieldEmitterUI",
+      "FzJumpFieldEmitterGUI",
+      "FzJumpFieldEmitterGUI",
+      "Electrical"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzJumpFieldEmitterDamage,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "strPortraitImg"  : "ship_combat/ItmSensorOptical01Off",
+    "aTickers" : [ 
+      "Power"
+    ],
+    "jsonPI"            : "FzJumpFieldEmitter"
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitterLoose",
+    "strNameShort" : "Jump Drive Field Emitter",
+    "strItemDef" : "ItmFzJumpFieldEmitterLoose",
+    "strNameFriendly" : "Jump Drive Field Emitter (Loose)",
+    "strDesc" : "A field emitter for a jump drive. Generates the field that surrounds a ship during a jump.",
+    "strType"    : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzJumpFieldEmitter=1.0x1",
+      "StatFzFieldEnergyMin=1.0x11",
+      "StatFzFieldEnergyMax=1.0x410",
+      "StatFzFieldOffsetMax=1.0x5",
+      "StatFzFieldSegmentMax=1.0x15",
+      "IsOff=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsBrittle=1.0x1.0",
+      "StatBasePrice=1.0x5000.0",
+      "StatDismantleProgressMax=1.0x100",
+      "StatInstallProgressMax=1.0x250",
+      "StatUninstallProgressMax=1.0x250",
+      "StatMass=1.0x7.0",
+      "StatDamageMax=1.0x3",
+      "IsElectronic=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategorySensors=1.0x1"
+    ],
+    "mapPoints"      : [
+    ],
+    "mapGUIPropMaps"  : [
+      "Panel A",
+      "FzJumpFieldEmitterUI"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzJumpFieldEmitterLooseDamage,StatDamageMax,1.0"
+    ],
+    "strPortraitImg"  : "ship_combat/ItmSensorOptical01Loose"
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitter",
+    "strNameShort" : "Jump Drive Field Emitter",
+    "strNameFriendly" : "Jump Drive Field Emitter",
+    "strItemDef" : "ItmFzJumpFieldEmitter",
+    "strDesc" : "A field emitter for a jump drive. Generates the field that surrounds a ship during a jump.",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+      "FzJumpFieldEmitterGUI"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzJumpFieldEmitter=1.0x1",
+      "StatFzFieldEnergyMin=1.0x11",
+      "StatFzFieldEnergyMax=1.0x410",
+      "StatFzFieldOffsetMax=1.0x5",
+      "StatFzFieldSegmentMax=1.0x15",
+      "IsFzJumpFieldEmitterOn=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsBrittle=1.0x1.0",
+      "StatBasePrice=1.0x5000.0",
+      "StatDismantleProgressMax=1.0x100",
+      "StatInstallProgressMax=1.0x250",
+      "StatUninstallProgressMax=1.0x250",
+      "StatMass=1.0x7.0",
+      "StatDamageMax=1.0x3",
+      "IsElectronic=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategorySensors=1.0x1",
+      "IsSignalable=1.0x1",
+      "IsPowered=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzJumpFieldEmitterDamage,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "mapPoints"      : [
+      "use,0,-24",
+      "PowerA,0,0"
+    ],
+    "mapGUIPropMaps"  : [
+      "Panel A",
+      "FzJumpFieldEmitterUI",
+      "FzJumpFieldEmitterGUI",
+      "FzJumpFieldEmitterGUI",
+      "Electrical"
+    ],
+    "strPortraitImg"  : "ship_combat/ItmSensorOptical01Off",
+    "aTickers" : [ 
+      "Power"
+    ],
+    "jsonPI"            : "FzJumpFieldEmitter",
+    "strAudioEmitter": "ItmFzJumpFieldEmitter"
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitterDmg",
+    "strNameShort" : "Jump Drive Field Emitter",
+    "strNameFriendly" : "Jump Drive Field Emitter (Damaged)",
+    "strDesc" : "A field emitter for a jump drive. Generates the field that surrounds a ship during a jump.",
+    "strItemDef" : "ItmFzJumpFieldEmitterDmg",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+      "FzJumpFieldEmitterGUI"
+    ],
+    "aStartingConds" : [
+      "IsDamaged=1.0x1",
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzJumpFieldEmitter=1.0x1",
+      "StatFzFieldEnergyMin=1.0x11",
+      "StatFzFieldEnergyMax=1.0x410",
+      "StatFzFieldOffsetMax=1.0x5",
+      "StatFzFieldSegmentMax=1.0x15",
+      "IsOff=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsBrittle=1.0x1.0",
+      "StatBasePrice=1.0x1000.0",
+      "StatDismantleProgressMax=1.0x50",
+      "StatInstallProgressMax=1.0x250",
+      "StatUninstallProgressMax=1.0x250",
+      "StatRepairProgressMax=1.0x300",
+      "StatMass=1.0x7.0",
+      "StatDamageMax=1.0x5",
+      "IsElectronic=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategorySensors=1.0x1",
+      "IsSignalable=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapPoints"      : [
+      "use,0,-24",
+      "PowerA,0,0"
+    ],
+    "mapGUIPropMaps"  : [
+      "Panel A",
+      "FzJumpFieldEmitterUI",
+      "FzJumpFieldEmitterGUI",
+      "FzJumpFieldEmitterGUI",
+      "Electrical"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzJumpFieldEmitterDestroy,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "strPortraitImg"  : "ship_combat/ItmSensorOptical01Dmg02",
+    "aTickers" : [ 
+    ]
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitterDmgLoose",
+    "strNameShort" : "Jump Drive Field Emitter",
+    "strItemDef" : "ItmFzJumpFieldEmitterDmgLoose",
+    "strNameFriendly" : "Jump Drive Field Emitter (Loose, Damaged)",
+    "strDesc" : "A field emitter for a jump drive. Generates the field that surrounds a ship during a jump.",
+    "strType"    : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsDamaged=1.0x1",
+      "IsFzJumpFieldEmitter=1.0x1",
+      "StatFzFieldEnergyMin=1.0x11",
+      "StatFzFieldEnergyMax=1.0x410",
+      "StatFzFieldOffsetMax=1.0x5",
+      "StatFzFieldSegmentMax=1.0x15",
+      "IsOff=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsBrittle=1.0x1.0",
+      "StatBasePrice=1.0x1000.0",
+      "StatDismantleProgressMax=1.0x50",
+      "StatInstallProgressMax=1.0x250",
+      "StatUninstallProgressMax=1.0x250",
+      "StatRepairProgressMax=1.0x300",
+      "StatMass=1.0x7.0",
+      "StatDamageMax=1.0x5",
+      "IsElectronic=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategorySensors=1.0x1",
+      "IsSignalable=1.0x1"
+    ],
+    "mapPoints"      : [
+    ],
+    "mapGUIPropMaps"  : [
+      "Panel A",
+      "FzJumpFieldEmitterUI"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzJumpFieldEmitterLooseDestroy,StatDamageMax,1.0"
+    ],
+    "strPortraitImg"  : "ship_combat/ItmSensorOptical01Dmg02Loose"
+  }
+]

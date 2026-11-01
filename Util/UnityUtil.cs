@@ -14,7 +14,8 @@ namespace Freznel.FzAdditions.Util
             foreach (Transform child in parent)
             {
                 if (child.gameObject?.name == name) return child;
-                return FindDescendant(child, name);
+                Transform result = FindDescendant(child, name);
+                if (result != null) return result;
             }
             return null;
         }

@@ -1,0 +1,6 @@
+[
+  { "strName" : "CNDOLFzJumpNavCom", "aCOs" : [ "StatBasePrice=1.0x877" ], "aLoots" : [], "strType" : "condition" },
+  { "strName" : "CNDOLFzJumpNavComDmg", "aCOs" : [ "StatBasePrice=1.0x182" ], "aLoots" : [], "strType" : "condition" },
+  { "strName" : "ItmFzJumpNavCom", "aCOs" : [ "ItmFzJumpNavCom=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzJumpNavComDmg", "aCOs" : [ "ItmFzJumpNavComDmg=1.0x1" ], "aLoots" : [ ], "strType" : "item" }
+]

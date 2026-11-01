@@ -1,0 +1,5 @@
+[
+  { "strName" : "StatFzJumpSeriesEnergy", "strNameFriendly" : "Jump Series Energy", "strColor" : "Neutral", "strDesc" : "Energy [us]'s running jump series has left to spend in kWh.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "IsFzJumpFieldFailed", "strNameFriendly" : "Jump Field Failed", "strColor" : "Neutral", "strDesc" : "[us]'s last jump failed on field strength.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "IsFzJumpSeriesFinished", "strNameFriendly" : "Jump Series Finished", "strColor" : "Neutral", "strDesc" : "[us]'s jump series has finished and its nav console is yet to reset.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true }
+]

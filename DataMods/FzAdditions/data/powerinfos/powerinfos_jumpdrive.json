@@ -1,0 +1,15 @@
+[
+  {
+    "strName" : "FzJumpFieldEmitter",
+    "aInputPts"      : [
+      "PowerA"
+    ],
+    "fAmount": 1.25e-4,
+    "strIntPowerOn": "MSFzJumpFieldEmitterOnAllow",
+    "strIntPowerOff": "MSFzJumpFieldEmitterOffAllow",
+    "strShutDownCT": "TIsConnctedSignalledOff",
+    "strUsePowerCT": "TIsReadyUsePower",
+    "strRechargeCT": null,
+    "bAllowExtPower" :  true
+  }
+]

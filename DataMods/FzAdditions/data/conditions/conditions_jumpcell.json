@@ -1,0 +1,5 @@
+[
+  { "strName" : "StatFzJumpCharge", "strNameFriendly" : "Jump Charge", "strColor" : "Neutral", "strDesc" : "[us]'s stored jump charge in kWh.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzJumpChargeMax", "strNameFriendly" : "Jump Charge Capacity", "strColor" : "Neutral", "strDesc" : "[us]'s maximum jump charge in kWh.", "nDisplaySelf" : 0, "nDisplayOther" : 0 },
+  { "strName" : "StatFzJumpChargeRate", "strNameFriendly" : "Jump Charge Rate", "strColor" : "Neutral", "strDesc" : "[us]'s maximum grid charging rate in kW.", "nDisplaySelf" : 0, "nDisplayOther" : 0 }
+]

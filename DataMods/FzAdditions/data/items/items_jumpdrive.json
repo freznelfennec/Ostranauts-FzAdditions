@@ -1,0 +1,145 @@
+[
+  {
+    "strName" : "ItmFzJumpFieldEmitterOff",
+    "strImg"  : "ship_combat/ItmSensorOptical01Off",
+    "strImgNorm"  : "ship_combat/ItmSensorOptical01n",
+    "strImgDamaged" : "ship_combat/ItmSensorOptical01Dmg02",
+    "strDmgColor" : "DamageTintNone",
+    "fZScale"  : 0.98,
+    "nCols"  : 1,
+    "aSocketAdds"    : [
+      "TILExtFixtureAdds",
+      "TILFixtureAdds",
+      "TILWallDecoAdds"
+    ],
+    "aSocketForbids"    : [
+      "TILObstruction", "TILObstruction", "TILObstruction",
+      "TILObstruction", "TILAntennaForbids", "TILObstruction",
+      "Blank", "TILFixture", "Blank",
+      "Blank", "TILWallAndDeco", "Blank",
+      "Blank", "Blank", "Blank"
+    ],
+    "aSocketReqs"    : [
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "TILWall", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank"
+    ]
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitterLoose",
+    "strImg"  : "ship_combat/ItmSensorOptical01Loose",
+    "strImgNorm"  : "ship_combat/ItmSensorOptical01Loosen",
+    "strImgDamaged" : "ship_combat/ItmSensorOptical01Dmg02Loose",
+    "strDmgColor" : "DamageTintNone",
+    "fZScale"  : 0.5,
+    "nCols"  : 1,
+    "aSocketAdds"    : [
+      "TILItemAdds",
+      "TILItemAdds",
+      "TILItemAdds"
+    ],
+    "aSocketForbids"    : [
+      "Blank", "Blank", "Blank",
+      "Blank", "TILItemForbids", "Blank",
+      "Blank", "TILItemForbids", "Blank",
+      "Blank", "TILItemForbids", "Blank",
+      "Blank", "Blank", "Blank"
+    ],
+    "aSocketReqs"    : [
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank"
+    ]
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitter",
+    "strImg"  : "ship_combat/ItmSensorOptical01Off",
+    "strImgNorm"  : "ship_combat/ItmSensorOptical01n",
+    "strImgDamaged" : "ship_combat/ItmSensorOptical01Dmg02",
+    "strDmgColor" : "DamageTintNone",
+    "fZScale"  : 0.98,
+    "nCols"  : 1,
+    "aLights"        : [
+      "FzJumpFieldEmitter"
+    ],
+    "aSocketAdds"    : [
+      "TILExtFixtureAdds",
+      "TILFixtureAdds",
+      "TILWallDecoAdds"
+    ],
+    "aSocketForbids"    : [
+      "TILObstruction", "TILObstruction", "TILObstruction",
+      "TILObstruction", "TILAntennaForbids", "TILObstruction",
+      "Blank", "TILFixture", "Blank",
+      "Blank", "TILWallAndDeco", "Blank",
+      "Blank", "Blank", "Blank"
+    ],
+    "aSocketReqs"    : [
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "TILWall", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank"
+    ]
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitterDmg",
+    "strImg"  : "ship_combat/ItmSensorOptical01Dmg02",
+    "strImgNorm"  : "ship_combat/ItmSensorOptical01Dmg02n",
+    "strImgDamaged" : "",
+    "strDmgColor" : "DamageTintRust",
+    "fZScale"  : 0.98,
+    "nCols"  : 1,
+    "aSocketAdds"    : [
+      "TILExtFixtureAdds",
+      "TILFixtureAdds",
+      "TILWallDecoAdds"
+    ],
+    "aSocketForbids"    : [
+      "TILObstruction", "TILObstruction", "TILObstruction",
+      "TILObstruction", "TILAntennaForbids", "TILObstruction",
+      "Blank", "TILFixture", "Blank",
+      "Blank", "TILWallAndDeco", "Blank",
+      "Blank", "Blank", "Blank"
+    ],
+    "aSocketReqs"    : [
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "TILWall", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank"
+    ]
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitterDmgLoose",
+    "strImg"  : "ship_combat/ItmSensorOptical01Dmg02Loose",
+    "strImgNorm"  : "ship_combat/ItmSensorOptical01Loosen",
+    "strImgDamaged" : "",
+    "strDmgColor" : "DamageTintRust",
+    "fZScale"  : 0.5,
+    "nCols"  : 1,
+    "aSocketAdds"    : [
+      "TILItemAdds",
+      "TILItemAdds",
+      "TILItemAdds"
+    ],
+    "aSocketForbids"    : [
+      "Blank", "Blank", "Blank",
+      "Blank", "TILItemForbids", "Blank",
+      "Blank", "TILItemForbids", "Blank",
+      "Blank", "TILItemForbids", "Blank",
+      "Blank", "Blank", "Blank"
+    ],
+    "aSocketReqs"    : [
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank"
+    ]
+  }
+]

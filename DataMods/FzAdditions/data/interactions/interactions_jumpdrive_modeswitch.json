@@ -1,0 +1,86 @@
+[
+      {
+        "strName" : "MSFzJumpFieldEmitterDamage",
+        "strTitle" : "",
+        "strDesc" : "[us] is damaged.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "nLogging"         : 1,
+        "objLootModeSwitch"    : "ItmFzJumpFieldEmitterDamage"
+      },
+      {
+        "strName" : "MSFzJumpFieldEmitterDestroy",
+        "strTitle" : "",
+        "strDesc" : "[us] is destroyed.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "nLogging"         : 1,
+        "objLootModeSwitch"    : "ItmFzJumpFieldEmitterComponentsShell"
+      },
+      {
+        "strName" : "MSFzJumpFieldEmitterLooseDamage",
+        "strTitle" : "",
+        "strDesc" : "[us] is damaged.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "nLogging"         : 1,
+        "objLootModeSwitch"    : "ItmFzJumpFieldEmitterLooseDamage"
+      },
+      {
+        "strName" : "MSFzJumpFieldEmitterLooseDestroy", 
+        "strTitle" : "",
+        "strDesc" : "[us] is destroyed.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "nLogging"         : 1,
+        "objLootModeSwitch"    : "ItmFzJumpFieldEmitterComponentsShell"
+      },
+      {
+        "strName" : "MSFzJumpFieldEmitterOffAllow",
+        "strTitle" : "",
+        "strDesc" : "[us] switches off.",
+        "strTargetPoint" : null,
+        "fTargetPointRange" : 0,
+        "strAnim"           : null,
+        "strBubble"         : null,
+        "aInverse"          : [
+        ],
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "strRaiseUI"        : null,
+        "LootCTsUs"       : null,
+        "LootCTsThem"     : null,
+        "CTTestUs"           : "TIsNotOff",
+        "CTTestThem"         : null,
+        "aLootItms"       : [
+        ],
+        "objLootModeSwitch"    : "ItmFzJumpFieldEmitterOff"
+      },
+      {
+        "strName" : "MSFzJumpFieldEmitterOnAllow",
+        "strTitle" : "",
+        "strDesc" : "[us] powers-up.",
+        "strTargetPoint" : null,
+        "fTargetPointRange" : 0,
+        "strAnim"           : null,
+        "strBubble"         : null,
+        "aInverse"          : [
+        ],
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "strRaiseUI"        : null,
+        "LootCTsUs"       : null,
+        "LootCTsThem"     : null,
+        "CTTestUs"           : "TIsOff",
+        "CTTestThem"         : null,
+        "aLootItms"       : [
+        ],
+        "objLootModeSwitch"    : "ItmFzJumpFieldEmitter"
+      }
+]

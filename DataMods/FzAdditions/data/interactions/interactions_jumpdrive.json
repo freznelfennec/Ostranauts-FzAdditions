@@ -1,0 +1,52 @@
+[
+  {
+    "strName": "FzJumpFieldEmitterGUI",
+    "strTitle": "Control Panel",
+    "strDesc": "[us] [accesses] [them]'s panel.",
+    "strTooltip": "Accesses target's control panel override settings, dials, and switches.",
+    "strActionGroup": "Use",
+    "strTargetPoint": "use",
+    "fTargetPointRange": 2,
+    "strAnim": "Use",
+    "strBubble": "BblTouch",
+    "aInverse": [
+      "FzJumpFieldEmitterGUIAllow"
+    ],
+    "fDuration": 0.00027,
+    "strThemType": "Other",
+    "strRaiseUI": null,
+    "nLogging": 1,
+    "bOpener": true,
+    "bHumanOnly": true,
+    "bIgnoreFeelings": true,
+    "LootCTsUs": null,
+    "LootCTsThem": null,
+    "CTTestUs": "TIsHuman",
+    "CTTestThem": "TIsFzJumpFieldEmitterInstalled",
+    "aLootItms": [
+    ],
+    "objLootModeSwitch": null
+  },
+  {
+    "strName": "FzJumpFieldEmitterGUIAllow",
+    "strTitle": "",
+    "strDesc": "[them] [checks] the panel.",
+    "strActionGroup": "Use",
+    "strTargetPoint": null,
+    "fTargetPointRange": 0,
+    "strAnim": null,
+    "strBubble": "BblTouch",
+    "aInverse": [
+    ],
+    "fDuration": 1.0,
+    "strThemType": "Other",
+    "strRaiseUI": "FzJumpFieldEmitterGUI",
+    "LootCTsUs": null,
+    "LootCTsThem": null,
+    "CTTestUs": null,
+    "CTTestThem": null,
+    "aLootItms": [
+    ],
+    "objLootModeSwitch": null
+  }
+]

@@ -1,0 +1,46 @@
+[
+    {
+        "strName" : "ItmFzJumpNavCom",
+        "strNameFriendly" : "Jump Drive NavCom",
+        "strNameShort" : "Jump NavCom",
+        "strDesc" : "A hot-swappable module for the Polaris \"Standard Navigation Console\" (PSNC), used to control a jump drive from the nav station.",
+        "strImg" : "navmod/ItmNavModSensorsMFD",
+        "strImgNorm" : "navmod/ItmNavModSensorsMFDn",
+        "strPortraitImg" : "navmod/ItmNavModSensorsMFD",
+        "strCondLoot"    : "CNDOLFzJumpNavCom",
+        "strCOBase"    : "ItmNavModMoboScreen",
+        "mapGUIPropMaps"  :[
+            "NavMod","FzJumpNavCom"
+        ],
+        "mapModeSwitches"    : [
+            "ItmNavModMoboScreen", "ItmFzJumpNavCom",
+            "ItmNavModMoboScreenDmg", "ItmFzJumpNavComDmg"
+        ],
+        "mapSlotEffects" : [
+            "heldL","HeldItmDefaultL",
+            "heldR","HeldItmDefaultR"
+        ]
+    },
+    {
+        "strName" : "ItmFzJumpNavComDmg",
+        "strNameFriendly" : "Jump Drive NavCom (Damaged)",
+        "strNameShort" : "Jump NavCom (Dmg)",
+        "strDesc" : "A hot-swappable module for the Polaris \"Standard Navigation Console\" (PSNC), used to control a jump drive from the nav station.",
+        "strImg" : "navmod/ItmNavModSensorsMFDDmg",
+        "strImgNorm" : "navmod/ItmNavModSensorsMFDDmgn",
+        "strPortraitImg" : "navmod/ItmNavModSensorsMFDDmg",
+        "strCondLoot"    : "CNDOLFzJumpNavComDmg",
+        "strCOBase"    : "ItmNavModMoboScreenDmg",
+        "mapGUIPropMaps"  :[
+            "NavMod","FzJumpNavCom"
+        ],
+        "mapModeSwitches"    : [
+            "ItmNavModMoboScreen", "ItmFzJumpNavCom",
+            "ItmNavModMoboScreenDmg", "ItmFzJumpNavComDmg"
+        ],
+        "mapSlotEffects" : [
+            "heldL","HeldItmDefaultL",
+            "heldR","HeldItmDefaultR"
+        ]
+    }
+]

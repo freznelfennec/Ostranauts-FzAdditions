@@ -1,0 +1,7 @@
+[
+  { "strName" : "TIsFzJumpFieldEmitterInstalled","strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzJumpFieldEmitter", "IsInstalled" ], "aForbids" : [ "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzJumpFieldEmitterOffInstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzJumpFieldEmitter", "IsInstalled", "IsOff" ], "aForbids" : [ "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzJumpFieldEmitterInstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzJumpFieldEmitter", "IsInstalled", "IsDamaged" ], "aForbids" : [  ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzJumpFieldEmitterUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzJumpFieldEmitter" ], "aForbids" : [ "IsInstalled", "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzJumpFieldEmitterUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzJumpFieldEmitter", "IsDamaged" ], "aForbids" : [ "IsInstalled" ], "aTriggers" : [ ], "bAND" : true }
+]

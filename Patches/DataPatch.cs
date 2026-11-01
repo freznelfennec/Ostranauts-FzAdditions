@@ -49,7 +49,8 @@ namespace Freznel.FzAdditions.Patches
             var kioskInv = DataHandler.GetLoot("ItmOKLGFurnishingsKioskInv");
             if (kioskInv != null)
             {
-                kioskInv.aLoots = kioskInv.aLoots.Append("ItmFurnitureInvFzComputer=1.0x1-5").ToArray();
+                //kioskInv.aLoots = kioskInv.aLoots.Append("ItmFurnitureInvFzComputer=1.0x1-5").ToArray();
+                kioskInv.aLoots = kioskInv.aLoots.Append("ItmFzJumpFieldEmitterLoose=1.0x1-5").ToArray();
             }
             else
             {

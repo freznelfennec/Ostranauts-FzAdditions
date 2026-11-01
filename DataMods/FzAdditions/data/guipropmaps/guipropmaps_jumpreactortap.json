@@ -1,0 +1,13 @@
+[
+  {
+    "strName" : "FzJumpReactorTapGUI",
+    "dictGUIPropMap"       : [
+      "strGUIPrefab", "FzJumpReactorTapGUI",
+      "strFriendlyName", "Jump Drive Reactor Tap",
+      "strGUIPrefabRight", null,
+      "strGUIPrefabLeft", null,
+      "strGUIPrefabUp", null,
+      "strGUIPrefabDown", null
+    ]
+  }
+]

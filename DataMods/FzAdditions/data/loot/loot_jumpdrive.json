@@ -1,0 +1,69 @@
+[
+  { "strName" : "ItmFzJumpFieldEmitterOff", "aCOs" : [ "ItmFzJumpFieldEmitterOff=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzJumpFieldEmitterLoose", "aCOs" : [ "ItmFzJumpFieldEmitterLoose=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzJumpFieldEmitter", "aCOs" : [ "ItmFzJumpFieldEmitter=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzJumpFieldEmitterDmg", "aCOs" : [ "ItmFzJumpFieldEmitterDmg=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzJumpFieldEmitterDmgLoose", "aCOs" : [ "ItmFzJumpFieldEmitterDmgLoose=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  {
+    "strName" : "ItmFzJumpFieldEmitterDamage",
+    "aCOs"    : [
+      "ItmFzJumpFieldEmitterDmg=1.0x1"
+    ],
+    "aLoots"  : [
+      "ItmFzJumpFieldEmitterComponents=1.0x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitterLooseDamage",
+    "aCOs"    : [
+      "ItmFzJumpFieldEmitterDmgLoose=1.0x1"
+    ],
+    "aLoots"  : [
+      "ItmFzJumpFieldEmitterComponents=1.0x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitterComponents",
+    "aCOs"    : [
+      "ItmComponentMotor01=0.5x1",
+      "ItmComponentMobo01=0.5x1",
+      "ItmPartsMechSmall01=1.0x1-2",
+      "ItmPartsElecSmall01=1.0x1-2",
+      "ItmScrapAluminum=1.0x1"
+    ],
+    "aLoots"  : [
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitterComponentsShell",
+    "aCOs"    : [      
+      "ItmScrapTrash=1.0x1-2",
+      "ItmScrapSteel=0.5x1-2"
+    ],
+    "aLoots"  : [
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "ItmFzJumpFieldEmitterDismantle",
+    "aCOs"    : [
+      "ItmComponentMotor01=1.0x1",
+      "ItmComponentMobo01=1.0x1",
+      "ItmPartsMechSmall01=1.0x2",
+      "ItmPartsElecSmall01=1.0x2",
+      "ItmScrapTrash=1.0x2",
+      "ItmScrapSteel=1.0x2",
+      "ItmScrapAluminum=1.0x1"
+    ],
+    "aLoots"  : [
+    ],
+    "strType" : "item"
+  },
+  { "strName" : "ACTFzJumpFieldEmitterDamage", "aCOs" : [ "MSFzJumpFieldEmitterDamage=1.0x1" ], "aLoots"  : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzJumpFieldEmitterDestroy", "aCOs" : [ "MSFzJumpFieldEmitterDestroy=1.0x1" ], "aLoots"  : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzJumpFieldEmitterLooseDamage", "aCOs" : [ "MSFzJumpFieldEmitterLooseDamage=1.0x1" ], "aLoots"  : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzJumpFieldEmitterLooseDestroy", "aCOs" : [ "MSFzJumpFieldEmitterLooseDestroy=1.0x1" ], "aLoots"  : [ ], "strType" : "interaction" }
+]
