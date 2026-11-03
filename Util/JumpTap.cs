@@ -9,12 +9,23 @@ namespace Freznel.FzAdditions.Util
 {
     public static class JumpTap
     {
-        private const double SecondsPerHour = 3600.0;
         private const double ChargingHold = 5.0; //In game seconds, cell updates spread out when the game slows their clocks
 
         //The system time each ship's taps last delivered, keyed by reactor strID. Object clocks are slowed
         //by differing amounts while fast forwarding, so they can't be compared with each other.
         private static readonly Dictionary<string, double> lastDelivery = new Dictionary<string, double>();
+
+        //Times from the world being left behind mean nothing to a save loading
+        public static void Reset()
+        {
+            lastDelivery.Clear();
+        }
+
+        public static List<CondOwner> GetActiveTaps(Ship ship)
+        {
+            if (ship == null) return new List<CondOwner>();
+            return ship.GetCOs(DataHandler.GetCondTrigger(Constants.TapActiveTrigger), bSubObjects: false, bAllowDocked: false, bAllowLocked: false);
+        }
 
         //In kW, the most a tap can deliver across all of the ship's cells
         public static double GetMaxRate(CondOwner tap)
@@ -73,11 +84,18 @@ namespace Freznel.FzAdditions.Util
             if (rate <= 0.0) return 0.0;
 
             double share = rate / Math.Max(found.Count(JumpCell.CanTakeCharge), 1);
-            double amount = Math.Min(wanted, share * seconds / SecondsPerHour);
+            double amount = Math.Min(wanted, share * seconds / Constants.SecondsPerHour);
 
             lastDelivery[reactor.strID] = StarSystem.fEpoch;
-            ReactorFuel.AddBurn(reactor, amount * taps.Sum(tap => GetRate(tap) * GetBurnRate(tap)) / rate);
+            ReactorFuel.AddBurn(reactor, amount * GetShipBurnRate(taps));
             return amount;
+        }
+
+        //In burn units per kWh delivered, across taps sharing a ship's rate. 0 if they deliver nothing.
+        public static double GetShipBurnRate(List<CondOwner> taps)
+        {
+            double rate = taps.Sum(GetRate);
+            return rate > 0.0 ? taps.Sum(tap => GetRate(tap) * GetBurnRate(tap)) / rate : 0.0;
         }
 
         private static string GetProp(CondOwner tap, string key)

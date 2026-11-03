@@ -17,11 +17,12 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
 {
     //Nav station module laid out like Sensors. Each page gives the keys under the screen their own actions,
     //shown along the bottom of the screen. The first key leaves the page, for MAIN unless the page says
-    //otherwise, and the last is always JUMP.
+    //otherwise, and the last is JUMP. ERROR and CONFIRM take over the keys until they are answered, with CONFIRM
+    //away from JUMP's key so that pressing JUMP twice can't click through it.
     //COSelf here is the nav station, not the module's item.
     public class FzJumpNavCom : NavModBase
     {
-        private enum Page { Main, Field, Energy, Plot, Target }
+        private enum Page { Main, Field, Energy, Plot, Target, Mode, Error, Confirm }
 
         private static readonly string FramePrefab = "GUIShip/GUIOrbitDraw/NavModSensorsMFD";
         private static readonly string FrameSprite = "GUIPanel256x256";
@@ -31,7 +32,6 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         private static readonly Color InsetColor = new Color(0.286f, 0.314f, 0.341f);
         private static readonly Color TitleColor = new Color(0.827f, 0.827f, 0.827f);
         private static readonly Color ScreenTextColor = new Color(0.631f, 0.894f, 0.392f);
-        private static readonly Color ActionErrorColor = new Color(1f, 0.188f, 0.188f);
         private static readonly string NormalColor = "#3CFF3C";
         private static readonly string WarnColor = "#FFD800";
         private static readonly string DangerColor = "#FF3030";
@@ -44,9 +44,8 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         private static readonly float ActionHeight = 0.12f; //Of the screen
         private static readonly float ActionWidth = 0.95f; //Of each key's slot
         private static readonly int KeyCount = 6;
-        private static readonly float FlashDuration = 0.6f; //Real seconds
         private static readonly float PlotMarkerSize = 6f; //Map canvas units
-        private static readonly int MaxPlotMarkers = 64; //An uncapped series could otherwise ask for any number
+        private static readonly int PlotBurnPoints = 8; //Segments a correction burn's curve is drawn with
         private static readonly Color PlotColor = new Color(0.25f, 0.88f, 1f, 0.9f);
         private static readonly AccessTools.FieldRef<GUIOrbitDraw, GameObject> OrbitPanel = AccessTools.FieldRefAccess<GUIOrbitDraw, GameObject>("goOrbitPanel");
         private static readonly float SettingRate = 0.5f; //Of the setting's range per real second, with the slider at its end
@@ -60,17 +59,21 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         private const string PlotKey = "PLOT";
         private const string StrengthKey = "STRENGTH";
         private const string EmittersKey = "EMITTERS";
-        private const string TargetKey = "TRG";
+        private const string TargetKey = "TARGET";
         private const string BackKey = "BACK";
         private const string CalcKey = "CALC";
         private const string ShowKey = "SHOW";
-        private const string SingleKey = "SINGLE";
-        private const string SeriesKey = "SERIES";
+        private const string ModeKey = "MODE";
+        private const string JumpTypeKey = "TYPE";
+        private const string ThrustKey = "THRUST";
         private const string ExecuteKey = "EXECUTE";
-        private const string TorchKey = "TORCH";
-        private const string RcsKey = "RCS";
         private const string CancelKey = "CANCEL";
-        private const int CalcKeyIndex = 1;
+        private const string DismissKey = "DISMISS";
+        private const string ConfirmKey = "CONFIRM";
+        private const string MatchKey = "MATCH";
+        private const string StopKey = "STOP";
+        private const string MatchAllKey = "ALL"; //On the match confirmation, switches to the mode it names
+        private const string MatchCrossKey = "CROSS";
 
         private static GameObject prefabHolder;
 
@@ -159,7 +162,9 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         private float setting;
         private float nextDataTime;
         private float nextMapTime;
-        private float flashEndTime;
+        private Page returnPage = Page.Main; //Where ERROR and CONFIRM go once they are answered
+        private List<string> messageLines = new List<string>();
+        private Action confirmed;
         private bool showPlot;
         private bool seriesMode;
         private VectorLine plotLine;
@@ -178,40 +183,69 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         private double uncertainty;
         private double speed;
         private JumpDrive.JumpTarget target;
-        private bool brakeOnTorch;
+        private bool thrustOnTorch;
+        private SeriesPlan plan; //Null outside series mode or without a target to plan to
+        private double correctionLeft; //In AU per second, what a running correction still has to change
+        private string calcTarget; //The target a series' setting was last worked out for with CALC, null once it isn't followed
+        private double matchLeft = -1.0; //In AU per second, the velocity a running match still has to take out, negative without one
+        private string matchName = ""; //The running match's target
+        private bool matchCross; //A match takes out only the cross-velocity
+        private bool matchConfirm; //The confirmation up is a match's, which can switch between all and cross
+
+        //Kept with the console's settings, so a setting still follows its target after a load
+        private void SetFollow(string name)
+        {
+            if (calcTarget == name) return;
+            calcTarget = name;
+            _guiOrbitDraw.SetPropMapData(Constants.NavComFollowProp, name ?? "");
+        }
         private double fullMargin;
         private double chargeWait;
         private double seriesEnergy = -1.0;
         private double fillRate;
+        private double burnPerKWh;
         private double seriesWait;
         private JumpSequence.SeriesState seriesState;
         private FieldContour.EmitterStatus emitterStatus;
 
-        //A series recharges between jumps, so it isn't limited by what the cells hold at once
-        private double MaxSetting => seriesMode ? float.MaxValue : Math.Max(minSetting, capacity);
+        //A series recharges between jumps, so it can go past what the cells hold at once. With no cells on to measure
+        //it by it is left alone, a brief loss of power shouldn't pull a long series' setting down.
+        private double MaxSetting
+        {
+            get
+            {
+                if (!seriesMode) return Math.Max(minSetting, capacity);
+                return capacity > 0.0 ? Math.Max(minSetting, capacity * Constants.MaxSeriesJumps) : float.MaxValue;
+            }
+        }
 
         private bool IsJumping => JumpSequence.IsActive(COSelf?.ship) || JumpSequence.IsSeriesRunning(COSelf?.ship);
 
         //Runs again each time the nav station leaves edit mode
         protected override void Init()
         {
-            screenText = UnityUtil.FindDescendant(transform, "txtScreen")?.GetComponent<TMP_Text>();
+            screenText = UnityUtil.FindDescendant<TMP_Text>(transform, "txtScreen");
             if (screenText == null) return;
 
-            fieldMap = UnityUtil.FindDescendant(transform, "FieldMap").GetComponent<FzFieldMap>();
-            actionTexts = Enumerable.Range(0, KeyCount).Select(i => UnityUtil.FindDescendant(transform, "txtAction" + i).GetComponent<TMP_Text>()).ToArray();
+            fieldMap = UnityUtil.FindDescendant<FzFieldMap>(transform, "FieldMap");
+            actionTexts = Enumerable.Range(0, KeyCount).Select(i => UnityUtil.FindDescendant<TMP_Text>(transform, "txtAction" + i)).ToArray();
 
             //The console writes its own copy of these back when it closes, so that is the one that lasts
             Dictionary<string, string> props = _guiOrbitDraw.GetPropMap();
             if (props.TryGetValue(Constants.NavComSettingProp, out string value)) float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out setting);
             showPlot = _guiOrbitDraw.GetPropMapData(Constants.NavComShowPlotProp, false);
             seriesMode = _guiOrbitDraw.GetPropMapData(Constants.NavComSeriesProp, false);
+            calcTarget = props.TryGetValue(Constants.NavComFollowProp, out string follow) && follow.Length > 0 ? follow : null;
+            thrustOnTorch = props.ContainsKey(Constants.NavComThrustProp)
+                ? _guiOrbitDraw.GetPropMapData(Constants.NavComThrustProp, false)
+                : _guiOrbitDraw.GetPropMapData(Constants.NavComLegacyTorchProp, false);
+            matchCross = _guiOrbitDraw.GetPropMapData(Constants.NavComMatchCrossProp, false);
 
             if (!wired)
             {
                 wired = true;
-                UnityUtil.FindDescendant(transform, "KeyRow").GetComponent<FzSoftKeyRow>().OnPressed += PressKey;
-                UnityUtil.FindDescendant(transform, "SettingSlider").GetComponent<FzStickySlider>().OnHeld += AdjustSetting;
+                UnityUtil.FindDescendant<FzSoftKeyRow>(transform, "KeyRow").OnPressed += PressKey;
+                UnityUtil.FindDescendant<FzStickySlider>(transform, "SettingSlider").OnHeld += AdjustSetting;
             }
 
             ShowPage(page);
@@ -220,6 +254,23 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         private string[] GetActions()
         {
             string[] actions = new string[KeyCount];
+
+            //A running jump can always be stopped, so ERROR leaves its key alone
+            if (page == Page.Error)
+            {
+                actions[0] = DismissKey;
+                if (IsJumping) actions[KeyCount - 1] = CancelKey;
+                return actions;
+            }
+
+            if (page == Page.Confirm)
+            {
+                actions[0] = ConfirmKey;
+                if (matchConfirm) actions[2] = matchCross ? MatchAllKey : MatchCrossKey;
+                actions[KeyCount - 1] = CancelKey;
+                return actions;
+            }
+
             actions[0] = MainKey;
             actions[KeyCount - 1] = IsJumping ? CancelKey : seriesMode ? ExecuteKey : JumpKey;
 
@@ -228,6 +279,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
                 actions[1] = FieldKey;
                 actions[2] = EnergyKey;
                 actions[3] = PlotKey;
+                actions[4] = ModeKey;
             }
             else if (page == Page.Field)
             {
@@ -237,20 +289,37 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             else if (page == Page.Plot)
             {
                 actions[1] = TargetKey;
-                actions[3] = seriesMode ? SeriesKey : SingleKey;
                 actions[4] = ShowKey;
             }
             else if (page == Page.Target)
             {
                 actions[0] = BackKey;
-                if (target.CanPlot) actions[1] = target.BrakesOnTorch ? TorchKey : RcsKey;
+                actions[3] = VelocityMatch.IsMatching(COSelf?.ship) ? StopKey : MatchKey;
                 actions[4] = CalcKey;
+            }
+            else if (page == Page.Mode)
+            {
+                actions[1] = JumpTypeKey;
+                actions[2] = ThrustKey;
             }
             return actions;
         }
 
         private void PressKey(int key)
         {
+            if (page == Page.Confirm)
+            {
+                if (key == 0) confirmed?.Invoke();
+                else if (key == KeyCount - 1) ShowPage(returnPage);
+                else if (GetActions()[key] != null)
+                {
+                    matchCross = !matchCross;
+                    _guiOrbitDraw.SetPropMapData(Constants.NavComMatchCrossProp, matchCross.ToString().ToLower());
+                    RequestMatch();
+                }
+                return;
+            }
+
             switch (GetActions()[key])
             {
                 case MainKey: ShowPage(Page.Main); break;
@@ -262,37 +331,202 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
                 case TargetKey: ShowPage(Page.Target); break;
                 case BackKey: ShowPage(Page.Plot); break;
                 case CalcKey: SetSettingToTarget(); break;
+                case ModeKey: ShowPage(Page.Mode); break;
+                case DismissKey: ShowPage(returnPage); break;
                 case ShowKey:
                     showPlot = !showPlot;
                     _guiOrbitDraw.SetPropMapData(Constants.NavComShowPlotProp, showPlot.ToString().ToLower());
                     break;
-                case SingleKey:
-                case SeriesKey:
-                    SetSeriesMode(!seriesMode);
+                case JumpTypeKey:
+                    if (JumpSequence.IsSeriesRunning(COSelf?.ship)) ShowError("CANCEL THE SERIES TO CHANGE JUMP TYPE");
+                    else SetSeriesMode(!seriesMode);
                     break;
-                case TorchKey:
-                case RcsKey:
-                    brakeOnTorch = !target.BrakesOnTorch;
-                    ReadData();
-                    RenderScreen();
+                case MatchKey: RequestMatch(); break;
+                case StopKey: VelocityMatch.Stop(COSelf?.ship); break;
+                case ThrustKey:
+                    if (JumpSequence.IsSeriesRunning(COSelf?.ship)) ShowError("CANCEL THE SERIES TO CHANGE THRUST");
+                    else if (VelocityMatch.IsMatching(COSelf?.ship)) ShowError("STOP THE MATCH TO CHANGE THRUST");
+                    else
+                    {
+                        thrustOnTorch = !thrustOnTorch;
+                        _guiOrbitDraw.SetPropMapData(Constants.NavComThrustProp, thrustOnTorch.ToString().ToLower());
+                        ReadData();
+                        FollowTarget();
+                        RenderScreen();
+                    }
                     break;
                 case CancelKey: JumpSequence.Cancel(COSelf?.ship); break;
                 case JumpKey:
-                    ReadData();
-                    if (!JumpSequence.Start(COSelf?.ship, setting)) FlashKey(KeyCount - 1);
-                    break;
                 case ExecuteKey:
-                    ReadData();
-                    if (!JumpSequence.StartSeries(COSelf?.ship, setting)) FlashKey(KeyCount - 1);
+                    RequestJump();
                     break;
             }
+        }
+
+        //A jump that can't start says why, and one that would cost something asks first
+        private void RequestJump()
+        {
+            ReadData();
+            FollowTarget();
+            Ship ship = COSelf?.ship;
+            double energy = setting;
+
+            JumpSequence.JumpFailure failure = CheckStart(ship, energy);
+            if (failure != JumpSequence.JumpFailure.None)
+            {
+                ShowFailure(failure);
+                return;
+            }
+
+            List<string> warnings = seriesMode ? JumpSequence.GetSeriesWarnings(ship, energy, GUIOrbitDraw.CrossHairTarget, thrustOnTorch) : JumpSequence.GetJumpWarnings(ship, energy);
+            if (warnings.Count == 0) StartJump();
+            else ShowConfirm(warnings);
+        }
+
+        private JumpSequence.JumpFailure CheckStart(Ship ship, double energy)
+        {
+            return seriesMode ? JumpSequence.CheckSeries(ship, energy) : JumpSequence.CheckJump(ship, energy);
+        }
+
+        //A series with a target takes over the ship's thrust, so a course being flown is dropped
+        private void StartJump()
+        {
+            bool started = seriesMode
+                ? JumpSequence.StartSeries(COSelf?.ship, setting, COSelf, GUIOrbitDraw.CrossHairTarget, thrustOnTorch)
+                : JumpSequence.Start(COSelf?.ship, setting);
+            if (!started) ShowFailure(JumpSequence.JumpFailure.NoContour);
+            else if (JumpSequence.IsSteering(COSelf?.ship)) _guiOrbitDraw.SetPropMapData("chkEngage", false.ToString());
+        }
+
+        private void ShowFailure(JumpSequence.JumpFailure failure)
+        {
+            ShowError(GetFailureText(failure));
+
+            //A field that has failed is the next thing to look at
+            if (failure == JumpSequence.JumpFailure.FieldStrength) returnPage = Page.Field;
+        }
+
+        private static string GetFailureText(JumpSequence.JumpFailure failure)
+        {
+            switch (failure)
+            {
+                case JumpSequence.JumpFailure.Thrusting: return "JUMP BLOCKED: SHIP IS THRUSTING";
+                case JumpSequence.JumpFailure.HeldInPlace: return "JUMP BLOCKED: HELD BY A STATION OR ORBIT";
+                case JumpSequence.JumpFailure.FieldStrength: return "JUMP FAILED: AN EMITTER HAS NO FIELD STRENGTH";
+                case JumpSequence.JumpFailure.SettingTooLow: return "JUMP BLOCKED: SETTING IS BELOW THE FIELD'S NEED";
+                case JumpSequence.JumpFailure.NotCharged: return "JUMP BLOCKED: NOT ENOUGH CHARGE";
+                case JumpSequence.JumpFailure.CellsTooSmall: return "JUMP BLOCKED: CELLS CAN'T HOLD THE FIELD'S NEED";
+                case JumpSequence.JumpFailure.LandingBlocked: return "SERIES STOPPED: JUMP WOULD LAND INSIDE A BODY";
+                case JumpSequence.JumpFailure.NoContour: return "JUMP BLOCKED: NO FIELD CONTOUR";
+                case JumpSequence.JumpFailure.NoTarget: return "SERIES BLOCKED: NO TARGET TO PLOT";
+                case JumpSequence.JumpFailure.TargetLost: return "SERIES STOPPED: TARGET LOST";
+                case JumpSequence.JumpFailure.CorrectionFailed: return "SERIES STOPPED: CORRECTION FAILED, OUT OF RCS PROPELLANT";
+                case JumpSequence.JumpFailure.MatchTargetLost: return "MATCH STOPPED: TARGET LOST";
+                case JumpSequence.JumpFailure.MatchFailed: return "MATCH STOPPED: OUT OF RCS PROPELLANT";
+                case JumpSequence.JumpFailure.Matching: return "JUMP BLOCKED: VELOCITY MATCH RUNNING";
+                default: return "JUMP BLOCKED";
+            }
+        }
+
+        private void ShowError(string message)
+        {
+            messageLines = new List<string> { message };
+            ShowMessagePage(Page.Error);
+        }
+
+        private void ShowConfirm(List<string> warnings)
+        {
+            ShowConfirm(warnings, RequestStart);
+        }
+
+        private void ShowConfirm(List<string> lines, Action start)
+        {
+            messageLines = lines;
+            matchConfirm = false;
+            confirmed = () =>
+            {
+                ShowPage(returnPage);
+                start();
+            };
+            ShowMessagePage(Page.Confirm);
+        }
+
+        //Says what the match would take before it starts, or why it can't
+        private void RequestMatch()
+        {
+            ReadData();
+            if (!GetMatchEstimate(out JumpDrive.AimTarget aim, out JumpCorrection.MatchEstimate estimate)) return;
+
+            string propellant = estimate.Torch
+                ? (estimate.ReactantA < 0.0 ? "REACTANT: --" : $"REACTANT: {estimate.ReactantA:0.##}kg D2O, {estimate.ReactantB:0.##}kg He-3")
+                : $"PROPELLANT: {estimate.RcsFuel:0.##}kg RCS";
+            string kill = matchCross
+                ? $"KILL: CROSS-VELOCITY, KEEPS {MathUtils.GetDistUnits(Math.Abs(estimate.Closing))}/s {(estimate.Closing >= 0.0 ? "CLOSING" : "OPENING")}"
+                : "KILL: ALL VELOCITY";
+            ShowConfirm(new List<string>
+            {
+                $"MATCH VELOCITY WITH {aim.Name.ToUpper()}",
+                kill,
+                $"THRUST: {(estimate.Torch ? "TORCH" : "RCS")}",
+                $"DELTA-V: {MathUtils.GetDistUnits(estimate.DeltaV)}/s",
+                $"BURN TIME: {FzNumeric.FormatDuration((float)Math.Ceiling(estimate.BurnTime))}",
+                propellant
+            }, StartMatch);
+            matchConfirm = true;
+            RenderActions();
+        }
+
+        //Things can have changed while the confirmation was up
+        private void StartMatch()
+        {
+            ReadData();
+            if (!GetMatchEstimate(out _, out _)) return;
+            if (!VelocityMatch.Start(COSelf?.ship, COSelf, GUIOrbitDraw.CrossHairTarget, thrustOnTorch, matchCross)) ShowError("MATCH COULD NOT START");
+        }
+
+        //False after showing why a match can't be made
+        private bool GetMatchEstimate(out JumpDrive.AimTarget aim, out JumpCorrection.MatchEstimate estimate)
+        {
+            Ship ship = COSelf?.ship;
+            estimate = new JumpCorrection.MatchEstimate();
+            if (!JumpDrive.ResolvePOI(ship, GUIOrbitDraw.CrossHairTarget, out aim))
+            {
+                ShowError("NO TARGET TO MATCH");
+                return false;
+            }
+            if (JumpSequence.IsSeriesRunning(ship) || JumpSequence.IsActive(ship))
+            {
+                ShowError("CANCEL THE JUMP TO MATCH VELOCITY");
+                return false;
+            }
+
+            estimate = JumpCorrection.EstimateMatch(ship, aim, thrustOnTorch, matchCross);
+            if (estimate.Problem == null) return true;
+
+            ShowError(estimate.Problem);
+            return false;
+        }
+
+        //Things can have changed while the warning was up
+        private void RequestStart()
+        {
+            ReadData();
+            FollowTarget();
+            JumpSequence.JumpFailure failure = CheckStart(COSelf?.ship, setting);
+            if (failure == JumpSequence.JumpFailure.None) StartJump();
+            else ShowFailure(failure);
+        }
+
+        private void ShowMessagePage(Page shown)
+        {
+            if (page != Page.Error && page != Page.Confirm) returnPage = page;
+            ShowPage(shown);
         }
 
         private void ShowPage(Page shown)
         {
             page = shown;
             fieldMap.gameObject.SetActive(page == Page.Field);
-            ClearFlash();
             RenderActions();
 
             nextDataTime = 0f;
@@ -302,37 +536,49 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         //Unscaled so it can be set while the game is paused, the further from centre the faster it moves
         private void AdjustSetting(float pull)
         {
+            if (page == Page.Error || page == Page.Confirm) return;
+
             float step = Mathf.Sign(pull) * pull * pull * SettingRate * (float)(seriesMode ? Math.Max(setting, capacity) : MaxSetting - minSetting) * Time.unscaledDeltaTime;
+            if (step != 0f) SetFollow(null);
             SetSetting(setting + step);
             RenderScreen();
         }
 
-        //Flashes the key rather than settling for a setting that wouldn't reach
+        //Says why rather than settling for a setting that wouldn't reach. A series' setting goes on following the target.
         private void SetSettingToTarget()
         {
             ReadData();
             double energy = TargetEnergy;
-            if (!target.CanPlot || energy < minSetting || energy > MaxSetting)
+            if (!target.CanPlot) ShowError("NO TARGET TO PLOT");
+            else if (energy < minSetting) ShowError("TARGET OUT OF REACH");
+            else if (energy > MaxSetting) ShowError(seriesMode ? $"TARGET NEEDS MORE THAN {Constants.MaxSeriesJumps} JUMPS" : "TARGET NEEDS MORE THAN THE CELLS HOLD");
+            else
             {
-                FlashKey(CalcKeyIndex);
+                SetSetting((float)energy);
+                if (seriesMode) SetFollow(target.Name);
+                ReadData();
+                ShowPage(Page.Plot);
+            }
+        }
+
+        //Until the slider is moved or the target changes, the ship drifts while the series waits to be started.
+        //A setting that has drifted out of reach is left where it was.
+        private void FollowTarget()
+        {
+            if (calcTarget == null || !seriesMode || seriesEnergy >= 0.0) return;
+            //Nothing selected leaves it alone, the console picks its own target back up after it opens
+            if (!target.CanPlot) return;
+            if (target.Name != calcTarget)
+            {
+                SetFollow(null);
                 return;
             }
 
+            double energy = TargetEnergy;
+            if (energy < minSetting || energy > MaxSetting || Math.Abs(energy - setting) < 0.05) return;
+
             SetSetting((float)energy);
-            ShowPage(Page.Plot);
-        }
-
-        private void FlashKey(int key)
-        {
-            ClearFlash();
-            actionTexts[key].color = ActionErrorColor;
-            flashEndTime = Time.unscaledTime + FlashDuration;
-        }
-
-        private void ClearFlash()
-        {
-            flashEndTime = 0f;
-            foreach (TMP_Text action in actionTexts) action.color = ScreenTextColor;
+            ReadTarget(COSelf.ship);
         }
 
         private void RenderActions()
@@ -350,21 +596,18 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         {
             if (actionTexts == null) return;
 
-            if (JumpSequence.TakeFieldFailure(COSelf?.ship))
-            {
-                ShowPage(Page.Field);
-                FlashKey(KeyCount - 1);
-            }
+            JumpSequence.JumpFailure failure = JumpSequence.TakeFailure(COSelf?.ship);
+            if (failure != JumpSequence.JumpFailure.None) ShowFailure(failure);
 
             if (JumpSequence.TakeSeriesFinished(COSelf?.ship)) SetSeriesMode(false);
 
             RenderActions();
-            if (flashEndTime > 0f && Time.unscaledTime >= flashEndTime) ClearFlash();
         }
 
         private void SetSeriesMode(bool on)
         {
             seriesMode = on;
+            SetFollow(null);
             _guiOrbitDraw.SetPropMapData(Constants.NavComSeriesProp, seriesMode.ToString().ToLower());
             ReadData();
             SetSetting(setting);
@@ -379,7 +622,11 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             ShipSitu situ = COSelf?.ship?.objSS;
             JumpDrive.GetVelocity(COSelf?.ship, out double velocityX, out double velocityY);
             double magnitude = Math.Sqrt(velocityX * velocityX + velocityY * velocityY);
-            if (showPlot && situ != null && _guiOrbitDraw != null && magnitude > 0.0)
+            if (showPlot && seriesMode && plan != null && _guiOrbitDraw != null)
+            {
+                AddPlanPoints();
+            }
+            else if (showPlot && situ != null && _guiOrbitDraw != null && magnitude > 0.0)
             {
                 _guiOrbitDraw.SolarToCanvas(situ.vPosx, situ.vPosy, out double startX, out double startY);
                 double plotDistance = seriesMode ? JumpDistance + GetCoastDistance(PlotEnergy) : JumpDistance;
@@ -391,8 +638,8 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
                 if (seriesMode)
                 {
                     JumpDrive.JumpSeries series = Series;
-                    int fullJumps = Math.Min(series.Jumps, MaxPlotMarkers);
-                    for (int i = 1; i <= fullJumps; i++)
+                    int markers = Math.Min(series.Jumps, Constants.MaxSeriesJumps);
+                    for (int i = 1; i <= markers; i++)
                     {
                         double distance = series.FullJumpDistance * i + GetCoastDistance(Math.Min(capacity * i, PlotEnergy));
                         if (distance < plotDistance) AddPlotMarker(GetPlotPoint(situ, velocityX, velocityY, magnitude, distance));
@@ -414,10 +661,56 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             plotLine.Draw();
         }
 
+        //The plan is laid out against the aim point, so it is drawn from where the aim point is this frame. The line is
+        //drawn in pairs of points, each step its own segment and a burn's curve a run of them, a mark at each arrival.
+        private void AddPlanPoints()
+        {
+            if (!GetAimPoint(out double aimX, out double aimY) || plan.Steps.Count == 0) return;
+
+            Vector2 ToCanvas(double x, double y)
+            {
+                _guiOrbitDraw.SolarToCanvas(aimX + x, aimY + y, out double canvasX, out double canvasY);
+                return new Vector2((float)canvasX, (float)canvasY);
+            }
+
+            foreach (SeriesPlan.Step step in plan.Steps)
+            {
+                Vector2 start = ToCanvas(step.StartX, step.StartY);
+                if (step.Kind == SeriesPlan.StepKind.Burn)
+                {
+                    for (int i = 1; i <= PlotBurnPoints; i++)
+                    {
+                        double t = step.Duration * i / PlotBurnPoints;
+                        Vector2 point = ToCanvas(step.StartX + step.VelocityX * t + 0.5 * step.AccelerationX * t * t, step.StartY + step.VelocityY * t + 0.5 * step.AccelerationY * t * t);
+                        plotPoints.Add(start);
+                        plotPoints.Add(point);
+                        start = point;
+                    }
+                    continue;
+                }
+
+                Vector2 end = ToCanvas(step.EndX, step.EndY);
+                plotPoints.Add(start);
+                plotPoints.Add(end);
+                if (step.Kind == SeriesPlan.StepKind.Jump) AddPlotMarker(end);
+            }
+        }
+
+        //The running series' saved target, otherwise the crosshair's
+        private bool GetAimPoint(out double x, out double y)
+        {
+            Ship ship = COSelf?.ship;
+            JumpDrive.AimTarget aim;
+            bool found = JumpSequence.IsSteering(ship) ? SeriesTarget.TryResolve(ship, out aim) : JumpDrive.ResolvePOI(ship, GUIOrbitDraw.CrossHairTarget, out aim);
+            x = aim.X;
+            y = aim.Y;
+            return found;
+        }
+
         //In AU, how far the ship coasts while its cells recharge to spend this much of a series
         private double GetCoastDistance(double energy)
         {
-            return fillRate > 0.0 ? speed * Math.Max(energy - available, 0.0) / fillRate : 0.0;
+            return speed * JumpDrive.GetCoastTime(energy, available, fillRate);
         }
 
         private Vector2 GetPlotPoint(ShipSitu situ, double velocityX, double velocityY, double speed, double distance)
@@ -460,6 +753,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
                 nextDataTime = Time.unscaledTime + DataInterval;
                 ReadData();
                 SetSetting(setting);
+                FollowTarget();
                 RenderScreen();
             }
 
@@ -476,25 +770,62 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             Ship ship = COSelf.ship;
             List<CondOwner> installed = JumpCell.GetAllCells(ship);
             List<CondOwner> cells = installed.Where(JumpCell.IsOn).ToList();
+            List<CondOwner> taps = JumpTap.GetActiveTaps(ship);
+
+            //Each of these would otherwise scan the dock group for itself
+            List<CondOwner> installedEmitters = FieldContour.GetInstalledEmitters(ship);
+            List<CondOwner> emitters = FieldContour.GetWorkingEmitters(installedEmitters);
 
             cellCount = installed.Count;
             poweredCells = cells.Count;
-            available = cells.Sum(GetCharge);
+            available = JumpCell.GetTotalCharge(cells);
             capacity = cells.Sum(JumpCell.GetCapacity);
             chargeRate = cells.Sum(JumpCell.GetCurrentRate);
             chargeTime = cells.Count > 0 ? cells.Max(JumpCell.GetChargeTime) : -1.0;
-            activeTaps = ship != null ? ship.GetCOs(DataHandler.GetCondTrigger(Constants.TapActiveTrigger), bSubObjects: false, bAllowDocked: false, bAllowLocked: false).Count : 0;
-            minSetting = FieldContour.GetTotalFieldEnergy(ship);
-            emitterStatus = FieldContour.GetEmitterStatus(ship);
-            averageStrength = JumpDrive.GetAverageStrength(ship);
-            uncertainty = JumpDrive.GetUncertainty(ship);
+            activeTaps = taps.Count;
+            minSetting = FieldContour.GetTotalFieldEnergy(emitters);
+            emitterStatus = FieldContour.GetEmitterStatus(installedEmitters);
+            averageStrength = JumpDrive.GetAverageStrength(FieldContour.GetEmitters(emitters));
+            uncertainty = JumpDrive.GetUncertainty(emitters);
             speed = JumpDrive.GetSpeed(ship);
-            target = JumpDrive.GetTarget(ship, GUIOrbitDraw.CrossHairTarget, brakeOnTorch);
             fullMargin = JumpCell.GetFullMargin(cells);
-            fillRate = JumpCell.GetFillRate(ship, cells);
+            fillRate = JumpCell.GetFillRate(ship, cells, taps);
+            burnPerKWh = ReactorFuel.IsFusing(ship?.Reactor) ? JumpTap.GetShipBurnRate(taps) : 0.0;
             chargeWait = JumpCell.GetTimeUntilCharged(cells, setting - fullMargin);
             seriesEnergy = JumpSequence.GetSeriesEnergy(ship);
-            seriesState = JumpSequence.GetSeriesState(ship, out seriesWait);
+            seriesState = JumpSequence.GetSeriesState(ship, cells, out seriesWait);
+            ReadTarget(ship);
+        }
+
+        //A running series goes by the target and thrust it was started with, so the screens show what it is doing.
+        //One running without a target has no plan, it goes along its velocity whatever the crosshair is on.
+        private void ReadTarget(Ship ship)
+        {
+            JumpDrive.AimTarget aim;
+            bool running = seriesEnergy >= 0.0;
+            bool steering = JumpSequence.IsSteering(ship);
+            bool torch = steering ? SeriesTarget.CorrectsOnTorch(ship) : thrustOnTorch;
+            bool found = steering ? SeriesTarget.TryResolve(ship, out aim) : JumpDrive.ResolvePOI(ship, GUIOrbitDraw.CrossHairTarget, out aim);
+
+            target = found ? JumpDrive.GetTarget(ship, aim, torch, seriesMode) : new JumpDrive.JumpTarget { Name = aim.Name, Type = aim.Type };
+            plan = seriesMode && found && (steering || !running) && ship?.objSS != null ? JumpSequence.PlanSeries(ship, PlotEnergy, aim, torch) : null;
+
+            matchLeft = -1.0;
+            if (MatchTarget.TryResolve(ship, out JumpDrive.AimTarget match))
+            {
+                ShipSitu situ = ship.objSS;
+                JumpCorrection.GetMatchDeltaV(situ.vPosx - match.X, situ.vPosy - match.Y, situ.vVelX - match.VelocityX, situ.vVelY - match.VelocityY, MatchTarget.IsCross(ship), out double deltaX, out double deltaY);
+                matchLeft = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+                matchName = match.Name ?? "";
+            }
+
+            correctionLeft = 0.0;
+            if (found && seriesState == JumpSequence.SeriesState.Correcting)
+            {
+                ShipSitu situ = ship.objSS;
+                JumpCorrection.GetDeltaV(situ.vPosx - aim.X, situ.vPosy - aim.Y, situ.vVelX - aim.VelocityX, situ.vVelY - aim.VelocityY, out double deltaX, out double deltaY);
+                correctionLeft = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+            }
         }
 
         //Total kWh for a jump to the target, negative if it is out of reach
@@ -516,17 +847,12 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
 
         private double JumpTime => seriesMode ? Series.JumpTime : JumpDrive.GetJumpTime(setting - minSetting, averageStrength);
 
-        private double JumpDistance => seriesMode ? Series.Distance : JumpDrive.GetDistance(speed, JumpTime);
+        private double JumpDistance => seriesMode ? plan?.JumpDistance ?? Series.Distance : JumpDrive.GetDistance(speed, JumpTime);
 
         //If all of the available energy went into one jump, so the setting has no part in it
         private double TotalJumpDistance => JumpDrive.GetDistance(speed, JumpDrive.GetJumpTime(available - minSetting, averageStrength));
 
         private int JumpsAvailable => setting > 0f ? (int)Math.Floor((available + fullMargin) / setting) : 0;
-
-        private static double GetCharge(CondOwner cell)
-        {
-            return cell.GetCondAmount(Constants.CellChargeCond);
-        }
 
         private void RenderScreen()
         {
@@ -541,6 +867,9 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
                 case Page.Energy: return GetEnergyLines();
                 case Page.Plot: return GetPlotLines();
                 case Page.Target: return GetTargetLines();
+                case Page.Mode: return GetModeLines();
+                case Page.Error: return new[] { Title("ERROR") }.Concat(messageLines);
+                case Page.Confirm: return new[] { Title("CONFIRM") }.Concat(messageLines);
                 default: return GetMainLines();
             }
         }
@@ -554,11 +883,30 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
                 $"CHARGE: {FormatPercent(available, capacity)}",
                 $"RATE: {FzNumeric.FormatPower((float)chargeRate)}",
                 $"FULL IN: {FormatTime()}",
-                $"DISTANCE: {MathUtils.GetDistUnits(JumpDistance)}",
-                SeriesLine
+                $"DISTANCE: {MathUtils.GetDistUnits(JumpDistance)}"
             };
-            if (seriesMode) lines.Add(SeriesEtaLine);
+            if (seriesEnergy >= 0.0)
+            {
+                lines.Add(SeriesLine);
+                lines.Add(SeriesEtaLine);
+            }
+            if (matchLeft >= 0.0)
+            {
+                lines.Add(MatchLine);
+                lines.Add($"MATCH TARGET: {matchName.ToUpper()} ({(MatchTarget.IsCross(COSelf?.ship) ? "CROSS-VELOCITY" : "ALL VELOCITY")})");
+            }
+            if (JumpCorrection.IsLocked(COSelf?.ship)) lines.Add($"<color={WarnColor}>THRUST LOCKED</color>");
             return lines;
+        }
+
+        private IEnumerable<string> GetModeLines()
+        {
+            return new[]
+            {
+                Title(ModeKey),
+                $"JUMP TYPE: {(seriesMode ? "SERIES" : "SINGLE")}",
+                $"THRUST: {(thrustOnTorch ? "TORCH" : "RCS")}"
+            };
         }
 
         private IEnumerable<string> GetEnergyLines()
@@ -577,22 +925,88 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
 
         private IEnumerable<string> GetPlotLines()
         {
-            List<string> lines = new List<string>
+            if (seriesMode) return GetSeriesPlotLines();
+
+            return new[]
             {
-                Title(seriesMode ? PlotKey + " SERIES" : PlotKey),
-                $"SETTING: {FzNumeric.FormatEnergy((float)PlotEnergy)}",
-                $"OF AVAILABLE: {FormatPercent(PlotEnergy, available)}",
-                seriesMode ? $"JUMPS: {Series.Jumps}" : JumpsAvailable > 0 ? $"JUMPS: {JumpsAvailable}" : $"JUMPS: 0 READY IN {FzNumeric.FormatDuration((float)Math.Ceiling(chargeWait))}",
+                Title(PlotKey),
+                $"SETTING: {FzNumeric.FormatEnergy(setting)}",
+                setting > available + fullMargin ? $"CHARGE USED: {FormatPercent(setting, capacity)} ({FormatPercent(available, capacity)} AVAILABLE)" : $"CHARGE USED: {FormatPercent(setting, capacity)}",
+                JumpsAvailable > 0 ? $"JUMPS: {JumpsAvailable}" : $"JUMPS: 0 READY IN {FzNumeric.FormatDuration((float)Math.Ceiling(chargeWait))}",
                 $"JUMP TIME: {FzNumeric.FormatDuration((float)Math.Ceiling(JumpTime))} +/-{uncertainty:0.#}%",
                 $"JUMP DISTANCE: {MathUtils.GetDistUnits(JumpDistance)}",
                 $"TOTAL JUMP DISTANCE: {MathUtils.GetDistUnits(TotalJumpDistance)}"
             };
-            if (seriesMode)
+        }
+
+        //The plan while it is idle, what is left of it once it is running. Without a target there is no plan, the
+        //series goes along the current velocity with no corrections.
+        private IEnumerable<string> GetSeriesPlotLines()
+        {
+            JumpDrive.JumpSeries series = Series;
+            if (plan == null)
             {
-                lines.Add(SeriesLine);
-                lines.Add(SeriesEtaLine);
+                double coast = GetCoastDistance(PlotEnergy);
+                return new[]
+                {
+                    Title(PlotKey + " SERIES"),
+                    SeriesLine,
+                    $"ENERGY LEFT: {FzNumeric.FormatEnergy((float)PlotEnergy)}",
+                    series.Jumps > series.FullJumps ? $"JUMPS: {series.Jumps} ({series.FullJumps} FULL + 1 SHORT)" : $"JUMPS: {series.Jumps}",
+                    $"EACH JUMP: {MathUtils.GetDistUnits(series.FullJumpDistance)} +/-{uncertainty:0.#}%",
+                    $"JUMP DISTANCE: {MathUtils.GetDistUnits(series.Distance)}",
+                    $"COAST: {MathUtils.GetDistUnits(coast)}",
+                    "CORRECTION: NO TARGET",
+                    $"TOTAL DISTANCE: {MathUtils.GetDistUnits(series.Distance + coast)}",
+                    SeriesEtaLine,
+                    ReactantLine
+                };
             }
-            return lines;
+
+            int shortJumps = plan.Jumps - plan.FullJumps;
+            return new[]
+            {
+                Title(PlotKey + " SERIES"),
+                SeriesLine,
+                $"ENERGY LEFT: {FzNumeric.FormatEnergy((float)PlotEnergy)}",
+                shortJumps > 0 ? $"JUMPS: {plan.Jumps} ({plan.FullJumps} FULL + {shortJumps} SHORT)" : $"JUMPS: {plan.Jumps}",
+                $"EACH JUMP: {MathUtils.GetDistUnits(series.FullJumpDistance)} +/-{uncertainty:0.#}%",
+                $"JUMP DISTANCE: {MathUtils.GetDistUnits(plan.JumpDistance)}",
+                $"COAST: {MathUtils.GetDistUnits(plan.CoastDistance)}",
+                CorrectionLine,
+                $"TOTAL DISTANCE: {MathUtils.GetDistUnits(plan.PathDistance)}",
+                SeriesEtaLine,
+                ReactantLine,
+                $"BRAKE: {(target.BrakesOnTorch ? "TORCH" : "RCS")}, {MathUtils.GetDistUnits(target.RelativeSpeed)}/s, {(target.BrakingTime < 0.0 ? "--" : FzNumeric.FormatDuration((float)Math.Ceiling(target.BrakingTime)))}"
+            };
+        }
+
+        //What the plan's corrections add up to, or why it stops short at one
+        private string CorrectionLine
+        {
+            get
+            {
+                if (plan.Stop == SeriesPlan.StopReason.NoThrust) return $"<color={DangerColor}>CORRECTION: NO THRUST</color>";
+                if (plan.Stop == SeriesPlan.StopReason.NoFuel) return $"<color={DangerColor}>CORRECTION: NOT ENOUGH RCS</color>";
+                if (plan.CorrectionDeltaV <= 0.0) return "CORRECTION: NONE";
+
+                //The same order as BRAKE, the thrust first, with the propellant RCS takes last
+                bool rcs = plan.RcsFuel > 0.0;
+                string thrust = plan.TorchUsed ? (rcs ? "TORCH + RCS" : "TORCH") : "RCS";
+                string fuel = rcs ? $", {plan.RcsFuel:0.##}kg" : "";
+                return $"CORRECTION: {thrust}, {MathUtils.GetDistUnits(plan.CorrectionDeltaV)}/s{fuel}";
+            }
+        }
+
+        //What the recharges still to come would burn, taps being the only part of charging that does
+        private string ReactantLine
+        {
+            get
+            {
+                double burn = Math.Max(PlotEnergy - available, 0.0) * burnPerKWh;
+                if (burn <= 0.0) return "REACTANT: NONE";
+                return $"REACTANT: {burn * FusionIC.aReactantAmounts[0]:0.##}kg D2O, {burn * FusionIC.aReactantAmounts[1]:0.##}kg He-3";
+            }
         }
 
         private IEnumerable<string> GetTargetLines()
@@ -617,8 +1031,8 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
                 $"TYPE: {target.Type.ToString().ToUpper()}",
                 $"DIST: {MathUtils.GetDistUnits(target.Distance)}",
                 $"BUFFER: {MathUtils.GetDistUnits(target.Buffer)}",
-                $"BRAKING: {MathUtils.GetDistUnits(target.Braking)}",
-                $"RVEL: {MathUtils.GetDistUnits(target.RelativeSpeed)}/s",
+                $"BRAKING: {MathUtils.GetDistUnits(target.Braking)} ({ThrustName})",
+                $"VREL: {MathUtils.GetDistUnits(target.RelativeSpeed)}/s",
                 DecelEtaLine,
                 $"MIN PLOT VEL: {(minSpeed < 0.0 ? "--" : MathUtils.GetDistUnits(minSpeed) + "/s")}",
                 $"MIN PLOT ENERGY: {(energy < 0.0 ? "--" : FzNumeric.FormatEnergy((float)energy))}"
@@ -630,6 +1044,41 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             return $"<align=center>====[ {name} ]====</align>";
         }
 
+        //Says why a torch asked for isn't being used, and when a series stops short of a no wake zone to use it
+        private string ThrustName
+        {
+            get
+            {
+                switch (target.TorchBlock)
+                {
+                    case JumpDrive.TorchBlock.NoTorch: return "RCS, NO TORCH";
+                    case JumpDrive.TorchBlock.NoWakeZone: return "RCS, IN NO WAKE ZONE";
+                    default:
+                        if (target.OutsideNoWakeZone) return "TORCH, OUTSIDE NO WAKE ZONE";
+                        return target.BrakesOnTorch ? "TORCH" : "RCS";
+                }
+            }
+        }
+
+        //What a running match's burn is doing and what it has left to take out
+        private string MatchLine
+        {
+            get
+            {
+                Ship ship = COSelf?.ship;
+                if (JumpCorrection.IsWaiting(ship)) return "MATCH: STALLED, NO THRUST";
+
+                string left = $"{MathUtils.GetDistUnits(matchLeft)}/s LEFT";
+                switch (JumpCorrection.GetBurnState(ship))
+                {
+                    case JumpCorrection.BurnState.Turning: return $"MATCH: TURNING FOR TORCH, {left}";
+                    case JumpCorrection.BurnState.Torch: return $"MATCH: BURNING ON TORCH, {left}";
+                    case JumpCorrection.BurnState.Rcs: return $"MATCH: BURNING ON RCS, {left}";
+                    default: return $"MATCH: STARTING, {left}";
+                }
+            }
+        }
+
         private string SeriesLine
         {
             get
@@ -638,8 +1087,13 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
                 {
                     case JumpSequence.SeriesState.Jumping: return "SERIES: JUMPING";
                     case JumpSequence.SeriesState.Thrusting: return "SERIES: HOLDING FOR THRUST";
-                    case JumpSequence.SeriesState.Recharging: return $"SERIES: NEXT JUMP IN {FzNumeric.FormatDuration((float)Math.Ceiling(seriesWait))}";
-                    default: return "SERIES: IDLE";
+                    case JumpSequence.SeriesState.Correcting: return $"SERIES: CORRECTING, {MathUtils.GetDistUnits(correctionLeft)}/s LEFT";
+                    case JumpSequence.SeriesState.NoThrust: return "SERIES: STALLED, NO THRUST TO CORRECT";
+                    case JumpSequence.SeriesState.Recharging:
+                        if (seriesWait >= 0.0) return $"SERIES: NEXT JUMP IN {FzNumeric.FormatDuration((float)Math.Ceiling(seriesWait))}";
+                        if (capacity <= minSetting) return "SERIES: STALLED, CELLS TOO SMALL";
+                        return fillRate > 0.0 ? "SERIES: STALLED" : "SERIES: STALLED, NO CHARGE SOURCE";
+                    default: return calcTarget != null ? "SERIES: IDLE, FOLLOWING TARGET" : "SERIES: IDLE";
                 }
             }
         }
@@ -658,14 +1112,18 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             }
         }
 
-        //Time left is all recharging, the same time the plot's coasting is worked out from
+        //Time left is the plan's recharging and corrections, without a plan all recharging
         private string SeriesEtaLine
         {
             get
             {
-                double recharge = Math.Max(PlotEnergy - available, 0.0);
-                if (recharge > 0.0 && fillRate <= 0.0) return "SERIES ETA: --";
-                return $"SERIES ETA: {FzNumeric.FormatDuration((float)Math.Ceiling(recharge > 0.0 ? recharge / fillRate : 0.0))}";
+                if (plan != null)
+                {
+                    if (plan.Stop != SeriesPlan.StopReason.OutOfEnergy && plan.Stop != SeriesPlan.StopReason.Arrived) return "SERIES ETA: --";
+                    return $"SERIES ETA: {FzNumeric.FormatDuration((float)Math.Ceiling(plan.Time))}";
+                }
+                if (PlotEnergy > available && fillRate <= 0.0) return "SERIES ETA: --";
+                return $"SERIES ETA: {FzNumeric.FormatDuration((float)Math.Ceiling(JumpDrive.GetCoastTime(PlotEnergy, available, fillRate)))}";
             }
         }
 

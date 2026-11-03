@@ -1,4 +1,4 @@
-﻿using Freznel.FzAdditions.UI.Controls;
+using Freznel.FzAdditions.UI.Controls;
 using Freznel.FzAdditions.Util;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
 
             //Test lamp button
 
-            testBtn = UnityUtil.FindDescendant(gameObject.transform, "TestLampBtn").GetComponent<LampBtn>();
+            testBtn = UnityUtil.FindDescendant<LampBtn>(gameObject.transform, "TestLampBtn");
             testBtn.OnChanged += (bool val) =>
             {
                 FzAdditions.Logger.LogInfo($"Btn state: ${val}");

@@ -54,27 +54,27 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         {
             base.Init(coSelf, dict, strCOKey);
 
-            pwrLamp = UnityUtil.FindDescendant(gameObject.transform, "PwrLamp").GetComponent<FzLamp>();
-            fusingLamp = UnityUtil.FindDescendant(gameObject.transform, "FusingLamp").GetComponent<FzLamp>();
-            chargingLamp = UnityUtil.FindDescendant(gameObject.transform, "ChargingLamp").GetComponent<FzLamp>();
+            pwrLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "PwrLamp");
+            fusingLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "FusingLamp");
+            chargingLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "ChargingLamp");
 
-            FzRocker chargeRocker = UnityUtil.FindDescendant(gameObject.transform, "ChargeRocker").GetComponent<FzRocker>();
+            FzRocker chargeRocker = UnityUtil.FindDescendant<FzRocker>(gameObject.transform, "ChargeRocker");
             chargeRocker.SetOnWithoutNotify(JumpTap.IsChargeEnabled(COSelf));
             chargeRocker.OnChanged += (bool val) => SetPropMapData(Constants.TapChargeProp, val.ToString().ToLower());
 
-            FzSlider rateSlider = UnityUtil.FindDescendant(gameObject.transform, "RateSlider").GetComponent<FzSlider>();
+            FzSlider rateSlider = UnityUtil.FindDescendant<FzSlider>(gameObject.transform, "RateSlider");
             rateSlider.SetRange(0f, (float)JumpTap.GetMaxRate(COSelf), RateStep);
             rateSlider.SetValueWithoutNotify((float)JumpTap.GetRateSetting(COSelf));
             rateSlider.OnChanged += (float val) => SetPropMapData(Constants.TapRateProp, val.ToString(CultureInfo.InvariantCulture));
 
-            cellsDisplay = UnityUtil.FindDescendant(gameObject.transform, "CellsDisplay").GetComponent<FzNumeric>();
-            chargeDisplay = UnityUtil.FindDescendant(gameObject.transform, "ChargeDisplay").GetComponent<FzNumeric>();
+            cellsDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "CellsDisplay");
+            chargeDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "ChargeDisplay");
             chargeDisplay.Formatter = FzNumeric.FormatEnergy;
-            capacityDisplay = UnityUtil.FindDescendant(gameObject.transform, "CapacityDisplay").GetComponent<FzNumeric>();
+            capacityDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "CapacityDisplay");
             capacityDisplay.Formatter = FzNumeric.FormatEnergy;
-            rateDisplay = UnityUtil.FindDescendant(gameObject.transform, "RateDisplay").GetComponent<FzNumeric>();
+            rateDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "RateDisplay");
             rateDisplay.Formatter = FzNumeric.FormatPower;
-            timeDisplay = UnityUtil.FindDescendant(gameObject.transform, "TimeDisplay").GetComponent<FzNumeric>();
+            timeDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "TimeDisplay");
             timeDisplay.Formatter = FzNumeric.FormatDuration;
 
             UpdateLamps();
@@ -106,17 +106,11 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             double rate = charging.Sum(JumpCell.GetCurrentRate);
             double missing = charging.Sum(JumpCell.GetMissingCharge);
 
-            SetDisplay(cellsDisplay, cells.Count);
-            SetDisplay(chargeDisplay, cells.Sum(cell => cell.GetCondAmount(Constants.CellChargeCond)));
-            SetDisplay(capacityDisplay, cells.Sum(JumpCell.GetCapacity));
-            SetDisplay(rateDisplay, rate);
-            SetDisplay(timeDisplay, rate > 0.0 ? Math.Ceiling(missing / rate * 3600.0) : -1.0);
-        }
-
-        //The text only needs rebuilding when the value has moved
-        private static void SetDisplay(FzNumeric display, double value)
-        {
-            if (display.Value != (float)value) display.Value = (float)value;
+            cellsDisplay.Value = cells.Count;
+            chargeDisplay.Value = (float)JumpCell.GetTotalCharge(cells);
+            capacityDisplay.Value = (float)cells.Sum(JumpCell.GetCapacity);
+            rateDisplay.Value = (float)rate;
+            timeDisplay.Value = rate > 0.0 ? (float)Math.Ceiling(missing / rate * Constants.SecondsPerHour) : -1f;
         }
 
     }

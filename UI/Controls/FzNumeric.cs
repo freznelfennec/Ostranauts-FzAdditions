@@ -99,6 +99,8 @@ namespace Freznel.FzAdditions.UI.Controls
             get => _value;
             set
             {
+                //The text only needs rebuilding when the value has moved
+                if (_value == value) return;
                 _value = value;
                 UpdateText();
             }

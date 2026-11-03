@@ -110,8 +110,7 @@ namespace Freznel.FzAdditions.UI
             this.ship = ship;
             points = curve.ToArray();
             normals = GetOutwardNormals(points);
-            innerLimits = GetSideLimits(points, normals, -1f);
-            outerLimits = GetSideLimits(points, normals, 1f);
+            GetSideLimits(points, normals, out innerLimits, out outerLimits);
 
             //Not parented, the camera moves and mesh vertices are in world space
             contourRibbon = FzRibbon.Create("FzJumpContour", GetGlowMaterial(), points.Length);
@@ -136,6 +135,28 @@ namespace Freznel.FzAdditions.UI
         {
             if (glowMaterial != null) return glowMaterial;
 
+            Texture2D texture = new Texture2D(1, GlowTextureSize, TextureFormat.RGBA32, false);
+            texture.wrapMode = TextureWrapMode.Clamp;
+            for (int y = 0; y < GlowTextureSize; y++)
+            {
+                texture.SetPixel(0, y, GetGlowPixel(Mathf.Abs(2f * y / (GlowTextureSize - 1f) - 1f)));
+            }
+            texture.Apply();
+
+            glowMaterial = CreateGlowMaterial(texture);
+            return glowMaterial;
+        }
+
+        //Edge is 0 at the glow's center and 1 where it has faded out
+        private static Color GetGlowPixel(float edge)
+        {
+            Color color = Color.Lerp(Color.white, GlowColor, Mathf.Clamp01(edge / GlowCoreSize));
+            color.a = Mathf.Pow(1f - edge, GlowFalloff);
+            return color;
+        }
+
+        private static Material CreateGlowMaterial(Texture2D texture)
+        {
             Shader shader = Shader.Find(GlowShader);
             if (shader == null)
             {
@@ -143,20 +164,9 @@ namespace Freznel.FzAdditions.UI
                 return null;
             }
 
-            Texture2D texture = new Texture2D(1, GlowTextureSize, TextureFormat.RGBA32, false);
-            texture.wrapMode = TextureWrapMode.Clamp;
-            for (int y = 0; y < GlowTextureSize; y++)
-            {
-                float edge = Mathf.Abs(2f * y / (GlowTextureSize - 1f) - 1f);
-                Color color = Color.Lerp(Color.white, GlowColor, Mathf.Clamp01(edge / GlowCoreSize));
-                color.a = Mathf.Pow(1f - edge, GlowFalloff);
-                texture.SetPixel(0, y, color);
-            }
-            texture.Apply();
-
-            glowMaterial = new Material(shader);
-            glowMaterial.mainTexture = texture;
-            return glowMaterial;
+            Material material = new Material(shader);
+            material.mainTexture = texture;
+            return material;
         }
 
         //The shader doubles its tint, so a tint of 0.5 leaves the texture as it is. A property block fades the whole mesh in one call.
@@ -251,13 +261,6 @@ namespace Freznel.FzAdditions.UI
         {
             if (emitterGlowMaterial != null) return emitterGlowMaterial;
 
-            Shader shader = Shader.Find(GlowShader);
-            if (shader == null)
-            {
-                FzAdditions.Logger.LogError("Could not find shader " + GlowShader);
-                return null;
-            }
-
             Texture2D texture = new Texture2D(GlowTextureSize, GlowTextureSize, TextureFormat.RGBA32, false);
             texture.wrapMode = TextureWrapMode.Clamp;
             for (int y = 0; y < GlowTextureSize; y++)
@@ -265,16 +268,12 @@ namespace Freznel.FzAdditions.UI
                 for (int x = 0; x < GlowTextureSize; x++)
                 {
                     Vector2 position = new Vector2(2f * x / (GlowTextureSize - 1f) - 1f, 2f * y / (GlowTextureSize - 1f) - 1f);
-                    float edge = Mathf.Clamp01(position.magnitude);
-                    Color color = Color.Lerp(Color.white, GlowColor, Mathf.Clamp01(edge / GlowCoreSize));
-                    color.a = Mathf.Pow(1f - edge, GlowFalloff);
-                    texture.SetPixel(x, y, color);
+                    texture.SetPixel(x, y, GetGlowPixel(Mathf.Clamp01(position.magnitude)));
                 }
             }
             texture.Apply();
 
-            emitterGlowMaterial = new Material(shader);
-            emitterGlowMaterial.mainTexture = texture;
+            emitterGlowMaterial = CreateGlowMaterial(texture);
             return emitterGlowMaterial;
         }
 
@@ -311,28 +310,39 @@ namespace Freznel.FzAdditions.UI
 
         //How far from each point the band can reach to one side before it meets another part of the loop. That is the
         //radius of the largest circle touching the loop there on that side, and each other point sets a limit on it.
-        //Side is 1 for outward and -1 for inward. Points within the normals' smoothing are skipped, a smoothed normal
-        //isn't square to the curve, so they would read as a tight bend.
-        private static float[] GetSideLimits(Vector2[] points, Vector2[] normals, float side)
+        //Points within the normals' smoothing are skipped, a smoothed normal isn't square to the curve, so they would
+        //read as a tight bend.
+        private static void GetSideLimits(Vector2[] points, Vector2[] normals, out float[] inner, out float[] outer)
         {
             int count = points.Length;
-            float[] limits = new float[count];
+            inner = new float[count];
+            outer = new float[count];
             for (int i = 0; i < count; i++)
             {
-                float limit = float.MaxValue;
+                float innerLimit = float.MaxValue;
+                float outerLimit = float.MaxValue;
                 for (int j = 0; j < count; j++)
                 {
                     int apart = Mathf.Abs(i - j);
                     if (Mathf.Min(apart, count - apart) <= NormalSmoothing) continue;
 
                     Vector2 offset = points[j] - points[i];
-                    float along = Vector2.Dot(offset, normals[i]) * side;
-                    if (along > 0f) limit = Mathf.Min(limit, offset.sqrMagnitude / (2f * along));
+                    float along = Vector2.Dot(offset, normals[i]);
+                    if (along > 0f) outerLimit = Mathf.Min(outerLimit, offset.sqrMagnitude / (2f * along));
+                    else if (along < 0f) innerLimit = Mathf.Min(innerLimit, offset.sqrMagnitude / (-2f * along));
                 }
-                limits[i] = limit;
+                inner[i] = innerLimit;
+                outer[i] = outerLimit;
             }
 
-            //Moving along the loop can't change the limit faster than the distance moved, this keeps the edge free of notches
+            RelaxLimits(points, inner);
+            RelaxLimits(points, outer);
+        }
+
+        //Moving along the loop can't change the limit faster than the distance moved, this keeps the edge free of notches
+        private static void RelaxLimits(Vector2[] points, float[] limits)
+        {
+            int count = points.Length;
             for (int i = 1; i < count * 2; i++)
             {
                 int point = i % count;
@@ -345,7 +355,6 @@ namespace Freznel.FzAdditions.UI
                 int last = (i + 1) % count;
                 limits[point] = Mathf.Min(limits[point], limits[last] + (points[point] - points[last]).magnitude);
             }
-            return limits;
         }
 
         private void LateUpdate()

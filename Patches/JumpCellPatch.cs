@@ -19,8 +19,8 @@ namespace Freznel.FzAdditions.Patches
             CondOwner co = __instance.CO;
             if (!JumpCell.IsCell(co)) return;
 
-            //A series recharges its cells itself once the time skip is over
-            if (GUIFFWD.Active && JumpSequence.IsSeriesRunning(co.ship)) return;
+            //A series recharges its cells itself through a time skip, even one it finishes partway through
+            if (GUIFFWD.Active && (JumpSequence.IsSeriesRunning(co.ship) || JumpSequence.IsSkipped(co.ship))) return;
 
             JumpCell.Recharge(__instance, JumpCell.GetTimeSinceUpdate(__instance));
         }

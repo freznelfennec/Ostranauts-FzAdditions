@@ -79,13 +79,11 @@ namespace Freznel.FzAdditions.Util
         //broken. No emitters at all can't raise a field, so that is Danger too.
         public static EmitterStatus GetEmitterStatus(Ship ship)
         {
-            List<CondOwner> installed = new List<CondOwner>();
-            foreach (Ship member in GetDockGroup(ship))
-            {
-                installed.AddRange(member.GetCOs(null, bSubObjects: false, bAllowDocked: false, bAllowLocked: true)
-                    .Where(co => co != null && co.HasCond(Constants.EmitterCond) && co.HasCond("IsInstalled")));
-            }
+            return GetEmitterStatus(GetInstalledEmitters(ship));
+        }
 
+        public static EmitterStatus GetEmitterStatus(List<CondOwner> installed)
+        {
             if (installed.Count == 0 || installed.Any(co => co.HasCond("IsDamaged"))) return EmitterStatus.Danger;
             return installed.Any(co => co.GetDamageState() <= NormalEmitterCondition) ? EmitterStatus.Warn : EmitterStatus.Normal;
         }
@@ -93,7 +91,12 @@ namespace Freznel.FzAdditions.Util
         //In kWh, what the working emitters need at their current settings
         public static double GetTotalFieldEnergy(Ship ship)
         {
-            return GetEmitterCOs(ship).Sum(co => GetFieldEnergy(co, GetOffset(co)));
+            return GetTotalFieldEnergy(GetEmitterCOs(ship));
+        }
+
+        public static double GetTotalFieldEnergy(List<CondOwner> emitters)
+        {
+            return emitters.Sum(co => GetFieldEnergy(co, GetOffset(co)));
         }
 
         //Everything in the dock group, flagged if the field would lose it. Nothing is flagged without a contour.
@@ -116,24 +119,35 @@ namespace Freznel.FzAdditions.Util
         //Working emitters installed anywhere in the ship's dock group
         public static List<Emitter> GetEmitters(Ship ship)
         {
+            return GetEmitters(GetEmitterCOs(ship));
+        }
+
+        public static List<Emitter> GetEmitters(List<CondOwner> emitters)
+        {
             //The item's exterior tile is at the top of its footprint, and rotating the item rotates its transform
-            return GetEmitterCOs(ship).Select(co => new Emitter(co.GetPos(), co.tf.up, GetOffset(co), GetMaxSegmentLength(co), co)).ToList();
+            return emitters.Select(co => new Emitter(co.GetPos(), co.tf.up, GetOffset(co), GetMaxSegmentLength(co), co)).ToList();
         }
 
         public static List<CondOwner> GetEmitterCOs(Ship ship)
         {
-            List<CondOwner> emitters = new List<CondOwner>();
-            if (ship == null) return emitters;
+            return GetWorkingEmitters(GetInstalledEmitters(ship));
+        }
 
+        public static List<CondOwner> GetWorkingEmitters(List<CondOwner> installed)
+        {
+            return installed.Where(co => !co.HasCond("IsDamaged")).ToList();
+        }
+
+        //Every emitter installed in the ship's dock group, damaged ones included
+        public static List<CondOwner> GetInstalledEmitters(Ship ship)
+        {
+            List<CondOwner> installed = new List<CondOwner>();
             foreach (Ship member in GetDockGroup(ship))
             {
-                foreach (CondOwner co in member.GetCOs(null, bSubObjects: false, bAllowDocked: false, bAllowLocked: true))
-                {
-                    if (co == null || !co.HasCond(Constants.EmitterCond) || !co.HasCond("IsInstalled") || co.HasCond("IsDamaged")) continue;
-                    emitters.Add(co);
-                }
+                installed.AddRange(member.GetCOs(null, bSubObjects: false, bAllowDocked: false, bAllowLocked: true)
+                    .Where(co => co != null && co.HasCond(Constants.EmitterCond) && co.HasCond("IsInstalled")));
             }
-            return emitters;
+            return installed;
         }
 
         //From 0 to 1, how far the emitter is pushed past its normal limits
@@ -307,22 +321,44 @@ namespace Freznel.FzAdditions.Util
             return ship != null && !ship.bDestroyed && !ship.IsStation(bIgnoreDocks: true) && ship.LoadState >= Ship.Loaded.Edit;
         }
 
-        //Top-level COs with every tile outside the contour, contained COs go with their container
-        public static List<CondOwner> FindOutside(Ship ship)
+        //What RemoveOutside would do
+        public struct RemovalReport
         {
-            return Classify(ship).SelectMany(result => result.Outside).ToList();
+            public int Destroyed; //Top-level COs with every tile outside the contour, contained COs go with their container
+            public int Broken; //Those the contour passes through, with tiles on both sides of it
+            public int Crew; //Characters who would fall away
+            public int Undocked; //Docked ships that would leave rather than having their COs removed
         }
 
-        //Top-level COs the contour passes through, with tiles on both sides of it
-        public static List<CondOwner> FindIntersecting(Ship ship)
+        public static RemovalReport GetRemovalReport(Ship ship)
         {
-            return Classify(ship).SelectMany(result => result.Intersecting).ToList();
+            List<ShipResult> results = Classify(ship);
+            RemovalReport report = new RemovalReport { Undocked = FindDetached(ship, results, out HashSet<Ship> detached, out _).Count };
+
+            foreach (ShipResult result in results)
+            {
+                if (detached.Contains(result.Ship)) continue;
+
+                HashSet<string> keep = GetKeptPorts(result.Ship);
+                report.Crew += result.Outside.Count(co => co.IsHumanOrRobot);
+                report.Destroyed += result.Outside.Count(co => !co.IsHumanOrRobot && !IsProtected(co, keep));
+                report.Broken += result.Intersecting.Count(co => !co.IsHumanOrRobot && !IsProtected(co, keep));
+            }
+            return report;
         }
 
-        //Docked ships that would be undocked rather than having their COs removed
-        public static List<Ship> FindShipsToUndock(Ship ship)
+        //Read once, the ship picks a new primary as soon as the current one is gone.
+        //Ports in use are kept too, losing one would break the dock group.
+        private static HashSet<string> GetKeptPorts(Ship ship)
         {
-            return FindDetached(ship, Classify(ship), out _);
+            HashSet<string> keep = new HashSet<string>(ship.GetDockedShipsAndPortIDs().Keys);
+            keep.Add(ship.PrimaryDockingPortID);
+            return keep;
+        }
+
+        private static bool IsProtected(CondOwner co, HashSet<string> keptPorts)
+        {
+            return co.HasCond("IsImmuneAnnihilation") || keptPorts.Contains(co.strID);
         }
 
         private class ShipResult
@@ -367,12 +403,12 @@ namespace Freznel.FzAdditions.Util
 
         //Returns the ships to undock. Detached also has everything still docked to them, which leaves with them.
         //The player's ship is never sent away, it would unload around them, so its COs are handled as normal instead.
-        private static List<Ship> FindDetached(Ship ship, List<ShipResult> results, out HashSet<Ship> detached)
+        private static List<Ship> FindDetached(Ship ship, List<ShipResult> results, out HashSet<Ship> detached, out Dictionary<Ship, Ship> parents)
         {
             detached = new HashSet<Ship>();
             List<Ship> toUndock = new List<Ship>();
 
-            List<Ship> group = GetDockTree(ship, out Dictionary<Ship, Ship> parents);
+            List<Ship> group = GetDockTree(ship, out parents);
             foreach (Ship member in group)
             {
                 if (member == ship) continue;
@@ -447,8 +483,7 @@ namespace Freznel.FzAdditions.Util
             List<ShipResult> results = Classify(ship);
             if (results.Count == 0) return removed;
 
-            List<Ship> toUndock = FindDetached(ship, results, out HashSet<Ship> detached);
-            GetDockTree(ship, out Dictionary<Ship, Ship> parents);
+            List<Ship> toUndock = FindDetached(ship, results, out HashSet<Ship> detached, out Dictionary<Ship, Ship> parents);
             foreach (Ship docked in toUndock)
             {
                 Undock(parents[docked], docked);
@@ -461,10 +496,7 @@ namespace Freznel.FzAdditions.Util
                 Ship member = result.Ship;
                 if (detached.Contains(member)) continue;
 
-                //Read once, the ship picks a new primary as soon as the current one is gone.
-                //Ports in use are kept too, losing one would break the dock group.
-                HashSet<string> keep = new HashSet<string>(member.GetDockedShipsAndPortIDs().Keys);
-                keep.Add(member.PrimaryDockingPortID);
+                HashSet<string> keep = GetKeptPorts(member);
 
                 foreach (CondOwner co in result.Outside)
                 {
@@ -474,7 +506,7 @@ namespace Freznel.FzAdditions.Util
                         characters.Add(co);
                         continue;
                     }
-                    if (co.HasCond("IsImmuneAnnihilation") || keep.Contains(co.strID)) continue;
+                    if (IsProtected(co, keep)) continue;
 
                     co.RemoveFromCurrentHome(bForce: true);
                     co.Destroy();
@@ -484,7 +516,7 @@ namespace Freznel.FzAdditions.Util
                 foreach (CondOwner co in result.Intersecting)
                 {
                     if (co == null || co.bDestroyed || co.ship != member) continue;
-                    if (co.IsHumanOrRobot || co.HasCond("IsImmuneAnnihilation") || keep.Contains(co.strID)) continue;
+                    if (co.IsHumanOrRobot || IsProtected(co, keep)) continue;
                     if (DestroyLikeWeapon(co)) damaged++;
                 }
             }
@@ -580,27 +612,16 @@ namespace Freznel.FzAdditions.Util
         //Closed centripetal Catmull-Rom curve through the corners, which stays close to them without loops or large overshoots
         public static List<Vector2> Smooth(IList<Vector2> corners, int segmentsPerCorner = SmoothSegments)
         {
-            List<Vector2> curve = new List<Vector2>();
-            if (corners == null || corners.Count < MinPoints) return curve;
-
-            int count = corners.Count;
-            for (int i = 0; i < count; i++)
-            {
-                Vector2 before = corners[(i + count - 1) % count];
-                Vector2 start = corners[i];
-                Vector2 end = corners[(i + 1) % count];
-                Vector2 after = corners[(i + 2) % count];
-
-                for (int segment = 0; segment < segmentsPerCorner; segment++)
-                {
-                    curve.Add(CurvePoint(before, start, end, after, (float)segment / segmentsPerCorner));
-                }
-            }
-            return curve;
+            return BuildCurve(corners, (before, start, end, after) => segmentsPerCorner);
         }
 
         //The same curve with each stretch divided by its length and how sharply it turns, whichever needs more lines
         public static List<Vector2> SmoothAdaptive(IList<Vector2> corners)
+        {
+            return BuildCurve(corners, GetSegmentCount);
+        }
+
+        private static List<Vector2> BuildCurve(IList<Vector2> corners, Func<Vector2, Vector2, Vector2, Vector2, int> getSegments)
         {
             List<Vector2> curve = new List<Vector2>();
             if (corners == null || corners.Count < MinPoints) return curve;
@@ -613,7 +634,7 @@ namespace Freznel.FzAdditions.Util
                 Vector2 end = corners[(i + 1) % count];
                 Vector2 after = corners[(i + 2) % count];
 
-                int segments = GetSegmentCount(before, start, end, after);
+                int segments = getSegments(before, start, end, after);
                 for (int segment = 0; segment < segments; segment++)
                 {
                     curve.Add(CurvePoint(before, start, end, after, (float)segment / segments));

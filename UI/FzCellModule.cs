@@ -27,7 +27,7 @@ namespace Freznel.FzAdditions.UI
         protected override IEnumerable<string> GetLines()
         {
             float capacity = (float)JumpCell.GetCapacity(CO);
-            float charge = (float)CO.GetCondAmount(Constants.CellChargeCond);
+            float charge = (float)JumpCell.GetCharge(CO);
 
             List<string> lines = new List<string>
             {

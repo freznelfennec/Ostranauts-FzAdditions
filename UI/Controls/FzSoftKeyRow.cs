@@ -60,7 +60,7 @@ namespace Freznel.FzAdditions.UI.Controls
 
             //The same sounds as the Sensors keys
             GUIAudioBtn audio = key.AddComponent<GUIAudioBtn>();
-            GUIAudioBtn source = UnityUtil.FindDescendant(Resources.Load<GameObject>(SpritePrefab)?.transform, AudioSource)?.GetComponent<GUIAudioBtn>();
+            GUIAudioBtn source = UnityUtil.FindDescendant<GUIAudioBtn>(Resources.Load<GameObject>(SpritePrefab)?.transform, AudioSource);
             if (source != null)
             {
                 audio.strAudioEmitterDown = source.strAudioEmitterDown;

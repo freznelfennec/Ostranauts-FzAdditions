@@ -17,111 +17,95 @@ namespace Freznel.FzAdditions.Patches
     [HarmonyPatch(typeof(ConsoleResolver))]
     public static class ConsolePatch
     {
+        private delegate bool Handler(ref string strInput, string[] args);
+
+        private class Command
+        {
+            public Handler Run;
+            public string[] Help;
+        }
+
+        private static readonly Dictionary<string, Command> Commands = new Dictionary<string, Command>
+        {
+            ["restock"] = new Command
+            {
+                Run = KeywordRestock,
+                Help = new[]
+                {
+                    "forces kiosks to restock on the next tick while the game is unpaused",
+                    "'restock' restocks every kiosk on the current ship or station",
+                    "'restock [them]' restocks the kiosk selected in the tooltip"
+                }
+            },
+            ["fieldcontour"] = new Command
+            {
+                Run = KeywordFieldContour,
+                Help = new[] { "toggles the jump field contour overlay on the current ship or station" }
+            },
+            ["fieldremove"] = new Command
+            {
+                Run = KeywordFieldRemove,
+                Help = new[]
+                {
+                    "removes everything outside the jump field contour on the current ship or station",
+                    "'fieldremove' only reports what is outside the contour",
+                    "'fieldremove confirm' permanently destroys it and characters fall away, objects crossing the contour break, the primary docking port is kept"
+                }
+            },
+            ["navmoddump"] = new Command
+            {
+                Run = KeywordNavModDump,
+                Help = new[]
+                {
+                    "writes the layout of a nav module's prefab to the log",
+                    "'navmoddump NavModSensorsMFD' dumps that module"
+                }
+            },
+            ["tapstatus"] = new Command
+            {
+                Run = KeywordTapStatus,
+                Help = new[] { "lists everything a reactor tap needs to charge jump cells on the current ship or station" }
+            },
+            ["jumpcharge"] = new Command
+            {
+                Run = KeywordJumpCharge,
+                Help = new[] { "plays the jump drive charge effect on the current ship's field contour, run it again while it plays to fade it out, and once more to stop it at once" }
+            },
+            ["jumpflash"] = new Command
+            {
+                Run = KeywordJumpFlash,
+                Help = new[] { "plays the jump flash on its own, it also plays at the end of a completed jumpcharge" }
+            }
+        };
+
         [HarmonyPatch(nameof(ConsoleResolver.ResolveString))]
         [HarmonyPrefix()]
         public static bool ResolveString_Prefix(ref string strInput, ref bool __result)
         {
             string[] args = strInput.Trim().Split(' ');
+            string keyword = args[0].ToLower();
 
-            if (args[0].ToLower() == "restock")
+            if (Commands.TryGetValue(keyword, out Command command))
             {
-                __result = KeywordRestock(ref strInput, args);
+                __result = command.Run(ref strInput, args);
                 return false;
             }
 
-            if (args[0].ToLower() == "fieldcontour")
+            if (args.Length == 2 && keyword == "help" && Commands.TryGetValue(args[1], out command))
             {
-                __result = KeywordFieldContour(ref strInput);
-                return false;
-            }
-
-            if (args[0].ToLower() == "fieldremove")
-            {
-                __result = KeywordFieldRemove(ref strInput, args);
-                return false;
-            }
-
-            if (args.Length == 2 && args[0].ToLower() == "help" && args[1] == "fieldremove")
-            {
-                strInput += "\nremoves everything outside the jump field contour on the current ship or station";
-                strInput += "\n'fieldremove' only reports what is outside the contour";
-                strInput += "\n'fieldremove confirm' permanently destroys it and characters fall away, objects crossing the contour break, the primary docking port is kept";
-                __result = true;
-                return false;
-            }
-
-            if (args[0].ToLower() == "navmoddump")
-            {
-                __result = KeywordNavModDump(ref strInput, args);
-                return false;
-            }
-
-            if (args.Length == 2 && args[0].ToLower() == "help" && args[1] == "navmoddump")
-            {
-                strInput += "\nwrites the layout of a nav module's prefab to the log";
-                strInput += "\n'navmoddump NavModSensorsMFD' dumps that module";
-                __result = true;
-                return false;
-            }
-
-            if (args[0].ToLower() == "tapstatus")
-            {
-                __result = KeywordTapStatus(ref strInput);
-                return false;
-            }
-
-            if (args.Length == 2 && args[0].ToLower() == "help" && args[1] == "tapstatus")
-            {
-                strInput += "\nlists everything a reactor tap needs to charge jump cells on the current ship or station";
-                __result = true;
-                return false;
-            }
-
-            if (args[0].ToLower() == "jumpcharge")
-            {
-                __result = KeywordJumpCharge(ref strInput);
-                return false;
-            }
-
-            if (args.Length == 2 && args[0].ToLower() == "help" && args[1] == "jumpcharge")
-            {
-                strInput += "\nplays the jump drive charge effect on the current ship's field contour, run it again while it plays to fade it out, and once more to stop it at once";
-                __result = true;
-                return false;
-            }
-
-            if (args[0].ToLower() == "jumpflash")
-            {
-                bool played = CrewSim.objInstance != null && FzJumpFlash.Play(CrewSim.shipCurrentLoaded);
-                strInput += played ? "\nJump flash played." : "\nNo contour, it needs at least 3 working emitters and does not run on stations.";
-                __result = played;
-                return false;
-            }
-
-            if (args.Length == 2 && args[0].ToLower() == "help" && args[1] == "jumpflash")
-            {
-                strInput += "\nplays the jump flash on its own, it also plays at the end of a completed jumpcharge";
-                __result = true;
-                return false;
-            }
-
-            if (args.Length == 2 && args[0].ToLower() == "help" && args[1] == "fieldcontour")
-            {
-                strInput += "\ntoggles the jump field contour overlay on the current ship or station";
-                __result = true;
-                return false;
-            }
-
-            if (args.Length == 2 && args[0].ToLower() == "help" && args[1] == "restock")
-            {
-                strInput += "\nforces kiosks to restock on the next tick while the game is unpaused";
-                strInput += "\n'restock' restocks every kiosk on the current ship or station";
-                strInput += "\n'restock [them]' restocks the kiosk selected in the tooltip";
+                foreach (string line in command.Help) strInput += "\n" + line;
                 __result = true;
                 return false;
             }
 
             return true;
+        }
+
+        private static bool KeywordJumpFlash(ref string strInput, string[] args)
+        {
+            bool played = CrewSim.objInstance != null && FzJumpFlash.Play(CrewSim.shipCurrentLoaded);
+            strInput += played ? "\nJump flash played." : "\nNo contour, it needs at least 3 working emitters and does not run on stations.";
+            return played;
         }
 
         [HarmonyPatch("KeywordHelp")]
@@ -166,7 +150,7 @@ namespace Freznel.FzAdditions.Patches
             foreach (Transform child in transform) DumpObject(child, depth + 1);
         }
 
-        private static bool KeywordTapStatus(ref string strInput)
+        private static bool KeywordTapStatus(ref string strInput, string[] args)
         {
             Ship ship = CrewSim.objInstance != null ? CrewSim.shipCurrentLoaded : null;
             if (ship == null)
@@ -195,7 +179,7 @@ namespace Freznel.FzAdditions.Patches
             return true;
         }
 
-        private static bool KeywordFieldContour(ref string strInput)
+        private static bool KeywordFieldContour(ref string strInput, string[] args)
         {
             if (CrewSim.objInstance == null)
             {
@@ -246,7 +230,8 @@ namespace Freznel.FzAdditions.Patches
 
             if (args.Length == 1)
             {
-                strInput += $"\n{FieldContour.FindOutside(ship).Count} object(s) are outside the contour, {FieldContour.FindIntersecting(ship).Count} are crossing it, {FieldContour.FindShipsToUndock(ship).Count} docked ship(s) would undock.";
+                FieldContour.RemovalReport report = FieldContour.GetRemovalReport(ship);
+                strInput += $"\n{report.Destroyed} object(s) would be destroyed, {report.Broken} broken, {report.Crew} character(s) would fall away, {report.Undocked} docked ship(s) would undock.";
                 strInput += "\nRun 'fieldremove confirm' to destroy them. This cannot be undone.";
                 return true;
             }
@@ -256,7 +241,7 @@ namespace Freznel.FzAdditions.Patches
             return true;
         }
 
-        private static bool KeywordJumpCharge(ref string strInput)
+        private static bool KeywordJumpCharge(ref string strInput, string[] args)
         {
             if (CrewSim.objInstance == null)
             {

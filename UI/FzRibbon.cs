@@ -23,6 +23,9 @@ namespace Freznel.FzAdditions.UI
         private Vector3[] vertices;
         private Vector2[] uvs;
         private Color32[] colors;
+        private float shapeDistance = float.NaN;
+        private float shapeWidth = float.NaN;
+        private int alphaLevel = -1;
 
         private void Init(int pointCount)
         {
@@ -63,6 +66,10 @@ namespace Freznel.FzAdditions.UI
         //there rather than squeezed in, so the glow stays centered on the band.
         public void SetShape(Vector2[] points, Vector2[] normals, float[] innerLimits, float[] outerLimits, float distance, float width)
         {
+            if (distance == shapeDistance && width == shapeWidth) return;
+            shapeDistance = distance;
+            shapeWidth = width;
+
             for (int i = 0; i < points.Length; i++)
             {
                 for (int across = 0; across < VerticesAcross; across++)
@@ -82,7 +89,11 @@ namespace Freznel.FzAdditions.UI
 
         public void SetAlpha(float alpha)
         {
-            Color32 color = new Color32(255, 255, 255, (byte)Mathf.RoundToInt(Mathf.Clamp01(alpha) * 255f));
+            int level = Mathf.RoundToInt(Mathf.Clamp01(alpha) * 255f);
+            if (level == alphaLevel) return;
+            alphaLevel = level;
+
+            Color32 color = new Color32(255, 255, 255, (byte)level);
             for (int i = 0; i < colors.Length; i++) colors[i] = color;
             mesh.colors32 = colors;
         }

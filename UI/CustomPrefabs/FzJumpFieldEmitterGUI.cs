@@ -54,38 +54,38 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         {
             base.Init(coSelf, dict, strCOKey);
 
-            pwrRocker = UnityUtil.FindDescendant(gameObject.transform, "PwrRocker").GetComponent<FzRocker>();
+            pwrRocker = UnityUtil.FindDescendant<FzRocker>(gameObject.transform, "PwrRocker");
             pwrRocker.SetOnWithoutNotify(!COSelf.HasCond("IsOverrideOff"));
             pwrRocker.OnChanged += SetPower;
 
-            pwrLamp = UnityUtil.FindDescendant(gameObject.transform, "PwrLamp").GetComponent<FzLamp>();
-            readyLamp = UnityUtil.FindDescendant(gameObject.transform, "ReadyLamp").GetComponent<FzLamp>();
+            pwrLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "PwrLamp");
+            readyLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "ReadyLamp");
             UpdatePowerLamp();
 
             float maxOffset = FieldContour.GetMaxOffset(COSelf);
 
-            offsetSlider = UnityUtil.FindDescendant(gameObject.transform, "OffsetSlider").GetComponent<FzSlider>();
+            offsetSlider = UnityUtil.FindDescendant<FzSlider>(gameObject.transform, "OffsetSlider");
             offsetSlider.SetRange(MinOffset, maxOffset);
             offsetSlider.SetValueWithoutNotify(GetFloatProp(Constants.FieldOffsetProp, MinOffset));
             offsetSlider.OnChanged += (float val) => SetPropMapData(Constants.FieldOffsetProp, val.ToString(CultureInfo.InvariantCulture));
 
-            FzDistanceMeter offsetMeter = UnityUtil.FindDescendant(gameObject.transform, "OffsetMeter").GetComponent<FzDistanceMeter>();
+            FzDistanceMeter offsetMeter = UnityUtil.FindDescendant<FzDistanceMeter>(gameObject.transform, "OffsetMeter");
             offsetMeter.SetRange(0f, maxOffset);
             offsetMeter.Distance = offsetSlider.Value;
             offsetSlider.OnChanged += (float val) => offsetMeter.Distance = val;
 
-            reinforcementSlider = UnityUtil.FindDescendant(gameObject.transform, "ReinforcementSlider").GetComponent<FzSlider>();
+            reinforcementSlider = UnityUtil.FindDescendant<FzSlider>(gameObject.transform, "ReinforcementSlider");
             reinforcementSlider.SetValueWithoutNotify(FieldContour.GetReinforcement(COSelf));
             reinforcementSlider.OnChanged += (float val) => SetPropMapData(Constants.FieldReinforcementProp, val.ToString(CultureInfo.InvariantCulture));
 
-            energyDisplay = UnityUtil.FindDescendant(gameObject.transform, "EnergyDisplay").GetComponent<FzNumeric>();
+            energyDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "EnergyDisplay");
             energyDisplay.Formatter = FzNumeric.FormatEnergy;
             UpdateFieldEnergy();
             offsetSlider.OnChanged += (float val) => UpdateFieldEnergy();
             reinforcementSlider.OnChanged += (float val) => UpdateFieldEnergy();
 
             //Recalculating scans the whole ship, so wait until the slider is let go
-            strengthDisplay = UnityUtil.FindDescendant(gameObject.transform, "StrengthDisplay").GetComponent<FzNumeric>();
+            strengthDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "StrengthDisplay");
             UpdateFieldStrength();
             offsetSlider.OnReleased += (float val) => UpdateFieldStrength();
             reinforcementSlider.OnReleased += (float val) => UpdateFieldStrength();

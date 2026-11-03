@@ -11,7 +11,6 @@ namespace Freznel.FzAdditions.Util
     public static class JumpCell
     {
         private const double RechargeShare = 0.001; //Of the missing charge each second, the same curve as a ship battery
-        private const double SecondsPerHour = 3600.0;
         private const int SolveSteps = 40;
         private const double FullMargin = 0.05; //In kWh, the charge only approaches its capacity and this reads as full on the display
 
@@ -19,6 +18,13 @@ namespace Freznel.FzAdditions.Util
 
         private static readonly Dictionary<string, double> currentRates = new Dictionary<string, double>();
         private static readonly HashSet<string> tapCharging = new HashSet<string>();
+
+        //Read from each cell's last recharge, which in a save loading hasn't happened yet
+        public static void Reset()
+        {
+            currentRates.Clear();
+            tapCharging.Clear();
+        }
 
         public static bool IsCell(CondOwner co)
         {
@@ -57,9 +63,19 @@ namespace Freznel.FzAdditions.Util
             return ship.GetCOs(DataHandler.GetCondTrigger(Constants.CellInstalledTrigger), bSubObjects: false, bAllowDocked: false, bAllowLocked: false);
         }
 
+        public static double GetCharge(CondOwner co)
+        {
+            return co.GetCondAmount(Constants.CellChargeCond);
+        }
+
+        public static double GetTotalCharge(IEnumerable<CondOwner> cells)
+        {
+            return cells.Sum(GetCharge);
+        }
+
         public static double GetMissingCharge(CondOwner co)
         {
-            return Math.Max(GetCapacity(co) - co.GetCondAmount(Constants.CellChargeCond), 0.0);
+            return Math.Max(GetCapacity(co) - GetCharge(co), 0.0);
         }
 
         //Whether a cell is due a share of a reactor tap's rate
@@ -90,10 +106,10 @@ namespace Freznel.FzAdditions.Util
         //Game seconds until the cell reads as full at its current rate, negative when it is not charging
         public static double GetChargeTime(CondOwner co)
         {
-            double rate = GetCurrentRate(co) / SecondsPerHour;
+            double rate = GetCurrentRate(co) / Constants.SecondsPerHour;
             if (rate <= 0.0) return -1.0;
 
-            return GetFillTime(GetCapacity(co) - co.GetCondAmount(Constants.CellChargeCond), rate, tapCharging.Contains(co.strID));
+            return GetFillTime(GetMissingCharge(co), rate, tapCharging.Contains(co.strID));
         }
 
         //Rate is in kWh per game second
@@ -113,19 +129,18 @@ namespace Freznel.FzAdditions.Util
 
         //In kWh per game second, the average rate these cells would fill from empty. Worked out from the taps and
         //cells rather than what they are taking now, since cells that are already full take nothing. 0 if nothing would fill them.
-        public static double GetFillRate(Ship ship, List<CondOwner> cells)
+        public static double GetFillRate(Ship ship, List<CondOwner> cells, List<CondOwner> activeTaps)
         {
             if (ship == null || cells.Count == 0) return 0.0;
 
             if (ReactorFuel.IsFusing(ship.Reactor))
             {
-                List<CondOwner> taps = ship.GetCOs(DataHandler.GetCondTrigger(Constants.TapActiveTrigger), bSubObjects: false, bAllowDocked: false, bAllowLocked: false);
-                double tapRate = taps.Sum(JumpTap.GetRate);
-                if (tapRate > 0.0) return tapRate / SecondsPerHour;
+                double tapRate = activeTaps.Sum(JumpTap.GetRate);
+                if (tapRate > 0.0) return tapRate / Constants.SecondsPerHour;
             }
 
             List<CondOwner> gridCells = cells.Where(IsGridChargeEnabled).ToList();
-            double slowest = gridCells.Count > 0 ? gridCells.Max(co => GetFillTime(GetCapacity(co), GetChargeRate(co) / SecondsPerHour, false)) : 0.0;
+            double slowest = gridCells.Count > 0 ? gridCells.Max(co => GetFillTime(GetCapacity(co), GetChargeRate(co) / Constants.SecondsPerHour, false)) : 0.0;
             return slowest > 0.0 ? gridCells.Sum(GetCapacity) / slowest : 0.0;
         }
 
@@ -139,8 +154,7 @@ namespace Freznel.FzAdditions.Util
         //Game seconds until these cells together hold the charge at their current rates, negative if they never will
         public static double GetTimeUntilCharged(List<CondOwner> cells, double charge)
         {
-            double held = cells.Sum(co => co.GetCondAmount(Constants.CellChargeCond));
-            if (held >= charge) return 0.0;
+            if (GetTotalCharge(cells) >= charge) return 0.0;
 
             double high = cells.Count > 0 ? cells.Max(GetChargeTime) : -1.0;
             if (high <= 0.0 || cells.Sum(co => GetChargeAfter(co, high)) < charge) return -1.0;
@@ -157,9 +171,9 @@ namespace Freznel.FzAdditions.Util
         //The same model as GetChargeTime, a tap holds its rate and the grid decays towards full past the knee
         private static double GetChargeAfter(CondOwner co, double seconds)
         {
-            double charge = co.GetCondAmount(Constants.CellChargeCond);
+            double charge = GetCharge(co);
             double missing = GetMissingCharge(co);
-            double rate = GetCurrentRate(co) / SecondsPerHour;
+            double rate = GetCurrentRate(co) / Constants.SecondsPerHour;
             if (rate <= 0.0 || missing <= 0.0) return charge;
             if (tapCharging.Contains(co.strID)) return charge + Math.Min(missing, rate * seconds);
 
@@ -185,7 +199,7 @@ namespace Freznel.FzAdditions.Util
         public static void Recharge(Powered power, double seconds)
         {
             double amount = TakeCharge(power, seconds);
-            currentRates[power.CO.strID] = seconds > 0.0 ? amount / seconds * SecondsPerHour : 0.0;
+            currentRates[power.CO.strID] = seconds > 0.0 ? amount / seconds * Constants.SecondsPerHour : 0.0;
         }
 
         //Takes what it can from the cell's conduit and returns how much
@@ -195,7 +209,7 @@ namespace Freznel.FzAdditions.Util
             tapCharging.Remove(co.strID);
             if (seconds <= 0.0 || !IsOn(co)) return 0.0;
 
-            double missing = GetCapacity(co) - co.GetCondAmount(Constants.CellChargeCond);
+            double missing = GetMissingCharge(co);
             if (missing <= 0.0) return 0.0;
 
             //A running tap replaces the grid, so the batteries are left alone and the grid button doesn't apply
@@ -211,7 +225,7 @@ namespace Freznel.FzAdditions.Util
 
             //Exact for any gap, so a long time skip lands where the same time played out would
             double wanted = missing * (1.0 - Math.Pow(1.0 - RechargeShare, seconds));
-            wanted = Math.Min(wanted, GetChargeRate(co) * seconds / SecondsPerHour);
+            wanted = Math.Min(wanted, GetChargeRate(co) * seconds / Constants.SecondsPerHour);
 
             //UserPowerExt shuts the cell down if it asks for more than the grid has
             double amount = Math.Min(wanted, power.PowerConnected);

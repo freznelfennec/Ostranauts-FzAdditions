@@ -16,6 +16,7 @@ namespace Freznel.FzAdditions.Util
 
         private class BurnState
         {
+            public CondOwner Reactor;
             public double Pending;
             public double WindowBurn;
             public double WindowTime;
@@ -30,12 +31,6 @@ namespace Freznel.FzAdditions.Util
         public static bool IsFusing(CondOwner reactor)
         {
             return reactor != null && reactor.HasCond("IsReadyFusion") && !reactor.HasCond("IsOverrideOff");
-        }
-
-        //Charges the reactor for energy taken, in kWh, at a cost in burn units per kWh
-        public static void AddEnergyBurn(CondOwner reactor, double energy, double burnPerKWh)
-        {
-            AddBurn(reactor, energy * burnPerKWh);
         }
 
         public static void AddBurn(CondOwner reactor, double burn)
@@ -146,10 +141,27 @@ namespace Freznel.FzAdditions.Util
         {
             if (!states.TryGetValue(reactor.strID, out BurnState state))
             {
-                state = new BurnState();
+                state = new BurnState { Reactor = reactor };
                 states[reactor.strID] = state;
             }
+            state.Reactor = reactor;
             return state;
+        }
+
+        //Before the game saves, so the charge in the cells is paid for in the same save. A burn is otherwise only
+        //paid on the reactor's next update, which the save would never see.
+        public static void PayAllPending()
+        {
+            foreach (BurnState state in states.Values)
+            {
+                if (state.Pending > 0.0 && state.Reactor != null && !state.Reactor.bDestroyed) PayPending(state.Reactor);
+            }
+        }
+
+        //A save loading has its own reactors, and its cells were paid for when it was saved
+        public static void Reset()
+        {
+            states.Clear();
         }
     }
 }

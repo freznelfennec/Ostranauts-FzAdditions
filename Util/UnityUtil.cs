@@ -20,7 +20,10 @@ namespace Freznel.FzAdditions.Util
             return null;
         }
 
-
-
+        //Null if there is no such descendant or it has no such component
+        public static T FindDescendant<T>(Transform parent, string name) where T : Component
+        {
+            return FindDescendant(parent, name)?.GetComponent<T>();
+        }
     }
 }

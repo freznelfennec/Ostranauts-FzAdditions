@@ -47,7 +47,7 @@ namespace Freznel.FzAdditions.UI.Controls
             FzLamp element = lamp.GetComponent<FzLamp>();
             element.SetTransform(width, height, offsetX, offsetY);
 
-            GUILamp source = UnityUtil.FindDescendant(Resources.Load<GameObject>(SourcePrefab)?.transform, SourceLamp)?.GetComponent<GUILamp>();
+            GUILamp source = UnityUtil.FindDescendant<GUILamp>(Resources.Load<GameObject>(SourcePrefab)?.transform, SourceLamp);
             if (source == null || source.aSprites == null || source.aSprites.Length == 0)
             {
                 FzAdditions.Logger.LogError("Could not find lamp " + SourceLamp + " in prefab " + SourcePrefab);

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +31,7 @@ namespace Freznel.FzAdditions.Patches
             }
             else
             {
-                FzAdditions.Logger.LogError("Cound not find interaction FzTestGUI");
+                FzAdditions.Logger.LogError("Could not find interaction FzTestGUI");
             }
 
             if (DataHandler.dictGUIPropMapUnparsed.TryGetValue("FzTestGUI", out JsonGUIPropMap map))
@@ -42,7 +42,7 @@ namespace Freznel.FzAdditions.Patches
             }
             else
             {
-                FzAdditions.Logger.LogError("Cound not find guipropmap FzTestGUI");
+                FzAdditions.Logger.LogError("Could not find guipropmap FzTestGUI");
             }
 
             //Sundries Kiosk Patch
@@ -54,7 +54,7 @@ namespace Freznel.FzAdditions.Patches
             }
             else
             {
-                FzAdditions.Logger.LogError("Cound not find loot ItmOKLGFurnishingsKioskInv");
+                FzAdditions.Logger.LogError("Could not find loot ItmOKLGFurnishingsKioskInv");
             }
 
 

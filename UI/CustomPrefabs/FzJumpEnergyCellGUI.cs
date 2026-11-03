@@ -46,26 +46,26 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         {
             base.Init(coSelf, dict, strCOKey);
 
-            FzRocker pwrRocker = UnityUtil.FindDescendant(gameObject.transform, "PwrRocker").GetComponent<FzRocker>();
+            FzRocker pwrRocker = UnityUtil.FindDescendant<FzRocker>(gameObject.transform, "PwrRocker");
             pwrRocker.SetOnWithoutNotify(!COSelf.HasCond("IsOverrideOff"));
             pwrRocker.OnChanged += SetPower;
 
-            pwrLamp = UnityUtil.FindDescendant(gameObject.transform, "PwrLamp").GetComponent<FzLamp>();
-            chargingLamp = UnityUtil.FindDescendant(gameObject.transform, "ChargingLamp").GetComponent<FzLamp>();
+            pwrLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "PwrLamp");
+            chargingLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "ChargingLamp");
             UpdatePowerLamp();
 
-            chargeDisplay = UnityUtil.FindDescendant(gameObject.transform, "ChargeDisplay").GetComponent<FzNumeric>();
+            chargeDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "ChargeDisplay");
             chargeDisplay.Formatter = FzNumeric.FormatEnergy;
-            capacityDisplay = UnityUtil.FindDescendant(gameObject.transform, "CapacityDisplay").GetComponent<FzNumeric>();
+            capacityDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "CapacityDisplay");
             capacityDisplay.Formatter = FzNumeric.FormatEnergy;
-            rateDisplay = UnityUtil.FindDescendant(gameObject.transform, "RateDisplay").GetComponent<FzNumeric>();
+            rateDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "RateDisplay");
             rateDisplay.Formatter = FzNumeric.FormatPower;
-            timeDisplay = UnityUtil.FindDescendant(gameObject.transform, "TimeDisplay").GetComponent<FzNumeric>();
+            timeDisplay = UnityUtil.FindDescendant<FzNumeric>(gameObject.transform, "TimeDisplay");
             timeDisplay.Formatter = FzNumeric.FormatDuration;
             UpdateDisplays();
 
             //Set the state first, the On setter raises OnChanged
-            LampBtn chargeBtn = UnityUtil.FindDescendant(gameObject.transform, "ChargeBtn").GetComponent<LampBtn>();
+            LampBtn chargeBtn = UnityUtil.FindDescendant<LampBtn>(gameObject.transform, "ChargeBtn");
             chargeBtn.On = GetPropMapData(Constants.CellGridChargeProp, false);
             chargeBtn.OnChanged += (bool val) => SetPropMapData(Constants.CellGridChargeProp, val.ToString().ToLower());
         }
@@ -81,16 +81,10 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         private void UpdateDisplays()
         {
             if (COSelf == null) return;
-            SetDisplay(chargeDisplay, COSelf.GetCondAmount(Constants.CellChargeCond));
-            SetDisplay(capacityDisplay, JumpCell.GetCapacity(COSelf));
-            SetDisplay(rateDisplay, JumpCell.GetCurrentRate(COSelf));
-            SetDisplay(timeDisplay, Math.Ceiling(JumpCell.GetChargeTime(COSelf)));
-        }
-
-        //The text only needs rebuilding when the value has moved
-        private static void SetDisplay(FzNumeric display, double value)
-        {
-            if (display.Value != (float)value) display.Value = (float)value;
+            chargeDisplay.Value = (float)JumpCell.GetCharge(COSelf);
+            capacityDisplay.Value = (float)JumpCell.GetCapacity(COSelf);
+            rateDisplay.Value = (float)JumpCell.GetCurrentRate(COSelf);
+            timeDisplay.Value = (float)Math.Ceiling(JumpCell.GetChargeTime(COSelf));
         }
 
         private void UpdatePowerLamp()

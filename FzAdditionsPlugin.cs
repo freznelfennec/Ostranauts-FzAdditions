@@ -3,7 +3,6 @@ using BepInEx.Logging;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -33,7 +32,7 @@ namespace Freznel.FzAdditions
             {
                 Exception ex = e.ExceptionObject as Exception;
                 if (ex == null) return;
-                File.WriteAllText("C:/crash.txt", $"Unhandled Exception: {ex.GetType().Name}: ${ex.Message}\n{ex.StackTrace}");
+                Logger.LogFatal($"Unhandled Exception: {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
             };
 
         }
