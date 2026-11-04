@@ -22,6 +22,16 @@ namespace Freznel.FzAdditions.Util
         public const string CellChargeMaxCond = "StatFzJumpChargeMax";
         public const string CellChargeRateCond = "StatFzJumpChargeRate";
         public const string CellGridChargeProp = "bGridCharge";
+        public const string CellCO = "ItmFzJumpEnergyCell"; //The installed, working cell, the only one whose look follows its state
+        public const string CellLookOff = "ItmFzJumpEnergyCellOff"; //COOverlays giving the cell's look, the levels go on the end
+        public const string CellLookIdle = "ItmFzJumpEnergyCellIdle";
+        public const string CellLookGrid = "ItmFzJumpEnergyCellGrid";
+        public const string CellLookFast = "ItmFzJumpEnergyCellFast";
+        public const string CellLookDischarge = "ItmFzJumpEnergyCellDischarge";
+        public const string CellGlowSuffix = "lit"; //A look's emissive layer is its image with this on the end
+        public const int CellLevels = 6; //Pips in each of the cell's columns
+        public const int CellHalfLevels = 12; //Idle and discharging count in half pips, a part charged pip shows unlit and a full one lit
+        public const float CellFlashRate = 2f; //Flashes a real second of a discharging cell's part charged pip
         public const string TapCond = "IsFzJumpReactorTap";
         public const string TapInstalledTrigger = "TIsFzJumpReactorTapPresent";
         public const string TapActiveTrigger = "TIsFzJumpReactorTapActive";
@@ -51,6 +61,7 @@ namespace Freznel.FzAdditions.Util
         public const string BurnFlowProp = "strBurnFlow";
         public const string BurnCoreProp = "fBurnCore";
         public const string JumpChargingCond = "StatFzJumpCharging"; //The energy of a single jump charging, so a load starts it again
+        public const string JumpDrainedCond = "StatFzJumpDrained"; //kWh the jump charging has taken from the cells so far, a load doesn't take it twice
         public const string NavComFollowProp = "strFzJumpFollow"; //The target a series setting follows after CALC
         public const string TapGUIPropMap = "FzJumpReactorTapGUI";
         public const string TapChargeProp = "bTapCharge";

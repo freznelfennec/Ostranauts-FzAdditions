@@ -1,9 +1,9 @@
 [
   {
     "strName" : "ItmFzJumpEnergyCell",
-    "strImg"  : "ItmBattery02",
-    "strImgNorm"  : "ItmBattery02n",
-    "strImgDamaged" : "ItmBattery02Dmg02",
+    "strImg"  : "jumpcell/PulsebankIdle_h12",
+    "strImgNorm"  : "jumpcell/Pulsebankn",
+    "strImgDamaged" : "jumpcell/PulsebankDmg",
     "strDmgColor" : "DamageTintNone",
     "bLerp" : false,
     "fDmgComplexity" : 800,
@@ -11,7 +11,7 @@
     "fZScale"  : 0.35,
     "nCols"  : 2,
     "aLights"        : [
-      "BattBlue"
+      "FzJumpCellGlow"
     ],
     "aSocketAdds"    : [
       "TILFixtureAdds", "TILFixtureAdds",
@@ -32,8 +32,8 @@
   },
   {
     "strName" : "ItmFzJumpEnergyCellDmg",
-    "strImg"  : "ItmBattery02Dmg02",
-    "strImgNorm"  : "ItmBattery02n",
+    "strImg"  : "jumpcell/PulsebankDmg",
+    "strImgNorm"  : "jumpcell/PulsebankDmgn",
     "strImgDamaged" : "",
     "strDmgColor" : "DamageTintDefault",
     "bLerp" : false,
@@ -61,18 +61,15 @@
   },
   {
     "strName" : "ItmFzJumpEnergyCellLoose",
-    "strImg"  : "ItmBattery02Loose",
-    "strImgNorm"  : "ItmBattery02Loosen",
-    "strImgDamaged" : "ItmBattery02Dmg02Loose",
+    "strImg"  : "jumpcell/PulsebankLoose",
+    "strImgNorm"  : "jumpcell/PulsebankLoosen",
+    "strImgDamaged" : "jumpcell/PulsebankDmgLoose",
     "strDmgColor" : "DamageTintNone",
     "bLerp" : false,
     "fDmgComplexity" : 800,
     "nDmgMode" : 1,
     "fZScale"  : 0.35,
     "nCols"  : 2,
-    "aLights"        : [
-      "BattBlue"
-    ],
     "aSocketAdds"    : [
       "TILItemAdds", "TILItemAdds",
       "TILItemAdds", "TILItemAdds"
@@ -92,8 +89,8 @@
   },
   {
     "strName" : "ItmFzJumpEnergyCellDmgLoose",
-    "strImg"  : "ItmBattery02Dmg02Loose",
-    "strImgNorm"  : "ItmBattery02Dmg02Loosen",
+    "strImg"  : "jumpcell/PulsebankDmgLoose",
+    "strImgNorm"  : "jumpcell/PulsebankDmgLoosen",
     "strImgDamaged" : "",
     "strDmgColor" : "DamageTintDefault",
     "bLerp" : false,

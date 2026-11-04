@@ -41,7 +41,7 @@
       "FzJumpEnergyCellGUI",
       "FzJumpEnergyCellGUI"
     ],
-    "strPortraitImg"  : "ItmBattery02",
+    "strPortraitImg"  : "jumpcell/PulsebankIdle_h12",
     "jsonPI"            : "FzJumpEnergyCell",
     "strAudioEmitter": "ItmBattery02Sound"
   },
@@ -84,7 +84,7 @@
     ],
     "mapGUIPropMaps"  : [
     ],
-    "strPortraitImg"  : "ItmBattery02Dmg02"
+    "strPortraitImg"  : "jumpcell/PulsebankDmg"
   },
   {
     "strName" : "ItmFzJumpEnergyCellLoose",
@@ -124,7 +124,7 @@
     ],
     "mapGUIPropMaps"  : [
     ],
-    "strPortraitImg"  : "ItmBattery02"
+    "strPortraitImg"  : "jumpcell/PulsebankOff"
   },
   {
     "strName" : "ItmFzJumpEnergyCellDmgLoose",
@@ -166,6 +166,6 @@
     ],
     "mapGUIPropMaps"  : [
     ],
-    "strPortraitImg"  : "ItmBattery02Dmg02Loose"
+    "strPortraitImg"  : "jumpcell/PulsebankDmgLoose"
   }
 ]

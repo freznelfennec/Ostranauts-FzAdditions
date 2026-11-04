@@ -2,5 +2,6 @@
   { "strName" : "StatFzJumpSeriesEnergy", "strNameFriendly" : "Jump Series Energy", "strColor" : "Neutral", "strDesc" : "Energy [us]'s running jump series has left to spend in kWh.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
   { "strName" : "StatFzJumpFailure", "strNameFriendly" : "Jump Failure", "strColor" : "Neutral", "strDesc" : "Why [us]'s last jump failed, until its nav console has shown it.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
   { "strName" : "StatFzJumpCharging", "strNameFriendly" : "Jump Charging", "strColor" : "Neutral", "strDesc" : "Energy in kWh of the single jump [us] is charging, so a reload can start the charge again.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzJumpDrained", "strNameFriendly" : "Jump Energy Drained", "strColor" : "Neutral", "strDesc" : "Energy in kWh the jump [us] is charging has taken from its cells so far.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
   { "strName" : "IsFzJumpSeriesFinished", "strNameFriendly" : "Jump Series Finished", "strColor" : "Neutral", "strDesc" : "[us]'s jump series has finished and its nav console is yet to reset.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true }
 ]

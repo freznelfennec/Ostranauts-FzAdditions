@@ -1,3 +1,4 @@
+using Freznel.FzAdditions.UI;
 using Freznel.FzAdditions.Util;
 using HarmonyLib;
 using System;
@@ -18,11 +19,24 @@ namespace Freznel.FzAdditions.Patches
         {
             CondOwner co = __instance.CO;
             if (!JumpCell.IsCell(co)) return;
+            FzCellLook.Attach(co);
 
             //A series recharges its cells itself through a time skip, even one it finishes partway through
             if (GUIFFWD.Active && (JumpSequence.IsSeriesRunning(co.ship) || JumpSequence.IsSkipped(co.ship))) return;
 
             JumpCell.Recharge(__instance, JumpCell.GetTimeSinceUpdate(__instance));
+        }
+    }
+
+    //A cell's item is built before its CO, which has its name and saved conditions once this has run. Runs while
+    //the game is paused, as a save loads.
+    [HarmonyPatch(typeof(CondOwner), nameof(CondOwner.SetData))]
+    public static class CellLookPatch
+    {
+        [HarmonyPostfix()]
+        public static void SetData_Postfix(CondOwner __instance)
+        {
+            FzCellLook.Attach(__instance);
         }
     }
 }

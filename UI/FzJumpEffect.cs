@@ -18,8 +18,10 @@ namespace Freznel.FzAdditions.UI
         private static readonly float GlowCoreSize = 0.25f; //Share of the half width that burns white
         private static readonly int WaveCount = 5;
         private static readonly float ChargeDuration = 8f;
-        private static readonly float HoldDuration = FzJumpFlash.Duration; //At full brightness after the last wave lands, until the flash ends
-        private static readonly float FadeDuration = 0.6f;
+        private static readonly float FadeDuration = 0.6f; //Of an interrupted charge
+        private static readonly float HoldDuration = FzJumpFlash.Duration; //At full brightness after the last wave lands, while the flash plays
+        private static readonly float EmitterFadeDuration = 0.6f; //From the end of the flash
+        private static readonly float FieldFadeDuration = 1.2f; //From the end of the flash, the field outlasts the emitters
         private static readonly float IntroDuration = 1.5f;
         private static readonly float WaveStartDistance = 5f; //Tiles out from the contour
         private static readonly float SlowWaveRate = 0.35f; //Rings reaching the contour per second, for each ring
@@ -29,6 +31,7 @@ namespace Freznel.FzAdditions.UI
         private static readonly float ContourMaxWidth = 0.09f;
         private static readonly float EmitterGlowSize = 8f; //Tiles across
         private static readonly float EmitterGlowLead = 0.5f; //Seconds the emitters start ahead of the rest
+        private static readonly float EmitterFullShare = 0.75f; //Of the charge, by when the emitters are at full brightness, well before the last wave lands
         private static readonly int EmitterGlowRays = 128;
         private static readonly float RibbonSpacing = 0.25f; //Tiles between points. Even, a jump in spacing kinks the band.
         private static readonly int NormalSmoothing = 8; //Points averaged either side, the band is wider than the curve's small kinks
@@ -45,6 +48,9 @@ namespace Freznel.FzAdditions.UI
 
         //Until the last wave lands or the charge is interrupted, the effect plays on a while after
         public static bool IsCharging(Ship ship) => IsPlaying(ship) && !instance.interrupted && !instance.wavesLanded;
+
+        //How far the charge has built, from 0 as it starts to 1 as the waves finish building
+        public static float ChargeProgress => instance == null ? 0f : instance.wavesLanded ? 1f : Mathf.Clamp01(instance.elapsed / (EmitterGlowLead + ChargeDuration));
 
         //Plays the charge from the start, false if there is no contour to play it on
         //OnCharged runs as the last wave lands, false from it fades the effect out instead of flashing
@@ -178,8 +184,8 @@ namespace Freznel.FzAdditions.UI
             emitterGlowRenderer.SetPropertyBlock(emitterGlowBlock);
         }
 
-        //A disc around each emitter's outside end, out to the glow's edge or the first wall on each ray. The texture
-        //is laid on as if the disc were whole, so a cut only removes the glow beyond the wall.
+        //A disc around the center of each emitter's exterior tile, out to the glow's edge or the first wall on each ray.
+        //The texture is laid on as if the disc were whole, so a cut only removes the glow beyond the wall.
         private static Mesh CreateGlowFans(Ship ship, List<FieldContour.Emitter> emitters)
         {
             float radius = EmitterGlowSize / 2f;
@@ -192,7 +198,7 @@ namespace Freznel.FzAdditions.UI
 
             for (int e = 0; e < emitters.Count; e++)
             {
-                Vector2 origin = emitters[e].OutsideEnd;
+                Vector2 origin = emitters[e].OutsideTileCenter;
                 int first = e * vertexCount;
                 vertices[first] = origin;
                 uvs[first] = new Vector2(0.5f, 0.5f);
@@ -391,7 +397,7 @@ namespace Freznel.FzAdditions.UI
                     }
                 }
 
-                if (fadeElapsed >= HoldDuration + FadeDuration)
+                if (fadeElapsed >= HoldDuration + Mathf.Max(FieldFadeDuration, EmitterFadeDuration))
                 {
                     Stop();
                     return;
@@ -401,7 +407,7 @@ namespace Freznel.FzAdditions.UI
             float mainElapsed = Mathf.Max(elapsed - EmitterGlowLead, 0f);
             float charge = Mathf.Clamp01(mainElapsed / ChargeDuration);
             float interruptFade = 1f - Mathf.Clamp01(interruptElapsed / FadeDuration);
-            float fade = (1f - Mathf.Clamp01((fadeElapsed - HoldDuration) / FadeDuration)) * interruptFade;
+            float fade = (1f - Mathf.Clamp01((fadeElapsed - HoldDuration) / FieldFadeDuration)) * interruptFade;
             if (mainElapsed > 0f) wavePhase += deltaTime * Mathf.Lerp(SlowWaveRate, FastWaveRate, charge * charge);
 
             //Keeps climbing past the end of the charge, so full brightness lands with the last wave.
@@ -415,7 +421,10 @@ namespace Freznel.FzAdditions.UI
             contourRibbon.SetShape(points, normals, innerLimits, outerLimits, 0f, overlayCamera.ScreenToWorld(contourWidth));
             contourRibbon.SetAlpha(contourAlpha);
 
-            SetEmitterGlowAlpha(Mathf.Clamp01(elapsed / ChargeDuration) * fade);
+            //The emitters lead the charge up, and once the flash is over go out ahead of the field
+            float emitterRise = Mathf.Clamp01(elapsed / (EmitterGlowLead + ChargeDuration * EmitterFullShare));
+            float emitterFade = 1f - Mathf.Clamp01((fadeElapsed - HoldDuration) / EmitterFadeDuration);
+            SetEmitterGlowAlpha(emitterRise * emitterFade * interruptFade);
             float intro = Mathf.Clamp01(mainElapsed / IntroDuration);
             float waveAlpha = Mathf.Lerp(0.25f, 1f, charge) * intro * interruptFade;
             bool anyActive = false;

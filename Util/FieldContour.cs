@@ -25,6 +25,7 @@ namespace Freznel.FzAdditions.Util
         private const string FallingCond = "IsFallingAway";
         private const double FallDuration = 5.0;
         private const float OutsideTileOffset = 1.5f; //From the center of the emitter's wall tile to the outer edge of its exterior tile
+        private const float OutsideTileCenterOffset = 1f; //From the center of the emitter's wall tile to the center of its exterior tile
         private const double NormalEmitterCondition = 0.8; //GetDamageState, 1 is undamaged
 
         public struct Emitter
@@ -45,6 +46,8 @@ namespace Freznel.FzAdditions.Util
             }
 
             public Vector2 OutsideEnd => Position + Direction.normalized * OutsideTileOffset;
+
+            public Vector2 OutsideTileCenter => Position + Direction.normalized * OutsideTileCenterOffset;
 
             public Vector2 ContourPoint => OutsideEnd + Direction.normalized * (Offset / CrewSim.M_PER_TILE);
         }

@@ -38,6 +38,12 @@ namespace Freznel.FzAdditions.Util
         //The ship whose cells still need their clocks set once the skip has finished
         private static string pendingSkipShip;
 
+        //The jump whose charge is draining the cells, and how far its charge had got when they were last drained. What
+        //has been drained is saved on the ship, a load starts the charge again with this.
+        private static double drainEnergy;
+        private static float drainProgress;
+        private static List<CondOwner> drainCells = new List<CondOwner>(); //Read once, scanning the ship every frame of the charge adds up
+
         public enum SeriesState { Idle, Jumping, Thrusting, Recharging, Correcting, NoThrust }
 
         //Saved as a number on the ship's CO, so new reasons go on the end
@@ -58,12 +64,50 @@ namespace Freznel.FzAdditions.Util
 
         //Energy is the total to spend in kWh. False if the ship can't jump, nothing has changed then. A single jump
         //keeps its energy on the ship while it charges, so a save made partway starts the charge again when it loads.
-        //A series starts its own jumps again.
+        //A series starts its own jumps again. The cells are drained as the charge builds, whatever has gone is lost
+        //if the jump doesn't happen.
         public static bool Start(Ship ship, double energy)
         {
             if (CheckJump(ship, energy) != JumpFailure.None || !FzJumpEffect.Play(ship, () => Complete(ship, energy))) return false;
             if (!IsSeriesRunning(ship)) ship.ShipCO.SetCondAmount(Constants.JumpChargingCond, energy);
+            drainEnergy = energy;
+            drainProgress = 0f;
+            drainCells = JumpCell.GetCells(ship);
             return true;
+        }
+
+        //Every frame. Each step takes the share of what is still owed that the charge has built through since the last,
+        //so the cells are empty of the jump's energy as the charge completes, wherever it started from.
+        private static void DrainCharge()
+        {
+            Ship ship = CrewSim.shipCurrentLoaded;
+            if (drainEnergy <= 0.0 || !FzJumpEffect.IsCharging(ship)) return;
+
+            float progress = FzJumpEffect.ChargeProgress;
+            if (progress <= drainProgress) return;
+
+            double owed = GetOwed(ship, drainEnergy);
+            double share = drainProgress < 1f ? (progress - drainProgress) / (1f - drainProgress) : 1.0;
+            drainProgress = progress;
+
+            //A cell switched off or replaced since the jump started has no part in it
+            drainCells.RemoveAll(cell => cell == null || !JumpCell.IsOn(cell));
+            if (owed > 0.0) ship.ShipCO.AddCondAmount(Constants.JumpDrainedCond, SpendEnergy(drainCells, owed * share));
+        }
+
+        //kWh of the jump still to come out of the cells
+        private static double GetOwed(Ship ship, double energy)
+        {
+            return Math.Max(energy - (ship?.ShipCO?.GetCondAmount(Constants.JumpDrainedCond) ?? 0.0), 0.0);
+        }
+
+        //What was drained is gone once the jump ends, whether or not it happened
+        private static void ClearDrain(Ship ship)
+        {
+            ship?.ShipCO?.ZeroCondAmount(Constants.JumpDrainedCond);
+            if (ship != null && ship != CrewSim.shipCurrentLoaded) return;
+            drainEnergy = 0.0;
+            drainCells.Clear();
         }
 
         //Everything here that isn't saved belongs to the world being left behind
@@ -73,6 +117,9 @@ namespace Freznel.FzAdditions.Util
             nextReplan = 0f;
             skippedShip = null;
             pendingSkipShip = null;
+            drainEnergy = 0.0;
+            drainProgress = 0f;
+            drainCells.Clear();
             FzJumpEffect.Stop();
             FzJumpFlash.Stop();
         }
@@ -97,7 +144,7 @@ namespace Freznel.FzAdditions.Util
         {
             JumpFailure failure = GetReadyFailure(ship, energy);
             if (failure != JumpFailure.None) return failure;
-            return HasCharge(JumpCell.GetCells(ship), energy) ? JumpFailure.None : JumpFailure.NotCharged;
+            return HasCharge(JumpCell.GetCells(ship), GetOwed(ship, energy)) ? JumpFailure.None : JumpFailure.NotCharged;
         }
 
         //Why a series of this energy can't begin, it doesn't need to be charged yet
@@ -255,6 +302,7 @@ namespace Freznel.FzAdditions.Util
         {
             EndSeries(ship);
             ship?.ShipCO?.ZeroCondAmount(Constants.JumpChargingCond);
+            ClearDrain(ship);
             if (IsActive(ship)) FzJumpEffect.Interrupt();
         }
 
@@ -423,7 +471,7 @@ namespace Freznel.FzAdditions.Util
             //A series without a target leaves the thrust to the player, a burn only delays it
             if (IsThrusting(ship.objSS) || !GetNextSeriesJump(ship, out double energy, out List<CondOwner> cells)) return -1.0;
 
-            if (!HasCharge(cells, energy)) return GetChargeWait(cells, energy);
+            if (!HasCharge(cells, GetOwed(ship, energy))) return GetChargeWait(cells, GetOwed(ship, energy));
             if (!view) return -1.0;
 
             if (!Start(ship, energy))
@@ -559,7 +607,7 @@ namespace Freznel.FzAdditions.Util
                     continue;
                 }
 
-                if (HasCharge(cells, energy))
+                if (HasCharge(cells, GetOwed(ship, energy)))
                 {
                     LogRecharge(ship, jumps + 1, phaseSeconds, phaseCharge, phaseBurn);
                     totalBurn.Add(phaseBurn);
@@ -737,9 +785,10 @@ namespace Freznel.FzAdditions.Util
 
             //A series can wait for charge, anything else stops it
             bool inSeries = IsSeriesRunning(ship);
-            if (!HasCharge(JumpCell.GetCells(ship), energy))
+            if (!HasCharge(JumpCell.GetCells(ship), GetOwed(ship, energy)))
             {
-                if (!inSeries) FailJump(ship, JumpFailure.NotCharged);
+                if (inSeries) ClearDrain(ship);
+                else FailJump(ship, JumpFailure.NotCharged);
                 return false;
             }
 
@@ -765,6 +814,12 @@ namespace Freznel.FzAdditions.Util
                 if (!GUIFFWD.Active) skippedShip = null;
                 if (Time.unscaledTime < nextSeriesCheck && !JumpCorrection.IsBurning(CrewSim.shipCurrentLoaded)) return;
                 nextSeriesCheck = Time.unscaledTime + GetCheckInterval(AdvanceSeries());
+            }
+
+            //Follows the charge effect, which moves on every frame
+            private void LateUpdate()
+            {
+                DrainCharge();
             }
         }
 
@@ -848,9 +903,11 @@ namespace Freznel.FzAdditions.Util
             moveY = directionY * distance;
         }
 
+        //Takes whatever of the jump's energy its charge hasn't already drained
         private static void ApplyJump(Ship ship, double energy, double moveX, double moveY, double jumpTime)
         {
-            SpendEnergy(ship, energy);
+            SpendEnergy(ship, GetOwed(ship, energy));
+            ClearDrain(ship);
             FieldContour.RemoveOutside(ship, out _, out _, out _);
 
             //What was removed or undocked stays behind, the group is read after that
@@ -890,17 +947,23 @@ namespace Freznel.FzAdditions.Util
             y = heading.Y;
         }
 
-        //Each cell gives up the same share of its charge
-        private static void SpendEnergy(Ship ship, double energy)
+        private static double SpendEnergy(Ship ship, double energy)
         {
-            List<CondOwner> cells = JumpCell.GetCells(ship);
-            double available = JumpCell.GetTotalCharge(cells);
-            if (available <= 0.0) return;
+            return SpendEnergy(JumpCell.GetCells(ship), energy);
+        }
 
+        //Each cell gives up the same share of its charge. Returns the kWh taken, short of energy if the cells are.
+        private static double SpendEnergy(List<CondOwner> cells, double energy)
+        {
+            double available = JumpCell.GetTotalCharge(cells);
+            if (available <= 0.0 || energy <= 0.0) return 0.0;
+
+            double share = Math.Min(energy / available, 1.0);
             foreach (CondOwner cell in cells)
             {
-                cell.AddCondAmount(Constants.CellChargeCond, -JumpCell.GetCharge(cell) * Math.Min(energy / available, 1.0));
+                cell.AddCondAmount(Constants.CellChargeCond, -JumpCell.GetCharge(cell) * share);
             }
+            return available * share;
         }
 
         //The game keeps the body a ship falls towards and only looks it up again if these are empty, so a ship

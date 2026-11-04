@@ -78,6 +78,12 @@ namespace Freznel.FzAdditions.Util
             return Math.Max(GetCapacity(co) - GetCharge(co), 0.0);
         }
 
+        //Close enough to its capacity to read as full
+        public static bool IsFull(CondOwner co)
+        {
+            return GetMissingCharge(co) <= FullMargin;
+        }
+
         //Whether a cell is due a share of a reactor tap's rate
         public static bool CanTakeCharge(CondOwner co)
         {
@@ -101,6 +107,13 @@ namespace Freznel.FzAdditions.Util
         public static double GetCurrentRate(CondOwner co)
         {
             return currentRates.TryGetValue(co.strID, out double rate) ? rate : 0.0;
+        }
+
+        //False until the cell's first power update since the game loaded. IsPowered isn't saved, so until then a cell
+        //reads as off whether or not it is.
+        public static bool HasRun(CondOwner co)
+        {
+            return currentRates.ContainsKey(co.strID);
         }
 
         //Game seconds until the cell reads as full at its current rate, negative when it is not charging
