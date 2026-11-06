@@ -92,6 +92,10 @@
       <HintPath>$(GameManagedPath)\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>$(GameManagedPath)\UnityEngine.AudioModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.AnimationModule">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Ostranauts\Ostranauts_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
@@ -119,6 +123,11 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Design tools are separate programs, run on their own -->
+    <Compile Remove="Design\**" />
+    <None Remove="Design\**" />
+  </ItemGroup>
   <ItemGroup>
     <Folder Include="DataMods\FzAdditions\data\guipropmaps\" />
     <Folder Include="DataMods\FzAdditions\data\conditions\" />

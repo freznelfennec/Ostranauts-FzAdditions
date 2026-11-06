@@ -25,7 +25,11 @@ namespace Freznel.FzAdditions
             
             Logger.LogInfo("Harmony patches applied successfully!");
 
-            Util.JumpSequence.Init();
+            //Each section of the mod hooks itself into the common code
+            PropulsionSection.Init();
+            ProfilingSection.Init();
+            TweaksSection.Init();
+            FabricationSection.Init();
 
             Logger.LogInfo("Attaching last chance exception handler");
             AppDomain.CurrentDomain.UnhandledException += (sender, e) =>

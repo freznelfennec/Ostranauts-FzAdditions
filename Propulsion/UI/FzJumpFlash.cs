@@ -98,7 +98,7 @@ namespace Freznel.FzAdditions.UI
 
         private void LateUpdate()
         {
-            elapsed += CrewSim.TimeElapsedScaled();
+            elapsed += FzJumpEffect.ShownTime(); //The same at any game speed, at 16x a game-time flash is gone in a frame or two
             float progress = elapsed / Duration;
             if (progress >= 1f)
             {

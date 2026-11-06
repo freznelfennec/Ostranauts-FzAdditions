@@ -1,6 +1,6 @@
-#Run from anywhere: powershell -File Tools\make_pulsebank.ps1 [-Preview review.png]
-param([string]$Src = "$PSScriptRoot\..\Art\pulsebank", [string]$Out = "$PSScriptRoot\..\DataMods\FzAdditions\images\jumpcell",
-    [string]$Looks = "$PSScriptRoot\..\DataMods\FzAdditions\data\cooverlays\cooverlays_jumpcell.json", [string]$Preview)
+#Run from anywhere: powershell -File Propulsion\Tools\make_pulsebank.ps1 [-Preview review.png]
+param([string]$Src = "$PSScriptRoot\..\Art\pulsebank", [string]$Out = "$PSScriptRoot\..\..\DataMods\FzAdditions\images\jumpcell",
+    [string]$Looks = "$PSScriptRoot\..\..\DataMods\FzAdditions\data\cooverlays\cooverlays_jumpcell.json", [string]$Preview)
 #Builds the jump cell's state sprites from the pulsebank set. Levels are pips lit per column, 0 to 6, filled from the
 #bottom. Charging states are 2x2 sheets of 4 frames, read from the top left. Their glow layers are one image for each
 #frame instead, the light sprite that shows them draws the whole texture whatever part of it is asked for.

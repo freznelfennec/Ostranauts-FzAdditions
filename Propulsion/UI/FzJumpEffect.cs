@@ -67,19 +67,25 @@ namespace Freznel.FzAdditions.UI
             instance = effect.AddComponent<FzJumpEffect>();
             instance.onCharged = onCharged;
             instance.Init(overlayCamera, curve, FieldContour.GetEmitters(ship), ship);
+            FzJumpAudio.Begin();
             return true;
         }
 
         //Fades out from wherever the effect has reached instead of completing the charge
         public static void Interrupt()
         {
-            if (instance != null) instance.interrupted = true;
+            if (instance == null) return;
+            if (!instance.flashPlayed) FzJumpAudio.PowerDown();
+            instance.interrupted = true;
         }
 
-        //Removes the effect at once
+        //Removes the effect at once. A charge cut short powers down, and after a jump the charge's sound winds
+        //straight down, the hit still playing out.
         public static void Stop()
         {
             if (instance == null) return;
+            if (!instance.flashPlayed) FzJumpAudio.PowerDown();
+            else FzJumpAudio.SetRelease(0f, 0f);
             Destroy(instance.gameObject);
             instance = null;
         }
@@ -363,14 +369,22 @@ namespace Freznel.FzAdditions.UI
             }
         }
 
+        //Real seconds that have passed while the game ran. The charge runs on game time, it is the jump, but what
+        //comes after it is only seen, so it plays at the same speed however fast the game is going.
+        public static float ShownTime()
+        {
+            return CrewSim.Paused ? 0f : CrewSim.TimeElapsedUnscaled();
+        }
+
         private void LateUpdate()
         {
             float deltaTime = CrewSim.TimeElapsedScaled();
+            float shownTime = ShownTime();
             elapsed += deltaTime;
 
             if (interrupted)
             {
-                interruptElapsed += deltaTime;
+                interruptElapsed += shownTime;
                 if (interruptElapsed >= FadeDuration)
                 {
                     Stop();
@@ -381,7 +395,7 @@ namespace Freznel.FzAdditions.UI
             //Once charged no new waves start, the contour holds after the last one lands and then fades
             if (wavesLanded)
             {
-                fadeElapsed += deltaTime;
+                fadeElapsed += shownTime;
 
                 //The jump itself, as soon as the last wave lands on a charge that was not interrupted
                 if (!flashPlayed && !interrupted)
@@ -390,10 +404,12 @@ namespace Freznel.FzAdditions.UI
                     {
                         flashPlayed = true;
                         FzJumpFlash.Play(points);
+                        FzJumpAudio.Hit();
                     }
                     else
                     {
                         interrupted = true;
+                        FzJumpAudio.PowerDown();
                     }
                 }
 
@@ -425,6 +441,7 @@ namespace Freznel.FzAdditions.UI
             float emitterRise = Mathf.Clamp01(elapsed / (EmitterGlowLead + ChargeDuration * EmitterFullShare));
             float emitterFade = 1f - Mathf.Clamp01((fadeElapsed - HoldDuration) / EmitterFadeDuration);
             SetEmitterGlowAlpha(emitterRise * emitterFade * interruptFade);
+            if (flashPlayed) FzJumpAudio.SetRelease(fade, emitterFade * interruptFade);
             float intro = Mathf.Clamp01(mainElapsed / IntroDuration);
             float waveAlpha = Mathf.Lerp(0.25f, 1f, charge) * intro * interruptFade;
             bool anyActive = false;
@@ -436,6 +453,14 @@ namespace Freznel.FzAdditions.UI
             {
                 if (!waveLanded[i]) waveTimeLeft = Mathf.Max(waveTimeLeft, (1f - waveProgress[i]) / FastWaveRate);
             }
+
+            //The sound follows the charge in game time, so it keeps step at any speed. Before the charge is full the
+            //landing is a guess, a wave takes at most this long at full speed.
+            if (!interrupted && !flashPlayed)
+            {
+                float landingIn = charge < 1f ? ChargeDuration - mainElapsed + 1f / FastWaveRate : waveTimeLeft;
+                FzJumpAudio.SetCharge(Mathf.Clamp01(elapsed / FzJumpAudio.SpinUpTime), ChargeProgress, landingIn);
+            }
         }
 
         //Returns whether the wave is still travelling
@@ -444,6 +469,9 @@ namespace Freznel.FzAdditions.UI
             if (waveLanded[index]) return false;
             //Starts fast and settles onto the contour
             float progress = Mathf.Repeat(wavePhase + (float)index / WaveCount, 1f);
+
+            //Coming round again means it has just reached the contour
+            if (progress < waveProgress[index]) FzJumpAudio.WaveLanded();
             if (charged && progress < waveProgress[index])
             {
                 waveLanded[index] = true;

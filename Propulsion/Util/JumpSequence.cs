@@ -122,6 +122,7 @@ namespace Freznel.FzAdditions.Util
             drainCells.Clear();
             FzJumpEffect.Stop();
             FzJumpFlash.Stop();
+            FzJumpAudio.Silence();
         }
 
         //A single jump that was charging when the game was saved, its charge starts again from the beginning

@@ -16,11 +16,12 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         static CustomPrefabRegistry()
         {
             Factories.Add("FzTestGUI", FzTestGUI.CreatePrefab);
-            Factories.Add("FzJumpFieldEmitterGUI", FzJumpFieldEmitterGUI.CreatePrefab);
-            Factories.Add("FzJumpEnergyCellGUI", FzJumpEnergyCellGUI.CreatePrefab);
-            Factories.Add("FzJumpReactorTapGUI", FzJumpReactorTapGUI.CreatePrefab);
-            Factories.Add("FzJumpNavCom", FzJumpNavCom.CreatePrefab);
-            Factories.Add("FzJumpNavComDmg", FzJumpNavCom.CreateDamagedPrefab);
+        }
+
+        //Each section adds its own GUIs when the plugin loads
+        public static void Register(string name, Func<GameObject> factory)
+        {
+            Factories[name] = factory;
         }
 
         public static GameObject GetPrefab(string name)
