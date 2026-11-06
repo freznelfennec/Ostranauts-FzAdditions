@@ -53,6 +53,12 @@ var ores = new Dictionary<string, double[]>
     ["ItmCargoOre01"] = Wd((Base, .5), (Silicate, .3), (RareEarth, .1), (Precious, .1)), // Mixed ore cargo
 };
 
+// Ores costed by true mass, a unit to every 0.01 kg, instead of the usual curve: water ice, to match the water
+// ration's hand-written recipe (25 Volatiles for 0.25 kg, in fz_manual_liquids.json). Deposits still weigh these ores
+// on the curve, so a deposit with some ice in it isn't swamped by it.
+var oresByMass = new HashSet<string> { "ItmIce01" };
+const double UnitMassKg = 0.01;
+
 // Deposits and placed regolith hold the ore their mining tables give (loot_mining.json), here as the expected count
 // of each. A deposit's makeup is that mix, its amount the usual mass curve, so the salvaging laser can cut one down.
 (string ore, double count)[] stony = { ("ItmMineral02", .3), ("ItmMineral01", .2), ("ItmMineral04", .2), ("ItmMineral08", .02), ("ItmMineral09", .03), ("ItmMineral05", .01), ("ItmMineral06", .01), ("ItmMineral07", .01), ("ItmMineral10", .02), ("ItmMineralStone01", .2) }; // ItmRandomMineralSClass
@@ -274,11 +280,22 @@ int[] Cost(string name)
             mats = und != null ? und.Select(x => (int)Math.Floor(x * 0.6)).ToArray() : Allocate(profiles.GetValueOrDefault(Category(r), profiles["Misc"]), Units(D(r["mass"])) * 0.6);
             b = "60% of undamaged";
         }
-        else if (ores.TryGetValue(name, out var ore)) { mats = Allocate(ore, Units(D(r["mass"]))); b = "ore"; }
+        else if (ores.TryGetValue(name, out var ore))
+        {
+            bool byMass = oresByMass.Contains(name);
+            mats = Allocate(ore, byMass ? D(r["mass"]) / UnitMassKg : Units(D(r["mass"])));
+            b = byMass ? "ore, by mass" : "ore";
+        }
         else if (deposits.TryGetValue(name, out var mix))
         {
             var w = new double[Mats.Length];
-            foreach (var (oreName, count) in mix) { var oc = Cost(oreName); for (int i = 0; i < w.Length; i++) w[i] += count * oc[i]; }
+            foreach (var (oreName, count) in mix)
+            {
+                //Each ore weighed on the curve, whatever its own recipe uses, so ice costed by mass doesn't swamp the mix
+                var oc = oresByMass.Contains(oreName) && ores.TryGetValue(oreName, out var oreMix) && by.TryGetValue(oreName, out var oreRow)
+                    ? Allocate(oreMix, Units(D(oreRow["mass"]))) : Cost(oreName);
+                for (int i = 0; i < w.Length; i++) w[i] += count * oc[i];
+            }
             mats = Allocate(w, Units(D(r["mass"]))); b = "deposit, its mined ore";
         }
         else if (Category(r) == "Hull" && IsWall(r)) { (mats, var role) = Panel(r, wallRefMass, wallRefDur, Units(wallRefMass)); b = "wall: " + role; }
@@ -352,7 +369,7 @@ foreach (var l in report.Take(40)) Console.WriteLine("  " + l);
 // Recipe and material data for the mod, when paths for them are given
 if (args.Length >= 4) WriteData(args[2], args[3]);
 
-void WriteData(string recipesPath, string materialsPath)
+void WriteData(string recipesDir, string materialsPath)
 {
     string[] ids = Mats.Select(m => m.Replace(" ", "")).ToArray();
     var blocks = new HashSet<string>(leaves.Keys);
@@ -377,19 +394,24 @@ void WriteData(string recipesPath, string materialsPath)
         }
     }
 
-    var json = new StringBuilder("[\r\n");
-    bool first = true;
+    // One file per top-level category, fz_recipes_<category>.json, so a pack is easier to read and another mod can
+    // ignore a whole category. Old recipe files are removed first, including ones from before the fz_ prefix.
+    Directory.CreateDirectory(recipesDir);
+    foreach (string old in Directory.GetFiles(recipesDir, "*recipes_*.json")) File.Delete(old);
+    var files = new SortedDictionary<string, StringBuilder>(StringComparer.Ordinal);
     foreach (var o in outRows.OrderBy(o => o.Key).ThenBy(o => o.Damaged))
     {
         var r = by[o.StatsFrom]; string cat = Category(r);
         bool fab = blueprintOf.ContainsKey(o);
         bool block = blocks.Contains(o.Key);
-        if (!first) json.Append(",\r\n");
-        first = false;
+        string path = CategoryPath(o, cat, block);
+        string top = path.Split('.')[0];
+        if (!files.TryGetValue(top, out var json)) files[top] = json = new StringBuilder("[\r\n");
+        else json.Append(",\r\n");
         json.Append("  {\r\n");
         json.Append($"    \"strName\": {J(o.Damaged ? o.Key + "Dmg" : o.Key)},\r\n");
         json.Append($"    \"strNameFriendly\": {J(CleanName(o.Friendly))},\r\n");
-        json.Append($"    \"strCategory\": {J(CategoryPath(o, cat, block))},\r\n");
+        json.Append($"    \"strCategory\": {J(path)},\r\n");
         json.Append($"    \"aCOs\": [ {string.Join(", ", o.Group.Prepend(o.Spawn).Distinct().Select(J))} ],\r\n");
         if (fab) json.Append($"    \"strCOFabricate\": {J(o.Spawn)},\r\n");
         json.Append("    \"mapMaterials\": { " + string.Join(", ", o.Cost.Select((n, i) => (n, i)).Where(x => x.n > 0).Select(x => $"{J(ids[x.i])}: {x.n}")) + " },\r\n");
@@ -401,9 +423,12 @@ void WriteData(string recipesPath, string materialsPath)
         json.Append($"    \"strTier\": {J(!o.Damaged && fab && Specialised(o) ? "Specialised" : "Ordinary")}\r\n");
         json.Append("  }");
     }
-    json.Append("\r\n]\r\n");
-    Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(recipesPath))!);
-    File.WriteAllText(recipesPath, json.ToString(), new UTF8Encoding(false));
+    foreach (var (top, json) in files)
+    {
+        json.Append("\r\n]\r\n");
+        File.WriteAllText(Path.Combine(recipesDir, "fz_recipes_" + top.ToLowerInvariant() + ".json"), json.ToString(), new UTF8Encoding(false));
+    }
+    Console.WriteLine($"recipe files: {string.Join(", ", files.Select(f => $"{f.Key.ToLowerInvariant()} ({f.Value.ToString().Split("\"strName\"").Length - 1})"))}");
 
     // A material's unit price: low among the prices per unit of the items mostly made of it, at the 10th percentile.
     // Selling recycled material for more than an item's own price per unit would make buying and recycling it pay,
@@ -422,6 +447,22 @@ void WriteData(string recipesPath, string materialsPath)
     int loops = priced.Count(o => o.Cost.Select((n, i) => n * unitPrice[i]).Sum() * 0.5 > D(by[o.StatsFrom]["price"]));
     Console.WriteLine($"material prices leave {loops} of {priced.Count} priced items worth more recycled and sold than bought");
 
+    // Shown on silo panels, and the tint of the material's compacted block, in the order of Mats
+    string[] colors = { "#9AA0A6", "#4A6FA5", "#D4AF37", "#6FBF73", "#3FB8AF", "#E8E2D6", "#8B5A2B", "#C2B280", "#7FD4FF", "#B39DDB", "#FF4FD8" };
+    if (colors.Length != Mats.Length) throw new InvalidOperationException("every material needs a colour");
+    // Game seconds a unit takes to recycle and to fabricate. Common, simple stock goes quickest, refined alloys and
+    // rare stock slower, and Exotics far slower. Fabricating takes longer than breaking down.
+    double[] recycleTimes = { 1, 2, 4, 4.5, 1.5, 1.5, 0.8, 1.2, 1, 6, 30 };
+    double[] fabricateTimes = { 1.5, 3, 6, 7, 2, 2.5, 1.2, 1.8, 1.5, 9, 60 };
+    // The power drawn while working each material, in kW. The harder a material is to separate or form, the more it
+    // draws, so complex items draw more as well as taking longer. Fabricating draws half again as much.
+    double[] recycleKw = { 3, 5, 8, 10, 3, 6, 2, 4, 3, 12, 40 };
+    const double FabricateKwScale = 1.5;
+    if (recycleTimes.Length != Mats.Length || fabricateTimes.Length != Mats.Length || recycleKw.Length != Mats.Length)
+        throw new InvalidOperationException("every material needs its times and power");
+    // kWh a unit takes: its power over its time, then 25 times that, as the plain figure was too slight to matter
+    const double EnergyScale = 25.0;
+    double Energy(double kw, double seconds) => Math.Round(kw * seconds / 3600.0 * EnergyScale, 6);
     var mjson = new StringBuilder("[\r\n");
     for (int i = 0; i < Mats.Length; i++)
     {
@@ -429,9 +470,14 @@ void WriteData(string recipesPath, string materialsPath)
         mjson.Append("  {\r\n");
         mjson.Append($"    \"strName\": {J(ids[i])},\r\n");
         mjson.Append($"    \"strNameFriendly\": {J(Mats[i])},\r\n");
+        mjson.Append($"    \"strColor\": {J(colors[i])},\r\n");
         mjson.Append($"    \"fUnitPrice\": {unit.ToString("0.##", inv)},\r\n");
+        mjson.Append($"    \"fRecycleTime\": {recycleTimes[i].ToString("0.##", inv)},\r\n");
+        mjson.Append($"    \"fFabricateTime\": {fabricateTimes[i].ToString("0.##", inv)},\r\n");
+        mjson.Append($"    \"fRecycleEnergy\": {Energy(recycleKw[i], recycleTimes[i]).ToString("0.######", inv)},\r\n");
+        mjson.Append($"    \"fFabricateEnergy\": {Energy(recycleKw[i] * FabricateKwScale, fabricateTimes[i]).ToString("0.######", inv)},\r\n");
         mjson.Append($"    \"strBlockCO\": {J(i == Exotic ? "ItmFzExoticCanister" : "ItmFzCompacted" + ids[i])},\r\n");
-        mjson.Append($"    \"strSilo\": {J(i == Exotic ? "Exotic" : "Standard")}\r\n");
+        mjson.Append($"    \"strSiloCond\": {J("IsFzSilo" + ids[i])}\r\n");
         mjson.Append(i < Mats.Length - 1 ? "  },\r\n" : "  }\r\n");
     }
     mjson.Append("]\r\n");

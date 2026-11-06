@@ -1,0 +1,15 @@
+[
+  {
+    "strName": "ItmCargoScience01",
+    "strNameFriendly": "Science Cargo",
+    "strCategory": "Science",
+    "aCOs": [ "ItmCargoScience01" ],
+    "strCOFabricate": "ItmCargoScience01",
+    "mapMaterials": { "BaseMetals": 3, "PreciousMetals": 2, "RareEarths": 2, "Organics": 1, "Silicates": 4 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "ItmCargoScience",
+    "strTier": "Ordinary"
+  }
+]

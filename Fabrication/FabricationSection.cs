@@ -12,7 +12,11 @@ namespace Freznel.FzAdditions
     {
         public static void Init()
         {
+            UI.CustomPrefabs.CustomPrefabRegistry.Register(UI.CustomPrefabs.FzSiloGUI.PrefabName, UI.CustomPrefabs.FzSiloGUI.CreatePrefab);
+            UI.CustomPrefabs.CustomPrefabRegistry.Register(UI.CustomPrefabs.FzRecyclerGUI.PrefabName, UI.CustomPrefabs.FzRecyclerGUI.CreatePrefab);
+            UI.CustomPrefabs.CustomPrefabRegistry.Register(UI.CustomPrefabs.FzFabricatorGUI.PrefabName, UI.CustomPrefabs.FzFabricatorGUI.CreatePrefab);
             FabConsoleCommands.Register();
+            UI.FzAreaProjector.Init();
         }
     }
 }

@@ -1,12 +1,12 @@
 #Run from anywhere: powershell -File Propulsion\Tools\make_pulsebank.ps1 [-Preview review.png]
 param([string]$Src = "$PSScriptRoot\..\Art\pulsebank", [string]$Out = "$PSScriptRoot\..\..\DataMods\FzAdditions\images\jumpcell",
-    [string]$Looks = "$PSScriptRoot\..\..\DataMods\FzAdditions\data\cooverlays\cooverlays_jumpcell.json", [string]$Preview)
+    [string]$Looks = "$PSScriptRoot\..\..\DataMods\FzAdditions\data\cooverlays\fz_cooverlays_jumpcell.json", [string]$Preview)
 #Builds the jump cell's state sprites from the pulsebank set. Levels are pips lit per column, 0 to 6, filled from the
 #bottom. Charging states are 2x2 sheets of 4 frames, read from the top left. Their glow layers are one image for each
 #frame instead, the light sprite that shows them draws the whole texture whatever part of it is asked for.
 Add-Type -AssemblyName System.Drawing
 New-Item -ItemType Directory -Force $Out | Out-Null
-Remove-Item "$Out\Pulsebank*.png" #Everything here is written again below, nothing left over from an older layout
+Remove-Item "$Out\Pulsebank*.png", "$Out\FzPulsebank*.png" #Everything here is written again below, nothing left over from an older layout
 
 function Load($name) { $b = [System.Drawing.Bitmap]::FromFile("$Src\$name.png"); $c = Copy-Bmp $b; $b.Dispose(); return $c }
 function Copy-Bmp($b) { return $b.Clone([System.Drawing.Rectangle]::new(0, 0, 32, 32), [System.Drawing.Imaging.PixelFormat]::Format32bppArgb) }
@@ -73,14 +73,15 @@ function Turn($bmp, $normal) {
     return $turned
 }
 
-function Save($bmp, $name, $normal = $false) { $turned = Turn $bmp $normal; $turned.Save("$Out\$name.png", [System.Drawing.Imaging.ImageFormat]::Png); $turned.Dispose() }
+#Written images carry the mod's Fz prefix, so they can't collide with another mod's images
+function Save($bmp, $name, $normal = $false) { $turned = Turn $bmp $normal; $turned.Save("$Out\Fz$name.png", [System.Drawing.Imaging.ImageFormat]::Png); $turned.Dispose() }
 
 #Each frame is turned on its own, so the frames keep their places in the sheet
 function Save-Sheet($frames, $name, $normal = $false) {
     $sheet = New-Object System.Drawing.Bitmap 64, 64, ([System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
     $g = [System.Drawing.Graphics]::FromImage($sheet); $g.CompositingMode = 'SourceCopy'
     for ($k = 0; $k -lt $frames.Count; $k++) { $turned = Turn $frames[$k] $normal; $g.DrawImage($turned, ($k % 2) * 32, [math]::Floor($k / 2) * 32, 32, 32); $turned.Dispose() }
-    $g.Dispose(); $sheet.Save("$Out\$name.png", [System.Drawing.Imaging.ImageFormat]::Png); $sheet.Dispose()
+    $g.Dispose(); $sheet.Save("$Out\Fz$name.png", [System.Drawing.Imaging.ImageFormat]::Png); $sheet.Dispose()
 }
 
 #Idle and discharging count in half pips, 0 to 12: a pip holding part of its charge shows unlit, a full one lights up.
@@ -120,11 +121,11 @@ function Add-Look($name, $img, $norm, $dmg, $rate) {
         "        `"strName`" : `"$name`",",
         '        "strNameFriendly" : "Jump Energy Cell",',
         '        "strNameShort" : "Energy Cell",',
-        "        `"strImg`" : `"jumpcell/$img`",",
-        "        `"strImgNorm`" : `"jumpcell/$norm`",",
-        "        `"strImgDamaged`" : `"jumpcell/$dmg`",",
+        "        `"strImg`" : `"jumpcell/Fz$img`",",
+        "        `"strImgNorm`" : `"jumpcell/Fz$norm`",",
+        "        `"strImgDamaged`" : `"jumpcell/Fz$dmg`",",
         '        "strDmgColor" : "DamageTintNone",',
-        '        "strPortraitImg" : "jumpcell/PulsebankIdle_h12",',
+        '        "strPortraitImg" : "jumpcell/FzPulsebankIdle_h12",',
         "        `"strCOBase`" : `"ItmFzJumpEnergyCell`"$anim",
         '    }') -join "`r`n"))
 }
@@ -152,12 +153,12 @@ if ($Preview) {
     for ($r = 0; $r -lt $rows.Count; $r++) {
         $row = $rows[$r]; $y = $r * ($cell + 22); $g.DrawString($row.Label, $font, [System.Drawing.Brushes]::White, 4, $y); $col = 0
         foreach ($name in $row.Names) {
-            $img = [System.Drawing.Bitmap]::FromFile("$Out\$name.png")
+            $img = [System.Drawing.Bitmap]::FromFile("$Out\Fz$name.png")
             $frames = if ($row.Sheet) { $row.Frames } else { @(0) }
             foreach ($k in $frames) {
                 $rect = if ($row.Sheet) { [System.Drawing.Rectangle]::new(($k % 2) * 32, [math]::Floor($k / 2) * 32, 32, 32) } else { [System.Drawing.Rectangle]::new(0, 0, 32, 32) }
                 $dest = [System.Drawing.Rectangle]::new($col * $cell, $y + 20, 32 * $s, 32 * $s)
-                $litPath = if ($row.Sheet -and (Test-Path "$Out\$($name)lit_f$k.png")) { "$Out\$($name)lit_f$k.png" } else { "$Out\$($name)lit.png" }
+                $litPath = if ($row.Sheet -and (Test-Path "$Out\Fz$($name)lit_f$k.png")) { "$Out\Fz$($name)lit_f$k.png" } else { "$Out\Fz$($name)lit.png" }
                 $g.DrawImage($img, $dest, $rect, 'Pixel')
                 if (Test-Path $litPath) { $lit = [System.Drawing.Bitmap]::FromFile($litPath); $g.DrawImage($lit, $dest, [System.Drawing.Rectangle]::new(0, 0, 32, 32), 'Pixel'); $lit.Dispose() }
                 $col++

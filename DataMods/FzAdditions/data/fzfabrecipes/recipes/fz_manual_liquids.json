@@ -1,0 +1,13 @@
+[
+  {
+    "strName": "LiquidWater",
+    "strNameFriendly": "Water",
+    "strCategory": "Liquids",
+    "aCOs": [ "LiquidWater" ],
+    "mapMaterials": { "Volatiles": 25 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  }
+]

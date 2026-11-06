@@ -1,0 +1,3 @@
+[
+  { "strName" : "IsFzRecycleLocked", "strNameFriendly" : "Being Recycled", "strColor" : "Neutral", "strDesc" : "[us] [is] being broken down by a recycler.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true }
+]

@@ -1,0 +1,119 @@
+[
+  {
+    "strName" : "ItmFzJumpEnergyCell",
+    "strImg"  : "jumpcell/FzPulsebankIdle_h12",
+    "strImgNorm"  : "jumpcell/FzPulsebankn",
+    "strImgDamaged" : "jumpcell/FzPulsebankDmg",
+    "strDmgColor" : "DamageTintNone",
+    "bLerp" : false,
+    "fDmgComplexity" : 800,
+    "nDmgMode" : 1,
+    "fZScale"  : 0.35,
+    "nCols"  : 2,
+    "aLights"        : [
+      "FzJumpCellGlow"
+    ],
+    "aSocketAdds"    : [
+      "TILFixtureAdds", "TILFixtureAdds",
+      "TILFixtureAdds", "TILFixtureAdds"
+    ],
+    "aSocketForbids"    : [
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "TILObstruction", "TILObstruction", "Blank",
+      "Blank", "TILObstruction", "TILObstruction", "Blank",
+      "Blank", "Blank", "Blank", "Blank"
+    ],
+    "aSocketReqs"    : [
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "TILFloor", "TILFloor", "Blank",
+      "Blank", "TILFloor", "TILFloor", "Blank",
+      "Blank", "Blank", "Blank", "Blank"
+    ]  
+  },
+  {
+    "strName" : "ItmFzJumpEnergyCellDmg",
+    "strImg"  : "jumpcell/FzPulsebankDmg",
+    "strImgNorm"  : "jumpcell/FzPulsebankDmgn",
+    "strImgDamaged" : "",
+    "strDmgColor" : "DamageTintDefault",
+    "bLerp" : false,
+    "fDmgComplexity" : 800,
+    "nDmgMode" : 1,
+    "fDmgTrim" : -0.12,
+    "fZScale"  : 0.35,
+    "nCols"  : 2,
+    "aSocketAdds"    : [
+      "TILFixtureAdds", "TILFixtureAdds",
+      "TILFixtureAdds", "TILFixtureAdds"
+    ],
+    "aSocketForbids"    : [
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "TILObstruction", "TILObstruction", "Blank",
+      "Blank", "TILObstruction", "TILObstruction", "Blank",
+      "Blank", "Blank", "Blank", "Blank"
+    ],
+    "aSocketReqs"    : [
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "TILFloor", "TILFloor", "Blank",
+      "Blank", "TILFloor", "TILFloor", "Blank",
+      "Blank", "Blank", "Blank", "Blank"
+    ]  
+  },
+  {
+    "strName" : "ItmFzJumpEnergyCellLoose",
+    "strImg"  : "jumpcell/FzPulsebankLoose",
+    "strImgNorm"  : "jumpcell/FzPulsebankLoosen",
+    "strImgDamaged" : "jumpcell/FzPulsebankDmgLoose",
+    "strDmgColor" : "DamageTintNone",
+    "bLerp" : false,
+    "fDmgComplexity" : 800,
+    "nDmgMode" : 1,
+    "fZScale"  : 0.35,
+    "nCols"  : 2,
+    "aSocketAdds"    : [
+      "TILItemAdds", "TILItemAdds",
+      "TILItemAdds", "TILItemAdds"
+    ],
+    "aSocketForbids"    : [
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "TILItemForbids", "TILItemForbids", "Blank",
+      "Blank", "TILItemForbids", "TILItemForbids", "Blank",
+      "Blank", "Blank", "Blank", "Blank"
+    ],
+    "aSocketReqs"    : [
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank", "Blank"
+    ]  
+  },
+  {
+    "strName" : "ItmFzJumpEnergyCellDmgLoose",
+    "strImg"  : "jumpcell/FzPulsebankDmgLoose",
+    "strImgNorm"  : "jumpcell/FzPulsebankDmgLoosen",
+    "strImgDamaged" : "",
+    "strDmgColor" : "DamageTintDefault",
+    "bLerp" : false,
+    "fDmgComplexity" : 800,
+    "nDmgMode" : 1,
+    "fDmgTrim" : -0.12,
+    "fZScale"  : 0.35,
+    "nCols"  : 2,
+    "aSocketAdds"    : [
+      "TILItemAdds", "TILItemAdds",
+      "TILItemAdds", "TILItemAdds"
+    ],
+    "aSocketForbids"    : [
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "TILItemForbids", "TILItemForbids", "Blank",
+      "Blank", "TILItemForbids", "TILItemForbids", "Blank",
+      "Blank", "Blank", "Blank", "Blank"
+    ],
+    "aSocketReqs"    : [
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank", "Blank",
+      "Blank", "Blank", "Blank", "Blank"
+    ]  
+  }
+]

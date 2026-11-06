@@ -1,0 +1,16 @@
+[
+  {
+    "strName" : "FzFabricator",
+    "aInputPts" : [
+      "PowerA",
+      "PowerB"
+    ],
+    "fAmount" : 0.0003,
+    "strIntPowerOn" : "MSFzFabricatorOnAllow",
+    "strIntPowerOff" : "MSFzFabricatorOffAllow",
+    "strShutDownCT" : "TIsConnctedSignalledOff",
+    "strUsePowerCT" : "TIsReadyUsePower",
+    "strRechargeCT" : null,
+    "bAllowExtPower" : true
+  }
+]

@@ -1,0 +1,7 @@
+[
+  { "strName" : "TIsFzRecyclerInstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzRecycler", "IsInstalled" ], "aForbids" : [ "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzRecyclerInstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzRecycler", "IsInstalled", "IsDamaged" ], "aForbids" : [ ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzRecyclerUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzRecycler" ], "aForbids" : [ "IsInstalled", "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzRecyclerUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzRecycler", "IsDamaged" ], "aForbids" : [ "IsInstalled" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzRecyclerWorking", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzRecycler", "IsInstalled", "IsPowered" ], "aForbids" : [ "IsDamaged", "IsOff" ], "aTriggers" : [ ], "bAND" : true }
+]

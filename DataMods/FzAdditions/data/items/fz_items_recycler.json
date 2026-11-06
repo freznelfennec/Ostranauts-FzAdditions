@@ -1,0 +1,63 @@
+[
+  {
+    "strName" : "ItmFzRecycler",
+    "strImg" : "ItmKioskCargo01",
+    "strImgNorm" : "ItmKioskCargo01n",
+    "strImgDamaged" : "",
+    "strDmgColor" : "DamageTintNone",
+    "fZScale" : 0.5,
+    "nCols" : 3,
+    "aLights" : [ "KioskCargo01" ],
+    "aSocketAdds" : [ "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds" ],
+    "aSocketForbids" : [ "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "TILObstruction", "TILObstruction", "TILObstruction", "Blank", "Blank", "TILObstruction", "TILObstruction", "TILObstruction", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank" ],
+    "aSocketReqs" : [ "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "TILFloor", "TILFloor", "TILFloor", "Blank", "Blank", "TILFloor", "TILFloor", "TILFloor", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank" ]
+  },
+  {
+    "strName" : "ItmFzRecyclerOff",
+    "strImg" : "ItmKioskCargo01",
+    "strImgNorm" : "ItmKioskCargo01n",
+    "strImgDamaged" : "",
+    "strDmgColor" : "DamageTintNone",
+    "fZScale" : 0.5,
+    "nCols" : 3,
+    "aSocketAdds" : [ "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds" ],
+    "aSocketForbids" : [ "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "TILObstruction", "TILObstruction", "TILObstruction", "Blank", "Blank", "TILObstruction", "TILObstruction", "TILObstruction", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank" ],
+    "aSocketReqs" : [ "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "TILFloor", "TILFloor", "TILFloor", "Blank", "Blank", "TILFloor", "TILFloor", "TILFloor", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank" ]
+  },
+  {
+    "strName" : "ItmFzRecyclerDmg",
+    "strImg" : "ItmKioskCargo01",
+    "strImgNorm" : "ItmKioskCargo01n",
+    "strImgDamaged" : "",
+    "strDmgColor" : "DamageTintRust",
+    "fZScale" : 0.5,
+    "nCols" : 3,
+    "aSocketAdds" : [ "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds", "TILFixtureAdds" ],
+    "aSocketForbids" : [ "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "TILObstruction", "TILObstruction", "TILObstruction", "Blank", "Blank", "TILObstruction", "TILObstruction", "TILObstruction", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank" ],
+    "aSocketReqs" : [ "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "TILFloor", "TILFloor", "TILFloor", "Blank", "Blank", "TILFloor", "TILFloor", "TILFloor", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank" ]
+  },
+  {
+    "strName" : "ItmFzRecyclerLoose",
+    "strImg" : "ItmKioskCargo01",
+    "strImgNorm" : "ItmKioskCargo01n",
+    "strImgDamaged" : "",
+    "strDmgColor" : "DamageTintNone",
+    "fZScale" : 0.5,
+    "nCols" : 3,
+    "aSocketAdds" : [ "TILItemAdds", "TILItemAdds", "TILItemAdds", "TILItemAdds", "TILItemAdds", "TILItemAdds" ],
+    "aSocketForbids" : [ "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "TILItemForbids", "TILItemForbids", "TILItemForbids", "Blank", "Blank", "TILItemForbids", "TILItemForbids", "TILItemForbids", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank" ],
+    "aSocketReqs" : [ "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank" ]
+  },
+  {
+    "strName" : "ItmFzRecyclerDmgLoose",
+    "strImg" : "ItmKioskCargo01",
+    "strImgNorm" : "ItmKioskCargo01n",
+    "strImgDamaged" : "",
+    "strDmgColor" : "DamageTintRust",
+    "fZScale" : 0.5,
+    "nCols" : 3,
+    "aSocketAdds" : [ "TILItemAdds", "TILItemAdds", "TILItemAdds", "TILItemAdds", "TILItemAdds", "TILItemAdds" ],
+    "aSocketForbids" : [ "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "TILItemForbids", "TILItemForbids", "TILItemForbids", "Blank", "Blank", "TILItemForbids", "TILItemForbids", "TILItemForbids", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank" ],
+    "aSocketReqs" : [ "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank", "Blank" ]
+  }
+]

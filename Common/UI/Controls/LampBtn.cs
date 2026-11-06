@@ -1,4 +1,4 @@
-﻿using Freznel.FzAdditions.Util;
+using Freznel.FzAdditions.Util;
 using Ostranauts.ShipGUIs.Market.GUICargoPod;
 using System;
 using System.Collections.Generic;
@@ -20,9 +20,9 @@ namespace Freznel.FzAdditions.UI.Controls
 {
     public class LampBtn : FzUIElement, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
     {
-        private static readonly Sprite BtnOffSprite = SpriteUtil.LoadModSprite("LampBtnOff.png");
-        private static readonly Sprite BtnOnSprite = SpriteUtil.LoadModSprite("LampBtnOn.png");
-        private static readonly Sprite BtnHoverSprite = SpriteUtil.LoadModSprite("LampBtnHover.png");
+        private static readonly Sprite BtnOffSprite = SpriteUtil.LoadModSprite("FzLampBtnOff.png");
+        private static readonly Sprite BtnOnSprite = SpriteUtil.LoadModSprite("FzLampBtnOn.png");
+        private static readonly Sprite BtnHoverSprite = SpriteUtil.LoadModSprite("FzLampBtnHover.png");
         private static readonly Color OffColor = SpriteUtil.ColorFromHex("#565656FF");
         private static readonly Color DefaultOnColor = SpriteUtil.ColorFromHex("#FFF9EFFF");
         private static readonly string DownAudio = "ShipUIBtnReactorCoilFwdIn";
@@ -100,6 +100,21 @@ namespace Freznel.FzAdditions.UI.Controls
                 SetVisual();
                 OnChanged?.Invoke(value);
             }
+        }
+
+        //Shows it on or off without raising OnChanged, for a state set from elsewhere. Mid-press it changes what a
+        //cancelled press returns to.
+        public void SetOnWithoutNotify(bool value)
+        {
+            LampBtnState newState = value ? LampBtnState.On : LampBtnState.Off;
+            if (_state == LampBtnState.Hover)
+            {
+                _downState = newState;
+                return;
+            }
+            if (_state == newState) return;
+            _state = newState;
+            SetVisual();
         }
 
         public Color OnColor

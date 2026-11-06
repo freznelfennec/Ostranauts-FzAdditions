@@ -1,0 +1,74 @@
+[
+  {
+    "strName": "ItmFzBeamFormer01",
+    "strNameFriendly": "Basic Matter Beam Former",
+    "strCategory": "Fabrication.BeamFormers",
+    "aCOs": [ "ItmFzBeamFormer01" ],
+    "strCOFabricate": "ItmFzBeamFormer01",
+    "mapMaterials": { "Exotics": 2, "PreciousMetals": 150, "RareEarths": 1500, "MetalAlloys": 3000, "Silicates": 600, "Ceramics": 1000 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzBeamFormer01",
+    "strTier": "Specialised"
+  },
+  {
+    "strName": "ItmFzBeamFormer02",
+    "strNameFriendly": "Advanced Matter Beam Former",
+    "strCategory": "Fabrication.BeamFormers",
+    "aCOs": [ "ItmFzBeamFormer02" ],
+    "strCOFabricate": "ItmFzBeamFormer02",
+    "mapMaterials": { "Exotics": 4, "PreciousMetals": 300, "RareEarths": 3000, "MetalAlloys": 6000, "Silicates": 1200, "Ceramics": 2000 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzBeamFormer02",
+    "strTier": "Specialised"
+  },
+  {
+    "strName": "ItmFzBeamFormer03",
+    "strNameFriendly": "Superior Matter Beam Former",
+    "strCategory": "Fabrication.BeamFormers",
+    "aCOs": [ "ItmFzBeamFormer03" ],
+    "strCOFabricate": "ItmFzBeamFormer03",
+    "mapMaterials": { "Exotics": 12, "PreciousMetals": 900, "RareEarths": 9000, "MetalAlloys": 18000, "Silicates": 3600, "Ceramics": 6000 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzBeamFormer03",
+    "strTier": "Specialised"
+  },
+  {
+    "strName": "ItmFzBeamFormer01Spent",
+    "strNameFriendly": "Spent Basic Matter Beam Former",
+    "strCategory": "Fabrication.BeamFormers",
+    "aCOs": [ "ItmFzBeamFormer01Spent" ],
+    "mapMaterials": { "PreciousMetals": 150, "RareEarths": 1500, "MetalAlloys": 3000, "Silicates": 600, "Ceramics": 1000 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Specialised"
+  },
+  {
+    "strName": "ItmFzBeamFormer02Spent",
+    "strNameFriendly": "Spent Advanced Matter Beam Former",
+    "strCategory": "Fabrication.BeamFormers",
+    "aCOs": [ "ItmFzBeamFormer02Spent" ],
+    "mapMaterials": { "PreciousMetals": 300, "RareEarths": 3000, "MetalAlloys": 6000, "Silicates": 1200, "Ceramics": 2000 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Specialised"
+  },
+  {
+    "strName": "ItmFzBeamFormer03Spent",
+    "strNameFriendly": "Spent Superior Matter Beam Former",
+    "strCategory": "Fabrication.BeamFormers",
+    "aCOs": [ "ItmFzBeamFormer03Spent" ],
+    "mapMaterials": { "PreciousMetals": 900, "RareEarths": 9000, "MetalAlloys": 18000, "Silicates": 3600, "Ceramics": 6000 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Specialised"
+  }
+]

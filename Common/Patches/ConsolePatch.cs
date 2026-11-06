@@ -143,7 +143,11 @@ namespace Freznel.FzAdditions.Patches
                 string detail = component switch
                 {
                     Image image => $" sprite={image.sprite?.name} color={image.color} type={image.type}",
-                    TMP_Text text => $" text='{text.text}' font={text.font?.name} size={text.fontSize} color={text.color}",
+                    TMP_Text text => $" text='{text.text}' font={text.font?.name} size={text.fontSize} color={text.color} style={text.fontStyle} align={text.alignment} autosize={text.enableAutoSizing} ({text.fontSizeMin}-{text.fontSizeMax})",
+                    Selectable selectable => $" transition={selectable.transition} target={selectable.targetGraphic?.name}"
+                        + $" normal={selectable.colors.normalColor} highlighted={selectable.colors.highlightedColor} pressed={selectable.colors.pressedColor} selected={selectable.colors.selectedColor} disabled={selectable.colors.disabledColor} multiplier={selectable.colors.colorMultiplier} fade={selectable.colors.fadeDuration}"
+                        + $" highlightedSprite={selectable.spriteState.highlightedSprite?.name} pressedSprite={selectable.spriteState.pressedSprite?.name} selectedSprite={selectable.spriteState.selectedSprite?.name} disabledSprite={selectable.spriteState.disabledSprite?.name}",
+                    GUIAudioBtn audio => $" down={audio.strAudioEmitterDown} up={audio.strAudioEmitterUp}",
                     _ => ""
                 };
                 FzAdditions.Logger.LogInfo($"{new string(' ', depth * 2)}  [{component?.GetType().Name}]{detail}");

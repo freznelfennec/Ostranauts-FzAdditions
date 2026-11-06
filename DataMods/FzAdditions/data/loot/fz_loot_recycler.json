@@ -1,0 +1,13 @@
+[
+  { "strName" : "ACTFzRecyclerDamage", "aCOs" : [ "MSFzRecyclerDamage=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzRecyclerDestroy", "aCOs" : [ "MSFzRecyclerDestroy=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzRecyclerLooseDamage", "aCOs" : [ "MSFzRecyclerLooseDamage=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzRecyclerLooseDestroy", "aCOs" : [ "MSFzRecyclerLooseDestroy=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ItmFzRecyclerDamage", "aCOs" : [ "ItmFzRecyclerDmg=1.0x1" ], "aLoots" : [ "ItmAtmoScrubberComponents=1.0x1" ], "strType" : "item" },
+  { "strName" : "ItmFzRecyclerLooseDamage", "aCOs" : [ "ItmFzRecyclerDmgLoose=1.0x1" ], "aLoots" : [ "ItmAtmoScrubberComponents=1.0x1" ], "strType" : "item" },
+  { "strName" : "ItmFzRecycler", "aCOs" : [ "ItmFzRecycler=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzRecyclerOff", "aCOs" : [ "ItmFzRecyclerOff=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzRecyclerDmg", "aCOs" : [ "ItmFzRecyclerDmg=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzRecyclerLoose", "aCOs" : [ "ItmFzRecyclerLoose=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzRecyclerDmgLoose", "aCOs" : [ "ItmFzRecyclerDmgLoose=1.0x1" ], "aLoots" : [ ], "strType" : "item" }
+]

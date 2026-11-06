@@ -16,7 +16,7 @@ namespace Freznel.FzAdditions.UI
         private static readonly string TextName = "Text";
         private static readonly string HeaderColor = "#FFD800";
         private static readonly float FontSize = 12f;
-        private static readonly float Padding = 12f;
+        private static readonly float PaddingLines = 1f; //Space under the text, in lines of its own size
 
         protected static GameObject CreatePrefab<T>(string name) where T : FzTextModule
         {
@@ -78,8 +78,9 @@ namespace Freznel.FzAdditions.UI
         private void UpdateText()
         {
             text.text = string.Join("\n", GetLines());
-            //The tooltip stacks sections by their actual height, the layout element alone is not enough
-            float height = text.preferredHeight + Padding;
+            //The tooltip stacks sections by their actual height, the layout element alone is not enough. Its layout
+            //works in canvas units, so the height is given that way, with padding in proportion to the text.
+            float height = text.preferredHeight + text.fontSize * PaddingLines;
             layout.preferredHeight = height;
             GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
         }

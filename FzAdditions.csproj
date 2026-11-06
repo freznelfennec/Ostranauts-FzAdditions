@@ -134,7 +134,6 @@
     <Folder Include="DataMods\FzAdditions\data\loot\" />
     <Folder Include="DataMods\FzAdditions\data\conditions_simple\" />
     <Folder Include="DataMods\FzAdditions\data\items\" />
-    <Folder Include="DataMods\FzAdditions\images\containers\" />
     <Folder Include="DataMods\FzAdditions\data\powerinfos\" />
     <Folder Include="DataMods\FzAdditions\NewFolder\" />
   </ItemGroup>

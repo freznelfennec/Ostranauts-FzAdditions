@@ -35,9 +35,14 @@ namespace Freznel.FzAdditions.Util
     {
         public string strName { get; set; } //Material ID that recipes refer to
         public string strNameFriendly { get; set; }
+        public string strColor { get; set; } = FabSilo.DefaultColor; //Hex, shown on silo panels and matching its compacted item
         public float fUnitPrice { get; set; }
+        public float fRecycleTime { get; set; } = FabSilo.DefaultUnitTime; //Game seconds to recycle one unit of it
+        public float fFabricateTime { get; set; } = FabSilo.DefaultUnitTime; //Game seconds to fabricate with one unit of it
+        public float fRecycleEnergy { get; set; } = FabSilo.DefaultUnitEnergy; //kWh to recycle one unit of it
+        public float fFabricateEnergy { get; set; } = FabSilo.DefaultUnitEnergy; //kWh to fabricate with one unit of it
         public string strBlockCO { get; set; } //What it's compacted into
-        public string strSilo { get; set; } = FabSilo.Standard; //Which silos may hold it
+        public string strSiloCond { get; set; } //A silo can hold it only with this condition, IsFzSilo<strName> if not given
 
         public string SourceMod { get; set; }
     }
@@ -51,9 +56,15 @@ namespace Freznel.FzAdditions.Util
         public static readonly string[] All = { Ordinary, Specialised, Exotic };
     }
 
+    //Each material has its own silo condition, and a silo holds every material whose condition it has. So a silo for
+    //any mix of materials can be added with just data.
     public static class FabSilo
     {
-        public const string Standard = "Standard";
-        public const string Exotic = "Exotic";
+        public const string CondPrefix = "IsFzSilo";
+        public const string DefaultColor = "#FFFFFF";
+        public const float DefaultUnitTime = 3f; //Game seconds a unit takes when a material doesn't say
+        public const float DefaultUnitEnergy = 0.075f; //kWh a unit takes when a material doesn't say, on the scale CostModel uses
+
+        public static string DefaultCond(string material) => CondPrefix + material;
     }
 }

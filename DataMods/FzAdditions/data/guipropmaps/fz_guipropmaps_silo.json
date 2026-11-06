@@ -1,0 +1,13 @@
+[
+  {
+    "strName" : "FzSiloGUI",
+    "dictGUIPropMap" : [
+      "strGUIPrefab", "FzSiloGUI",
+      "strFriendlyName", "Material Silo",
+      "strGUIPrefabRight", null,
+      "strGUIPrefabLeft", null,
+      "strGUIPrefabUp", null,
+      "strGUIPrefabDown", null
+    ]
+  }
+]

@@ -1,0 +1,171 @@
+[
+  {
+    "strName" : "ItmFzJumpEnergyCell",
+    "strNameShort" : "Energy Cell",
+    "strNameFriendly" : "Jump Energy Cell",
+    "strDesc" : "An energy cell for a jump drive. It connects to an adjacent conduit, and holds the energy needed for a jump.",
+    "strItemDef" : "ItmFzJumpEnergyCell",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+      "FzJumpEnergyCellGUI"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzJumpEnergyCell=1.0x1",
+      "StatFzJumpChargeMax=1.0x25000",
+      "StatFzJumpChargeRate=1.0x200",
+      "IsPowerRecalc=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x2623.0",
+      "StatDismantleProgressMax=1.0x140",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatMass=1.0x45.0",
+      "StatDamageMax=1.0x10",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapPoints"      : [
+      "use,0,0",
+      "PowerSource,-8,24"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzJumpEnergyCellDamage,StatDamageMax,1.0"
+    ],
+    "mapGUIPropMaps"  : [
+      "FzJumpEnergyCellGUI",
+      "FzJumpEnergyCellGUI"
+    ],
+    "strPortraitImg"  : "jumpcell/FzPulsebankIdle_h12",
+    "jsonPI"            : "FzJumpEnergyCell",
+    "strAudioEmitter": "ItmBattery02Sound"
+  },
+  {
+    "strName" : "ItmFzJumpEnergyCellDmg",
+    "strNameShort" : "Energy Cell",
+    "strNameFriendly" : "Jump Energy Cell (Damaged)",
+    "strDesc" : "An energy cell for a jump drive. It connects to an adjacent conduit, and holds the energy needed for a jump.",
+    "strItemDef" : "ItmFzJumpEnergyCellDmg",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+    ],
+    "aStartingConds" : [
+      "IsDamaged=1.0x1",
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzJumpEnergyCell=1.0x1",
+      "StatFzJumpChargeMax=1.0x25000",
+      "StatFzJumpChargeRate=1.0x200",
+      "IsPowerRecalc=1.0x1",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x524.0",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatRepairProgressMax=1.0x3000",
+      "StatMass=1.0x45.0",
+      "StatDamageMax=1.0x30",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapPoints"      : [
+      "use,0,0",
+      "Output,-8,24"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzJumpEnergyCellDestroy,StatDamageMax,1.0"
+    ],
+    "mapGUIPropMaps"  : [
+    ],
+    "strPortraitImg"  : "jumpcell/FzPulsebankDmg"
+  },
+  {
+    "strName" : "ItmFzJumpEnergyCellLoose",
+    "strNameShort" : "Energy Cell",
+    "strNameFriendly" : "Jump Energy Cell (Loose)",
+    "strDesc" : "An energy cell for a jump drive. It connects to an adjacent conduit, and holds the energy needed for a jump.",
+    "strItemDef" : "ItmFzJumpEnergyCellLoose",
+    "strType"    : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzJumpEnergyCell=1.0x1",
+      "StatFzJumpChargeMax=1.0x25000",
+      "StatFzJumpChargeRate=1.0x200",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x2623.0",
+      "StatDismantleProgressMax=1.0x140",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatMass=1.0x45.0",
+      "StatDamageMax=1.0x10",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzJumpEnergyCellLooseDamage,StatDamageMax,1.0"
+    ],
+    "mapPoints"      : [
+      "use,0,-24"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "mapGUIPropMaps"  : [
+    ],
+    "strPortraitImg"  : "jumpcell/FzPulsebankOff"
+  },
+  {
+    "strName" : "ItmFzJumpEnergyCellDmgLoose",
+    "strNameShort" : "Energy Cell",
+    "strNameFriendly" : "Jump Energy Cell (Loose, Damaged)",
+    "strDesc" : "An energy cell for a jump drive. It connects to an adjacent conduit, and holds the energy needed for a jump.",
+    "strItemDef" : "ItmFzJumpEnergyCellDmgLoose",
+    "strType"    : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzJumpEnergyCell=1.0x1",
+      "StatFzJumpChargeMax=1.0x25000",
+      "StatFzJumpChargeRate=1.0x200",
+      "IsDamaged=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x524.0",
+      "StatDismantleProgressMax=1.0x140",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatRepairProgressMax=1.0x3000",
+      "StatMass=1.0x45.0",
+      "StatDamageMax=1.0x30",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzJumpEnergyCellLooseDestroy,StatDamageMax,1.0"
+    ],
+    "mapPoints"      : [
+      "use,0,-24"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "mapGUIPropMaps"  : [
+    ],
+    "strPortraitImg"  : "jumpcell/FzPulsebankDmgLoose"
+  }
+]

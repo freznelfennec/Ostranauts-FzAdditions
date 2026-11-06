@@ -1,0 +1,13 @@
+[
+  { "strName" : "ACTFzFabricatorDamage", "aCOs" : [ "MSFzFabricatorDamage=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzFabricatorDestroy", "aCOs" : [ "MSFzFabricatorDestroy=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzFabricatorLooseDamage", "aCOs" : [ "MSFzFabricatorLooseDamage=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzFabricatorLooseDestroy", "aCOs" : [ "MSFzFabricatorLooseDestroy=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ItmFzFabricatorDamage", "aCOs" : [ "ItmFzFabricatorDmg=1.0x1" ], "aLoots" : [ "ItmAtmoScrubberComponents=1.0x1" ], "strType" : "item" },
+  { "strName" : "ItmFzFabricatorLooseDamage", "aCOs" : [ "ItmFzFabricatorDmgLoose=1.0x1" ], "aLoots" : [ "ItmAtmoScrubberComponents=1.0x1" ], "strType" : "item" },
+  { "strName" : "ItmFzFabricator", "aCOs" : [ "ItmFzFabricator=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzFabricatorOff", "aCOs" : [ "ItmFzFabricatorOff=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzFabricatorDmg", "aCOs" : [ "ItmFzFabricatorDmg=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzFabricatorLoose", "aCOs" : [ "ItmFzFabricatorLoose=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzFabricatorDmgLoose", "aCOs" : [ "ItmFzFabricatorDmgLoose=1.0x1" ], "aLoots" : [ ], "strType" : "item" }
+]

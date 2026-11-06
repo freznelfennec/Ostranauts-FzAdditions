@@ -616,7 +616,7 @@ Heavy Lift Rotor (Loose),Undamaged,ItmHeavyLiftRotor01Loose,ItmHeavyLiftRotor01O
 "Heavy Lift Rotor (Damaged, Loose)",Damaged,ItmHeavyLiftRotor01DmgLoose,ItmHeavyLiftRotor01Dmg,ControlSystems,35,12914,3,0,1,1,1,0,2,2,0,0,0,10,"60% of undamaged, raised to its scrap"
 The Holden Patch,Undamaged,ItmHullPatch01,,Tools,1,15,1,0,0,0,0,0,1,0,0,0,0,2,"mass, Tools, raised to its scrap"
 Hygiene Pack,Undamaged,ItmHygieneWipes01,,Medical,0.01,80,0,0,0,0,1,0,1,0,0,0,0,2,"mass, Medical, raised to its scrap"
-Water Ice,Undamaged,ItmIce01,,Ore,24.7,1200,0,0,0,0,0,0,0,0,11,0,0,11,ore
+Water Ice,Undamaged,ItmIce01,,Ore,24.7,1200,0,0,0,0,0,0,0,0,2470,0,0,2470,"ore, by mass"
 Methane Ice,Undamaged,ItmIce02,,Ore,24.84,20,0,0,0,0,0,0,0,0,11,0,0,11,ore
 "Beydat ""Rock-It"" Jukebox (Loose)",Undamaged,ItmJukebox01Loose,ItmJukebox01 ItmJukebox01Off,Media,0.5,553,1,0,0,0,1,0,0,1,0,0,0,3,"mass, Media, raised to its scrap"
 "Beydat ""Rock-It"" Jukebox (Techno)",Undamaged,ItmJukebox01b,,Media,0.5,553,1,0,0,0,1,0,0,1,0,0,0,3,"mass, Media, raised to its scrap"
@@ -1030,8 +1030,8 @@ Aerodynamic Wall (Loose),Undamaged,ItmWallAero1x1SqLoose,ItmWallAero1x1Sq,Hull,4
 "Wall (Damaged): Caylon ""DuraWal Interior Red Series""",Damaged,ItmWallCAYL04Dmg,ItmWallCAYL04Patch,Hull,12,210,2,0,0,0,3,0,3,0,0,0,0,8,"60% of undamaged, raised to its scrap"
 "Wall (Loose): Caylon ""DuraWal Exterior Series""",Undamaged,ItmWallCAYL05Loose,ItmWallCAYL05,Hull,14,210,2,0,0,0,6,0,3,0,0,0,0,11,"wall: plastic, raised to its scrap"
 "Wall (Damaged): Caylon ""DuraWal Exterior Series""",Damaged,ItmWallCAYL05Dmg,ItmWallCAYL05Patch,Hull,12,210,2,0,0,0,3,0,3,0,0,0,0,8,"60% of undamaged, raised to its scrap"
-Ice Wall,Undamaged,ItmWallIce011x1,,Deposit,24,0,1,1,0,0,0,0,0,0,12,0,0,14,"deposit, its mined ore, raised to its scrap, above its damaged scrap"
-Ice Wall (Cracked),Damaged,ItmWallIce011x1Dmg,,Deposit,15,0,1,1,0,0,0,0,0,0,11,0,0,13,"60% of undamaged, raised to its scrap"
+Ice Wall,Undamaged,ItmWallIce011x1,,Deposit,24,0,1,1,0,0,0,0,0,0,2471,0,0,2473,"deposit, its mined ore, raised to its scrap, above its damaged scrap"
+Ice Wall (Cracked),Damaged,ItmWallIce011x1Dmg,,Deposit,15,0,1,1,0,0,0,0,0,0,2470,0,0,2472,"60% of undamaged, raised to its scrap"
 "Wall (Loose): Langdon-Phillips ""Glory Series""",Undamaged,ItmWallLDPH01Loose,ItmWallLDPH01,Hull,24,510,15,7,0,0,0,0,3,0,0,0,0,25,"wall: metal, armoured, raised to its scrap"
 "Wall (Damaged): Langdon-Phillips ""Glory Series""",Damaged,ItmWallLDPH01Dmg,ItmWallLDPH01Patch,Hull,24,510,9,4,0,0,0,0,3,0,0,0,0,16,"60% of undamaged, raised to its scrap"
 "Wall (Loose): Minsheng ""和平 Series""",Undamaged,ItmWallMSHG01Loose,ItmWallMSHG01,Hull,1,30,3,6,0,0,0,0,3,0,0,0,0,12,"wall: metal, lightweight, raised to its scrap"

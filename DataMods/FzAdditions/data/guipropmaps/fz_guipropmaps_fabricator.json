@@ -1,0 +1,21 @@
+[
+  {
+    "strName" : "FzFabricatorGUI",
+    "dictGUIPropMap" : [
+      "strGUIPrefab", "FzFabricatorGUI",
+      "strFriendlyName", "Basic Fabricator",
+      "strGUIPrefabRight", null,
+      "strGUIPrefabLeft", null,
+      "strGUIPrefabUp", null,
+      "strGUIPrefabDown", null,
+      "FzAreaWidth", "3",
+      "FzAreaDepth", "3",
+      "FzRecipe", "",
+      "FzCount", "1",
+      "FzFabricate", "false",
+      "FzFill", "false",
+      "FzAuto", "false",
+      "FzAutoCovered", "true"
+    ]
+  }
+]

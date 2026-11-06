@@ -1,0 +1,16 @@
+[
+  {
+    "strName" : "FzRecycler",
+    "aInputPts" : [
+      "PowerA",
+      "PowerB"
+    ],
+    "fAmount" : 0.0003,
+    "strIntPowerOn" : "MSFzRecyclerOnAllow",
+    "strIntPowerOff" : "MSFzRecyclerOffAllow",
+    "strShutDownCT" : "TIsConnctedSignalledOff",
+    "strUsePowerCT" : "TIsReadyUsePower",
+    "strRechargeCT" : null,
+    "bAllowExtPower" : true
+  }
+]

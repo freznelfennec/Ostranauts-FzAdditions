@@ -1,0 +1,8 @@
+[
+  { "strName" : "ACTFzSiloSmallDamage", "aCOs" : [ "MSFzSiloSmallDamage=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzSiloSmallLooseDamage", "aCOs" : [ "MSFzSiloSmallLooseDamage=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ItmFzSiloSmall", "aCOs" : [ "ItmFzSiloSmall=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzSiloSmallDmg", "aCOs" : [ "ItmFzSiloSmallDmg=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzSiloSmallLoose", "aCOs" : [ "ItmFzSiloSmallLoose=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzSiloSmallDmgLoose", "aCOs" : [ "ItmFzSiloSmallDmgLoose=1.0x1" ], "aLoots" : [ ], "strType" : "item" }
+]

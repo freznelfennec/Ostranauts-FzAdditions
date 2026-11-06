@@ -1,0 +1,5 @@
+[
+  { "strName" : "StatFzAreaMaxWidth", "strNameFriendly" : "Working Area Width", "strColor" : "Neutral", "strDesc" : "Tiles across [us]'s working area can reach.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : false },
+  { "strName" : "StatFzAreaMaxDepth", "strNameFriendly" : "Working Area Depth", "strColor" : "Neutral", "strDesc" : "Tiles out [us]'s working area can reach.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : false },
+  { "strName" : "StatFzWorkSpeed", "strNameFriendly" : "Working Speed", "strColor" : "Neutral", "strDesc" : "How fast [us] works, as a multiple of the standard rate.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : false }
+]

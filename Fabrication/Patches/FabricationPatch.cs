@@ -20,12 +20,44 @@ namespace Freznel.FzAdditions.Patches
             FabData.Load();
         }
 
+        //A silo's contents carry over as persisted conditions when it changes form, but its new form starts from its
+        //own mass and price. A damaged silo loses everything it held, with nothing spilled or recovered.
+        [HarmonyPatch(typeof(CondOwner), "ModeSwitchInternal")]
+        [HarmonyPostfix()]
+        public static void ModeSwitchInternal_Postfix(CondOwner coNew)
+        {
+            //A recycler damaged or uninstalled mid run gets no more power updates to end it, so its item goes now. Its
+            //run carried over in its prop maps.
+            if (Recycler.IsRecycler(coNew) && Recycler.HasRun(coNew) && (coNew.HasCond("IsDamaged") || !coNew.HasCond("IsInstalled")))
+            {
+                try { RecyclerProcess.Abort(coNew); }
+                catch (Exception ex) { FzAdditions.Logger.LogError("Ending a recycler's run as it changed form failed: " + ex); }
+            }
+            if (Fabricator.IsFabricator(coNew) && Fabricator.HasRun(coNew) && (coNew.HasCond("IsDamaged") || !coNew.HasCond("IsInstalled")))
+            {
+                try { FabricatorProcess.Abort(coNew); }
+                catch (Exception ex) { FzAdditions.Logger.LogError("Ending a fabricator's run as it changed form failed: " + ex); }
+            }
+            if (!Silo.IsSilo(coNew)) return;
+            try
+            {
+                if (coNew.HasCond("IsDamaged")) Silo.Clear(coNew);
+                else Silo.Refresh(coNew);
+            }
+            catch (Exception ex)
+            {
+                FzAdditions.Logger.LogError("Updating a silo after it changed form failed: " + ex);
+            }
+        }
+
         //Runs before every load and new game, and when leaving to the menu
         [HarmonyPatch(typeof(CrewSim), nameof(CrewSim.EmptyScene))]
         [HarmonyPrefix()]
         public static void EmptyScene_Prefix()
         {
             Blueprints.Reset();
+            UI.FzAreaProjector.Clear();
+            FabricatorProcess.Clear();
         }
 
         //The save's custom infos are global state outside any ship, written as the game saves

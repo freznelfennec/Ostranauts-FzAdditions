@@ -1,0 +1,8 @@
+[
+  { "strName" : "ItmFzBeamFormer01", "aCOs" : [ "ItmFzBeamFormer01=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzBeamFormer01Spent", "aCOs" : [ "ItmFzBeamFormer01Spent=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzBeamFormer02", "aCOs" : [ "ItmFzBeamFormer02=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzBeamFormer02Spent", "aCOs" : [ "ItmFzBeamFormer02Spent=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzBeamFormer03", "aCOs" : [ "ItmFzBeamFormer03=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzBeamFormer03Spent", "aCOs" : [ "ItmFzBeamFormer03Spent=1.0x1" ], "aLoots" : [ ], "strType" : "item" }
+]

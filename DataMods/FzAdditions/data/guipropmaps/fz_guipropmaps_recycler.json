@@ -1,0 +1,20 @@
+[
+  {
+    "strName" : "FzRecyclerGUI",
+    "dictGUIPropMap" : [
+      "strGUIPrefab", "FzRecyclerGUI",
+      "strFriendlyName", "Basic Recycler",
+      "strGUIPrefabRight", null,
+      "strGUIPrefabLeft", null,
+      "strGUIPrefabUp", null,
+      "strGUIPrefabDown", null,
+      "FzAreaWidth", "3",
+      "FzAreaDepth", "2",
+      "FzAuto", "false",
+      "FzAutoCovered", "true",
+      "FzDumpExcess", "false",
+      "FzDumpCovered", "true",
+      "FzRecycle", "false"
+    ]
+  }
+]

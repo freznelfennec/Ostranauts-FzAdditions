@@ -87,7 +87,7 @@ The list comes from two tools in `Tools/`, kept out of the plugin's build:
 
 ```
 dotnet run -c Release --project Design/Fabrication/Tools/ItemScan -- <folder>
-dotnet run -c Release --project Design/Fabrication/Tools/CostModel -- <folder> Design/Fabrication/base_item_costs.csv
+dotnet run -c Release --project Design/Fabrication/Tools/CostModel -- <folder> Design/Fabrication/base_item_costs.csv DataMods/FzAdditions/data/fzfabrecipes/recipes DataMods/FzAdditions/data/fzfabrecipes/materials/fz_materials.json
 ```
 
 ItemScan reads the game's data from its default Steam install and writes `items.tsv` to the folder. CostModel turns that into the CSV. The material shares, building blocks and wall and floor rules are all at the top of `CostModel/Program.cs`.

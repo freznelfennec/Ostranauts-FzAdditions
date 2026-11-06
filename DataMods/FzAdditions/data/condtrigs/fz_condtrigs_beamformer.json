@@ -1,0 +1,3 @@
+[
+  { "strName" : "TIsFitContainerFzBeamFormer", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzBeamFormer" ], "aForbids" : [ ], "aTriggers" : [ "TIsFitContainerSolid" ], "bAND" : true }
+]

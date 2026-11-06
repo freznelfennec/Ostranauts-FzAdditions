@@ -1,0 +1,140 @@
+[
+  {
+    "strName" : "ItmFzBeamFormer01",
+    "strNameShort" : "Beam Former",
+    "strNameFriendly" : "Basic Matter Beam Former",
+    "strDesc" : "A focusing assembly that shapes the matter beams of recyclers and fabricators. Every unit of material that passes through it wears it down, and when it's spent it has to be replaced. Rated for 100000 material units.",
+    "strItemDef" : "ItmAmmoPowerCell01",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsComponent=1.0x1",
+      "IsMechanical=1.0x1",
+      "IsFzBeamFormer=1.0x1",
+      "StatFzBeamLife=1.0x100000",
+      "StatFzBeamLifeMax=1.0x100000",
+      "IsSolid=1.0x1.0",
+      "IsPocketable=1.0x1.0",
+      "StatBasePrice=1.0x100000",
+      "StatMass=1.0x1.5",
+      "IsCategoryIndustrialProducts=1.0x1"
+    ],
+    "strPortraitImg" : "ItmAmmoPowerCell01",
+    "mapSlotEffects" : [ "heldL", "HeldItmDefaultL", "heldR", "HeldItmDefaultR" ]
+  },
+  {
+    "strName" : "ItmFzBeamFormer02",
+    "strNameShort" : "Beam Former",
+    "strNameFriendly" : "Advanced Matter Beam Former",
+    "strDesc" : "A focusing assembly that shapes the matter beams of recyclers and fabricators. Every unit of material that passes through it wears it down, and when it's spent it has to be replaced. Rated for 500000 material units.",
+    "strItemDef" : "ItmAmmoPowerCell01",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsComponent=1.0x1",
+      "IsMechanical=1.0x1",
+      "IsFzBeamFormer=1.0x1",
+      "StatFzBeamLife=1.0x500000",
+      "StatFzBeamLifeMax=1.0x500000",
+      "IsSolid=1.0x1.0",
+      "IsPocketable=1.0x1.0",
+      "StatBasePrice=1.0x200000",
+      "StatMass=1.0x1.5",
+      "IsCategoryIndustrialProducts=1.0x1"
+    ],
+    "strPortraitImg" : "ItmAmmoPowerCell01",
+    "mapSlotEffects" : [ "heldL", "HeldItmDefaultL", "heldR", "HeldItmDefaultR" ]
+  },
+  {
+    "strName" : "ItmFzBeamFormer03",
+    "strNameShort" : "Beam Former",
+    "strNameFriendly" : "Superior Matter Beam Former",
+    "strDesc" : "A focusing assembly that shapes the matter beams of recyclers and fabricators. Every unit of material that passes through it wears it down, and when it's spent it has to be replaced. Rated for 1000000 material units.",
+    "strItemDef" : "ItmAmmoPowerCell01",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsComponent=1.0x1",
+      "IsMechanical=1.0x1",
+      "IsFzBeamFormer=1.0x1",
+      "StatFzBeamLife=1.0x1000000",
+      "StatFzBeamLifeMax=1.0x1000000",
+      "IsSolid=1.0x1.0",
+      "IsPocketable=1.0x1.0",
+      "StatBasePrice=1.0x600000",
+      "StatMass=1.0x1.5",
+      "IsCategoryIndustrialProducts=1.0x1"
+    ],
+    "strPortraitImg" : "ItmAmmoPowerCell01",
+    "mapSlotEffects" : [ "heldL", "HeldItmDefaultL", "heldR", "HeldItmDefaultR" ]
+  },
+  {
+    "strName" : "ItmFzBeamFormer01Spent",
+    "strNameShort" : "Spent Beam Former",
+    "strNameFriendly" : "Spent Basic Matter Beam Former",
+    "strDesc" : "A basic matter beam former worn out by use. It no longer focuses a beam, but most of what it's made of can be recycled. Its exotic matter is burnt out.",
+    "strItemDef" : "ItmAmmoPowerCell01",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsComponent=1.0x1",
+      "IsMechanical=1.0x1",
+      "IsFzBeamFormerSpent=1.0x1",
+      "IsSolid=1.0x1.0",
+      "IsPocketable=1.0x1.0",
+      "StatBasePrice=1.0x15000",
+      "StatMass=1.0x1.5",
+      "IsCategoryIndustrialProducts=1.0x1"
+    ],
+    "strPortraitImg" : "ItmAmmoPowerCell01",
+    "mapSlotEffects" : [ "heldL", "HeldItmDefaultL", "heldR", "HeldItmDefaultR" ]
+  },
+  {
+    "strName" : "ItmFzBeamFormer02Spent",
+    "strNameShort" : "Spent Beam Former",
+    "strNameFriendly" : "Spent Advanced Matter Beam Former",
+    "strDesc" : "A advanced matter beam former worn out by use. It no longer focuses a beam, but most of what it's made of can be recycled. Its exotic matter is burnt out.",
+    "strItemDef" : "ItmAmmoPowerCell01",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsComponent=1.0x1",
+      "IsMechanical=1.0x1",
+      "IsFzBeamFormerSpent=1.0x1",
+      "IsSolid=1.0x1.0",
+      "IsPocketable=1.0x1.0",
+      "StatBasePrice=1.0x30000",
+      "StatMass=1.0x1.5",
+      "IsCategoryIndustrialProducts=1.0x1"
+    ],
+    "strPortraitImg" : "ItmAmmoPowerCell01",
+    "mapSlotEffects" : [ "heldL", "HeldItmDefaultL", "heldR", "HeldItmDefaultR" ]
+  },
+  {
+    "strName" : "ItmFzBeamFormer03Spent",
+    "strNameShort" : "Spent Beam Former",
+    "strNameFriendly" : "Spent Superior Matter Beam Former",
+    "strDesc" : "A superior matter beam former worn out by use. It no longer focuses a beam, but most of what it's made of can be recycled. Its exotic matter is burnt out.",
+    "strItemDef" : "ItmAmmoPowerCell01",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsComponent=1.0x1",
+      "IsMechanical=1.0x1",
+      "IsFzBeamFormerSpent=1.0x1",
+      "IsSolid=1.0x1.0",
+      "IsPocketable=1.0x1.0",
+      "StatBasePrice=1.0x90000",
+      "StatMass=1.0x1.5",
+      "IsCategoryIndustrialProducts=1.0x1"
+    ],
+    "strPortraitImg" : "ItmAmmoPowerCell01",
+    "mapSlotEffects" : [ "heldL", "HeldItmDefaultL", "heldR", "HeldItmDefaultR" ]
+  }
+]

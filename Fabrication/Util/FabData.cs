@@ -22,12 +22,15 @@ namespace Freznel.FzAdditions.Util
         private static Dictionary<string, JsonFabMaterial> materials = new Dictionary<string, JsonFabMaterial>();
         private static Dictionary<string, JsonFabRecipe> recipeByCO = new Dictionary<string, JsonFabRecipe>();
         private static Dictionary<string, List<JsonFabRecipe>> recipesByBlueprint = new Dictionary<string, List<JsonFabRecipe>>();
+        private static FabCategory categories = FabCategory.Build(Enumerable.Empty<JsonFabRecipe>());
         private static readonly object loadLock = new object();
         private static bool loaded;
 
         public static IReadOnlyDictionary<string, JsonFabRecipe> Recipes { get { EnsureLoaded(); return recipes; } }
         public static IReadOnlyDictionary<string, JsonFabMaterial> Materials { get { EnsureLoaded(); return materials; } }
         public static IEnumerable<string> Blueprints { get { EnsureLoaded(); return recipesByBlueprint.Keys; } }
+        //Every fabricable recipe by category, built once as the data loads
+        public static FabCategory Categories { get { EnsureLoaded(); return categories; } }
 
         //Null when no recipe covers the CO
         public static JsonFabRecipe GetRecipeForCO(string coName)
@@ -142,6 +145,7 @@ namespace Freznel.FzAdditions.Util
             materials = newMaterials;
             recipeByCO = newByCO;
             recipesByBlueprint = newByBlueprint;
+            categories = FabCategory.Build(newRecipes.Values);
 
             int mods = newRecipes.Values.Select(r => r.SourceMod).Concat(newMaterials.Values.Select(m => m.SourceMod)).Distinct().Count();
             FzAdditions.Logger.LogInfo($"Fabrication data: {materials.Count} materials, {recipes.Count} recipes ({recipes.Values.Count(r => r.bFabricate)} fabricable, {recipesByBlueprint.Count} blueprints) from {mods} mod(s), {skipped} skipped");
@@ -180,12 +184,40 @@ namespace Freznel.FzAdditions.Util
 
         private static void CheckMaterial(JsonFabMaterial material, StringBuilder log)
         {
-            if (material.strSilo != FabSilo.Standard && material.strSilo != FabSilo.Exotic)
+            if (string.IsNullOrEmpty(material.strSiloCond)) material.strSiloCond = FabSilo.DefaultCond(material.strName);
+            if (DataHandler.dictConds != null && !DataHandler.dictConds.ContainsKey(material.strSiloCond))
             {
-                log.AppendLine($"  material {material.strName}: unknown silo {material.strSilo}, using {FabSilo.Standard}");
-                material.strSilo = FabSilo.Standard;
+                log.AppendLine($"  material {material.strName}: silo condition {material.strSiloCond} isn't defined, no silo can hold it until one is");
+            }
+            string contents = Silo.ContentsCond(material.strName);
+            if (DataHandler.dictConds != null && !DataHandler.dictConds.ContainsKey(contents))
+            {
+                log.AppendLine($"  material {material.strName}: contents condition {contents} isn't defined, silos can't hold it until it is (define it with bPersists true)");
+            }
+            if (!UnityEngine.ColorUtility.TryParseHtmlString(material.strColor, out _))
+            {
+                log.AppendLine($"  material {material.strName}: colour {material.strColor} isn't a hex colour, using {FabSilo.DefaultColor}");
+                material.strColor = FabSilo.DefaultColor;
+            }
+            if (material.fRecycleTime <= 0f || material.fFabricateTime <= 0f)
+            {
+                log.AppendLine($"  material {material.strName}: times must be over 0, using {FabSilo.DefaultUnitTime} for any that aren't");
+                if (material.fRecycleTime <= 0f) material.fRecycleTime = FabSilo.DefaultUnitTime;
+                if (material.fFabricateTime <= 0f) material.fFabricateTime = FabSilo.DefaultUnitTime;
+            }
+            if (material.fRecycleEnergy < 0f || material.fFabricateEnergy < 0f)
+            {
+                log.AppendLine($"  material {material.strName}: energy can't be negative, using 0 for any that are");
+                material.fRecycleEnergy = Math.Max(0f, material.fRecycleEnergy);
+                material.fFabricateEnergy = Math.Max(0f, material.fFabricateEnergy);
             }
             if (string.IsNullOrEmpty(material.strNameFriendly)) material.strNameFriendly = material.strName;
+        }
+
+        //The material's colour, white for one it doesn't know
+        public static UnityEngine.Color GetColor(string material)
+        {
+            return Materials.TryGetValue(material ?? "", out JsonFabMaterial found) ? SpriteUtil.ColorFromHex(found.strColor) : UnityEngine.Color.white;
         }
 
         //False skips the recipe. Missing COs are dropped, so one recipe pack can cover mods that may not be installed.

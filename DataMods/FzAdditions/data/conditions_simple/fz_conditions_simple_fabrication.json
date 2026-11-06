@@ -1,0 +1,26 @@
+[
+  {
+    "strName": "Fz Fabrication Simple Conditions",
+    "aValues": [
+      "IsFzRecycler","Recycler","[us] [is] a recycler.","2","2","Neutral","false",
+      "IsFzRecycling","Recycling","[us] [is] breaking something down.","2","2","Neutral","false",
+      "IsFzFabricator","Fabricator","[us] [is] a fabricator.","2","2","Neutral","false",
+      "IsFzFabricating","Fabricating","[us] [is] building something.","2","2","Neutral","false",
+      "IsFzBeamFormer","Matter Beam Former","[us] [is] a matter beam former.","2","2","Neutral","false",
+      "IsFzBeamFormerSpent","Spent Beam Former","[us] [is] a spent matter beam former.","2","2","Neutral","false",
+      "IsFzSilo","Material Silo","[us] [is] a material silo.","2","2","Neutral","false",
+      "IsFzSiloSmall","Small Material Silo","[us] [is] a small material silo.","2","2","Neutral","false",
+      "IsFzSiloBaseMetals","Holds Base Metals","[us] can store base metals.","2","2","Neutral","false",
+      "IsFzSiloMetalAlloys","Holds Metal Alloys","[us] can store metal alloys.","2","2","Neutral","false",
+      "IsFzSiloPreciousMetals","Holds Precious Metals","[us] can store precious metals.","2","2","Neutral","false",
+      "IsFzSiloRareEarths","Holds Rare Earths","[us] can store rare earths.","2","2","Neutral","false",
+      "IsFzSiloPolymers","Holds Polymers","[us] can store polymers.","2","2","Neutral","false",
+      "IsFzSiloCeramics","Holds Ceramics","[us] can store ceramics.","2","2","Neutral","false",
+      "IsFzSiloOrganics","Holds Organics","[us] can store organics.","2","2","Neutral","false",
+      "IsFzSiloSilicates","Holds Silicates","[us] can store silicates.","2","2","Neutral","false",
+      "IsFzSiloVolatiles","Holds Volatiles","[us] can store volatiles.","2","2","Neutral","false",
+      "IsFzSiloHeliumFines","Holds Helium Fines","[us] can store helium fines.","2","2","Neutral","false",
+      "IsFzSiloExotics","Holds Exotics","[us] can store exotic materials.","2","2","Neutral","false"
+    ]
+  }
+]

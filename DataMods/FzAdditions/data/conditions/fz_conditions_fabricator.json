@@ -1,0 +1,4 @@
+[
+  { "strName" : "IsFzFabricateLocked", "strNameFriendly" : "Held by Fabricator", "strColor" : "Neutral", "strDesc" : "[us] [is] being worked on by a fabricator.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "IsFzUnfinished", "strNameFriendly" : "Unfinished", "strColor" : "Neutral", "strDesc" : "[us] [is] still being built by a fabricator.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true }
+]

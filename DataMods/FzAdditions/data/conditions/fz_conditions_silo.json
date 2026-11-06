@@ -1,0 +1,14 @@
+[
+  { "strName" : "StatFzSiloCapacity", "strNameFriendly" : "Silo Capacity", "strColor" : "Neutral", "strDesc" : "Units of material [us] can hold in all.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : false },
+  { "strName" : "StatFzMatBaseMetals", "strNameFriendly" : "Base Metals", "strColor" : "Neutral", "strDesc" : "Units of base metals [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzMatMetalAlloys", "strNameFriendly" : "Metal Alloys", "strColor" : "Neutral", "strDesc" : "Units of metal alloys [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzMatPreciousMetals", "strNameFriendly" : "Precious Metals", "strColor" : "Neutral", "strDesc" : "Units of precious metals [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzMatRareEarths", "strNameFriendly" : "Rare Earths", "strColor" : "Neutral", "strDesc" : "Units of rare earths [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzMatPolymers", "strNameFriendly" : "Polymers", "strColor" : "Neutral", "strDesc" : "Units of polymers [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzMatCeramics", "strNameFriendly" : "Ceramics", "strColor" : "Neutral", "strDesc" : "Units of ceramics [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzMatOrganics", "strNameFriendly" : "Organics", "strColor" : "Neutral", "strDesc" : "Units of organics [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzMatSilicates", "strNameFriendly" : "Silicates", "strColor" : "Neutral", "strDesc" : "Units of silicates [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzMatVolatiles", "strNameFriendly" : "Volatiles", "strColor" : "Neutral", "strDesc" : "Units of volatiles [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzMatHeliumFines", "strNameFriendly" : "Helium Fines", "strColor" : "Neutral", "strDesc" : "Units of helium fines [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzMatExotics", "strNameFriendly" : "Exotics", "strColor" : "Neutral", "strDesc" : "Units of exotic material [us] holds.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true }
+]

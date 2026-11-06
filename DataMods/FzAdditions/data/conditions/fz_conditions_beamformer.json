@@ -1,0 +1,4 @@
+[
+  { "strName" : "StatFzBeamLife", "strNameFriendly" : "Beam Former Life", "strColor" : "Neutral", "strDesc" : "Material units [us] can still shape before it's spent.", "nDisplaySelf" : 2, "nDisplayOther" : 2, "bPersists" : true },
+  { "strName" : "StatFzBeamLifeMax", "strNameFriendly" : "Beam Former Rating", "strColor" : "Neutral", "strDesc" : "Material units [us] can shape when new.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : false }
+]

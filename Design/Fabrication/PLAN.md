@@ -48,13 +48,15 @@ Materials live in silos, not as loose items. One silo CO holds any mix of materi
 
 **This follows the reactor.** Its fuel canisters hold reactant as conditions, and the reactor draws from every installed canister on the same ship (`FusionIC.GetReactants`). Silos work the same way for the recycler and fabricator.
 
-**Three silos:**
+**Which materials a silo holds is set by conditions.** Every material has its own silo condition, `IsFzSilo<material>`, for example `IsFzSiloBaseMetals` or `IsFzSiloExotics`, all defined in `fz_conditions_simple_fabrication.json`. A silo holds every material whose condition it carries. So a specialised silo, for example a cryogenic one that only takes Volatiles, is just a silo CO with that one condition, all in data. A material from another mod gets `IsFzSilo<its ID>` unless it names another condition in `strSiloCond`, and the mod defines that condition and adds it to whichever silos should take the material.
 
-| Silo | Size | Capacity | Holds |
-|---|---|---|---|
-| Small silo | 1 tile, like the O2/N2 gas canister (`ItmCanister01`) | 5,000 units | Any material except Exotics |
-| Large silo | 7×7 tiles, like the reactor's D2O tank (`ItmCanisterLH02`) | 100,000 units | Any material except Exotics |
-| Exotics silo | 1 tile, like the small silo | 5,000 units | Exotics only |
+**Three silos to start:**
+
+| Silo | Size | Capacity | Conditions | Holds |
+|---|---|---|---|---|
+| Small silo | 1 tile, like the O2/N2 gas canister (`ItmCanister01`) | 5,000 units | The ten everyday ones, `IsFzSiloBaseMetals` to `IsFzSiloHeliumFines` | Any material except Exotics |
+| Large silo | 7×7 tiles, like the reactor's D2O tank (`ItmCanisterLH02`) | 100,000 units | The same ten | Any material except Exotics |
+| Exotics silo | 1 tile, like the small silo | 5,000 units | `IsFzSiloExotics` | Exotics only |
 
 At 0.01 kg a unit, a full small silo carries 50 kg of material and a full large one 1,000 kg.
 
@@ -66,13 +68,13 @@ At 0.01 kg a unit, a full small silo carries 50 kg of material and a full large 
 - **Carrying contents:** persisted conditions carry over when an item changes state (`CondOwner.ModeSwitchInternal`). So uninstalling a silo keeps what's in it, and a loose silo can be hauled with its load.
 - **Price:** a loose silo's `StatBasePrice` is its own price plus the value of its contents.
 - **Damage:** a silo keeps its full capacity when damaged, but loses all of its contents at once, with nothing spilled or recovered. That's the penalty for not protecting it. Because persisted conditions would otherwise carry over into the damaged form, the contents have to be cleared as it switches. Once repaired, it works again, empty.
-- **Panel:** a bar for each material against the capacity, a button to compact a material (see below), and one to purge it, discarding it to free space. Purging asks for confirmation.
+- **Panel:** a bar for each material against the capacity, drawn in the material's colour (`strColor`), the same colour as its compacted block, a button to compact a material (see below), and one to purge it, discarding it to free space. Purging asks for confirmation.
 
 **Which silos a machine uses:** every installed, working silo on the same ship, as with the reactor's canisters. Docked ships don't share. Material moves between ships as compacted blocks.
 
 **Filling and drawing:**
 
-- **Filling:** the recycler puts each material into the silo that already holds the most of it and still has space, then any other silo with space. That keeps materials grouped, so uninstalling one silo takes a sensible load with it. Exotics go only into an Exotics silo.
+- **Filling:** the recycler puts each material into the silo that already holds the most of it and still has space, then any other silo with space. Only silos with the material's silo condition count. That keeps materials grouped, so uninstalling one silo takes a sensible load with it.
 - **Drawing:** the fabricator takes each material from the silo holding the least of it first, emptying stragglers.
 - **Full silos:** when there's no space for a material, the recycler pauses until there is.
 
@@ -83,10 +85,11 @@ Material the player doesn't want can be compacted out of a silo into blocks to s
 - **One item per material,** for example "Compacted Base Metals". Exotics are compacted into an **Exotic Canister** instead of a block, which follows the same rules. Every block or canister holds exactly 100 units, so compacting needs at least 100 of that material in the silo.
 - **Stacking:** blocks stack to 5, set with the item's `nStackLimit` as the game does for its own stackable items. They can only stack because every block holds the same amount.
 - **Where it's made:** the silo panel's compact button, so no extra machine. The block appears beside the silo.
+- **Look:** one block sprite tinted with the material's colour, so a block and its silo bar match. The Exotic Canister has its own art in the Exotics colour.
 - **Mass and price:** 100 units' mass each, 1 kg at 0.01 kg a unit. The price is 100 times the material's unit price.
 - **Selling:** blocks carry `IsScrap`, so the game's scrap kiosks buy them as they are. Their buy trigger, `TIsBarterGenericScrapKiosk`, already accepts any item marked `IsScrap`.
 - **Not for sale:** kiosks buy blocks but never sell them. Materials come from recycling.
-- **Getting it back:** feeding a block to the recycler returns all 100 units, quickly. So blocks are also how materials move between ships. An Exotic Canister goes back into an Exotics silo.
+- **Getting it back:** feeding a block to the recycler returns all 100 units, quickly. So blocks are also how materials move between ships. An Exotic Canister goes back into a silo with `IsFzSiloExotics`.
 - **Exotic Canisters may get a use of their own later,** for example as a part some exotic items need whole.
 
 ## Machines
@@ -118,7 +121,7 @@ Both machines work on the floor in front of them, not through a container. Items
   - **Bright in the dark:** the border would use the same material as item light sprites, which the game draws at full brightness in a dark room, the way the jump cell's glow does.
   - **The stripes:** a small repeating texture laid along the band, so they keep an even width and angle at any area size, and can scroll slowly while the machine works.
   - **To check while building:** that a world mesh at that depth sorts between floors and items as expected, and that the light sprite material renders on it. If the light sprite material doesn't work, a plain unlit transparent material is the fallback, though it would dim with the room's lighting.
-- **Recycling:** the item breaks up from the top down along a bright scan line, with sparks flowing back toward the machine, and fades out as the run finishes.
+- **Recycling:** two laser beams from the recycler's back corners sweep back and forth across the item, crossing, while the line they hit scans down it, and the item wears away under them as the run goes.
 - **Fabricating:**
   - **Before a run:** a ghost of the item shows where it will appear.
   - **During the run:** the item builds up from the floor along a scan line, solid below and ghost above, so its progress is visible.
@@ -129,7 +132,13 @@ To check while building: whether the game's item shader can fade an item and cut
 ### Recycler
 
 - **Input:** loose items in its working area. Start a run from the panel, or set it to take items automatically as they're put down. It works through them one at a time.
-- **Run time:** proportional to the item's material total, for example 30 game seconds per unit, with a power draw while it runs.
+- **Run time:** each unit of the item's full material cost at its material's `fRecycleTime`, scaled by the recipe's `fTimeScale`.
+- **Power:** a small idle draw, plus the item's energy (each unit at its material's `fRecycleEnergy`) spread over its run time, so complex items draw more.
+- **Containers:** a container is recycled all at once with everything in it that can be recycled, at every depth. Its run time, energy, yield and reserves are its own plus those of its recyclable contents. Contents that can't be recycled are left on the floor where the container was, with anything inside them. The WORKING AREA list shows contents nested under their container.
+- **Room:** each yield is put into the ship's silos as `Silo.Fill` would, and reserves into their canisters. With DUMP EXCESS off, a yield that won't fit stops the recycler, and shows red on WORKING AREA. With it on, what doesn't fit is destroyed, and shows yellow.
+- **AUTO:** recycles whatever turns up in the area. While it's on, RECYCLE shows lit and can't be switched off; its own setting returns when AUTO is off.
+- **Whole items only:** an item counts only when every tile it covers is an open tile of the area, so one hanging over the edge, or over a blocked tile, is left alone.
+- **Walls:** the area stops at walls. A wall tile, a tile that isn't part of the ship, and any tile that can only be reached from the recycler through a wall are blocked, and the recycler ignores what's on them. SETUP's map shows them red.
 - **Yield:** 50% of the item's cost, by material, rounded down per material with the remainders carried to the next item. **Not** the game's debris tables, which make every floor yield the same and would let the recycler make materials from nothing.
   - **Undamaged item:** 50% of its cost.
   - **Damaged item:** 50% of its damaged cost, which is lower again.
@@ -141,10 +150,11 @@ To check while building: whether the game's item shader can fade an item and cut
 
 There's one fabricator.
 
-- **Input:** a known blueprint, plus materials from the ship's silos. Materials are reserved when a run starts, so two fabricators can't count on the same stock.
-- **Run time:** proportional to the item's material total, slower than recycling, for example 60 game seconds per unit.
+- **Input:** a known blueprint, plus materials from the ship's silos. A run starts only when the silos hold a whole item's materials, and then draws them as it goes, so two fabricators can share stock and one waits when it runs short.
+- **Run time and power:** each material's `fFabricateTime` and `fFabricateEnergy` per unit, as the recycler's.
 - **Cost:** the undamaged cost from the list. You can't fabricate damaged items.
-- **Output:** the item's spawn CO, its loose form, in the working area. Where it goes is chosen before the run starts, checked with the game's own placement test (`Item.CheckFit`). If the item won't fit in the area, or the spot isn't clear, the run doesn't start, and a run that's become blocked waits.
+- **Output:** the item's spawn CO, its loose form, in the working area. Where it goes is chosen before the run starts, by its own fit test on the area's open tiles (`Item.CheckFit` leans on the drag cursor, so it can't be used from a machine). A stackable item is built one at a time onto a stack in the area with room, when there is one.
+- **Controls:** FABRICATE builds COUNT items, counting down. AUTO fills the area, looking again every few seconds once it's full. FILL fills the canisters it makes from the ship's reserves; otherwise they come out empty.
 
 ### Optional later: Refinery
 
@@ -262,6 +272,10 @@ Any mod can add recipes and materials without depending on this one.
 
 The two kinds sit in sibling folders because the game's loader searches a folder and everything under it.
 
+**This mod's recipes are split by category,** one file per top-level `strCategory` group, for example `fz_recipes_walls.json` and `fz_recipes_fusionparts.json`, 27 files in all. Every file in the folder is read, so the split only makes the data easier to work with. Another mod can drop a whole category with an ignore pattern naming its file.
+
+**Hand-written recipes** sit beside them in files named `fz_manual_*.json`, which CostModel leaves alone (it only replaces `*recipes_*.json`). `fz_manual_liquids.json` gives water (`LiquidWater`, a 0.25 kg ration, the water in sinks and flasks) a recycling-only recipe of 25 Volatiles at full yield, by mass at 0.01 kg a unit. It isn't fabricable. Water Ice is costed the same way, by mass (24.7 kg is 2,470 Volatiles), through CostModel's `oresByMass`, rather than on the usual mass curve; deposits still weigh it on the curve, so ice in a deposit's mix doesn't swamp it. Ice Walls rose to match, as they break into Water Ice. **Balance point:** Water Ice is priced at 1,200, but its Volatiles are worth about 4,500, so buying ice to recycle and sell would pay if ice can be bought.
+
 **No dependency:**
 - **Without this mod:** the game never reads `fzfabrecipes`, so a mod shipping recipes loads and runs exactly as it would without them, with nothing logged.
 - **With it:** its recipes take effect.
@@ -363,9 +377,25 @@ The yield is the recipe's own: ore loses nothing because it's raw material, and 
 |---|---|
 | `strName` | Material ID, for example `BaseMetals` or `HeliumFines`. |
 | `strNameFriendly` | Name shown in panels. |
+| `strColor` | Hex colour, for example `#9AA0A6`, for its bars on the silo panel and the tint of its compacted block. An invalid one is logged and white is used. |
 | `fUnitPrice` | Price of one unit, for blocks and loose silos. CostModel sets it low, at the 10th percentile of the price per unit of items mostly made of that material, which lines up with the game's own scrap prices. Higher would make buying cheap items to recycle and sell pay. Even so, the cheapest 71 of 742 priced base items are still worth more recycled and sold than bought, a balance point to revisit. |
+| `fRecycleTime` | Game seconds to recycle one unit of it. Common, simple stock is quickest: Organics 0.8, Base Metals and Volatiles 1, Silicates 1.2, Polymers and Ceramics 1.5, Metal Alloys 2, Precious Metals 4, Rare Earths 4.5, Helium Fines 6, Exotics 30. |
+| `fFabricateTime` | Game seconds to fabricate with one unit of it, half again longer or more: 1.2, 1.5, 1.8, 2, 2.5, 3, 6, 7, 9 and Exotics 60, in the same order. |
+| `fRecycleEnergy` | kWh to recycle one unit of it. CostModel sets it from a power level for each material times its time, then 25 times that (the plain figure was too slight to matter), so harder materials draw more: Organics 50 kW, Base Metals, Polymers and Volatiles 75, Silicates 100, Metal Alloys 125, Ceramics 150, Precious Metals 200, Rare Earths 250, Helium Fines 300, Exotics 1,000. A recycler draws its idle power plus the current item's energy over its run time. |
+| `fFabricateEnergy` | kWh to fabricate with one unit of it, at half again the recycling power. |
 | `strBlockCO` | The compacted block it's compacted into, for example `ItmFzCompactedBaseMetals`, or the Exotic Canister. |
-| `strSilo` | `Standard`, or `Exotic` for Exotics, which only go in an Exotics silo. |
+| `strSiloCond` | The condition a silo needs to hold it, `IsFzSilo<strName>` when left out. A condition the game doesn't define is logged, since no silo could hold the material. |
+
+**Material colours** set by this mod:
+
+| Material | Colour | Material | Colour |
+|---|---|---|---|
+| Base Metals | `#9AA0A6` grey | Ceramics | `#E8E2D6` bone |
+| Metal Alloys | `#4A6FA5` steel blue | Organics | `#8B5A2B` brown |
+| Precious Metals | `#D4AF37` gold | Silicates | `#C2B280` sand |
+| Rare Earths | `#6FBF73` green | Volatiles | `#7FD4FF` ice blue |
+| Polymers | `#3FB8AF` teal | Helium Fines | `#B39DDB` lavender |
+| Exotics | `#FF4FD8` magenta | | |
 
 **Checked when the data loads,** with errors logged rather than thrown:
 - **Material IDs:** every ID in `mapMaterials` must be a defined material. A recipe that uses an unknown one is skipped.
@@ -412,7 +442,7 @@ The yield is the recipe's own: ore loses nothing because it's raw material, and 
 2. **Silos and blocks:** the three silos, their contents, mass and price, their panel, filling and drawing, losing contents on damage, and compacted blocks.
 3. **Recycler:** machine, panel, working area and its projection, yields, run time and power, learning blueprints by recycling, and the recycling effect.
 4. **Blueprints:** blueprint items, learned knowledge, and loot sources.
-5. **Fabricator:** machine, panel, working area and output placement, the ghost preview and the fabricating effect.
+5. **Fabricator:** machine, panel, working area and output placement, and the fabricating effect. Built; not yet tested in game. A ghost preview of where the next item goes is still to do.
 6. **Exotics:** recipes for the mod's own tech, and Exotics from recycling it.
 7. **Balance and economy:** prices, rates and station trade. Optionally the Refinery.
 8. **End game:** corporate relay stations and black sites, their quest chains, and specialised blueprints. Until then, specialised items can't be fabricated.

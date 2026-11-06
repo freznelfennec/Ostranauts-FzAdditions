@@ -1,0 +1,189 @@
+[
+  {
+    "strName" : "ItmFzSiloSmall",
+    "strNameShort" : "Silo",
+    "strNameFriendly" : "Small Material Silo",
+    "strDesc" : "A sealed canister for recycled material, holding up to 5,000 units of any everyday material in one mix. Recyclers and fabricators on the same ship draw on it while it's installed.",
+    "strItemDef" : "ItmCanister04",
+    "strType" : "Item",
+    "aInteractions" : [
+      "FzSiloGUI"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzSilo=1.0x1",
+      "IsFzSiloSmall=1.0x1",
+      "IsFzSiloBaseMetals=1.0x1",
+      "IsFzSiloMetalAlloys=1.0x1",
+      "IsFzSiloPreciousMetals=1.0x1",
+      "IsFzSiloRareEarths=1.0x1",
+      "IsFzSiloPolymers=1.0x1",
+      "IsFzSiloCeramics=1.0x1",
+      "IsFzSiloOrganics=1.0x1",
+      "IsFzSiloSilicates=1.0x1",
+      "IsFzSiloVolatiles=1.0x1",
+      "IsFzSiloHeliumFines=1.0x1",
+      "StatFzSiloCapacity=1.0x5000",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x650.0",
+      "StatInstallProgressMax=1.0x150",
+      "StatUninstallProgressMax=1.0x150",
+      "StatRepairProgressMax=1.0x250",
+      "StatMass=1.0x60.0",
+      "StatDamageMax=1.0x4",
+      "IsMechanical=1.0x1",
+      "IsCategoryStorage=1.0x1"
+    ],
+    "mapPoints" : [
+      "use,0,0"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzSiloSmallDamage,StatDamageMax,1.0"
+    ],
+    "mapGUIPropMaps" : [
+      "FzSiloGUI",
+      "FzSiloGUI"
+    ],
+    "strPortraitImg" : "ItmCanister04",
+    "strAudioEmitter" : "ItmMetalDrumSound"
+  },
+  {
+    "strName" : "ItmFzSiloSmallDmg",
+    "strNameShort" : "Silo",
+    "strNameFriendly" : "Small Material Silo (Damaged)",
+    "strDesc" : "A sealed canister for recycled material, holding up to 5,000 units of any everyday material in one mix. Recyclers and fabricators on the same ship draw on it while it's installed.",
+    "strItemDef" : "ItmCanister04Dmg",
+    "strType" : "Item",
+    "aInteractions" : [
+    ],
+    "aStartingConds" : [
+      "IsDamaged=1.0x1",
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzSilo=1.0x1",
+      "IsFzSiloSmall=1.0x1",
+      "IsFzSiloBaseMetals=1.0x1",
+      "IsFzSiloMetalAlloys=1.0x1",
+      "IsFzSiloPreciousMetals=1.0x1",
+      "IsFzSiloRareEarths=1.0x1",
+      "IsFzSiloPolymers=1.0x1",
+      "IsFzSiloCeramics=1.0x1",
+      "IsFzSiloOrganics=1.0x1",
+      "IsFzSiloSilicates=1.0x1",
+      "IsFzSiloVolatiles=1.0x1",
+      "IsFzSiloHeliumFines=1.0x1",
+      "StatFzSiloCapacity=1.0x5000",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x85.0",
+      "StatInstallProgressMax=1.0x150",
+      "StatUninstallProgressMax=1.0x150",
+      "StatRepairProgressMax=1.0x450",
+      "StatMass=1.0x60.0",
+      "StatDamageMax=1.0x4",
+      "IsMechanical=1.0x1",
+      "IsCategoryStorage=1.0x1"
+    ],
+    "mapPoints" : [
+      "use,0,0"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTMechDestroy,StatDamageMax,1.0"
+    ],
+    "strPortraitImg" : "ItmCanister04Dmg",
+    "strAudioEmitter" : "ItmCanisterDmgSound"
+  },
+  {
+    "strName" : "ItmFzSiloSmallLoose",
+    "strNameShort" : "Silo",
+    "strNameFriendly" : "Small Material Silo (Loose)",
+    "strDesc" : "A sealed canister for recycled material, holding up to 5,000 units of any everyday material in one mix. Recyclers and fabricators on the same ship draw on it while it's installed.",
+    "strItemDef" : "ItmCanister04Loose",
+    "strType" : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzSilo=1.0x1",
+      "IsFzSiloSmall=1.0x1",
+      "IsFzSiloBaseMetals=1.0x1",
+      "IsFzSiloMetalAlloys=1.0x1",
+      "IsFzSiloPreciousMetals=1.0x1",
+      "IsFzSiloRareEarths=1.0x1",
+      "IsFzSiloPolymers=1.0x1",
+      "IsFzSiloCeramics=1.0x1",
+      "IsFzSiloOrganics=1.0x1",
+      "IsFzSiloSilicates=1.0x1",
+      "IsFzSiloVolatiles=1.0x1",
+      "IsFzSiloHeliumFines=1.0x1",
+      "StatFzSiloCapacity=1.0x5000",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x650.0",
+      "StatInstallProgressMax=1.0x150",
+      "StatUninstallProgressMax=1.0x150",
+      "StatRepairProgressMax=1.0x250",
+      "StatMass=1.0x60.0",
+      "StatDamageMax=1.0x4",
+      "IsMechanical=1.0x1",
+      "IsCategoryStorage=1.0x1"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzSiloSmallLooseDamage,StatDamageMax,1.0"
+    ],
+    "strPortraitImg" : "ItmCanister04Loose",
+    "strAudioEmitter" : "ItmMetalDrumSound"
+  },
+  {
+    "strName" : "ItmFzSiloSmallDmgLoose",
+    "strNameShort" : "Silo",
+    "strNameFriendly" : "Small Material Silo (Damaged, Loose)",
+    "strDesc" : "A sealed canister for recycled material, holding up to 5,000 units of any everyday material in one mix. Recyclers and fabricators on the same ship draw on it while it's installed.",
+    "strItemDef" : "ItmCanister04DmgLoose",
+    "strType" : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsDamaged=1.0x1",
+      "IsFzSilo=1.0x1",
+      "IsFzSiloSmall=1.0x1",
+      "IsFzSiloBaseMetals=1.0x1",
+      "IsFzSiloMetalAlloys=1.0x1",
+      "IsFzSiloPreciousMetals=1.0x1",
+      "IsFzSiloRareEarths=1.0x1",
+      "IsFzSiloPolymers=1.0x1",
+      "IsFzSiloCeramics=1.0x1",
+      "IsFzSiloOrganics=1.0x1",
+      "IsFzSiloSilicates=1.0x1",
+      "IsFzSiloVolatiles=1.0x1",
+      "IsFzSiloHeliumFines=1.0x1",
+      "StatFzSiloCapacity=1.0x5000",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x85.0",
+      "StatInstallProgressMax=1.0x150",
+      "StatUninstallProgressMax=1.0x150",
+      "StatRepairProgressMax=1.0x450",
+      "StatMass=1.0x60.0",
+      "StatDamageMax=1.0x4",
+      "IsMechanical=1.0x1",
+      "IsCategoryStorage=1.0x1"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTMechDestroy,StatDamageMax,1.0"
+    ],
+    "strPortraitImg" : "ItmCanister04DmgLoose",
+    "strAudioEmitter" : "ItmCanisterDmgSound"
+  }
+]

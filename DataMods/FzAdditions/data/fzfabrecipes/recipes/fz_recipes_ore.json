@@ -1,0 +1,189 @@
+[
+  {
+    "strName": "ItmCargoOre01",
+    "strNameFriendly": "Ore Cargo",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmCargoOre01" ],
+    "mapMaterials": { "BaseMetals": 9, "PreciousMetals": 2, "RareEarths": 2, "Organics": 1, "Silicates": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmCargoVolatiles01",
+    "strNameFriendly": "Volatiles Canister",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmCargoVolatiles01" ],
+    "mapMaterials": { "Organics": 1, "Volatiles": 5 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmIce01",
+    "strNameFriendly": "Water Ice",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmIce01" ],
+    "mapMaterials": { "Volatiles": 2470 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmIce02",
+    "strNameFriendly": "Methane Ice",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmIce02" ],
+    "mapMaterials": { "Volatiles": 11 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral01",
+    "strNameFriendly": "Ore: Meteoric Iron",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral01" ],
+    "mapMaterials": { "BaseMetals": 8, "MetalAlloys": 1 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral02",
+    "strNameFriendly": "Ore: Olivine",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral02" ],
+    "mapMaterials": { "BaseMetals": 2, "RareEarths": 1, "Silicates": 3 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral03",
+    "strNameFriendly": "Ore: Carbon/Carbides",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral03" ],
+    "mapMaterials": { "Ceramics": 3, "Organics": 3 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral04",
+    "strNameFriendly": "Ore: Silicates",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral04" ],
+    "mapMaterials": { "Silicates": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral05",
+    "strNameFriendly": "Ore: Platinum",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral05" ],
+    "mapMaterials": { "PreciousMetals": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral06",
+    "strNameFriendly": "Ore: Iridium",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral06" ],
+    "mapMaterials": { "PreciousMetals": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral07",
+    "strNameFriendly": "Ore: Palladium",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral07" ],
+    "mapMaterials": { "PreciousMetals": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral08",
+    "strNameFriendly": "Ore: Cobalt",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral08" ],
+    "mapMaterials": { "MetalAlloys": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral09",
+    "strNameFriendly": "Ore: Gold",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral09" ],
+    "mapMaterials": { "PreciousMetals": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral10",
+    "strNameFriendly": "Ore: Wolfram",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral10" ],
+    "mapMaterials": { "MetalAlloys": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral11",
+    "strNameFriendly": "Hydrates",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral11" ],
+    "mapMaterials": { "Volatiles": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineral79",
+    "strNameFriendly": "Void Opal",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineral79" ],
+    "mapMaterials": { "Exotics": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmMineralStone01",
+    "strNameFriendly": "Regolith",
+    "strCategory": "Ore",
+    "aCOs": [ "ItmMineralStone01" ],
+    "mapMaterials": { "BaseMetals": 1, "RareEarths": 1, "Silicates": 3, "HeliumFines": 4 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strTier": "Ordinary"
+  }
+]

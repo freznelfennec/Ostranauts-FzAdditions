@@ -1,0 +1,4 @@
+[
+  { "strName" : "MSFzSiloSmallDamage", "strTitle" : "", "strDesc" : "[us] [is] damaged.", "fDuration" : 0.0, "strThemType" : "Other", "bIgnoreFeelings" : true, "nLogging" : 1, "objLootModeSwitch" : "ItmFzSiloSmallDmg" },
+  { "strName" : "MSFzSiloSmallLooseDamage", "strTitle" : "", "strDesc" : "[us] [is] damaged.", "fDuration" : 0.0, "strThemType" : "Other", "bIgnoreFeelings" : true, "nLogging" : 1, "objLootModeSwitch" : "ItmFzSiloSmallDmgLoose" }
+]

@@ -27,6 +27,12 @@ namespace Freznel.FzAdditions.Patches
             ConsolePatch.AddCommand("bplist", KeywordList,
                 "lists the fabrication blueprints the player knows",
                 "'fz bplist' lists them all, 'fz bplist wall' only those containing the text");
+            ConsolePatch.AddCommand("silo", KeywordSilo,
+                "shows and changes the material silos on the current ship or station",
+                "'fz silo' lists the working silos and what each holds",
+                "'fz silo give BaseMetals 500' fills the silos with that much, the one holding the most of it first",
+                "'fz silo take BaseMetals 500' draws that much out, the one holding the least of it first",
+                "'fz silo clear' empties every working silo");
             ConsolePatch.AddCommand("fabreload", KeywordReload,
                 "reads every mod's fabrication recipes and materials again, for checking edits without restarting");
         }
@@ -130,6 +136,55 @@ namespace Freznel.FzAdditions.Patches
                 strInput += $"\n{blueprint}: {recipes[0].strNameFriendly}{(recipes.Count > 1 ? $" (+{recipes.Count - 1} variants)" : "")}{(FabData.IsStartKnown(blueprint) ? ", known from the start" : "")}";
             }
             strInput += known.Count > ListLimit ? $"\n...and {known.Count - ListLimit} more" : $"\n{known.Count} known of {FabData.Blueprints.Count()}";
+            return true;
+        }
+
+        private static bool KeywordSilo(ref string strInput, string[] args)
+        {
+            Ship ship = CrewSim.objInstance != null ? CrewSim.shipCurrentLoaded : null;
+            if (ship == null)
+            {
+                strInput += "\nNo ship loaded.";
+                return false;
+            }
+            string action = args.Length > 1 ? args[1].ToLower() : "list";
+
+            if (action == "give" || action == "take")
+            {
+                string material = args.Length == 4 ? FabData.Materials.Keys.FirstOrDefault(m => string.Equals(m, args[2], StringComparison.OrdinalIgnoreCase)) : null;
+                if (material == null || !double.TryParse(args[3], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double units) || units <= 0)
+                {
+                    strInput += $"\nUsage: fz silo {action} <material> <units>. Materials: {string.Join(", ", FabData.Materials.Keys)}";
+                    return false;
+                }
+                double moved = action == "give" ? Silo.Fill(ship, material, units) : Silo.Draw(ship, material, units);
+                strInput += action == "give" ? $"\nPut {moved:0.##} of {units:0.##} units of {material} in." : $"\nTook {moved:0.##} of {units:0.##} units of {material} out.";
+                strInput += $" The ship's silos hold {Silo.ShipAmount(ship, material):0.##}.";
+                return true;
+            }
+
+            List<CondOwner> silos = Silo.GetWorking(ship);
+            if (action == "clear")
+            {
+                foreach (CondOwner silo in silos) Silo.Clear(silo);
+                strInput += $"\nEmptied {silos.Count} silo(s).";
+                return true;
+            }
+            if (action != "list")
+            {
+                strInput += "\nUsage: fz silo, fz silo give <material> <units>, fz silo take <material> <units>, or fz silo clear";
+                return false;
+            }
+
+            strInput += $"\n{silos.Count} working silo(s)";
+            foreach (CondOwner silo in silos)
+            {
+                var contents = Silo.Contents(silo).ToList();
+                strInput += $"\n  {silo.strName} ({silo.strCODef}): {Silo.Total(silo):0.##} of {Silo.Capacity(silo):0} units, {silo.GetCondAmount("StatMass"):0.##} kg, worth {silo.GetCondAmount("StatBasePrice"):0}";
+                if (contents.Count > 0) strInput += "\n    " + string.Join(", ", contents.Select(c => $"{FabData.Materials[c.Key].strNameFriendly} {c.Value:0.##}"));
+                var refused = FabData.Materials.Keys.Where(m => !Silo.Accepts(silo, m)).ToList();
+                if (refused.Count > 0) strInput += "\n    doesn't take: " + string.Join(", ", refused);
+            }
             return true;
         }
 
