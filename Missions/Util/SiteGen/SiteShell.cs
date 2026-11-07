@@ -13,6 +13,9 @@ namespace Freznel.FzAdditions.Util.SiteGen
         public float Rotation;
         public string Id;
         public string Pin;   //A door's lock code, written to its lock panel
+        public string ParentId;     //What it's inside, such as rounds in a weapon
+        public string PanelName;    //One prop map to give it, such as a loot spawner's Panel A
+        public string[] Panel;      //Its settings, key and value in turn
     }
 
     //A site's shell as items, ready to become a ship template: hull, floors, rock and docks. Still plain C#; the game
@@ -20,12 +23,15 @@ namespace Freznel.FzAdditions.Util.SiteGen
     public class SiteLayout
     {
         public SiteGrid Grid;
+        public SiteProgram Program;
         public string TemplateName;
         public float OriginX;   //The top left tile's position, the template's vShipPos
         public float OriginY;
         public readonly List<SiteItem> Items = new List<SiteItem>();
         public readonly List<string> DockIds = new List<string>();
         public int Furnished;                                   //Items the furnisher added
+        public int Weapons, Sensors, Rounds, LootSpawners, Cores, FloorLoot, Controllers; //What went on the hull, into containers and onto floors
+        public readonly HashSet<string> MissingItems = new HashSet<string>(); //Fixture alternatives the catalog doesn't have
         public readonly List<string> FurnishProblems = new List<string>();
         public readonly List<Placement> Placed = new List<Placement>();   //What the furnisher placed, for the preview
         public readonly Dictionary<string, int> Shortfalls = new Dictionary<string, int>(); //Fixtures, by item, that didn't fit where a role wanted them
@@ -55,31 +61,40 @@ namespace Freznel.FzAdditions.Util.SiteGen
 
         //A template's name holds everything needed to make it again, so it can be rebuilt if the game asks for it after
         //a load (SiteTemplatePatch)
-        public static string TemplateName(SiteKind kind, SiteSize size, int seed) => $"{Prefix}{kind}_{size}_{seed}";
+        public static string TemplateName(SiteKind kind, SiteSize size, int seed, string corp) => $"{Prefix}{kind}_{size}_{seed}_{corp ?? SiteData.GenericCorp}";
 
-        public static bool TryParseTemplateName(string name, out SiteKind kind, out SiteSize size, out int seed)
+        //Templates made before sites had corporations have no corporation part, and are Generic
+        public static bool TryParseTemplateName(string name, out SiteKind kind, out SiteSize size, out int seed, out string corp)
         {
             kind = SiteKind.Relay;
             size = SiteSize.Small;
             seed = 0;
+            corp = SiteData.GenericCorp;
             if (name == null || !name.StartsWith(Prefix)) return false;
-            string[] parts = name.Substring(Prefix.Length).Split('_');
-            return parts.Length == 3 && Enum.TryParse(parts[0], out kind) && Enum.TryParse(parts[1], out size) && int.TryParse(parts[2], out seed);
+            string[] parts = name.Substring(Prefix.Length).Split(new[] { '_' }, 4);
+            if (parts.Length < 3 || !Enum.TryParse(parts[0], out kind) || !Enum.TryParse(parts[1], out size) || !int.TryParse(parts[2], out seed)) return false;
+            if (parts.Length == 4 && parts[3].Length > 0) corp = parts[3];
+            return true;
         }
 
-        //With a catalog, the shell is furnished too (SiteFurnish)
-        public static SiteLayout Build(SiteKind kind, SiteSize size, int seed, SiteCatalog catalog = null)
+        //With a catalog, the shell is furnished too (SiteFurnish), by the corporation's program from the data
+        public static SiteLayout Build(SiteKind kind, SiteSize size, int seed, string corp, SiteData data, SiteCatalog catalog = null)
         {
             SiteGrid grid = SiteShapes.Generate(kind, size, seed);
-            return grid == null ? null : Build(grid, SiteStyle.For(kind), catalog);
+            if (grid == null) return null;
+            SiteProgram program = data?.Program(kind, corp) ?? new SiteProgram { Kind = kind, Corp = corp ?? SiteData.GenericCorp };
+            return Build(grid, program, catalog);
         }
 
-        public static SiteLayout Build(SiteGrid grid, SiteStyle style, SiteCatalog catalog = null)
+        public static SiteLayout Build(SiteGrid grid, SiteProgram program, SiteCatalog catalog = null)
         {
+            SiteStyle style = program.Style ?? SiteStyle.For(grid.Kind);
+            program.Style = style;
             var layout = new SiteLayout
             {
                 Grid = grid,
-                TemplateName = TemplateName(grid.Kind, grid.Size, grid.Seed),
+                Program = program,
+                TemplateName = TemplateName(grid.Kind, grid.Size, grid.Seed, program.Corp),
                 OriginX = -(grid.Width / 2),
                 OriginY = grid.Height / 2
             };
@@ -111,7 +126,7 @@ namespace Freznel.FzAdditions.Util.SiteGen
                             break;
                         case SiteZone.Strut:
                         case SiteZone.Wall:
-                        case SiteZone.Mount: //Weapons go on in milestone 4; until then a mount is hull
+                        case SiteZone.Mount: //Hull; the furnisher puts a weapon across it
                             if (!dockWalls.Contains((x, y))) name = IsTunnelWall(grid, x, y) ? style.TunnelWall : style.HullWall;
                             break;
                         default:
@@ -119,6 +134,14 @@ namespace Freznel.FzAdditions.Util.SiteGen
                             break;
                     }
                     if (name != null) Add(layout, name, layout.ItemX(x), layout.ItemY(y), 0f);
+                    //Walls and rock beside a passage get a floor under them too, as the base game's ships have: a wall's corner
+                    //and edge sprites are partly clear, and with nothing under them space shows through. Docks' and doors'
+                    //own walls get one as well.
+                    if (!SiteGrid.IsWalkable(zone) && zone != SiteZone.Space)
+                    {
+                        string under = FloorBeside(style, grid, x, y);
+                        if (under != null) Add(layout, under, layout.ItemX(x), layout.ItemY(y), 0f);
+                    }
                 }
             }
 
@@ -145,8 +168,21 @@ namespace Freznel.FzAdditions.Util.SiteGen
                 layout.Items[layout.Items.Count - 1] = added;
             }
 
-            if (catalog != null) layout.FurnishProblems.AddRange(SiteFurnish.Furnish(layout, catalog, style));
+            if (catalog != null) layout.FurnishProblems.AddRange(SiteFurnish.Furnish(layout, catalog, program));
             return layout;
+        }
+
+        //The floor of a walkable tile next to this one, sides before corners, or null when none is. Dock tiles are
+        //skipped: the port brings its own.
+        private static string FloorBeside(SiteStyle style, SiteGrid grid, int x, int y)
+        {
+            int[] dx = { 1, -1, 0, 0, 1, 1, -1, -1 }, dy = { 0, 0, 1, -1, 1, -1, 1, -1 };
+            for (int i = 0; i < dx.Length; i++)
+            {
+                SiteZone next = grid[x + dx[i], y + dy[i]];
+                if (next != SiteZone.Dock && SiteGrid.IsWalkable(next)) return Floor(style, next);
+            }
+            return null;
         }
 
         //The tiles a docking port puts walls on: two either side of the port on the hull, and one two tiles either side

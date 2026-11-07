@@ -1,0 +1,86 @@
+[
+      {
+        "strName" : "MSFzInterceptorDamage",
+        "strTitle" : "",
+        "strDesc" : "[us] is damaged.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "nLogging"         : 1,
+        "objLootModeSwitch"    : "ItmFzInterceptor01Damage"
+      },
+      {
+        "strName" : "MSFzInterceptorDestroy",
+        "strTitle" : "",
+        "strDesc" : "[us] is destroyed.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "nLogging"         : 1,
+        "objLootModeSwitch"    : "ItmFzInterceptor01ComponentsShell"
+      },
+      {
+        "strName" : "MSFzInterceptorLooseDamage",
+        "strTitle" : "",
+        "strDesc" : "[us] is damaged.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "nLogging"         : 1,
+        "objLootModeSwitch"    : "ItmFzInterceptor01LooseDamage"
+      },
+      {
+        "strName" : "MSFzInterceptorLooseDestroy", 
+        "strTitle" : "",
+        "strDesc" : "[us] is destroyed.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "nLogging"         : 1,
+        "objLootModeSwitch"    : "ItmFzInterceptor01ComponentsShell"
+      },
+      {
+        "strName" : "MSFzInterceptorOffAllow",
+        "strTitle" : "",
+        "strDesc" : "[us] switches off.",
+        "strTargetPoint" : null,
+        "fTargetPointRange" : 0,
+        "strAnim"           : null,
+        "strBubble"         : null,
+        "aInverse"          : [
+        ],
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "strRaiseUI"        : null,
+        "LootCTsUs"       : null,
+        "LootCTsThem"     : null,
+        "CTTestUs"           : "TIsNotOff",
+        "CTTestThem"         : null,
+        "aLootItms"       : [
+        ],
+        "objLootModeSwitch"    : "ItmFzInterceptor01Off"
+      },
+      {
+        "strName" : "MSFzInterceptorOnAllow",
+        "strTitle" : "",
+        "strDesc" : "[us] powers-up.",
+        "strTargetPoint" : null,
+        "fTargetPointRange" : 0,
+        "strAnim"           : null,
+        "strBubble"         : null,
+        "aInverse"          : [
+        ],
+        "fDuration"         : 0.0,
+        "strThemType"       : "Other",
+        "bIgnoreFeelings" : true,
+        "strRaiseUI"        : null,
+        "LootCTsUs"       : null,
+        "LootCTsThem"     : null,
+        "CTTestUs"           : "TIsOff",
+        "CTTestThem"         : null,
+        "aLootItms"       : [
+        ],
+        "objLootModeSwitch"    : "ItmFzInterceptor01"
+      }
+]

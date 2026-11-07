@@ -24,6 +24,8 @@ namespace Freznel.FzAdditions.Patches
             {
                 SiteIdentity.Docked(__instance, dockingTarget);
                 SiteIdentity.Docked(dockingTarget, __instance);
+                SignalTraces.Docked(__instance, dockingTarget);
+                SignalTraces.Docked(dockingTarget, __instance);
             }
             catch (Exception ex)
             {

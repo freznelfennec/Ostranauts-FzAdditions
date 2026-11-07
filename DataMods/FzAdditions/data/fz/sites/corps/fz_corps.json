@@ -1,0 +1,206 @@
+[
+  {
+    "strName": "Generic",
+    "strNameFriendly": "Unmarked Operator",
+    "strFaction": null,
+    "strDesc": "No livery and no registry. The fallback for a site whose corporation isn't defined, and for testing.",
+    "aKinds": [ "Relay", "BlackSite" ],
+    "aBlueprints": [ "ItmShipWeaponMassThrower01", "ItmShipWeaponMassThrower02", "ItmShipWeaponMassThrower03", "ItmAmmo20mm", "ItmAmmo150mm" ],
+    "aBlueprintCategories": [ "Sensors", "Weapons", "FusionParts", "Doors", "Hull" ],
+    "aRareBlueprints": [ { "strBlueprint": "ItmAmmoDecoyMissile03", "fChance": 0.02 } ],
+    "aFloorLoot": [
+      { "strRole": "Equipment", "strLoot": "FzFloorGenericMunitions", "nMin": 0, "nMax": 1, "fChance": 0.5 },
+      { "strRole": "Armory", "strLoot": "FzFloorGenericMunitions", "nMin": 0, "nMax": 1 }
+    ],
+    "strRelayName": "Corporate Relay {0}",
+    "strBlackSiteName": "Unregistered Facility {0}"
+  },
+  {
+    "strName": "Prokofiev",
+    "strNameFriendly": "Prokofiev Penal Colony, LLC",
+    "strFaction": "HQCHCiv",
+    "strSecurityFaction": "HQCH",
+    "strDesc": "Penal-industrial. Dark Testudo plate, orange light, heavy Soyuzneft guns and more of them. Relays are prison-network switchboards; black sites are interrogation annexes and contract-labour holds, with big armouries, bare quarters, and liquor and cigarettes in the lockers. Vaults hold Soyuzneft guns, launchers and missiles, and heavy airlocks.",
+    "aKinds": [ "Relay", "BlackSite" ],
+    "aBlueprints": [ "ItmShipWeaponPDC03", "ItmShipWeaponMissileLauncher03", "ItmAmmoMissile03", "ItmAmmo20mm", "ItmDockSys02", "ItmDockSys03" ],
+    "aBlueprintCategories": [ "Doors" ],
+    "mapStyles": { "Relay": "FzStyleProkofievRelay", "BlackSite": "FzStyleProkofievBlackSite" },
+    "aWeaponsPDC": [ "ItmShipWeaponPDC03" ],
+    "aWeaponsRail": [ "ItmShipWeaponMassThrower03", "ItmShipWeaponMissileLauncher03" ],
+    "aFixtures": [
+      { "strRole": "Armory", "aItems": [ "ItmCrate01Lock" ], "nMin": 1, "nMax": 2, "bLoot": true },
+      { "strRole": "Security", "aItems": [ "ItmDecorPoster05", "ItmDecorPoster06" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Quarters", "aItems": [ "ItmDecorPoster11", "ItmDecorPoster12" ], "nMin": 0, "nMax": 1, "fChance": 0.6 }
+    ],
+    "mapLoot": { "Armory": "FzLootProkofievArmory", "Quarters": "FzLootProkofievQuarters" },
+    "aFloorLoot": [
+      { "strRole": "Armory", "strLoot": "FzFloorProkofievMunitions", "nMin": 1, "nMax": 2 },
+      { "strRole": "Equipment", "strLoot": "FzFloorProkofievMunitions", "nMin": 0, "nMax": 1, "fChance": 0.5 }
+    ],
+    "strRelayName": "Prokofiev Relay {0}",
+    "strBlackSiteName": "Prokofiev Holding Annex {0}"
+  },
+  {
+    "strName": "Ayotimiwa",
+    "strNameFriendly": "Ayotimiwa Ship Breaking Co.",
+    "strFaction": "OKLGCorp",
+    "strSecurityFaction": "OKLGLEO",
+    "strDesc": "Salvage. Mismatched aerostat plate and grating, cargo and scrap stacked everywhere, light coilguns. Relays are salvage-claim beacons; black sites are where the hulls that never reached the yard went. Storage is full of parts and damaged fusion gear. Vaults hold airlock, hull and reclaimed Sulaiman reactor designs.",
+    "aKinds": [ "Relay", "BlackSite" ],
+    "aBlueprints": [ "ItmDockSys02", "ItmDockSys03", "ItmFusionCorePump", "ItmFusionCryoPump", "ItmFusionPelletFeeder", "ItmCapacitor" ],
+    "aBlueprintCategories": [ "Hull", "Doors", "Parts", "Scrap" ],
+    "mapStyles": { "Relay": "FzStyleAyotimiwaRelay", "BlackSite": "FzStyleAyotimiwaBlackSite" },
+    "aWeaponsPDC": [ "ItmShipWeaponPDC01" ],
+    "aWeaponsRail": [ "ItmShipWeaponMassThrower01" ],
+    "aFixtures": [
+      { "strRole": "Equipment", "aItems": [ "ItmCargoOre01", "ItmCargoScience01", "ItmCargoVolatiles01" ], "nMin": 1, "nMax": 3 },
+      { "strRole": "Storage", "aItems": [ "ItmToolBox01", "ItmToolBox02", "ItmToolCrowbar01", "ItmToolGrinder02" ], "nMin": 1, "nMax": 3 }
+    ],
+    "mapLoot": { "Storage": "FzLootAyotimiwaStorage", "Relay.Equipment": "FzLootAyotimiwaStorage" },
+    "aFloorLoot": [
+      { "strRole": "Storage", "strLoot": "FzFloorAyotimiwaSalvage", "nMin": 1, "nMax": 3 },
+      { "strRole": "Equipment", "strLoot": "FzFloorAyotimiwaSalvage", "nMin": 1, "nMax": 2 }
+    ],
+    "strRelayName": "Ayotimiwa Claim Beacon {0}",
+    "strBlackSiteName": "Ayotimiwa Breaker Yard {0}"
+  },
+  {
+    "strName": "CCRE",
+    "strNameFriendly": "Coalition of Ceres Resource Extraction",
+    "strFaction": "CCRECiv",
+    "strSecurityFaction": "CCRE",
+    "strDesc": "Fuel and ice. Caylon plate, black sites cut into ice rather than rock, D2O and He3 cargo in the halls, Smartlink guns. Relays are extraction-claim beacons; black sites are fuel depots that aren't on any manifest. Vaults hold fusion fuel-handling and reactor designs.",
+    "aKinds": [ "Relay", "BlackSite" ],
+    "aBlueprints": [ "ItmCanisterLH", "ItmCanisterLHe01", "ItmCanisterLHe02", "ItmFusionCryoPump", "ItmFusionFuelRegulator", "ItmFusionReactorCore", "ItmReactorIC", "ItmShipWeaponPDC01", "ItmShipWeaponMissileLauncher01", "ItmAmmoMissile01" ],
+    "aBlueprintCategories": [ "FusionParts", "LifeSupport" ],
+    "mapStyles": { "Relay": "FzStyleCCRERelay", "BlackSite": "FzStyleCCREBlackSite" },
+    "aWeaponsPDC": [ "ItmShipWeaponPDC01" ],
+    "aWeaponsRail": [ "ItmShipWeaponMissileLauncher01", "ItmShipWeaponMassThrower02" ],
+    "aFixtures": [
+      { "strRole": "Storage", "aItems": [ "ItmCargoD2O01", "ItmCargoHE301" ], "nMin": 2, "nMax": 4 },
+      { "strRole": "Equipment", "aItems": [ "ItmCargoD2O01", "ItmCargoHE301" ], "nMin": 1, "nMax": 2 }
+    ],
+    "mapLoot": { "Storage": "FzLootCCREStorage", "BlackSite.Vault": "FzLootCCREVault" },
+    "aFloorLoot": [
+      { "strRole": "Equipment", "strLoot": "FzFloorCCREMunitions", "nMin": 0, "nMax": 1, "fChance": 0.6 },
+      { "strRole": "Armory", "strLoot": "FzFloorCCREMunitions", "nMin": 1, "nMax": 1 }
+    ],
+    "strRelayName": "CCRE Claim Relay {0}",
+    "strBlackSiteName": "CCRE Depot {0}"
+  },
+  {
+    "strName": "Peralta",
+    "strNameFriendly": "Peralta Prospecting Concern",
+    "strFaction": "OKLGProspector",
+    "strDesc": "Survey. Langdon-Phillips plate, a hull bristling with sensors, light defences. Relays are survey-data relays; black sites hold the claims Peralta hasn't filed yet, with mineral samples in every crate. Vaults hold sensor designs of every make.",
+    "aKinds": [ "Relay", "BlackSite" ],
+    "aBlueprintCategories": [ "Sensors", "Tools" ],
+    "mapStyles": { "Relay": "FzStylePeraltaRelay", "BlackSite": "FzStylePeraltaBlackSite" },
+    "aWeaponsPDC": [ "ItmShipWeaponPDC01", "ItmShipWeaponPDC02" ],
+    "aWeaponsRail": [ "ItmShipWeaponMassThrower01" ],
+    "aSensors": [ "ItmSensorRadar01", "ItmSensorRadar02", "ItmSensorLidar01", "ItmSensorLidar02", "ItmSensorEM01", "ItmSensorEM02", "ItmSensorIR01", "ItmSensorIR02", "ItmSensorEOIR01", "ItmSensorOptical01" ],
+    "aFixtures": [
+      { "strRole": "Storage", "aItems": [ "ItmCargoOre01", "ItmCargoScience01" ], "nMin": 1, "nMax": 3 },
+      { "strRole": "Lab", "aItems": [ "ItmCargoScience01" ], "nMin": 1, "nMax": 2 }
+    ],
+    "mapLoot": { "Storage": "FzLootPeraltaStorage", "Relay.Equipment": "FzLootPeraltaStorage" },
+    "aFloorLoot": [
+      { "strRole": "Storage", "strLoot": "FzFloorPeraltaSurvey", "nMin": 1, "nMax": 2 },
+      { "strRole": "Lab", "strLoot": "FzFloorPeraltaSurvey", "nMin": 1, "nMax": 2 }
+    ],
+    "strRelayName": "Peralta Survey Relay {0}",
+    "strBlackSiteName": "Peralta Claim {0}"
+  },
+  {
+    "strName": "Cloudbreak",
+    "strNameFriendly": "Cloudbreak",
+    "strFaction": "VCBRCiv",
+    "strSecurityFaction": "VCBRLEO",
+    "strDesc": "Venusian aerostat money. Van Hummel plate and pale floors, planters and couches even on a relay, Polaris electronics, decoys over guns. Relays are traffic-control relays; black sites are executive retreats with something to hide. Vaults hold the Polaris nav console and every nav module, and Polaris decoys; very rarely the GDM-X1, the decoy that never fails.",
+    "aKinds": [ "Relay", "BlackSite" ],
+    "aBlueprints": [ "ItmStationNav", "ItmShipWeaponDecoyLauncher", "ItmAmmoDecoyMissile01", "ItmAmmoDecoyMissile02", "ItmSensorOptical" ],
+    "aBlueprintCategories": [ "ControlSystems", "LuxuryGoods", "Furniture" ],
+    "aRareBlueprints": [ { "strBlueprint": "ItmAmmoDecoyMissile03", "fChance": 0.05 } ],
+    "mapStyles": { "Relay": "FzStyleCloudbreakRelay", "BlackSite": "FzStyleCloudbreakBlackSite" },
+    "aWeaponsPDC": [ "ItmShipWeaponPDC01", "ItmShipWeaponDecoyLauncher01" ],
+    "aWeaponsRail": [ "ItmShipWeaponMassThrower02" ],
+    "aFixtures": [
+      { "strRole": "Servers", "aItems": [ "ItmPlanter1x101", "ItmPlanter2x101" ], "nMin": 0, "nMax": 1, "fChance": 0.6 },
+      { "strRole": "Galley", "aItems": [ "ItmCouch01" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Quarters", "aItems": [ "ItmPlanter2x201", "ItmPlanter2x202" ], "nMin": 0, "nMax": 1, "fChance": 0.6 }
+    ],
+    "mapLoot": { "Quarters": "FzLootCloudbreakQuarters" },
+    "aFloorLoot": [
+      { "strRole": "Equipment", "strLoot": "FzFloorCloudbreakDecoys", "nMin": 0, "nMax": 1, "fChance": 0.6 },
+      { "strRole": "Storage", "strLoot": "FzFloorCloudbreakDecoys", "nMin": 0, "nMax": 1, "fChance": 0.5 }
+    ],
+    "strRelayName": "Cloudbreak Traffic Relay {0}",
+    "strBlackSiteName": "Cloudbreak Retreat {0}"
+  },
+  {
+    "strName": "Suzhou",
+    "strNameFriendly": "Suzhou Orbital",
+    "strFaction": "MSUZCiv",
+    "strSecurityFaction": "MSUZ",
+    "strDesc": "Orderly Minsheng plate, Zhuangzi sensors and Brave New World guns. Relays are municipal data exchanges; black sites are state-adjacent research stations, quiet and very well kept. Vaults hold Zhuangzi sensor and BNW weapon designs.",
+    "aKinds": [ "Relay", "BlackSite" ],
+    "aBlueprints": [ "ItmSensorEM", "ItmSensorIR02", "ItmSensorLidar02", "ItmSensorRadar02", "ItmShipWeaponPDC02", "ItmShipWeaponMissileLauncher02" ],
+    "aBlueprintCategories": [ "Electronics", "Media" ],
+    "mapStyles": { "Relay": "FzStyleMinshengRelay", "BlackSite": "FzStyleMinshengBlackSite" },
+    "aWeaponsPDC": [ "ItmShipWeaponPDC02" ],
+    "aWeaponsRail": [ "ItmShipWeaponMissileLauncher02", "ItmShipWeaponMassThrower02" ],
+    "aSensors": [ "ItmSensorEM02", "ItmSensorIR02", "ItmSensorLidar02", "ItmSensorRadar02" ],
+    "aFloorLoot": [
+      { "strRole": "Equipment", "strLoot": "FzFloorBNWMunitions", "nMin": 0, "nMax": 1, "fChance": 0.4 }
+    ],
+    "strRelayName": "Suzhou Data Exchange {0}",
+    "strBlackSiteName": "Suzhou Research Station {0}"
+  },
+  {
+    "strName": "Hangzhou",
+    "strNameFriendly": "Hangzhou",
+    "strFaction": "MHNGCiv",
+    "strSecurityFaction": "MHNG",
+    "strDesc": "Minsheng plate in harder colours, BNW missiles and more PDCs than Suzhou fields. Relays are freight-routing relays; black sites are bonded warehouses whose bonds nobody can find. Vaults hold BNW missile designs and industrial goods.",
+    "aKinds": [ "Relay", "BlackSite" ],
+    "aBlueprints": [ "ItmShipWeaponPDC02", "ItmShipWeaponMissileLauncher02", "ItmAmmoMissile02" ],
+    "aBlueprintCategories": [ "IndustrialProducts", "HVAC" ],
+    "mapStyles": { "Relay": "FzStyleMinshengRelay", "BlackSite": "FzStyleMinshengBlackSite" },
+    "aWeaponsPDC": [ "ItmShipWeaponPDC02", "ItmShipWeaponPDC03" ],
+    "aWeaponsRail": [ "ItmShipWeaponMissileLauncher02" ],
+    "aFixtures": [
+      { "strRole": "Storage", "aItems": [ "ItmCrate01Lock" ], "nMin": 1, "nMax": 3, "bLoot": true }
+    ],
+    "aFloorLoot": [
+      { "strRole": "Equipment", "strLoot": "FzFloorBNWMunitions", "nMin": 0, "nMax": 1, "fChance": 0.6 },
+      { "strRole": "Armory", "strLoot": "FzFloorBNWMunitions", "nMin": 1, "nMax": 2 }
+    ],
+    "strRelayName": "Hangzhou Freight Relay {0}",
+    "strBlackSiteName": "Hangzhou Bonded Store {0}"
+  },
+  {
+    "strName": "FaureZhang",
+    "strNameFriendly": "Faure-Zhang",
+    "strFaction": "FzFaureZhang",
+    "strDesc": "The mod's own. Spotless MSS white, white light, mixed guns bought from everyone. Relays carry beam-former telemetry; black sites are fronts for the exotic-matter refinery. The only sites whose vaults hold the mod's own blueprints, and whose containers hold exotics and beam formers.",
+    "aKinds": [ "Relay", "BlackSite" ],
+    "bModTech": true,
+    "aBlueprints": [
+      "FzSmes01", "FzSmes02", "FzSmes03",
+      "FzSmesReactorTap01", "FzSmesReactorTap02", "FzSmesReactorTap03",
+      "FzJumpFieldEmitter01", "FzJumpFieldEmitter02", "FzJumpFieldEmitter03", "FzJumpNavCom",
+      "FzRecycler02", "FzRecycler03", "FzFabricator02", "FzFabricator03"
+    ],
+    "aBlueprintCategories": [ "Fabrication", "FaureZhang" ],
+    "mapStyles": { "Relay": "FzStyleFaureZhangRelay", "BlackSite": "FzStyleFaureZhangBlackSite" },
+    "aFixtures": [
+      { "strRole": "Lab", "aItems": [ "ItmFzSiloSmall" ], "nMin": 0, "nMax": 1, "fChance": 0.5 }
+    ],
+    "mapLoot": { "Vault": "FzLootFaureZhangVault", "Relay.Vault": "FzLootFaureZhangRelayVault", "Storage": "FzLootFaureZhangStorage" },
+    "aFloorLoot": [
+      { "strRole": "Lab", "strLoot": "FzFloorFaureZhangLab", "nMin": 0, "nMax": 1, "fChance": 0.5 }
+    ],
+    "strRelayName": "Faure-Zhang Telemetry Relay {0}",
+    "strBlackSiteName": "Faure-Zhang Refinery Annex {0}"
+  }
+]

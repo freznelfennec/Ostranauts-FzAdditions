@@ -48,6 +48,64 @@ namespace Freznel.FzAdditions.Util
             OrbitPlan plan = FollowPlayer(system, player, request.Km, out string matchNote) ?? Circular(system, us, request.Km, out message);
             if (plan == null) return null;
 
+            Ship station = Spawn(request, plan, out BodyOrbit orbit, out message);
+            if (station == null) return null;
+
+            //How well it worked, measured from the orbit the game will move the station along
+            double apart = (orbit.vPos - us.vPos).magnitude * KmPerAU;
+            double drift = (orbit.vVel - us.vVel).magnitude * MetresPerAU;
+            message = $"Spawned {station.publicName} ({station.strRegID}), a {request.Template} owned by {request.Owner ?? "no one"}, "
+                + (plan.Followed
+                    ? $"{apart:0.#} km {(plan.Ahead ? "ahead of" : "behind")} you on your orbit around {plan.Parent.strName}, {drift:0.#} m/s from your velocity."
+                    : $"{apart:0.#} km away in a circular orbit around {plan.Parent.strName}, {drift:0.#} m/s from your velocity: {matchNote}.");
+            return station;
+        }
+
+        //Spawns a station on a circular orbit round a body, through a point given relative to the body's centre in AU,
+        //going round the way direction says (1 or -1). Null, with why, if it couldn't be made.
+        public static Ship SpawnAt(Request request, BodyOrbit parent, double relX, double relY, int direction, out string message)
+        {
+            message = null;
+            if (CrewSim.system == null || parent == null)
+            {
+                message = "No body to orbit.";
+                return null;
+            }
+            if (DataHandler.GetShip(request.Template) == null)
+            {
+                message = $"No ship template named {request.Template}.";
+                return null;
+            }
+            if (request.Owner != null && CrewSim.system.GetFaction(request.Owner) == null)
+            {
+                message = $"No faction named {request.Owner}.";
+                return null;
+            }
+            double radius = Math.Sqrt(relX * relX + relY * relY);
+            if (radius <= parent.fRadius)
+            {
+                message = $"That spot is inside {parent.strName}.";
+                return null;
+            }
+            var plan = new OrbitPlan
+            {
+                Parent = parent,
+                Periapsis = radius,
+                Apoapsis = radius,
+                AngleDeg = Math.Atan2(relY, relX) * 180.0 / Math.PI,
+                Direction = direction < 0 ? -1 : 1
+            };
+            Ship station = Spawn(request, plan, out _, out message);
+            if (station != null) message = $"Spawned {station.publicName} ({station.strRegID}), a {request.Template} owned by {request.Owner ?? "no one"}, {radius * KmPerAU:0} km from the centre of {parent.strName}.";
+            return station;
+        }
+
+        //Makes the station and its orbit from a plan, marked as the request's kind. The orbit is given back for measuring.
+        private static Ship Spawn(Request request, OrbitPlan plan, out BodyOrbit orbit, out string message)
+        {
+            message = null;
+            orbit = null;
+            StarSystem system = CrewSim.system;
             string regID = FzSpawns.NewRegID(request.Kind);
             var spec = new JsonSpawnStation
             {
@@ -74,7 +132,6 @@ namespace Freznel.FzAdditions.Util
             //The game adds the orbit and the ship before the starting conditions, so a spawn that fails partway leaves an
             //unmarked station behind. Whatever was made is taken away again.
             Ship station;
-            BodyOrbit orbit;
             try
             {
                 system.SpawnStationFromJSON(spec);
@@ -110,14 +167,6 @@ namespace Freznel.FzAdditions.Util
             orbit.dVelCalcLast = -1000.0;
             orbit.UpdateTime(StarSystem.fEpoch);
             station.objSS.UpdateTime(StarSystem.fEpoch);
-
-            //How well it worked, measured from the orbit the game will move the station along
-            double apart = (orbit.vPos - us.vPos).magnitude * KmPerAU;
-            double drift = (orbit.vVel - us.vVel).magnitude * MetresPerAU;
-            message = $"Spawned {station.publicName} ({regID}), a {request.Template} owned by {request.Owner ?? "no one"}, "
-                + (plan.Followed
-                    ? $"{apart:0.#} km {(plan.Ahead ? "ahead of" : "behind")} you on your orbit around {plan.Parent.strName}, {drift:0.#} m/s from your velocity."
-                    : $"{apart:0.#} km away in a circular orbit around {plan.Parent.strName}, {drift:0.#} m/s from your velocity: {matchNote}.");
             return station;
         }
 

@@ -14,6 +14,7 @@ namespace Freznel.FzAdditions.Patches
         public static void EmptyScene_Prefix()
         {
             FzSpawns.Reset();
+            FzFactions.Reset();
         }
 
         //The game only calls this while unpaused, with the system loaded
@@ -23,6 +24,7 @@ namespace Freznel.FzAdditions.Patches
         {
             try
             {
+                FzFactions.Tick();
                 FzSpawns.Tick();
             }
             catch (Exception ex)

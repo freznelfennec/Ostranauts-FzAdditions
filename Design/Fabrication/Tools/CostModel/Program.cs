@@ -378,7 +378,28 @@ void WriteData(string recipesDir, string materialsPath)
     // Specialised: the product lines a corporation would guard. High-end branded tech is left to an override list
     // once it's decided, judging it by price caught cheap, dense items like ammunition and medical pens.
     string[] specialisedPrefixes = { "ItmShipWeapon", "ItmDockSys", "ItmSensor", "ItmNavMod", "ItmStationNav" };
-    bool Specialised(OutRow o) => Category(by[o.StatsFrom]) == "FusionParts" || specialisedPrefixes.Any(p => o.Key.StartsWith(p));
+    //Per the user, the GDM-X1 decoy, which never fails, is only ever learned from a corporate site, and rarely there
+    string[] specialisedNames = { "ItmAmmoDecoyMissile03" };
+    bool Specialised(OutRow o) => Category(by[o.StatsFrom]) == "FusionParts" || specialisedPrefixes.Any(p => o.Key.StartsWith(p)) || specialisedNames.Contains(o.Key);
+
+    // Reverse engineering: how many of an Ordinary item have to be recycled (undamaged) to learn its blueprint, 1 for
+    // a simple thing up to 10 for complicated technology. More material, precious metals or rare earths, a
+    // technology category and a higher price each add to it.
+    string[] techCategories = { "Electronics", "ControlSystems", "Sensors", "Weapons", "SpaceSuits", "Medical", "LifeSupport", "HVAC", "Media", "FusionParts" };
+    int ReverseEngineer(OutRow o, string cat)
+    {
+        int units = o.Cost.Sum();
+        double price = D(by[o.StatsFrom]["price"]);
+        int n = 1;
+        if (units >= 20) n++;
+        if (units >= 60) n++;
+        if (units >= 200) n++;
+        if (o.Cost[Precious] > 0 || o.Cost[RareEarth] > 0) n++;
+        if (techCategories.Contains(cat)) n += 2;
+        if (price >= 2000) n++;
+        if (price >= 20000) n++;
+        return Math.Clamp(n, 1, 10);
+    }
 
     // Blueprints: colour and design variants share one when they share a base name and a cost
     var trailing = new Regex("_?\\d+[A-Za-z]?$");
@@ -420,7 +441,9 @@ void WriteData(string recipesDir, string materialsPath)
         json.Append($"    \"fRecycleYield\": {(block || Raw(cat) ? "1.0" : "0.5")},\r\n");
         if (fab) json.Append($"    \"strBlueprint\": {J(blueprintOf[o])},\r\n");
         if (block) json.Append("    \"bStartKnown\": true,\r\n");
-        json.Append($"    \"strTier\": {J(!o.Damaged && fab && Specialised(o) ? "Specialised" : "Ordinary")}\r\n");
+        bool ordinary = !(!o.Damaged && fab && Specialised(o));
+        if (fab && ordinary && !block) json.Append($"    \"nReverseEngineer\": {ReverseEngineer(o, cat)},\r\n");
+        json.Append($"    \"strTier\": {J(ordinary ? "Ordinary" : "Specialised")}\r\n");
         json.Append("  }");
     }
     foreach (var (top, json) in files)

@@ -1,0 +1,14 @@
+[
+  {
+    "strName" : "FzInterceptorUI",
+    "dictGUIPropMap"       : [
+      "strGUIPrefab", "GUIOnOff",
+      "strFriendlyName", "Sideband Interceptor",
+      "strGUIPrefabRight", "Panel A",
+      "strGUIPrefabLeft", null,
+      "strGUIPrefabUp", null,
+      "strGUIPrefabDown", null,
+      "strTitle", "Interceptor"
+    ]
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "strName": "Fz Missions Simple Conditions",
+    "aValues": [
+      "IsFzDataVault","Data Vault","[us] [is] a corporate data vault.","2","2","Neutral","false",
+      "IsFzDataCore","Data Core","[us] [is] a corporate data core.","2","2","Neutral","false",
+      "IsFzExoticCanister","Exotics Canister","[us] [is] a canister of exotic matter.","2","2","Neutral","false",
+      "IsFzBreachSpike","Breach Spike","[us] [is] an intrusion kit that hacks locks for the unskilled.","2","2","Neutral","false",
+      "IsFzInterceptor","Sideband Interceptor","[us] [is] a sideband interceptor, which logs encrypted corporate signals.","2","2","Neutral","false",
+      "IsFzInterceptorOn","Interceptor On","[us] [is] a sideband interceptor that is switched on.","2","2","Neutral","false",
+      "IsFzDataChip","Data Chip","[us] [is] a copy of a corporate design.","2","2","Neutral","false",
+      "IsFzLockoutController","Lockout Controller","[us] holds a site's mounted equipment in its fittings.","2","2","Neutral","false"
+    ]
+  }
+]

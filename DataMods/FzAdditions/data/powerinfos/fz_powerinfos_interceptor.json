@@ -1,0 +1,15 @@
+[
+  {
+    "strName" : "FzInterceptor01",
+    "aInputPts" : [
+      "PowerA"
+    ],
+    "fAmount" : 0.0006,
+    "strIntPowerOn" : "MSFzInterceptorOnAllow",
+    "strIntPowerOff" : "MSFzInterceptorOffAllow",
+    "strShutDownCT" : "TIsConnctedSignalledOff",
+    "strUsePowerCT" : "TIsReadyUsePower",
+    "strRechargeCT" : null,
+    "bAllowExtPower" : true
+  }
+]

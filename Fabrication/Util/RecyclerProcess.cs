@@ -100,6 +100,7 @@ namespace Freznel.FzAdditions.Util
 
             if (after >= 1.0 - 1e-9)
             {
+                ReverseEngineer(item);
                 Remove(co, item);
                 Recycler.SetCurrent(co, null);
             }
@@ -156,6 +157,20 @@ namespace Freznel.FzAdditions.Util
         }
 
         //Ends a run partway: the item is deleted, as it can't be left part recycled
+        //A finished run counts the item and everything recycled with it towards reverse engineering their blueprints
+        //(Blueprints.Recycled), and tells the player of any it finished. A run stopped partway counts nothing.
+        private static void ReverseEngineer(CondOwner item)
+        {
+            foreach (CondOwner part in Recycler.WithContents(item).ToList())
+            {
+                string learned = Blueprints.Recycled(part);
+                if (learned == null) continue;
+                var recipes = FabData.GetBlueprintRecipes(learned);
+                string name = recipes != null && recipes.Count > 0 ? recipes[0].strNameFriendly : learned;
+                CrewSim.coPlayer?.LogMessage($"Reverse engineered the blueprint for {name} from what the recycler took apart.", "Good", "Game");
+            }
+        }
+
         public static void Abort(CondOwner co)
         {
             CondOwner item = Recycler.CurrentItem(co);

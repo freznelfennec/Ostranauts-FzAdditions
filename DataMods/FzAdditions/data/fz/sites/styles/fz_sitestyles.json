@@ -1,0 +1,25 @@
+[
+  { "strName": "FzStyleRelay" },
+  { "strName": "FzStyleBlackSite" },
+
+  { "strName": "FzStyleProkofievRelay", "strHullWall": "ItmWallTSDO44", "strRoomFloor": "ItmFloorTSDO04", "strCorridorFloor": "ItmFloorTSDO02", "strCoreFloor": "ItmFloorTSDO03", "strLight": "ItmLitWall1x0Orange" },
+  { "strName": "FzStyleProkofievBlackSite", "strHullWall": "ItmWallTSDO44", "strRoomFloor": "ItmFloorTSDO04", "strCorridorFloor": "ItmFloorGrate01", "strCoreFloor": "ItmFloorTSDO03", "strLight": "ItmLitWall1x0Orange" },
+
+  { "strName": "FzStyleAyotimiwaRelay", "strHullWall": "ItmWallAERO01", "strRoomFloor": "ItmFloorAERO03", "strCorridorFloor": "ItmFloorGrate01", "strCoreFloor": "ItmFloorAERO05", "strLight": "ItmLitWall1x0Orange" },
+  { "strName": "FzStyleAyotimiwaBlackSite", "strHullWall": "ItmWallAERO02", "strRoomFloor": "ItmFloorAERO03", "strCorridorFloor": "ItmFloorGrate01", "strCoreFloor": "ItmFloorAERO05" },
+
+  { "strName": "FzStyleCCRERelay", "strHullWall": "ItmWallCAYL02", "strRoomFloor": "ItmFloorCAYL02", "strCorridorFloor": "ItmFloorCAYL05", "strCoreFloor": "ItmFloorCAYL03" },
+  { "strName": "FzStyleCCREBlackSite", "strHullWall": "ItmWallCAYL03", "strTunnelWall": "ItmWallIce011x1", "aRockWalls": [ "ItmWallIce011x1", "ItmWallRock011x1" ], "strRoomFloor": "ItmFloorCAYL02", "strCorridorFloor": "ItmFloorGrate01", "strCoreFloor": "ItmFloorCAYL03", "strTunnelFloor": "ItmFloorIce021x1" },
+
+  { "strName": "FzStylePeraltaRelay", "strHullWall": "ItmWallLDPH01", "strRoomFloor": "ItmFloorLDPH01", "strCorridorFloor": "ItmFloorLDPH02", "strCoreFloor": "ItmFloorLDPH04" },
+  { "strName": "FzStylePeraltaBlackSite", "strHullWall": "ItmWallLDPH01", "strRoomFloor": "ItmFloorLDPH01", "strCorridorFloor": "ItmFloorGrate01", "strCoreFloor": "ItmFloorLDPH04" },
+
+  { "strName": "FzStyleCloudbreakRelay", "strHullWall": "ItmWallVHRB", "strRoomFloor": "ItmFloorVHF01", "strCorridorFloor": "ItmFloorVHF03", "strCoreFloor": "ItmFloorVHF02" },
+  { "strName": "FzStyleCloudbreakBlackSite", "strHullWall": "ItmWallVHRB", "strRoomFloor": "ItmFloorVHF01", "strCorridorFloor": "ItmFloorVHF04", "strCoreFloor": "ItmFloorVHF02", "strLight": "ItmLitWall1x0White" },
+
+  { "strName": "FzStyleMinshengRelay", "strHullWall": "ItmWallMSHG01", "strRoomFloor": "ItmFloorMSHG02", "strCorridorFloor": "ItmFloorMSHG05", "strCoreFloor": "ItmFloorMSHG03" },
+  { "strName": "FzStyleMinshengBlackSite", "strHullWall": "ItmWallMSHG03", "strRoomFloor": "ItmFloorMSHG02", "strCorridorFloor": "ItmFloorGrate01", "strCoreFloor": "ItmFloorMSHG03" },
+
+  { "strName": "FzStyleFaureZhangRelay", "strHullWall": "ItmWallMSSLFWhite", "strRoomFloor": "ItmFloorMSSLFWhite02", "strCorridorFloor": "ItmFloorMSSLFWhite01", "strCoreFloor": "ItmFloorMSSLFWhite04", "strVaultFloor": "ItmFloorMSSLFWhite05", "strLight": "ItmLitWall1x0White" },
+  { "strName": "FzStyleFaureZhangBlackSite", "strHullWall": "ItmWallMSSLFWhite", "strRoomFloor": "ItmFloorMSSLFWhite02", "strCorridorFloor": "ItmFloorMSSLFWhite01", "strCoreFloor": "ItmFloorMSSLFWhite04", "strVaultFloor": "ItmFloorMSSLFWhite05", "strLight": "ItmLitWall1x0White" }
+]

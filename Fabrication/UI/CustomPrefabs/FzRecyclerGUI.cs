@@ -8,14 +8,16 @@ using UnityEngine;
 
 namespace Freznel.FzAdditions.UI.CustomPrefabs
 {
-    //The recycler's panel: SHIP RESOURCES and WORKING AREA, listing what's in the area and what it breaks down into,
-    //across the top, and POWER, SETUP and OPERATION with the RECYCLE button under them. POWER, SHIP RESOURCES and SETUP
+    //The recycler's panel: SHIP RESOURCES, WORKING AREA, listing what's in the area and what it breaks down into, and
+    //REVERSE ENGINEERING, the blueprints part way to being learned by recycling, across the top, and POWER, SETUP and
+    //OPERATION with the RECYCLE button under them. Laid out as the fabricator's panel is, so the two match. POWER, SHIP RESOURCES and SETUP
     //are shared with the fabricator (FzMachineGUI). Settings live in the recycler's prop map through Recycler.
     public class FzRecyclerGUI : FzMachineGUI
     {
         public const string PrefabName = "FzRecyclerGUI";
 
         private const int AreaLines = 12;
+        private const int ReverseLines = 12;
         private const int StatusLines = 8;
 
         //Rows of the container, as fractions of its height
@@ -23,14 +25,15 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
 
         public static GameObject CreatePrefab()
         {
-            //Two rows: the two readouts across the top, and the controls under them
-            GameObject root = Controls.Panel.CreateContainer(PrefabName, 0.62f, 0.66f, 0.19f, 0.17f);
+            //Two rows: the three readouts across the top, and the controls under them. The fabricator's sizes, so
+            //POWER, SETUP and OPERATION keep the shapes their controls were sized for.
+            GameObject root = Controls.Panel.CreateContainer(PrefabName, 0.74f, 0.66f, 0.13f, 0.17f);
             root.AddComponent<Animator>();
             root.AddComponent<FzRecyclerGUI>();
 
-            CreateResourcesPanel(root, 0.4975f, TopHeight, 0f, TopY);
+            CreateResourcesPanel(root, 0.31f, TopHeight, 0f, TopY);
 
-            GameObject area = Controls.Panel.CreatePanel("AreaPanel", 0.4975f, TopHeight, 0.5025f, TopY, root);
+            GameObject area = Controls.Panel.CreatePanel("AreaPanel", 0.37f, TopHeight, 0.315f, TopY, root);
             Controls.Panel.AddTitle(area, "WORKING AREA", 0.085f);
             GameObject lines = CreateScreenArea(area, "AreaLines");
             float lineH = 1f / (AreaLines + 1);
@@ -44,20 +47,34 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             FzMaterialScreen.MakeText(lines, "AreaPage", "", 0.2f, lineH * 0.9f, 0.79f, 0f, TextAlignmentOptions.Right);
             PageKeys(area, "Area");
 
-            CreatePowerPanel(root, 0.17f, BottomHeight, 0f, 0f);
-            CreateSetupPanel(root, 0.38f, BottomHeight, 0.175f, 0f);
+            //REVERSE ENGINEERING: each blueprint part way learned, with how many have been recycled of how many it takes
+            GameObject reverse = Controls.Panel.CreatePanel("ReversePanel", 0.31f, TopHeight, 0.69f, TopY, root);
+            Controls.Panel.AddTitle(reverse, "REVERSE ENGINEERING", 0.085f);
+            GameObject revLines = CreateScreenArea(reverse, "ReverseLines");
+            float revH = 1f / (ReverseLines + 1);
+            for (int i = 0; i < ReverseLines; i++)
+            {
+                FzMaterialScreen.MakeText(revLines, "RevLine" + i, "", 0.76f, revH * 0.9f, 0.01f, 1f - revH * (i + 1), TextAlignmentOptions.Left);
+                FzMaterialScreen.MakeText(revLines, "RevCount" + i, "", 0.22f, revH * 0.9f, 0.77f, 1f - revH * (i + 1), TextAlignmentOptions.Right);
+            }
+            FzMaterialScreen.MakeText(revLines, "RevStatus", "", 0.7f, revH * 0.9f, 0.01f, 0f, TextAlignmentOptions.Left).color = FzMaterialScreen.DimTextColor;
+            FzMaterialScreen.MakeText(revLines, "RevPage", "", 0.28f, revH * 0.9f, 0.71f, 0f, TextAlignmentOptions.Right);
+            PageKeys(reverse, "Rev");
 
-            //A status screen, with RECYCLE over AUTO and DUMP EXCESS beside it
-            GameObject operation = Controls.Panel.CreatePanel("OperationPanel", 0.44f, BottomHeight, 0.56f, 0f, root);
+            //The fabricator's bottom row: POWER and SETUP the recycler's shapes scaled to this width, OPERATION the rest
+            CreatePowerPanel(root, 0.1424f, BottomHeight, 0f, 0f);
+            CreateSetupPanel(root, 0.3184f, BottomHeight, 0.1466f, 0f);
+
+            //A status screen, with RECYCLE over AUTO and DUMP EXCESS beside it, at the fabricator's sizes for its
+            //OPERATION panel, so the switches keep the torch drive switch's proportions on a 16:9 screen
+            GameObject operation = Controls.Panel.CreatePanel("OperationPanel", 0.5308f, BottomHeight, 0.4692f, 0f, root);
             Controls.Panel.AddTitle(operation, "OPERATION", 0.11f);
-            CreateStatusScreen(operation, 0.56f, StatusLines);
-            LampBtn.Create(operation, "RunBtn", "RECYCLE", 0.3f, 0.3f, 0.635f, 0.52f);
-            //AUTO and DUMP EXCESS side by side under it, sized to keep the torch drive switch's proportions at this
-            //panel's size, for a 16:9 screen
-            FzCoveredToggle.Create(operation, "AutoSwitch", 0.1f, 0.41f, 0.655f, 0.08f);
-            FzSiloGUI.Caption(operation, "AutoCaption", "AUTO", 0.015f, 0.18f, 0.615f, 0.06f);
-            FzCoveredToggle.Create(operation, "DumpSwitch", 0.1f, 0.41f, 0.815f, 0.08f);
-            FzSiloGUI.Caption(operation, "DumpCaption", "DUMP EXCESS", 0.015f, 0.2f, 0.765f, 0.06f);
+            CreateStatusScreen(operation, 0.46f, StatusLines);
+            LampBtn.Create(operation, "RunBtn", "RECYCLE", 0.3f, 0.26f, 0.57f, 0.6f);
+            FzCoveredToggle.Create(operation, "AutoSwitch", 0.07f, 0.41f, 0.6f, 0.08f);
+            FzSiloGUI.Caption(operation, "AutoCaption", "AUTO", 0.015f, 0.15f, 0.56f, 0.06f);
+            FzCoveredToggle.Create(operation, "DumpSwitch", 0.07f, 0.41f, 0.8f, 0.08f);
+            FzSiloGUI.Caption(operation, "DumpCaption", "DUMP EXCESS", 0.015f, 0.2f, 0.735f, 0.06f);
 
             return root;
         }
@@ -78,6 +95,9 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         }
 
         private TMP_Text[] areaLines, areaCounts;
+        private TMP_Text[] revLines, revCounts;
+        private TMP_Text revStatus, revPage;
+        private int revPageIndex;
         private TMP_Text areaStatus, areaPage;
         private LampBtn runBtn;
         private TMP_Text[] statusLabels, statusValues;
@@ -96,6 +116,13 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             areaPage = UnityUtil.FindDescendant<TMP_Text>(transform, "AreaPage");
             UnityUtil.FindDescendant<FzHoldBtn>(transform, "AreaPgUpBtn").Pressed += () => TurnAreaPage(-1);
             UnityUtil.FindDescendant<FzHoldBtn>(transform, "AreaPgDnBtn").Pressed += () => TurnAreaPage(1);
+
+            revLines = Enumerable.Range(0, ReverseLines).Select(i => UnityUtil.FindDescendant<TMP_Text>(transform, "RevLine" + i)).ToArray();
+            revCounts = Enumerable.Range(0, ReverseLines).Select(i => UnityUtil.FindDescendant<TMP_Text>(transform, "RevCount" + i)).ToArray();
+            revStatus = UnityUtil.FindDescendant<TMP_Text>(transform, "RevStatus");
+            revPage = UnityUtil.FindDescendant<TMP_Text>(transform, "RevPage");
+            UnityUtil.FindDescendant<FzHoldBtn>(transform, "RevPgUpBtn").Pressed += () => { revPageIndex--; ShowReverse(); };
+            UnityUtil.FindDescendant<FzHoldBtn>(transform, "RevPgDnBtn").Pressed += () => { revPageIndex++; ShowReverse(); };
 
             //Set the state first, the On setter raises OnChanged. AUTO keeps it lit and locked on; see UpdateRunLamp.
             runBtn = UnityUtil.FindDescendant<LampBtn>(transform, "RunBtn");
@@ -129,6 +156,32 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             ScanArea();
             ShowArea();
             ShowStatus();
+            ShowReverse();
+        }
+
+        //Reverse engineering in progress, global to the game (Blueprints), most nearly done first, a page at a time
+        private void ShowReverse()
+        {
+            if (revLines == null) return;
+            var list = Blueprints.InProgress();
+            int pages = Math.Max(1, (list.Count + ReverseLines - 1) / ReverseLines);
+            revPageIndex = Math.Max(0, Math.Min(pages - 1, revPageIndex));
+            for (int i = 0; i < ReverseLines; i++)
+            {
+                int n = revPageIndex * ReverseLines + i;
+                if (n >= list.Count)
+                {
+                    revLines[i].text = "";
+                    revCounts[i].text = "";
+                    continue;
+                }
+                var (blueprint, count, needed) = list[n];
+                var recipes = FabData.GetBlueprintRecipes(blueprint);
+                revLines[i].text = CleanName(recipes != null && recipes.Count > 0 ? recipes[0].strNameFriendly : blueprint);
+                revCounts[i].text = $"{count}/{needed}";
+            }
+            revStatus.text = list.Count == 0 ? "NOTHING IN PROGRESS" : $"{list.Count} IN PROGRESS";
+            revPage.text = pages > 1 ? $"{revPageIndex + 1}/{pages}" : "";
         }
 
         //AUTO recycles whatever turns up, so while it's on RECYCLE shows lit and can't be switched off. Its own

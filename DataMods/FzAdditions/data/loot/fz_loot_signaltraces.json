@@ -1,0 +1,6 @@
+[
+  { "strName" : "CNDOLFzSignalTraces", "aCOs" : [ "StatBasePrice=1.0x1400" ], "aLoots" : [], "strType" : "condition" },
+  { "strName" : "CNDOLFzSignalTracesDmg", "aCOs" : [ "StatBasePrice=1.0x290" ], "aLoots" : [], "strType" : "condition" },
+  { "strName" : "ItmFzSignalTraces", "aCOs" : [ "ItmFzSignalTraces=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzSignalTracesDmg", "aCOs" : [ "ItmFzSignalTracesDmg=1.0x1" ], "aLoots" : [ ], "strType" : "item" }
+]

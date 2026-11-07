@@ -6,7 +6,7 @@ using System;
 namespace Freznel.FzAdditions.Patches
 {
     //Generated site templates are only registered for the session they're made in. If the game asks for one that isn't
-    //registered, after a load, it's built again from its name (kind, size and seed), which gives the same layout.
+    //registered, after a load, it's built again from its name (kind, size, seed and corporation), which gives the same layout.
     [HarmonyPatch(typeof(DataHandler), nameof(DataHandler.GetShip))]
     public static class SiteTemplatePatch
     {
@@ -14,10 +14,12 @@ namespace Freznel.FzAdditions.Patches
         public static void GetShip_Prefix(string strName)
         {
             if (strName == null || DataHandler.dictShips == null || DataHandler.dictShips.ContainsKey(strName)) return;
-            if (!SiteShell.TryParseTemplateName(strName, out SiteKind kind, out SiteSize size, out int seed)) return;
+            if (!SiteShell.TryParseTemplateName(strName, out SiteKind kind, out SiteSize size, out int seed, out string corp)) return;
             try
             {
-                SiteSpawner.Register(kind, size, seed);
+                //A name from before sites had corporations is built as Generic, then kept under the name asked for too
+                string built = SiteSpawner.Register(kind, size, seed, corp);
+                if (built != null && built != strName && DataHandler.dictShips.TryGetValue(built, out JsonShip ship)) DataHandler.dictShips[strName] = ship;
             }
             catch (Exception ex)
             {

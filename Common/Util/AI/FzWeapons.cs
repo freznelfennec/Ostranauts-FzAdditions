@@ -108,6 +108,38 @@ namespace Freznel.FzAdditions.Util.AI
             return true;
         }
 
+        //Spends every round loaded in the ship's weapons, as if it had fired them all, decoys included: a shallow ship
+        //marks them spent on its saved items the way ShootShallow does, a loaded one destroys them the way ShootAuto
+        //does. Returns how many rounds went.
+        public static int Disarm(Ship ship)
+        {
+            if (ship?.WeaponsSystem == null) return 0;
+            int spent = 0;
+            foreach (DataCOWrapper weapon in ship.WeaponsSystem.AllWeapons.ToList())
+            {
+                if (ship.LoadState <= Ship.Loaded.Shallow)
+                {
+                    foreach (DataCOWrapper round in ship.WeaponsSystem.GetAmmoUnderWeaponShallow(weapon) ?? new List<DataCOWrapper>())
+                    {
+                        round.CurrentDamage = round.DataCO.GetMaxHealth();
+                        spent++;
+                    }
+                    continue;
+                }
+                CondOwner co = weapon.CO;
+                if (co == null) continue;
+                foreach (CondOwner round in WeaponsSystem.GetAmmo(co) ?? new List<CondOwner>())
+                {
+                    if (round == null || round.bDestroyed) continue;
+                    spent += StackSize(round);
+                    round.RemoveFromCurrentHome(bForce: true);
+                    round.Destroy();
+                }
+            }
+            if (spent > 0) ship.WeaponsSystem.ResetWeaponData();
+            return spent;
+        }
+
         //Rounds spent while the ship was shallow are only marked spent, with their damage at full, and the game's
         //ammo check doesn't forbid damage. When a flown ship loads, spent rounds are taken out so they can't come back
         //as live ammo. Returns how many were taken.

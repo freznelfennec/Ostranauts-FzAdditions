@@ -1,0 +1,66 @@
+[
+  {
+    "strName": "ItmFzBreachSpike",
+    "strNameFriendly": "Breach Spike",
+    "strCategory": "Electronics.Intrusion",
+    "aCOs": [ "ItmFzBreachSpike" ],
+    "strCOFabricate": "ItmFzBreachSpike",
+    "mapMaterials": { "BaseMetals": 6, "PreciousMetals": 3, "RareEarths": 2, "Polymers": 5, "Silicates": 4 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzBreachSpike",
+    "nReverseEngineer": 6,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmFzInterceptor01",
+    "strNameFriendly": "Sideband Interceptor",
+    "strCategory": "Sensors.Intrusion",
+    "aCOs": [ "ItmFzInterceptor01Loose", "ItmFzInterceptor01", "ItmFzInterceptor01Off" ],
+    "strCOFabricate": "ItmFzInterceptor01Loose",
+    "mapMaterials": { "BaseMetals": 18, "PreciousMetals": 6, "RareEarths": 5, "Polymers": 4, "Organics": 2, "Silicates": 12 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzInterceptor01",
+    "bStartKnown": true,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmFzInterceptor01Dmg",
+    "strNameFriendly": "Sideband Interceptor",
+    "strCategory": "Sensors.Intrusion",
+    "aCOs": [ "ItmFzInterceptor01DmgLoose", "ItmFzInterceptor01Dmg" ],
+    "mapMaterials": { "BaseMetals": 9, "PreciousMetals": 3, "RareEarths": 2, "Polymers": 2, "Organics": 1, "Silicates": 6 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmFzSignalTraces",
+    "strNameFriendly": "Signal Traces NavMod",
+    "strCategory": "ControlSystems.Intrusion",
+    "aCOs": [ "ItmFzSignalTraces" ],
+    "strCOFabricate": "ItmFzSignalTraces",
+    "mapMaterials": { "BaseMetals": 4, "PreciousMetals": 2, "RareEarths": 1, "Polymers": 3, "Silicates": 5 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzSignalTraces",
+    "bStartKnown": true,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmFzSignalTracesDmg",
+    "strNameFriendly": "Signal Traces NavMod",
+    "strCategory": "ControlSystems.Intrusion",
+    "aCOs": [ "ItmFzSignalTracesDmg" ],
+    "mapMaterials": { "BaseMetals": 2, "PreciousMetals": 1, "Polymers": 1, "Silicates": 2 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Ordinary"
+  }
+]

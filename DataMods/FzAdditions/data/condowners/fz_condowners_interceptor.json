@@ -1,0 +1,254 @@
+[
+  {
+    "strName" : "ItmFzInterceptor01Off",
+    "strNameShort" : "Sideband Interceptor",
+    "strNameFriendly" : "Sideband Interceptor (Off)",
+    "strItemDef" : "ItmSensorEM01Off",
+    "strDesc" : "A wideband intercept array on an EM sensor chassis. It listens for the sidebands that encrypted corporate traffic leaks, and logs where they come from for a Signal Traces navmod to work on. Planets drown the sidebands out, so it hears most far from them. It draws heavily on the ship's power. Legally, it also draws questions.",
+    "strType" : "Item",
+    "strLoot" : null,
+    "aInteractions" : [
+      "FzInterceptorGUI"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzInterceptor=1.0x1",
+      "IsOff=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsBrittle=1.0x1.0",
+      "StatBasePrice=1.0x18000.0",
+      "StatDismantleProgressMax=1.0x100",
+      "StatInstallProgressMax=1.0x250",
+      "StatUninstallProgressMax=1.0x250",
+      "StatMass=1.0x9.0",
+      "StatDamageMax=1.0x3",
+      "IsElectronic=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategorySensors=1.0x1",
+      "IsSignalable=1.0x1"
+    ],
+    "mapCondTolerance" : [
+    ],
+    "mapPoints" : [
+      "use,0,-24",
+      "PowerA,0,0"
+    ],
+    "mapGUIPropMaps" : [
+      "Panel A",
+      "FzInterceptorUI",
+      "Electrical"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzInterceptorDamage,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "aTickers" : [
+      "Power"
+    ],
+    "jsonPI" : "FzInterceptor01",
+    "strPortraitImg" : "ship_combat/ItmSensorEM01Off"
+  },
+  {
+    "strName" : "ItmFzInterceptor01Loose",
+    "strNameShort" : "Sideband Interceptor",
+    "strNameFriendly" : "Sideband Interceptor (Loose)",
+    "strItemDef" : "ItmSensorEM01Loose",
+    "strDesc" : "A wideband intercept array on an EM sensor chassis. It listens for the sidebands that encrypted corporate traffic leaks, and logs where they come from for a Signal Traces navmod to work on. Planets drown the sidebands out, so it hears most far from them. It draws heavily on the ship's power. Legally, it also draws questions.",
+    "strType" : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzInterceptor=1.0x1",
+      "IsOff=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsBrittle=1.0x1.0",
+      "StatBasePrice=1.0x18000.0",
+      "StatDismantleProgressMax=1.0x100",
+      "StatInstallProgressMax=1.0x250",
+      "StatUninstallProgressMax=1.0x250",
+      "StatMass=1.0x9.0",
+      "StatDamageMax=1.0x3",
+      "IsElectronic=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategorySensors=1.0x1"
+    ],
+    "mapPoints" : [
+    ],
+    "mapGUIPropMaps" : [
+      "Panel A",
+      "FzInterceptorUI"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzInterceptorLooseDamage,StatDamageMax,1.0"
+    ],
+    "strPortraitImg" : "ship_combat/ItmSensorEM01Loose"
+  },
+  {
+    "strName" : "ItmFzInterceptor01",
+    "strNameShort" : "Sideband Interceptor",
+    "strNameFriendly" : "Sideband Interceptor",
+    "strItemDef" : "ItmSensorEM01",
+    "strDesc" : "A wideband intercept array on an EM sensor chassis. It listens for the sidebands that encrypted corporate traffic leaks, and logs where they come from for a Signal Traces navmod to work on. Planets drown the sidebands out, so it hears most far from them. It draws heavily on the ship's power. Legally, it also draws questions.",
+    "strType" : "Item",
+    "strLoot" : null,
+    "aInteractions" : [
+      "FzInterceptorGUI"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzInterceptor=1.0x1",
+      "IsFzInterceptorOn=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsBrittle=1.0x1.0",
+      "StatBasePrice=1.0x18000.0",
+      "StatDismantleProgressMax=1.0x100",
+      "StatInstallProgressMax=1.0x250",
+      "StatUninstallProgressMax=1.0x250",
+      "StatMass=1.0x9.0",
+      "StatDamageMax=1.0x3",
+      "IsElectronic=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategorySensors=1.0x1",
+      "IsSignalable=1.0x1",
+      "IsPowered=1.0x1"
+    ],
+    "mapCondTolerance" : [
+    ],
+    "mapPoints" : [
+      "use,0,-24",
+      "PowerA,0,0"
+    ],
+    "mapGUIPropMaps" : [
+      "Panel A",
+      "FzInterceptorUI",
+      "Electrical"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzInterceptorDamage,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "aTickers" : [
+      "Power"
+    ],
+    "jsonPI" : "FzInterceptor01",
+    "strAudioEmitter" : "ItmSensorEM01",
+    "strPortraitImg" : "ship_combat/ItmSensorEM01Off"
+  },
+  {
+    "strName" : "ItmFzInterceptor01Dmg",
+    "strNameShort" : "Sideband Interceptor",
+    "strNameFriendly" : "Sideband Interceptor (Damaged)",
+    "strItemDef" : "ItmSensorEM01Dmg",
+    "strDesc" : "A wideband intercept array on an EM sensor chassis. It listens for the sidebands that encrypted corporate traffic leaks, and logs where they come from for a Signal Traces navmod to work on. Planets drown the sidebands out, so it hears most far from them. It draws heavily on the ship's power. Legally, it also draws questions.",
+    "strType" : "Item",
+    "strLoot" : null,
+    "aInteractions" : [
+      "FzInterceptorGUI"
+    ],
+    "aStartingConds" : [
+      "IsDamaged=1.0x1",
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzInterceptor=1.0x1",
+      "IsOff=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsBrittle=1.0x1.0",
+      "StatBasePrice=1.0x3600.0",
+      "StatDismantleProgressMax=1.0x50",
+      "StatInstallProgressMax=1.0x250",
+      "StatUninstallProgressMax=1.0x250",
+      "StatRepairProgressMax=1.0x300",
+      "StatMass=1.0x9.0",
+      "StatDamageMax=1.0x5",
+      "IsElectronic=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategorySensors=1.0x1",
+      "IsSignalable=1.0x1"
+    ],
+    "mapCondTolerance" : [
+    ],
+    "mapPoints" : [
+      "use,0,-24",
+      "PowerA,0,0"
+    ],
+    "mapGUIPropMaps" : [
+      "Panel A",
+      "FzInterceptorUI",
+      "Electrical"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzInterceptorDestroy,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "aTickers" : [
+    ],
+    "strPortraitImg" : "ship_combat/ItmSensorEM01Dmg02"
+  },
+  {
+    "strName" : "ItmFzInterceptor01DmgLoose",
+    "strNameShort" : "Sideband Interceptor",
+    "strNameFriendly" : "Sideband Interceptor (Loose, Damaged)",
+    "strItemDef" : "ItmSensorEM01DmgLoose",
+    "strDesc" : "A wideband intercept array on an EM sensor chassis. It listens for the sidebands that encrypted corporate traffic leaks, and logs where they come from for a Signal Traces navmod to work on. Planets drown the sidebands out, so it hears most far from them. It draws heavily on the ship's power. Legally, it also draws questions.",
+    "strType" : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsDamaged=1.0x1",
+      "IsFzInterceptor=1.0x1",
+      "IsOff=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsBrittle=1.0x1.0",
+      "StatBasePrice=1.0x3600.0",
+      "StatDismantleProgressMax=1.0x50",
+      "StatInstallProgressMax=1.0x250",
+      "StatUninstallProgressMax=1.0x250",
+      "StatRepairProgressMax=1.0x300",
+      "StatMass=1.0x9.0",
+      "StatDamageMax=1.0x5",
+      "IsElectronic=1.0x1",
+      "IsTechnology=1.0x1",
+      "IsCategorySensors=1.0x1",
+      "IsSignalable=1.0x1"
+    ],
+    "mapPoints" : [
+    ],
+    "mapGUIPropMaps" : [
+      "Panel A",
+      "FzInterceptorUI"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzInterceptorLooseDestroy,StatDamageMax,1.0"
+    ],
+    "strPortraitImg" : "ship_combat/ItmSensorEM01Dmg02Loose"
+  }
+]

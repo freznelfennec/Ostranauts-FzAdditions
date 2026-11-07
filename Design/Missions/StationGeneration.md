@@ -25,7 +25,7 @@ Each site is generated from a seed in five stages. A stage that fails validation
 
 ### 1. Site spec (data)
 
-Sites are read from every mod's `data/fzsites/` folder in load order, the same way `fzfabrecipes` is read, so any mod can add a corporation.
+Sites are read from every mod's `data/fz/sites/` folder in load order, the same way `fz/fabrication` is read, so any mod can add a corporation.
 
 - **Site types** (`fz_sitetypes_*.json`):
   - shape (relay or black site);
@@ -167,9 +167,9 @@ A layout is rejected and tried again when:
 1. **Shapes and the PNG preview:** relay and black site, with no spawning. Done.
 2. **The shell:** floors, walls, dock pods and air, spawned as a station. Dock and walk around it. Built, not yet tried in the game: `fz site spawn <relay|blacksite> [size] [seed] [km] [faction]` (see "Milestone 2" below). Doors wait for rooms in milestone 3.
 3. **Rooms and the first kits:** vault, security post, reactor and quarters.
-4. **Systems:** power, lights and weapons, with the station defence pilot flying it.
+4. **Systems:** power, lights and weapons, with the station defence pilot flying it. Built, not yet tried in the game (see "Milestone 4" below).
 5. **Black site:** the carved asteroid shell.
-6. **Data:** styles and site types from `fzsites/`, plus a generic style.
+6. **Data:** styles and site types from `fz/sites/`, plus a generic style. Built with milestone 4: site types, corporations and styles (see "Site and corporation data").
 
 ## Milestone 2: the shell
 
@@ -261,8 +261,8 @@ Per the user, rooms are furnished by rules in code rather than hand-built kits. 
   Conduits and lights make up most of the furnishing.
 - **The preview:** the PNG draws fixtures in brown, lights in yellow and conduits in cyan. `dotnet run -- debug <kind> <size> <seed> <x> <y>` in the tool prints the zones and items round a tile.
 - **Not yet:**
-  - **Vault contents:** vault terminals stand in for data vaults until the hacking interaction exists.
-  - **Weapons and sensors:** they go on in milestone 4.
+  - **Vault contents:** data vaults and data cores are placed (`Design/Missions/DataVaults.md`); the vault's own hacking interface is still to build.
+  - **Weapons and sensors:** placed in milestone 4, below.
   - **Crews:** black site staff need spawning.
   - **Not tried in the game:** whether the uplink keeps supplying power indefinitely, and how the station runs with this much furnishing.
 
@@ -284,3 +284,75 @@ Per the user, rooms are furnished by rules in code rather than hand-built kits. 
   - The game only applies these costs when someone of the owner's faction sees it happen anyway, so on unmanned relays there are none. This matters for staffed black sites.
 - **Fire:** shooting at a site from outside has no docking to go by, so it uses the transponder at the moment of firing. A player's ship flying dark costs no standing with the owner (`WeaponsSystem.ApplyFactionDamage` prefix). The user confirmed this extension of the rule.
 - **Defenders:** once mission defenders are spawned, firing on them should follow the same rule, since they'll be spawns of the site's kind.
+
+## Milestone 4: weapons, sensors, loot and vaults
+
+### Weapons and sensors
+
+- **Mounts:** each mount gets a weapon from its corporation's list (`aWeaponsPDC`, `aWeaponsRail`). If none of them fits, it takes any the site type uses (`SiteProgram.WeaponsFallback`).
+- **Where a weapon sits:** across the hull wall, turned to face out. Its barrel rows are in space and a back row is on the wall, and on a mass thrower one more row hangs over the floor inside. The game's own sockets (`SiteTiles`) decide all of this. The floor just inside it and its use point are kept clear like a door's front.
+- **Relay bays:** the ring is a stepped curve, so every relay mount is on a weapon bay. A bay is a rectangle of room, 7 across, pushed out from the ring until it clears the curve (`RelayShape.AddBay`), so it has a flat outer wall with floor behind. A PDC bay that would crowd a rail bay or pod slides along the ring until it fits.
+- **Black site stubs:** each stub ends in a head 11 across and 3 deep, so there's a row of floor between its walls. Two weapon slots sit 4 apart on its flat outer face. The first two stubs each take a rail gun in one slot, and the rest are PDCs. Black sites now have 2 stubs when small and 3 otherwise.
+- **Ammo:** each weapon is loaded from `aAmmo`. Rounds are child items (`SiteItem.ParentId`) in stacks: the first round of each stack is in the weapon and the rest in that round, as base templates do. Every round is an item, so loads are modest:
+  - relays carry 20 to 60 PDC rounds and 5 to 15 rail rounds a gun;
+  - black sites carry 30 to 80 and 10 to 20;
+  - `fz encounter disarm` empties them.
+- **Sensors:** 2 to 3 on relays and 1 to 2 on black sites, from the corporation's list, on hull facing space away from docks. A sensor's inner row hangs on the wall's inside face, so sensors are placed once rooms are known (`PlaceSensors`). Each has to leave its room joined up, like a fixture.
+- **Power and pilot:** weapons and sensors join the conduit network like any powered item. `fz site spawn` gives the site the station defence pilot, hostile.
+- **Checks:** 120 sites passed with no problems: 10 seeds of every kind and size as Generic, and 5 seeds each as Prokofiev and as Faure-Zhang. 98% of mounts are armed, and every relay mount is. With rounds, totals reach about 7,200 items for large black sites.
+
+### Site and corporation data
+
+- **Where it lives:** `data/fz/sites/{sitetypes,corps,styles}` is read from every mod in load order (`SiteDataLoader` in the game, `GameData.LoadSites` in the preview tool). A later entry with the same strName replaces an earlier one.
+- **The program:** a site's program (`SiteProgram`) is its site type with its corporation's changes applied:
+  - **fixtures:** the site type's per role, plus the corporation's;
+  - **guns and sensors:** the corporation's, if it lists any;
+  - **loot:** by role, or `Kind.Role`;
+  - **style.**
+- **Templates:** template names carry the corporation (`FzSite_<kind>_<size>_<seed>_<corp>`), and older names rebuild as Generic.
+- **Blueprints:** each corporation's pool is filled in game from the fabrication recipes (`SiteDataLoader.FillBlueprints`). A vault's blueprints are picked from it when the template is made.
+- **Commands:** `fz site corps` lists the corporations. `fz site preview` and `fz site spawn` take one, and the preview tool takes `--corp=<name>`.
+- **Clutter:** each fixture entry lists alternatives, and each item placed is picked from them, so rooms vary: rack and bin sizes, crates, cargo, toolboxes, planters, posters, chairs, tables, TVs and the coffee machine. `fChance` makes an entry optional. An alternative the game doesn't have is skipped (the preview prints it as a note).
+- **Loot:** a fixture entry with `bLoot` is a container. Each placed one gets the game's own loot spawner (`SysLootSpawner`, range 0) for its room's loot table, with the site type's `fLootChance`. That's 0.45 on relays and 0.8 on black sites. The spawner fills the container when the station spawns. The tables are in `loot/fz_loot_sites.json`.
+
+### Fog of war
+
+- **What's fogged:** per the user, every station the mod spawns (`FzSpawns`) is fogged when fully loaded (`SiteFog`), except its hull's outline, which shows from the start. A tile is revealed once one of the player's people aboard can see it, and stays revealed.
+- **Sight:** rays to SightRange (24 tiles) on the station's tile grid, stopped by walls and doorways without `IsOpen`.
+- **Saving:** the revealed tiles are a bitset in a prop map (`FzFog`) on the station's first docking port, so they survive save and load.
+- **Drawing:** `FzSiteFogView` draws a solid quad over each fogged tile on the overlay camera, after the game's lighting, so walls, items and people under it don't show.
+- **The mouse:** `SiteFogPatch` drops fogged things from every mouse pick (`CrewSim.GetMouseOverCO`), so they can't be hovered or selected.
+- **Commands:** `fz fog` shows how much of the current encounter is revealed, `fz fog clear` reveals all of it for good, and `fz fog reset` fogs it again.
+- **Not tried in the game:**
+  - the overlay's depth;
+  - whether a door tile has `IsOpen` while open;
+  - how the outline looks from the docked ship before boarding;
+  - its cost on a 7,000-item station.
+- **Later:**
+  - soft edges;
+  - fogging the station on the nav map;
+  - hiding sounds from fogged rooms;
+  - letting cameras or sensor consoles aboard reveal rooms.
+
+## Getting aboard
+
+- **Comms:** per the user, a generated site has nobody aboard to answer comms, so hailing it offers what hailing an uncrewed ship does: forced docking, forced undocking and a status request (`TXTShipStandardInteractionsNoPilot`, `SiteDockingPatch`).
+- **Docking:** the game's forced docking procedure. A forced docking still goes through `Ship.Dock`, so the transponder rule for standing applies.
+- **Black sites:** they can also be moored to, like the asteroid they're carved into, from the nav station's mooring control. The crew then has to get in from the rock.
+- **How:** a site stays a station everywhere else. It stops counting as one only inside the forced docking chain's ship test, and, for black sites, the mooring control's checks.
+- **Not tried in the game:**
+  - whether the forced docking chain completes against a station;
+  - whether mooring holds a ship to a station on its orbit;
+  - whether the game gives a site its own station pilot when it handles the docking commands.
+
+## Floor loot and the equipment lockout
+
+- **Floor loot:** per the user, rooms hold a little loose equipment and some munitions, by theme, so searching them pays on the way to the vault.
+  - Site types and corporations list `aFloorLoot`: a role, a loot table, a count and odds. Each is a loot spawner on an open floor tile that drops its table there when the station spawns.
+  - Relays get 2 to 4 piles, mostly tools, parts and the odd belt of rounds.
+  - Black sites get 3 to 8: weapons and ammo in the armoury and security, personal effects in quarters, samples and medical kit in labs, and munitions in equipment rooms.
+  - Corporations add their own munitions: Prokofiev Belter Bombs, CCRE Rancors, BNW Little Dragons (Suzhou and Hangzhou), Cloudbreak decoys, Generic 150mm. Ayotimiwa adds salvage and Peralta samples. Faure-Zhang labs may have a spent or basic beam former, or very rarely an exotic canister.
+- **Equipment lockout:**
+  - **The rule:** per the user, a site''s mounted equipment can''t be uninstalled or dismantled until its Equipment Lockout Controller is hacked for its kind: weapons, sensors, power or life support.
+  - **The controller:** a copy of the base game''s terminal, placed in a random room. It''s hacked from the data vault''s panel, one kind at a time, so the player chooses what to free first. Each kind takes 240 standard seconds of skilled QUIET work and raises the site''s trace like any hack.
+  - **Not tried in the game:** whether every uninstall and dismantle for site equipment is blocked, including ones queued as jobs.

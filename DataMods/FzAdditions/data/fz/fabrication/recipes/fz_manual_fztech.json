@@ -1,0 +1,54 @@
+[
+  {
+    "strName": "ItmFzSmes01",
+    "strNameFriendly": "Basic SMES Unit",
+    "strCategory": "FaureZhang.Energy",
+    "aCOs": [ "ItmFzSmes01Loose", "ItmFzSmes01", "ItmFzSmes01Off" ],
+    "strCOFabricate": "ItmFzSmes01Loose",
+    "mapMaterials": { "MetalAlloys": 30, "RareEarths": 20, "PreciousMetals": 6, "Ceramics": 10, "Silicates": 8, "Exotics": 1 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzSmes01",
+    "strTier": "Exotic"
+  },
+  {
+    "strName": "ItmFzSmesReactorTap01",
+    "strNameFriendly": "Basic SMES Reactor Tap",
+    "strCategory": "FaureZhang.Energy",
+    "aCOs": [ "ItmFzSmesReactorTap01Loose", "ItmFzSmesReactorTap01", "ItmFzSmesReactorTap01Off" ],
+    "strCOFabricate": "ItmFzSmesReactorTap01Loose",
+    "mapMaterials": { "MetalAlloys": 40, "RareEarths": 12, "PreciousMetals": 8, "Ceramics": 16, "Polymers": 6, "Exotics": 1 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzSmesReactorTap01",
+    "strTier": "Exotic"
+  },
+  {
+    "strName": "ItmFzJumpFieldEmitter",
+    "strNameFriendly": "Jump Drive Field Emitter",
+    "strCategory": "FaureZhang.Propulsion",
+    "aCOs": [ "ItmFzJumpFieldEmitterLoose", "ItmFzJumpFieldEmitter", "ItmFzJumpFieldEmitterOff" ],
+    "strCOFabricate": "ItmFzJumpFieldEmitterLoose",
+    "mapMaterials": { "MetalAlloys": 80, "RareEarths": 40, "PreciousMetals": 20, "Ceramics": 30, "Silicates": 20, "Exotics": 4 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzJumpFieldEmitter01",
+    "strTier": "Exotic"
+  },
+  {
+    "strName": "ItmFzJumpNavCom",
+    "strNameFriendly": "Jump NavCom",
+    "strCategory": "FaureZhang.Propulsion",
+    "aCOs": [ "ItmFzJumpNavCom" ],
+    "strCOFabricate": "ItmFzJumpNavCom",
+    "mapMaterials": { "BaseMetals": 30, "PreciousMetals": 12, "RareEarths": 10, "Polymers": 20, "Silicates": 30, "Exotics": 2 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzJumpNavCom",
+    "strTier": "Exotic"
+  }
+]

@@ -26,33 +26,25 @@ namespace Freznel.FzAdditions.Util.SiteGen
             public readonly Dictionary<int, List<(int x, int y)>> Openings = new Dictionary<int, List<(int x, int y)>>(); //Tiles opening onto each neighbouring area, by its index
         }
 
-        private const string Uplink = "ItmReactorIC02IgnitionMini"; //"Power Uplink: Station", what base game stations draw on
+        public const string Uplink = "ItmReactorIC02IgnitionMini"; //"Power Uplink: Station", what base game stations draw on
         private const string Conduit = "ItmConduit01";
+        public const string LootSpawner = "SysLootSpawner";     //The game's own: spawns a loot table into containers on its tile when the station spawns
+        public const string DataVaultPrefix = "ItmFzDataVault";  //Data vaults are told which blueprints they hold
+        public const string DataVaultPanel = "FzDataVault";
+        public const string DataCore = "ItmFzDataCore01";       //Sealed in a vault's storage, until a hack opens it
         private const int LightReach = 4;       //Tiles a light covers each way
         private const int MaxCandidates = 500;  //Positions tried per fixture in a large area
 
-        //Fixtures per role: item, and how many, fewest to most. Bigger items first, so they find room.
-        private static readonly Dictionary<RoomRole, (string item, int min, int max)[]> Rules = new Dictionary<RoomRole, (string, int, int)[]>
-        {
-            [RoomRole.Reactor] = new[] { (Uplink, 1, 1), ("ItmBattery02", 1, 2), ("ItmRack1x101", 0, 1) },
-            [RoomRole.LifeSupport] = new[] { ("ItmAtmoScrubber01", 1, 1), ("ItmHeater01", 1, 1), ("ItmAirPump03OnG", 1, 1), ("ItmRTAO2", 1, 2), ("ItmRTAN2", 1, 1) },
-            [RoomRole.Servers] = new[] { ("ItmTerminal01", 1, 3), ("ItmRack1x101", 1, 4) },
-            [RoomRole.Batteries] = new[] { ("ItmBattery02", 2, 3), ("ItmRack1x101", 1, 2) },
-            [RoomRole.Vault] = new[] { ("ItmTerminal01", 2, 4), ("ItmRack1x101", 2, 3) },
-            [RoomRole.Equipment] = new[] { ("ItmBattery02", 2, 3), ("ItmStorageBin2x104", 2, 4), ("ItmCrate01", 1, 3), ("ItmRack1x101", 4, 8) },
-            [RoomRole.Security] = new[] { ("ItmChair02", 1, 2), ("ItmTerminal01", 1, 2), ("ItmRack1x101", 2, 3) },
-            [RoomRole.Quarters] = new[] { ("ItmBed02", 2, 4), ("ItmToilet01", 1, 1), ("ItmSink01Station", 1, 1), ("ItmStorageBin2x104", 1, 2) },
-            [RoomRole.Galley] = new[] { ("ItmFridge01", 1, 1), ("ItmTable02", 1, 2), ("ItmChair02", 2, 4), ("ItmSink01Station", 1, 1) },
-            [RoomRole.Storage] = new[] { ("ItmCrate01", 3, 6), ("ItmStorageBin2x104", 2, 3), ("ItmRack1x101", 2, 4) },
-            [RoomRole.Armory] = new[] { ("ItmCrate01", 2, 3), ("ItmRack1x101", 4, 6) },
-            [RoomRole.Lab] = new[] { ("ItmTable02", 1, 2), ("ItmChair02", 1, 2), ("ItmTerminal01", 2, 2), ("ItmRack1x101", 2, 3) },
-            [RoomRole.Checkpoint] = new[] { ("ItmTerminal01", 1, 1) }
-        };
+        //Set to see why hull items were turned down (the preview tool's 'hull' mode)
+        public static Action<string> HullTrace;
 
-        public static List<string> Furnish(SiteLayout layout, SiteCatalog catalog, SiteStyle style)
+        //Fixtures come from the site's program (SiteData): each role's entries in turn, bigger items first in the data
+        //so they find room, each placed one picked from the entry's alternatives so rooms vary.
+        public static List<string> Furnish(SiteLayout layout, SiteCatalog catalog, SiteProgram program)
         {
             var problems = new List<string>();
             SiteGrid grid = layout.Grid;
+            SiteStyle style = program.Style;
             var random = new Random(grid.Seed ^ 0x5F17);
             var tiles = new SiteTiles(catalog);
             var blocked = new HashSet<(int x, int y)>();
@@ -96,6 +88,13 @@ namespace Freznel.FzAdditions.Util.SiteGen
                 foreach (var t in SiteShell.DockWallTiles(dock)) doorWalls.Add(t);
             }
 
+            //Weapons on their mounts and sensors elsewhere on the hull, before anything inside, since each needs the
+            //floor row behind its hull wall kept clear
+            var placed = new List<Placement>();
+            var hullRoles = new Dictionary<int, string>(); //Placed index to "weapon" or "sensor", for the checks
+            var hullUsed = new HashSet<(int x, int y)>();
+            PlaceWeapons(grid, tiles, catalog, program, reserved, doorWalls, blocked, random, placed, hullRoles, layout, hullUsed);
+
             List<Area> areas = FindAreas(grid);
             AssignRoles(grid, areas);
             var areaOf = new Dictionary<(int x, int y), int>();
@@ -120,49 +119,82 @@ namespace Freznel.FzAdditions.Util.SiteGen
                 }
             }
 
+            //Sensors, now the rooms are known, so one never cuts a room off as it hangs on the wall's inside face
+            PlaceSensors(grid, tiles, catalog, program, reserved, doorWalls, blocked, random, placed, hullRoles, layout, hullUsed, areas);
+
             //Fixtures
-            var placed = new List<Placement>();
-            var overdue = new List<(ItemShape shape, int count, RoomRole role)>(); //Fixtures short of their room's minimum
+            var looted = new List<(int index, RoomRole role)>(); //Placed containers that take loot, by index in placed
+            var overdue = new List<(JsonSiteFixture entry, int count, RoomRole role)>(); //Fixtures short of their room's minimum
+            var missingItems = new HashSet<string>();
             foreach (Area area in areas)
             {
-                if (!Rules.TryGetValue(area.Role, out var rule)) continue;
-                foreach (var (item, min, max) in rule)
+                foreach (JsonSiteFixture entry in program.For(area.Role))
                 {
-                    ItemShape shape = catalog.Get(item);
-                    if (shape == null)
-                    {
-                        problems.Add($"the catalog has no {item}");
-                        continue;
-                    }
-                    int count = min + random.Next(max - min + 1);
+                    if (entry.fChance < 1f && random.NextDouble() >= entry.fChance) continue;
+                    int count = entry.nMin + random.Next(Math.Max(0, entry.nMax - entry.nMin) + 1);
                     int done = 0;
                     for (int n = 0; n < count; n++)
                     {
-                        Placement? p = TryPlace(grid, tiles, catalog, area, shape, reserved, doorWalls, blocked, random);
+                        Placement? p = TryPlaceAny(grid, tiles, catalog, area, entry, reserved, doorWalls, blocked, random, missingItems);
                         if (p == null) break;
+                        if (entry.bLoot) looted.Add((placed.Count, area.Role));
                         placed.Add(p.Value);
                         done++;
                     }
-                    if (done < count) layout.Shortfalls[$"{area.Role} {item}"] = (layout.Shortfalls.TryGetValue($"{area.Role} {item}", out int missing) ? missing : 0) + count - done;
-                    if (done < min) overdue.Add((shape, min - done, area.Role));
+                    string label = $"{area.Role} {entry.aItems[0]}";
+                    if (done < count) layout.Shortfalls[label] = (layout.Shortfalls.TryGetValue(label, out int missing) ? missing : 0) + count - done;
+                    if (done < entry.nMin) overdue.Add((entry, entry.nMin - done, area.Role));
                 }
+            }
+            //An alternative the game doesn't have is only a note, but an entry with none it has is a problem
+            layout.MissingItems.UnionWith(missingItems);
+            foreach (JsonSiteFixture entry in program.Fixtures.Where(f => f.aItems.All(i => catalog.Get(i) == null)))
+            {
+                problems.Add($"the catalog has none of {string.Join(", ", entry.aItems)} for {entry.strRole}");
             }
 
             //What a room needed but couldn't fit goes in the biggest equipment or storage areas instead, so a site always
             //gets its power and life support
             var overflow = areas.Where(a => a.Role == RoomRole.Equipment || a.Role == RoomRole.Storage).OrderByDescending(a => a.Tiles.Count).ToList();
-            foreach (var (shape, count, role) in overdue)
+            foreach (var (entry, count, role) in overdue)
             {
                 int left = count;
                 foreach (Area area in overflow)
                 {
-                    while (left > 0 && TryPlace(grid, tiles, catalog, area, shape, reserved, doorWalls, blocked, random) is Placement p)
+                    while (left > 0 && TryPlaceAny(grid, tiles, catalog, area, entry, reserved, doorWalls, blocked, random, missingItems) is Placement p)
                     {
+                        if (entry.bLoot) looted.Add((placed.Count, role));
                         placed.Add(p);
                         left--;
                     }
                 }
-                if (left > 0 && shape.Name == Uplink) problems.Add($"no room for the power uplink in a {role} room or anywhere else");
+                if (left > 0 && entry.aItems.Contains(Uplink)) problems.Add($"no room for the power uplink in a {role} room or anywhere else");
+            }
+            if (!placed.Any(p => p.Shape.Name == Uplink) && !program.Fixtures.Any(f => f.aItems.Contains(Uplink))) problems.Add($"the site's program places no power uplink ({Uplink})");
+
+            //The equipment lockout controller: one, in a room picked at random, so finding it is part of the job.
+            //Never in the vault, a dock pod or a corridor.
+            if (!string.IsNullOrEmpty(program.LockoutController))
+            {
+                ItemShape controller = catalog.Get(program.LockoutController);
+                if (controller == null) problems.Add($"the catalog has no {program.LockoutController}");
+                else
+                {
+                    var rooms = areas.Where(a => a.Role != RoomRole.Vault && a.Role != RoomRole.DockPod && a.Role != RoomRole.Corridor).ToList();
+                    Shuffle(rooms, random);
+                    Placement? spot = null;
+                    foreach (Area area in rooms)
+                    {
+                        spot = TryPlace(grid, tiles, catalog, area, controller, reserved, doorWalls, blocked, random);
+                        if (spot != null) break;
+                    }
+                    if (spot == null) problems.Add("no room for the equipment lockout controller");
+                    else
+                    {
+                        placed.Add(spot.Value);
+                        layout.Controllers++;
+                    }
+                }
             }
 
             //Lights through every room and corridor
@@ -209,20 +241,353 @@ namespace Freznel.FzAdditions.Util.SiteGen
             var lostFronts = areas.SelectMany(a => a.Anchors.Where(t => tiles.Walkable(t.x, t.y) && !reach.Contains(t)).Select(t => (a, t))).ToList();
             if (lostFronts.Count > 0) problems.Add($"{lostFronts.Count} door fronts can't be reached, such as {string.Join(", ", lostFronts.Take(3).Select(f => $"{f.t} in a {f.a.Role} area ({f.a.Zone})"))}");
 
-            foreach (Placement p in placed)
+            var ids = new string[placed.Count];
+            int added = 0;
+            for (int i = 0; i < placed.Count; i++)
             {
-                layout.Items.Add(new SiteItem
+                Placement p = placed[i];
+                ids[i] = Guid.NewGuid().ToString();
+                var item = new SiteItem
                 {
                     Name = p.Shape.Name,
                     X = (float)(layout.OriginX + p.CX),
                     Y = (float)(layout.OriginY - p.CY),
                     Rotation = p.Rotation,
-                    Id = Guid.NewGuid().ToString()
-                });
+                    Id = ids[i]
+                };
+                if (p.Shape.Name.StartsWith(DataVaultPrefix)) VaultContents(ref item, program, random);
+                if (p.Shape.Name == program.LockoutController)
+                {
+                    item.PanelName = "FzLockout";
+                    item.Panel = new[] { "strGUIPrefab", "FzDataVaultGUI", "strFriendlyName", "Equipment Lockout", "strCorp", program.Corp };
+                }
+                layout.Items.Add(item);
+                added++;
+                if (!p.Shape.Name.StartsWith(DataVaultPrefix)) continue;
+
+                //Data cores in its storage, which a hack has to open (IsFzVaultStorageOpen) before anyone can take them
+                int cores = program.CoresMin + random.Next(Math.Max(0, program.CoresMax - program.CoresMin) + 1);
+                for (int n = 0; n < cores; n++)
+                {
+                    layout.Items.Add(new SiteItem { Name = DataCore, X = item.X, Y = item.Y, Id = Guid.NewGuid().ToString(), ParentId = item.Id });
+                    added++;
+                }
+                layout.Cores += cores;
             }
-            layout.Furnished = placed.Count;
+
+            //Rounds loaded in each weapon: stacks whose first round is in the weapon and the rest in that first round,
+            //as base templates load them
+            foreach (var pair in hullRoles.Where(h => h.Value == "weapon"))
+            {
+                Placement p = placed[pair.Key];
+                if (!program.Ammo.TryGetValue(p.Shape.Name, out JsonSiteAmmo ammo) || ammo.strAmmo == null) continue;
+                int rounds = ammo.nMin + random.Next(Math.Max(0, ammo.nMax - ammo.nMin) + 1);
+                int stack = Math.Max(1, ammo.nStack);
+                string head = null;
+                for (int n = 0; n < rounds; n++)
+                {
+                    string id = Guid.NewGuid().ToString();
+                    bool first = n % stack == 0;
+                    layout.Items.Add(new SiteItem
+                    {
+                        Name = ammo.strAmmo,
+                        X = (float)(layout.OriginX + p.CX),
+                        Y = (float)(layout.OriginY - p.CY),
+                        Id = id,
+                        ParentId = first ? ids[pair.Key] : head
+                    });
+                    if (first) head = id;
+                    added++;
+                }
+                layout.Rounds += rounds;
+            }
+
+            //Loot: the game's loot spawner on a container's tile drops the room's loot table into it when the station
+            //spawns. Not every container gets some; relays are given poorer odds and tables.
+            foreach (var (index, role) in looted)
+            {
+                string loot = program.LootFor(role);
+                if (loot == null || random.NextDouble() >= program.LootChance) continue;
+                Placement p = placed[index];
+                var (tx, ty) = p.Footprint().OrderBy(t => Math.Abs(t.x - p.CX) + Math.Abs(t.y - p.CY)).First();
+                layout.Items.Add(new SiteItem
+                {
+                    Name = LootSpawner,
+                    X = layout.ItemX(tx),
+                    Y = layout.ItemY(ty),
+                    Id = Guid.NewGuid().ToString(),
+                    PanelName = "Panel A",
+                    Panel = new[]
+                    {
+                        "strGUIPrefab", "GUILootSpawn", "strFriendlyName", "Loot Spawner",
+                        "strType", "Loot", "strLoot", loot, "strRange", "0", "strCount", "1",
+                        "strNew", "True", "strDamaged", "True", "strDerelict", "True"
+                    }
+                });
+                layout.LootSpawners++;
+                added++;
+            }
+
+            //Loose things on room floors: a loot spawner on an open tile drops its table where it stands when the
+            //station spawns, so rooms are worth searching on the way to the vault. Never on a door front, a use point
+            //or anything placed.
+            var floorUsed = new HashSet<(int x, int y)>();
+            foreach (Area area in areas)
+            {
+                foreach (JsonSiteFloorLoot entry in program.FloorLoot.Where(f => string.Equals(f.strRole, area.Role.ToString(), StringComparison.OrdinalIgnoreCase)))
+                {
+                    if (entry.fChance < 1f && random.NextDouble() >= entry.fChance) continue;
+                    int count = entry.nMin + random.Next(Math.Max(0, entry.nMax - entry.nMin) + 1);
+                    var open = area.Tiles.Where(t => tiles.Walkable(t.x, t.y) && !blocked.Contains(t) && !reserved.Contains(t) && !area.Anchors.Contains(t) && !floorUsed.Contains(t)).ToList();
+                    Shuffle(open, random);
+                    foreach (var (tx, ty) in open.Take(count))
+                    {
+                        floorUsed.Add((tx, ty));
+                        layout.Items.Add(new SiteItem
+                        {
+                            Name = LootSpawner,
+                            X = layout.ItemX(tx),
+                            Y = layout.ItemY(ty),
+                            Id = Guid.NewGuid().ToString(),
+                            PanelName = "Panel A",
+                            Panel = new[]
+                            {
+                                "strGUIPrefab", "GUILootSpawn", "strFriendlyName", "Loot Spawner",
+                                "strType", "Loot", "strLoot", entry.strLoot, "strRange", "0", "strCount", "1",
+                                "strNew", "True", "strDamaged", "True", "strDerelict", "True"
+                            }
+                        });
+                        layout.FloorLoot++;
+                        added++;
+                    }
+                }
+            }
+
+            layout.Furnished = added;
             layout.Placed.AddRange(placed);
+            layout.Weapons = hullRoles.Count(h => h.Value == "weapon");
+            layout.Sensors = hullRoles.Count(h => h.Value == "sensor");
             return problems;
+        }
+
+        //A data vault's contents, picked from its corporation's blueprints when the site is made: mostly Specialised,
+        //the rest Ordinary, then any of its rare ones that come up, kept in its FzDataVault prop map with the corporation
+        private static void VaultContents(ref SiteItem item, SiteProgram program, Random random)
+        {
+            int count = program.BlueprintsMin + random.Next(Math.Max(0, program.BlueprintsMax - program.BlueprintsMin) + 1);
+            var chosen = new List<string>();
+            var specialised = program.SpecialisedBlueprints.ToList();
+            var ordinary = program.OrdinaryBlueprints.ToList();
+            for (int n = 0; n < count; n++)
+            {
+                List<string> from = (random.NextDouble() < program.SpecialisedShare && specialised.Count > 0) || ordinary.Count == 0 ? specialised : ordinary;
+                if (from.Count == 0) break;
+                int i = random.Next(from.Count);
+                chosen.Add(from[i]);
+                from.RemoveAt(i);
+            }
+            //Rare ones on top, each rolled for on its own
+            foreach (var (blueprint, chance) in program.RareBlueprints)
+            {
+                if (random.NextDouble() < chance && !chosen.Contains(blueprint)) chosen.Add(blueprint);
+            }
+            item.PanelName = DataVaultPanel;
+            item.Panel = new[] { "strGUIPrefab", "FzDataVaultGUI", "strFriendlyName", "Data Vault", "strCorp", program.Corp, "strBlueprints", string.Join(",", chosen) };
+        }
+
+        //One fixture from an entry's alternatives: tried in a random order until one fits
+        private static Placement? TryPlaceAny(SiteGrid grid, SiteTiles tiles, SiteCatalog catalog, Area area, JsonSiteFixture entry,
+            HashSet<(int x, int y)> reserved, HashSet<(int x, int y)> doorWalls, HashSet<(int x, int y)> blocked, Random random, HashSet<string> missing)
+        {
+            var order = entry.aItems.ToList();
+            Shuffle(order, random);
+            foreach (string name in order)
+            {
+                ItemShape shape = catalog.Get(name);
+                if (shape == null)
+                {
+                    missing.Add(name);
+                    continue;
+                }
+                Placement? p = TryPlace(grid, tiles, catalog, area, shape, reserved, doorWalls, blocked, random);
+                if (p != null) return p;
+            }
+            return null;
+        }
+
+        //Rotation for a hull item facing out: unturned it faces north, and rotations go anticlockwise
+        private static int Outward(Facing facing)
+        {
+            switch (facing)
+            {
+                case Facing.North: return 0;
+                case Facing.West: return 90;
+                case Facing.South: return 180;
+                default: return 270;
+            }
+        }
+
+        //Weapons across their mounts. A hull item reaches out into space across the hull wall, how far in decided by the
+        //game's own sockets (SiteTiles), and the floor just inside it is kept clear like a door's front.
+        private static void PlaceWeapons(SiteGrid grid, SiteTiles tiles, SiteCatalog catalog, SiteProgram program,
+            HashSet<(int x, int y)> reserved, HashSet<(int x, int y)> doorWalls, HashSet<(int x, int y)> blocked, Random random,
+            List<Placement> placed, Dictionary<int, string> roles, SiteLayout layout, HashSet<(int x, int y)> used)
+        {
+            int missedWeapons = 0;
+            foreach (SiteMount mount in grid.Mounts)
+            {
+                string[] choices = mount.Kind == MountKind.PDC ? program.WeaponsPDC : program.WeaponsRail;
+                Placement? p = TryHull(grid, tiles, catalog, choices, mount.X, mount.Y, mount.Facing, reserved, doorWalls, blocked, used, random);
+                if (p == null && program.WeaponsFallback.Length > 0)
+                {
+                    //None of the corporation's guns fit this mount; any the site type uses might
+                    p = TryHull(grid, tiles, catalog, program.WeaponsFallback.Except(choices).ToArray(), mount.X, mount.Y, mount.Facing, reserved, doorWalls, blocked, used, random);
+                }
+                if (p == null)
+                {
+                    if (choices.Length > 0) missedWeapons++;
+                    continue;
+                }
+                //Floor its back row hangs over can't be walked
+                foreach (var t in p.Value.Footprint())
+                {
+                    if (SiteGrid.IsWalkable(grid[t.x, t.y])) blocked.Add(t);
+                }
+                roles[placed.Count] = "weapon";
+                placed.Add(p.Value);
+            }
+            if (missedWeapons > 0) layout.Shortfalls["Hull weapon"] = missedWeapons;
+        }
+
+        //Sensors on hull facing space, clear of the docks, each leaving its room joined up and its use point reachable
+        private static void PlaceSensors(SiteGrid grid, SiteTiles tiles, SiteCatalog catalog, SiteProgram program,
+            HashSet<(int x, int y)> reserved, HashSet<(int x, int y)> doorWalls, HashSet<(int x, int y)> blocked, Random random,
+            List<Placement> placed, Dictionary<int, string> roles, SiteLayout layout, HashSet<(int x, int y)> used, List<Area> areas)
+        {
+            int sensors = program.Sensors.Length == 0 ? 0 : program.SensorsMin + random.Next(program.SensorsMax - program.SensorsMin + 1);
+            if (sensors == 0) return;
+            var spots = new List<(int x, int y, Facing facing)>();
+            for (int x = 0; x < grid.Width; x++)
+            {
+                for (int y = 0; y < grid.Height; y++)
+                {
+                    if (grid[x, y] != SiteZone.Wall) continue;
+                    foreach (Facing facing in new[] { Facing.North, Facing.South, Facing.East, Facing.West })
+                    {
+                        var (ox, oy) = SiteGrid.Step(facing);
+                        if (grid[x + ox, y + oy] == SiteZone.Space && SiteGrid.IsWalkable(grid[x - ox, y - oy])) spots.Add((x, y, facing));
+                    }
+                }
+            }
+            Shuffle(spots, random);
+            int done = 0;
+            foreach (var (x, y, facing) in spots)
+            {
+                if (done >= sensors) break;
+                if (grid.Mounts.Any(m => Math.Abs(m.X - x) + Math.Abs(m.Y - y) < 3) || grid.Docks.Any(d => Math.Abs(d.X - x) + Math.Abs(d.Y - y) < 8)) continue;
+                Area area = null;
+                HashSet<(int x, int y)> blocks = null;
+                (int x, int y)? use = null;
+                bool Keeps(Placement c)
+                {
+                    var footprint = new HashSet<(int x, int y)>(c.Footprint());
+                    use = c.Point("use") is (int, int) u && !footprint.Contains(u) ? u : ((int, int)?)null;
+                    area = areas.FirstOrDefault(a => use != null && a.Set.Contains(use.Value)) ?? areas.FirstOrDefault(a => footprint.Any(a.Set.Contains));
+                    if (area == null) return false;
+                    blocks = new HashSet<(int x, int y)>(footprint.Where(area.Set.Contains));
+                    var anchors = area.Anchors.ToList();
+                    if (use != null) anchors.Add(use.Value);
+                    return Joined(area, anchors, blocked, blocks);
+                }
+                Placement? p = TryHull(grid, tiles, catalog, program.Sensors, x, y, facing, reserved, doorWalls, blocked, used, random, Keeps);
+                if (p == null) continue;
+                Keeps(p.Value);
+                if (blocks != null) blocked.UnionWith(blocks);
+                if (use != null) area?.Anchors.Add(use.Value);
+                roles[placed.Count] = "sensor";
+                placed.Add(p.Value);
+                done++;
+            }
+            if (done < sensors) layout.Shortfalls["Hull sensor"] = sensors - done;
+        }
+
+        //The best fit of one of a hull item's alternatives across a hull tile, facing out: the placement covering the
+        //tile whose centre is nearest it, in space and on hull only, leaving its inner floor row and use point clear
+        private static Placement? TryHull(SiteGrid grid, SiteTiles tiles, SiteCatalog catalog, string[] choices, int hx, int hy, Facing facing,
+            HashSet<(int x, int y)> reserved, HashSet<(int x, int y)> doorWalls, HashSet<(int x, int y)> blocked, HashSet<(int x, int y)> used, Random random,
+            Func<Placement, bool> accept = null)
+        {
+            int rotation = Outward(facing);
+            var (ox, oy) = SiteGrid.Step(facing);
+            var order = choices.ToList();
+            Shuffle(order, random);
+            foreach (string name in order)
+            {
+                ItemShape shape = catalog.Get(name);
+                if (shape == null) continue;
+                int reach = Math.Max(shape.W, shape.H) + 1;
+                Placement? best = null;
+                double bestDistance = double.MaxValue;
+                for (int x = hx - reach; x <= hx + reach; x++)
+                {
+                    for (int y = hy - reach; y <= hy + reach; y++)
+                    {
+                        Placement p = Placement.At(shape, x, y, rotation);
+                        var footprint = p.Footprint().ToList();
+                        if (!footprint.Contains((hx, hy))) continue;
+                        bool ok = true;
+                        foreach (var t in footprint)
+                        {
+                            SiteZone zone = grid[t.x, t.y];
+                            //Space, hull, or floor just inside it (a sensor's inner row hangs on the wall's inside face)
+                            bool fits = zone == SiteZone.Space || zone == SiteZone.Wall || zone == SiteZone.Mount
+                                || (SiteGrid.IsWalkable(zone) && zone != SiteZone.Door && zone != SiteZone.Dock && !blocked.Contains(t));
+                            if (!fits || used.Contains(t) || doorWalls.Contains(t) || reserved.Contains(t)) ok = false;
+                        }
+                        if (!ok)
+                        {
+                            HullTrace?.Invoke($"{name} at {x},{y}: footprint on {string.Join(" ", footprint.Select(t => grid[t.x, t.y]))}");
+                            continue;
+                        }
+                        if (!tiles.Fits(p))
+                        {
+                            HullTrace?.Invoke($"{name} at {x},{y} rot {rotation}: {tiles.Explain(p)}");
+                            continue;
+                        }
+                        //The game's sockets decide how far in it reaches (a PDC stops at the wall, a mass thrower's back row
+                        //hangs over the floor); it only has to be usable, from a floor tile nothing else is on
+                        if (p.Point("use") is (int ux, int uy) && !footprint.Contains((ux, uy))
+                            && (!SiteGrid.IsWalkable(grid[ux, uy]) || grid[ux, uy] == SiteZone.Door || blocked.Contains((ux, uy)) || used.Contains((ux, uy))))
+                        {
+                            HullTrace?.Invoke($"{name} at {x},{y}: its use point is on {grid[ux, uy]}");
+                            continue;
+                        }
+                        double distance = Math.Abs(p.CX - hx) + Math.Abs(p.CY - hy);
+                        if (distance >= bestDistance) continue;
+                        if (accept != null && !accept(p))
+                        {
+                            HullTrace?.Invoke($"{name} at {x},{y}: would cut its room off");
+                            continue;
+                        }
+                        best = p;
+                        bestDistance = distance;
+                    }
+                }
+                if (best == null) continue;
+                Placement chosen = best.Value;
+                tiles.Apply(chosen);
+                //The floor just inside it stays clear, as a door's front does, and so does its use point
+                var footprintSet = new HashSet<(int x, int y)>(chosen.Footprint());
+                foreach (var t in footprintSet)
+                {
+                    used.Add(t);
+                    var inside = (t.x - ox, t.y - oy);
+                    if (grid[t.x, t.y] != SiteZone.Space && !footprintSet.Contains(inside) && SiteGrid.IsWalkable(grid[inside.Item1, inside.Item2])) reserved.Add(inside);
+                }
+                if (chosen.Point("use") is (int, int) use && !footprintSet.Contains(use)) reserved.Add(use);
+                return chosen;
+            }
+            return null;
         }
 
         private static Placement ToPlacement(SiteLayout layout, SiteItem item, ItemShape shape)
@@ -409,6 +774,7 @@ namespace Freznel.FzAdditions.Util.SiteGen
         {
             var lights = new List<Placement>();
             var dark = new HashSet<(int x, int y)>(area.Tiles);
+            var anchors = new HashSet<(int x, int y)>(area.Anchors); //Use points and door fronts stay clear
             foreach (var target in area.Tiles.OrderBy(t => t.y).ThenBy(t => t.x))
             {
                 if (!dark.Contains(target)) continue;
@@ -417,7 +783,7 @@ namespace Freznel.FzAdditions.Util.SiteGen
                 foreach (var t in area.Tiles)
                 {
                     int distance = Math.Max(Math.Abs(t.x - target.x), Math.Abs(t.y - target.y));
-                    if (distance >= bestDistance || distance > LightReach || blocked.Contains(t) || !tiles.Walkable(t.x, t.y)) continue;
+                    if (distance >= bestDistance || distance > LightReach || blocked.Contains(t) || anchors.Contains(t) || !tiles.Walkable(t.x, t.y)) continue;
                     foreach (int rotation in new[] { 0, 90, 180, 270 })
                     {
                         Placement p = Placement.At(light, t.x, t.y, rotation);

@@ -46,6 +46,7 @@ namespace Freznel.FzAdditions.Util.SiteGen
 
         private const int PodReach = 8;      //Most tiles a pod reaches out past the ring
         private const int PodHalfWidth = 2;  //A pod is 5 tiles across, walls included, the docking port's and a door's width
+        private const int BayHalfWidth = 3;  //A weapon bay is 7 tiles across, walls included, room for a weapon 5 wide
         private const int Margin = 3;        //Space left round the edge of the grid
 
         public static SiteGrid Generate(SiteSize size, int seed)
@@ -151,7 +152,37 @@ namespace Freznel.FzAdditions.Util.SiteGen
                 }
             }
 
+            //Weapon bays: rail guns beside each cardinal dock, facing out with it, and PDCs spread round the ring between
+            //the docks, each facing the nearest cardinal to straight out. The ring's hull is a stepped curve, and a weapon
+            //needs a straight run of hull with floor behind it, so each gets a bay pushed out from the ring until it
+            //clears the curve, whose flat outer wall it sits across.
+            var bays = new List<SiteMount>();
+            foreach (Facing facing in spec.CardinalDocks)
+            {
+                (int dx, int dy) = SiteGrid.Step(facing);
+                foreach (int side in new[] { -1, 1 })
+                {
+                    int w = (PodHalfWidth + BayHalfWidth + 3) * side;
+                    AddBay(grid, c + dx * (ringOut - 3) + dy * w, c + dy * (ringOut - 3) + dx * w, facing, MountKind.Rail, bays);
+                }
+            }
+            double offset = random.NextDouble() * Math.PI * 2.0 / spec.PDCs;
+            for (int i = 0; i < spec.PDCs; i++)
+            {
+                //Where one would crowd a rail bay or a pod, it slides a little along the ring until it fits
+                foreach (double nudge in new[] { 0.0, 0.1, -0.1, 0.2, -0.2, 0.3, -0.3 })
+                {
+                    double angle = offset + i * Math.PI * 2.0 / spec.PDCs + nudge;
+                    double ax = Math.Cos(angle), ay = Math.Sin(angle);
+                    if (Math.Abs(ax) > 0.97 || Math.Abs(ay) > 0.97) continue; //Leave the dock axes to the pods and rails
+                    int sx = c + (int)Math.Round(ax * (ringOut - 3));
+                    int sy = c + (int)Math.Round(ay * (ringOut - 3));
+                    if (AddBay(grid, sx, sy, SiteGrid.Nearest(ax, ay), MountKind.PDC, bays)) break;
+                }
+            }
+
             grid.BuildHull();
+            foreach (SiteMount bay in bays) AddMount(grid, bay.X, bay.Y, bay.Facing, bay.Kind);
             DoorCoreRooms(grid);
 
             //Docks on the end wall of each pod, and a door across it where it's clear of the ring
@@ -174,30 +205,6 @@ namespace Freznel.FzAdditions.Util.SiteGen
                 grid.PlaceDoorAlong(c + dx * (vault + 1), c + dy * (vault + 1), dx, dy, 0);
             }
 
-            //Rail guns beside each cardinal dock, facing out with it
-            foreach (Facing facing in spec.CardinalDocks)
-            {
-                (int dx, int dy) = SiteGrid.Step(facing);
-                foreach (int side in new[] { -1, 1 })
-                {
-                    int w = (PodHalfWidth + 3) * side;
-                    grid.PlaceOnHull(c + dx * (ringOut - 3) + dy * w, c + dy * (ringOut - 3) + dx * w, facing,
-                        (x, y) => AddMount(grid, x, y, facing, MountKind.Rail));
-                }
-            }
-
-            //PDCs spread round the ring between the docks, each facing the nearest cardinal to straight out
-            double offset = random.NextDouble() * Math.PI * 2.0 / spec.PDCs;
-            for (int i = 0; i < spec.PDCs; i++)
-            {
-                double angle = offset + i * Math.PI * 2.0 / spec.PDCs;
-                double ax = Math.Cos(angle), ay = Math.Sin(angle);
-                if (Math.Abs(ax) > 0.97 || Math.Abs(ay) > 0.97) continue; //Leave the dock axes to the pods and rails
-                int sx = c + (int)Math.Round(ax * (ringOut - 2));
-                int sy = c + (int)Math.Round(ay * (ringOut - 2));
-                Facing facing = SiteGrid.Nearest(ax, ay);
-                grid.PlaceOnHull(sx, sy, facing, (x, y) => AddMount(grid, x, y, facing, MountKind.PDC));
-            }
 
             return grid;
         }
@@ -316,6 +323,49 @@ namespace Freznel.FzAdditions.Util.SiteGen
         {
             SiteZone zone = grid[x, y];
             if (zone == SiteZone.Space || zone == SiteZone.CoreRoom || zone == SiteZone.Room) grid[x, y] = SiteZone.Spoke;
+        }
+
+        //A weapon bay from a point in the ring's room band, straight out along its facing until every tile a bay's width
+        //and one more either side is clear of the ring: room tiles 7 across, so BuildHull gives it a flat outer wall 7
+        //long with a row of floor 5 wide behind it. The mount goes in the middle of that wall. A bay that would run into
+        //a docking pod, a spoke or a strut isn't made.
+        private static bool AddBay(SiteGrid grid, int x0, int y0, Facing facing, MountKind kind, List<SiteMount> bays)
+        {
+            (int fx, int fy) = SiteGrid.Step(facing);
+            int ax = fy != 0 ? 1 : 0, ay = fx != 0 ? 1 : 0; //Across the bay
+            int clear = -1;
+            for (int t = 1; t < 40 && clear < 0; t++)
+            {
+                bool open = true;
+                for (int w = -BayHalfWidth - 1; w <= BayHalfWidth + 1 && open; w++)
+                {
+                    if (SiteGrid.IsInterior(grid[x0 + fx * t + ax * w, y0 + fy * t + ay * w])) open = false;
+                }
+                if (open) clear = t;
+            }
+            if (clear < 0) return false;
+            for (int t = 0; t <= clear; t++)
+            {
+                for (int w = -BayHalfWidth; w <= BayHalfWidth; w++)
+                {
+                    SiteZone zone = grid[x0 + fx * t + ax * w, y0 + fy * t + ay * w];
+                    if (zone == SiteZone.DockPod || zone == SiteZone.Spoke || zone == SiteZone.Strut || zone == SiteZone.Dock) return false;
+                }
+            }
+            foreach (SiteMount other in bays)
+            {
+                if (Math.Abs(other.X - (x0 + fx * clear)) + Math.Abs(other.Y - (y0 + fy * clear)) < 2 * BayHalfWidth + 3) return false; //Keep bays apart
+            }
+            for (int t = 0; t <= clear; t++)
+            {
+                for (int w = -BayHalfWidth; w <= BayHalfWidth; w++)
+                {
+                    int x = x0 + fx * t + ax * w, y = y0 + fy * t + ay * w;
+                    if (!SiteGrid.IsInterior(grid[x, y])) grid[x, y] = SiteZone.Room;
+                }
+            }
+            bays.Add(new SiteMount { X = x0 + fx * clear, Y = y0 + fy * clear, Facing = facing, Kind = kind });
+            return true;
         }
 
         private static void AddDock(SiteGrid grid, int x, int y, Facing facing)

@@ -1,0 +1,27 @@
+[
+  {
+    "strName" : "FzDataVault",
+    "dictGUIPropMap" : [
+      "strGUIPrefab", "FzDataVaultGUI",
+      "strFriendlyName", "Data Vault",
+      "strGUIPrefabRight", null,
+      "strGUIPrefabLeft", null,
+      "strGUIPrefabUp", null,
+      "strGUIPrefabDown", null,
+      "strCorp", "",
+      "strBlueprints", ""
+    ]
+  },
+  {
+    "strName" : "FzLockout",
+    "dictGUIPropMap" : [
+      "strGUIPrefab", "FzDataVaultGUI",
+      "strFriendlyName", "Equipment Lockout",
+      "strGUIPrefabRight", null,
+      "strGUIPrefabLeft", null,
+      "strGUIPrefabUp", null,
+      "strGUIPrefabDown", null,
+      "strCorp", ""
+    ]
+  }
+]

@@ -1,4 +1,5 @@
 using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using System;
@@ -12,11 +13,13 @@ namespace Freznel.FzAdditions
     public class FzAdditions : BaseUnityPlugin
     {
         internal static new ManualLogSource Logger;
+        internal static ConfigFile Settings; //The mod's settings, BepInEx/config/me.freznel.fzadditions.cfg
         private Harmony _harmony;
 
         private void Awake()
         {
             Logger = base.Logger;
+            Settings = Config;
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
 
             // Apply Harmony patches

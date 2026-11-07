@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Freznel.FzAdditions.Util
 {
-    //One recipe from a mod's data/fzfabrecipes/recipes folder, in the game's own JSON style. A recipe covers the COs
+    //One recipe from a mod's data/fz/fabrication/recipes folder, in the game's own JSON style. A recipe covers the COs
     //that share a cost, so an item's damaged form is a recipe of its own that can be recycled but not fabricated.
     public class JsonFabRecipe
     {
@@ -21,6 +21,9 @@ namespace Freznel.FzAdditions.Util
         public string strBlueprint { get; set; } //Unlocks fabricating it, colour variants share one
         public string strTier { get; set; } = FabTier.Ordinary; //How its blueprint can be learned
         public bool bStartKnown { get; set; } //Its blueprint is known from the start of every game
+        //Ordinary only: how many undamaged ones have to be recycled to learn its blueprint by reverse engineering.
+        //0 turns it off. Complicated technology takes more than simple things.
+        public int nReverseEngineer { get; set; }
         public float fTimeScale { get; set; } = 1f; //On the run time worked out from its materials
 
         //Where it was last defined, set when loaded
@@ -30,7 +33,7 @@ namespace Freznel.FzAdditions.Util
         public int TotalUnits => mapMaterials?.Values.Sum() ?? 0;
     }
 
-    //One material from a mod's data/fzfabrecipes/materials folder
+    //One material from a mod's data/fz/fabrication/materials folder
     public class JsonFabMaterial
     {
         public string strName { get; set; } //Material ID that recipes refer to

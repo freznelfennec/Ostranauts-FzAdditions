@@ -1,0 +1,15 @@
+[
+  {
+    "strName": "ItmFzExoticCanister",
+    "strNameFriendly": "Faure-Zhang Exotic Matter Canister",
+    "strCategory": "Fabrication.Exotics",
+    "aCOs": [ "ItmFzExoticCanister" ],
+    "strCOFabricate": "ItmFzExoticCanister",
+    "mapMaterials": { "Exotics": 5 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 1.0,
+    "strBlueprint": "FzExoticCanister",
+    "strTier": "Exotic"
+  }
+]

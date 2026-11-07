@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Freznel.FzAdditions.Util
 {
-    //Every mod's fabrication recipes and materials, from the data/fzfabrecipes folders of all loaded mods. Mods are
+    //Every mod's fabrication recipes and materials, from the data/fz/fabrication folders of all loaded mods. Mods are
     //read in the game's own load order, core first, and an entry with the same strName as an earlier one replaces it,
     //the same as the game's own data. The order comes from DataHandler.aModPaths, so it doesn't matter whether this
     //mod's patches were in place when the other mods loaded.
@@ -14,7 +14,7 @@ namespace Freznel.FzAdditions.Util
     //This is data, not game state, so it lasts through loads and is only read again on request (fabreload).
     public static class FabData
     {
-        public const string Folder = "fzfabrecipes/";
+        public const string Folder = "fz/fabrication/";
         private const string RecipesFolder = Folder + "recipes/";
         private const string MaterialsFolder = Folder + "materials/";
 
@@ -123,20 +123,20 @@ namespace Freznel.FzAdditions.Util
             var log = new StringBuilder();
             int order = 0;
 
-            foreach (string modPath in GetModPathsInLoadOrder())
+            foreach (string modPath in ModData.ModPathsInLoadOrder())
             {
-                string mod = GetModName(modPath);
-                foreach (string file in GetFiles(modPath + "data/" + MaterialsFolder))
+                string mod = ModData.ModName(modPath);
+                foreach (string file in ModData.Files(modPath + "data/" + MaterialsFolder))
                 {
-                    foreach (JsonFabMaterial material in ReadFile<JsonFabMaterial>(file))
+                    foreach (JsonFabMaterial material in ModData.Read<JsonFabMaterial>(file))
                     {
                         material.SourceMod = mod;
                         newMaterials[material.strName] = material;
                     }
                 }
-                foreach (string file in GetFiles(modPath + "data/" + RecipesFolder))
+                foreach (string file in ModData.Files(modPath + "data/" + RecipesFolder))
                 {
-                    foreach (JsonFabRecipe recipe in ReadFile<JsonFabRecipe>(file))
+                    foreach (JsonFabRecipe recipe in ModData.Read<JsonFabRecipe>(file))
                     {
                         recipe.SourceMod = mod;
                         recipe.LoadOrder = order++;
@@ -179,36 +179,6 @@ namespace Freznel.FzAdditions.Util
             int mods = newRecipes.Values.Select(r => r.SourceMod).Concat(newMaterials.Values.Select(m => m.SourceMod)).Distinct().Count();
             FzAdditions.Logger.LogInfo($"Fabrication data: {materials.Count} materials, {recipes.Count} recipes ({recipes.Values.Count(r => r.bFabricate)} fabricable, {recipesByBlueprint.Count} blueprints) from {mods} mod(s), {skipped} skipped");
             if (log.Length > 0) FzAdditions.Logger.LogInfo("Fabrication data notes:\n" + log.ToString().TrimEnd());
-        }
-
-        //aModPaths has each mod put at its front as it loads, so the load order is the list reversed
-        private static IEnumerable<string> GetModPathsInLoadOrder()
-        {
-            if (DataHandler.aModPaths == null) return Enumerable.Empty<string>();
-            return DataHandler.aModPaths.AsEnumerable().Reverse().Select(p => p.EndsWith("/") || p.EndsWith("\\") ? p : p + "/").ToList();
-        }
-
-        private static string GetModName(string modPath)
-        {
-            string trimmed = modPath.TrimEnd('/', '\\');
-            return trimmed == DataHandler.strAssetPath.TrimEnd('/', '\\') ? "core" : Path.GetFileName(trimmed);
-        }
-
-        //Every JSON file under the folder, skipping any the game's ignore patterns name, the same as its own data
-        private static IEnumerable<string> GetFiles(string folder)
-        {
-            if (!Directory.Exists(folder)) return Enumerable.Empty<string>();
-            string[] ignore = DataHandler.dictModList != null && DataHandler.dictModList.TryGetValue("Mod Loading Order", out JsonModList list) ? list.aIgnorePatterns : null;
-            return Directory.GetFiles(folder, "*.json", SearchOption.AllDirectories).OrderBy(f => f, StringComparer.Ordinal)
-                .Where(f => ignore == null || !ignore.Any(pattern => !string.IsNullOrEmpty(pattern) && DataHandler.PathSanitize(f).IndexOf(pattern) >= 0));
-        }
-
-        //Read with the game's own reader, which keys entries by strName and logs a file it can't read
-        private static IEnumerable<T> ReadFile<T>(string file)
-        {
-            var entries = new Dictionary<string, T>();
-            DataHandler.JsonToData(file, entries);
-            return entries.Values;
         }
 
         private static void CheckMaterial(JsonFabMaterial material, StringBuilder log)
@@ -297,6 +267,12 @@ namespace Freznel.FzAdditions.Util
                 recipe.strTier = FabTier.Ordinary;
             }
             if (recipe.fTimeScale <= 0f) recipe.fTimeScale = 1f;
+            if (recipe.nReverseEngineer < 0) recipe.nReverseEngineer = 0;
+            if (recipe.nReverseEngineer > 0 && (recipe.strTier != FabTier.Ordinary || !recipe.bFabricate))
+            {
+                log.AppendLine($"  {name}: reverse engineering is only for Ordinary recipes that can be fabricated, turned off");
+                recipe.nReverseEngineer = 0;
+            }
             if (string.IsNullOrEmpty(recipe.strNameFriendly)) recipe.strNameFriendly = name;
             if (string.IsNullOrEmpty(recipe.strCategory)) recipe.strCategory = "Misc";
             return true;

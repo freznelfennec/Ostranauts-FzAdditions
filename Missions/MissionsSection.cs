@@ -1,4 +1,6 @@
 using Freznel.FzAdditions.Patches;
+using Freznel.FzAdditions.UI;
+using Freznel.FzAdditions.UI.CustomPrefabs;
 using Freznel.FzAdditions.Util;
 using Freznel.FzAdditions.Util.AI;
 
@@ -12,7 +14,11 @@ namespace Freznel.FzAdditions
         {
             FzAI.RegisterPilot(FzStationDefensePilot.TypeName, ship => new FzStationDefensePilot(ship));
             FzSpawns.RegisterKind(TestEncounter.SpawnKind, TestEncounter.RegPrefix, legacyCond: TestEncounter.LegacyCond);
+            FzSpawns.RegisterKind(SignalTraces.SpawnKind, SignalTraces.RegPrefix, SignalTraces.IsWanted);
+            CustomPrefabRegistry.Register("FzSignalTraces", FzSignalTracesNavMod.CreatePrefab);
+            CustomPrefabRegistry.Register("FzSignalTracesDmg", FzSignalTracesNavMod.CreateDamagedPrefab);
             MissionConsoleCommands.Register();
+            FzSiteFogView.Create();
         }
     }
 }

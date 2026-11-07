@@ -21,6 +21,8 @@ namespace Freznel.FzAdditions.Util.SiteGen
     //door that doesn't fit is made again from the next variant of the seed, so the same seed always gives the same site.
     public static class BlackSiteShape
     {
+        private const int StubHeadHalf = 5; //A stub's end is 11 tiles across, walls included: two weapon slots 4 apart
+
         private class Spec
         {
             public int RockRadius;
@@ -29,7 +31,6 @@ namespace Freznel.FzAdditions.Util.SiteGen
             public int ExtraCorridors;
             public int CoreRooms;
             public int Stubs;
-            public int PDCsPerStub;
         }
 
         private class Room
@@ -224,7 +225,7 @@ namespace Freznel.FzAdditions.Util.SiteGen
                 if (usedFacings.Contains(facing)) continue;
                 (int sx, int sy) = SiteGrid.Step(facing);
                 Carve(grid, door.x + sx, door.y + sy, sx, sy, length + 1, Half, SiteZone.Tunnel, overwrite: false);
-                Carve(grid, door.x + sx * length, door.y + sy * length, sx, sy, 2, spec.PDCsPerStub + 2, SiteZone.Tunnel, overwrite: true);
+                Carve(grid, door.x + sx * length, door.y + sy * length, sx, sy, 3, StubHeadHalf, SiteZone.Tunnel, overwrite: true); //3 deep, so a row of floor runs between its walls
                 doors.Add((door.x, door.y, sx, sy));
                 stubs.Add((door.x + sx * (length - 1), door.y + sy * (length - 1), facing));
                 usedFacings.Add(facing);
@@ -249,27 +250,21 @@ namespace Freznel.FzAdditions.Util.SiteGen
             }
             grid.PlaceDoorAlong(entryDoor.x + ox * (tunnelEnd - 1), entryDoor.y + oy * (tunnelEnd - 1), -ox, -oy, 4);
 
-            //Rail guns on the corners of the entry pod, covering the approach, and PDCs across the end of each stub
-            foreach (int w in new[] { -3, 3 })
-            {
-                int rx = entryDoor.x + ox * tunnelEnd + oy * w, ry = entryDoor.y + oy * tunnelEnd + ox * w;
-                grid.PlaceOnHull(rx, ry, entrance, (hx, hy) =>
-                {
-                    if (grid[hx, hy] != SiteZone.Wall) return;
-                    grid[hx, hy] = SiteZone.Mount;
-                    grid.Mounts.Add(new SiteMount { X = hx, Y = hy, Facing = entrance, Kind = MountKind.Rail });
-                });
-            }
+            //Weapons across the flat end of each stub: two slots, 4 apart, so each has a 3-tile run of hull with floor
+            //behind it. The first two stubs take a rail gun in one slot; the rest are PDCs.
+            int rails = 0;
             foreach (var (x, y, facing) in stubs)
             {
                 (int sx, int sy) = SiteGrid.Step(facing);
-                for (int w = -spec.PDCsPerStub; w <= spec.PDCsPerStub; w += 2)
+                foreach (int w in new[] { -2, 2 })
                 {
+                    MountKind kind = rails < 2 && w < 0 ? MountKind.Rail : MountKind.PDC;
                     grid.PlaceOnHull(x + sy * w, y + sx * w, facing, (hx, hy) =>
                     {
                         if (grid[hx, hy] != SiteZone.Wall) return;
                         grid[hx, hy] = SiteZone.Mount;
-                        grid.Mounts.Add(new SiteMount { X = hx, Y = hy, Facing = facing, Kind = MountKind.PDC });
+                        grid.Mounts.Add(new SiteMount { X = hx, Y = hy, Facing = facing, Kind = kind });
+                        if (kind == MountKind.Rail) rails++;
                     });
                 }
             }
@@ -552,13 +547,13 @@ namespace Freznel.FzAdditions.Util.SiteGen
             switch (size)
             {
                 case SiteSize.Small:
-                    spec = new Spec { RockRadius = 29, Rooms = 6, MaxRoomSide = 10, ExtraCorridors = 1, CoreRooms = 1, Stubs = 1, PDCsPerStub = 1 };
+                    spec = new Spec { RockRadius = 29, Rooms = 6, MaxRoomSide = 10, ExtraCorridors = 1, CoreRooms = 1, Stubs = 2 };
                     break;
                 case SiteSize.Medium:
-                    spec = new Spec { RockRadius = 36, Rooms = 8, MaxRoomSide = 12, ExtraCorridors = 2, CoreRooms = 2, Stubs = 2, PDCsPerStub = 1 };
+                    spec = new Spec { RockRadius = 36, Rooms = 8, MaxRoomSide = 12, ExtraCorridors = 2, CoreRooms = 2, Stubs = 3 };
                     break;
                 default:
-                    spec = new Spec { RockRadius = 42, Rooms = 11, MaxRoomSide = 14, ExtraCorridors = 3, CoreRooms = 3, Stubs = 3, PDCsPerStub = 2 };
+                    spec = new Spec { RockRadius = 42, Rooms = 11, MaxRoomSide = 14, ExtraCorridors = 3, CoreRooms = 3, Stubs = 3 };
                     break;
             }
             spec.RockRadius += random.Next(-1, 3);

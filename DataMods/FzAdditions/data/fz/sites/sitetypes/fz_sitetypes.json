@@ -1,0 +1,183 @@
+[
+  {
+    "strName": "Relay",
+    "strStyle": "FzStyleRelay",
+    "fLootChance": 0.45,
+    "nBlueprintsMin": 1,
+    "nBlueprintsMax": 2,
+    "fSpecialisedShare": 0.6,
+    "strLockoutController": "ItmFzLockoutController01",
+    "aFloorLoot": [
+      { "strRole": "Equipment", "strLoot": "FzFloorRelayEquipment", "nMin": 1, "nMax": 2 },
+      { "strRole": "Equipment", "strLoot": "FzFloorRelayMunitions", "nMin": 0, "nMax": 1, "fChance": 0.5 },
+      { "strRole": "Storage", "strLoot": "FzFloorRelayEquipment", "nMin": 0, "nMax": 2 },
+      { "strRole": "Servers", "strLoot": "FzFloorRelayServers", "nMin": 0, "nMax": 1, "fChance": 0.5 },
+      { "strRole": "Reactor", "strLoot": "FzFloorEngineering", "nMin": 0, "nMax": 1, "fChance": 0.5 },
+      { "strRole": "LifeSupport", "strLoot": "FzFloorEngineering", "nMin": 0, "nMax": 1, "fChance": 0.3 }
+    ],
+    "nCoresMin": 0,
+    "nCoresMax": 1,
+    "aWeaponsPDC": [ "ItmShipWeaponPDC01", "ItmShipWeaponPDC02", "ItmShipWeaponPDC03" ],
+    "aWeaponsRail": [ "ItmShipWeaponMassThrower01", "ItmShipWeaponMassThrower02" ],
+    "aSensors": [ "ItmSensorRadar01", "ItmSensorRadar02", "ItmSensorLidar01", "ItmSensorEM01", "ItmSensorIR01", "ItmSensorOptical01" ],
+    "nSensorsMin": 2,
+    "nSensorsMax": 3,
+    "aAmmo": [
+      { "strWeapon": "ItmShipWeaponPDC01", "strAmmo": "ItmAmmo20mm", "nMin": 20, "nMax": 60, "nStack": 20 },
+      { "strWeapon": "ItmShipWeaponPDC02", "strAmmo": "ItmAmmo20mm", "nMin": 20, "nMax": 60, "nStack": 20 },
+      { "strWeapon": "ItmShipWeaponPDC03", "strAmmo": "ItmAmmo20mm", "nMin": 20, "nMax": 60, "nStack": 20 },
+      { "strWeapon": "ItmShipWeaponMassThrower01", "strAmmo": "ItmAmmo150mm", "nMin": 5, "nMax": 15, "nStack": 5 },
+      { "strWeapon": "ItmShipWeaponMassThrower02", "strAmmo": "ItmAmmo150mm", "nMin": 5, "nMax": 15, "nStack": 5 },
+      { "strWeapon": "ItmShipWeaponMassThrower03", "strAmmo": "ItmAmmo150mm", "nMin": 5, "nMax": 15, "nStack": 5 },
+      { "strWeapon": "ItmShipWeaponMissileLauncher01", "strAmmo": "ItmAmmoMissile01", "nMin": 2, "nMax": 4, "nStack": 1 },
+      { "strWeapon": "ItmShipWeaponMissileLauncher02", "strAmmo": "ItmAmmoMissile02", "nMin": 2, "nMax": 4, "nStack": 1 },
+      { "strWeapon": "ItmShipWeaponMissileLauncher03", "strAmmo": "ItmAmmoMissile03", "nMin": 2, "nMax": 4, "nStack": 1 }
+    ],
+    "mapLoot": {
+      "Equipment": "FzLootRelayEquipment",
+      "Storage": "FzLootRelayStorage",
+      "Servers": "FzLootRelayServers",
+      "Vault": "FzLootRelayVault"
+    },
+    "aFixtures": [
+      { "strRole": "Reactor", "aItems": [ "ItmReactorIC02IgnitionMini" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "Reactor", "aItems": [ "ItmBattery02", "ItmBattery02b" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Reactor", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmStorageBin1x101" ], "nMin": 0, "nMax": 1, "bLoot": true },
+
+      { "strRole": "LifeSupport", "aItems": [ "ItmAtmoScrubber01" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmHeater01", "ItmHeater02" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmAirPump03OnG", "ItmAirPump02OnG" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmRTAO2" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmRTAN2" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmRTACO2" ], "nMin": 0, "nMax": 1, "fChance": 0.5 },
+
+      { "strRole": "Servers", "aItems": [ "ItmTerminal01" ], "nMin": 1, "nMax": 3 },
+      { "strRole": "Servers", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmRack1x301", "ItmRack2x2C01" ], "nMin": 1, "nMax": 4, "bLoot": true },
+
+      { "strRole": "Batteries", "aItems": [ "ItmBattery02", "ItmBattery02b", "ItmBattery02c" ], "nMin": 2, "nMax": 3 },
+      { "strRole": "Batteries", "aItems": [ "ItmRack1x101", "ItmStorageBin1x101" ], "nMin": 1, "nMax": 2, "bLoot": true },
+
+      { "strRole": "Vault", "aItems": [ "ItmFzDataVault01" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "Vault", "aItems": [ "ItmTerminal01" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Vault", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmStorageBin2x101", "ItmStorageBinFloor1x101" ], "nMin": 1, "nMax": 2, "bLoot": true },
+
+      { "strRole": "Equipment", "aItems": [ "ItmBattery02", "ItmBattery02b", "ItmBattery02c" ], "nMin": 2, "nMax": 3 },
+      { "strRole": "Equipment", "aItems": [ "ItmStorageBin2x101", "ItmStorageBin2x102", "ItmStorageBin2x103", "ItmStorageBin2x104", "ItmStorageBin3x101", "ItmStorageBin3x102", "ItmStorageBin1x101", "ItmStorageBin1x102", "ItmStorageBin1x103" ], "nMin": 2, "nMax": 4, "bLoot": true },
+      { "strRole": "Equipment", "aItems": [ "ItmCrate01", "ItmCrate01Lock" ], "nMin": 1, "nMax": 3, "bLoot": true },
+      { "strRole": "Equipment", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmRack1x301", "ItmRack1x401", "ItmRack2x2C01" ], "nMin": 3, "nMax": 7, "bLoot": true },
+      { "strRole": "Equipment", "aItems": [ "ItmCargoD2O01", "ItmCargoHE301", "ItmCargoOre01", "ItmCargoScience01", "ItmCargoVolatiles01" ], "nMin": 0, "nMax": 3, "fChance": 0.6 },
+      { "strRole": "Equipment", "aItems": [ "ItmToolBox01", "ItmToolBox02", "ItmToolFireEx01", "ItmToolWorkLamp01" ], "nMin": 0, "nMax": 2, "fChance": 0.5 },
+      { "strRole": "Equipment", "aItems": [ "ItmTerminal01" ], "nMin": 0, "nMax": 1, "fChance": 0.4 },
+
+      { "strRole": "Storage", "aItems": [ "ItmCrate01", "ItmCrate01Lock" ], "nMin": 2, "nMax": 5, "bLoot": true },
+      { "strRole": "Storage", "aItems": [ "ItmStorageBin2x101", "ItmStorageBin2x104", "ItmStorageBin3x101", "ItmStorageBin2x2C01", "ItmStorageBin2x2C04" ], "nMin": 2, "nMax": 3, "bLoot": true },
+      { "strRole": "Storage", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmRack1x301" ], "nMin": 2, "nMax": 4, "bLoot": true }
+    ]
+  },
+  {
+    "strName": "BlackSite",
+    "strStyle": "FzStyleBlackSite",
+    "fLootChance": 0.8,
+    "nBlueprintsMin": 2,
+    "nBlueprintsMax": 4,
+    "fSpecialisedShare": 0.8,
+    "strLockoutController": "ItmFzLockoutController01",
+    "aFloorLoot": [
+      { "strRole": "Armory", "strLoot": "FzFloorBlackSiteArmory", "nMin": 1, "nMax": 3 },
+      { "strRole": "Security", "strLoot": "FzFloorBlackSiteSecurity", "nMin": 1, "nMax": 2 },
+      { "strRole": "Checkpoint", "strLoot": "FzFloorBlackSiteSecurity", "nMin": 0, "nMax": 1, "fChance": 0.6 },
+      { "strRole": "Quarters", "strLoot": "FzFloorBlackSiteQuarters", "nMin": 1, "nMax": 2 },
+      { "strRole": "Galley", "strLoot": "FzFloorBlackSiteGalley", "nMin": 0, "nMax": 2 },
+      { "strRole": "Lab", "strLoot": "FzFloorBlackSiteLab", "nMin": 1, "nMax": 2 },
+      { "strRole": "Storage", "strLoot": "FzFloorBlackSiteStorage", "nMin": 1, "nMax": 2 },
+      { "strRole": "Equipment", "strLoot": "FzFloorBlackSiteMunitions", "nMin": 0, "nMax": 2 },
+      { "strRole": "Servers", "strLoot": "FzFloorRelayServers", "nMin": 0, "nMax": 1 },
+      { "strRole": "Reactor", "strLoot": "FzFloorEngineering", "nMin": 0, "nMax": 2 }
+    ],
+    "nCoresMin": 1,
+    "nCoresMax": 3,
+    "aWeaponsPDC": [ "ItmShipWeaponPDC01", "ItmShipWeaponPDC02", "ItmShipWeaponPDC03" ],
+    "aWeaponsRail": [ "ItmShipWeaponMassThrower02", "ItmShipWeaponMassThrower03" ],
+    "aSensors": [ "ItmSensorLidar01", "ItmSensorLidar02", "ItmSensorIR01", "ItmSensorIR02", "ItmSensorEOIR01" ],
+    "nSensorsMin": 1,
+    "nSensorsMax": 2,
+    "aAmmo": [
+      { "strWeapon": "ItmShipWeaponPDC01", "strAmmo": "ItmAmmo20mm", "nMin": 30, "nMax": 80, "nStack": 20 },
+      { "strWeapon": "ItmShipWeaponPDC02", "strAmmo": "ItmAmmo20mm", "nMin": 30, "nMax": 80, "nStack": 20 },
+      { "strWeapon": "ItmShipWeaponPDC03", "strAmmo": "ItmAmmo20mm", "nMin": 30, "nMax": 80, "nStack": 20 },
+      { "strWeapon": "ItmShipWeaponMassThrower01", "strAmmo": "ItmAmmo150mm", "nMin": 10, "nMax": 20, "nStack": 5 },
+      { "strWeapon": "ItmShipWeaponMassThrower02", "strAmmo": "ItmAmmo150mm", "nMin": 10, "nMax": 20, "nStack": 5 },
+      { "strWeapon": "ItmShipWeaponMassThrower03", "strAmmo": "ItmAmmo150mm", "nMin": 10, "nMax": 20, "nStack": 5 },
+      { "strWeapon": "ItmShipWeaponMissileLauncher01", "strAmmo": "ItmAmmoMissile01", "nMin": 3, "nMax": 5, "nStack": 1 },
+      { "strWeapon": "ItmShipWeaponMissileLauncher02", "strAmmo": "ItmAmmoMissile02", "nMin": 3, "nMax": 5, "nStack": 1 },
+      { "strWeapon": "ItmShipWeaponMissileLauncher03", "strAmmo": "ItmAmmoMissile03", "nMin": 3, "nMax": 5, "nStack": 1 }
+    ],
+    "mapLoot": {
+      "Equipment": "FzLootBlackSiteEquipment",
+      "Storage": "FzLootBlackSiteStorage",
+      "Quarters": "FzLootBlackSiteQuarters",
+      "Galley": "FzLootBlackSiteGalley",
+      "Armory": "FzLootBlackSiteArmory",
+      "Security": "FzLootBlackSiteSecurity",
+      "Lab": "FzLootBlackSiteLab",
+      "Servers": "FzLootBlackSiteServers",
+      "Vault": "FzLootBlackSiteVault"
+    },
+    "aFixtures": [
+      { "strRole": "Reactor", "aItems": [ "ItmReactorIC02IgnitionMini" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "Reactor", "aItems": [ "ItmBattery02", "ItmBattery02b" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Reactor", "aItems": [ "ItmToolBox01", "ItmToolFireEx01" ], "nMin": 0, "nMax": 1 },
+
+      { "strRole": "LifeSupport", "aItems": [ "ItmAtmoScrubber01" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmHeater01", "ItmHeater02" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmAirPump03OnG", "ItmAirPump02OnG" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmRTAO2" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmRTAN2" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmRTACO2" ], "nMin": 0, "nMax": 1 },
+      { "strRole": "LifeSupport", "aItems": [ "ItmPlanter2x201", "ItmPlanter2x202", "ItmPlanter3x101" ], "nMin": 0, "nMax": 2, "fChance": 0.4 },
+
+      { "strRole": "Servers", "aItems": [ "ItmTerminal01" ], "nMin": 1, "nMax": 3 },
+      { "strRole": "Servers", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmRack1x301", "ItmRack2x2C01" ], "nMin": 1, "nMax": 4, "bLoot": true },
+
+      { "strRole": "Vault", "aItems": [ "ItmFzDataVault01" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Vault", "aItems": [ "ItmTerminal01" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Vault", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmStorageBin2x101", "ItmStorageBinFloor1x101", "ItmSecretCompartment01" ], "nMin": 1, "nMax": 3, "bLoot": true },
+
+      { "strRole": "Security", "aItems": [ "ItmChair02", "ItmChair04", "ItmChairStrap01" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Security", "aItems": [ "ItmTerminal01" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Security", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmStorageBin1x101" ], "nMin": 2, "nMax": 3, "bLoot": true },
+      { "strRole": "Security", "aItems": [ "ItmDecorPoster05", "ItmDecorPoster06", "ItmDocumentOgiso01" ], "nMin": 0, "nMax": 1, "fChance": 0.5 },
+
+      { "strRole": "Quarters", "aItems": [ "ItmBed02", "ItmBed01" ], "nMin": 2, "nMax": 4 },
+      { "strRole": "Quarters", "aItems": [ "ItmToilet01" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "Quarters", "aItems": [ "ItmSink01Station" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "Quarters", "aItems": [ "ItmStorageBin2x104", "ItmStorageBin2x101", "ItmRack1x101Dorm", "ItmStorageBinFloor1x101" ], "nMin": 1, "nMax": 3, "bLoot": true },
+      { "strRole": "Quarters", "aItems": [ "ItmTV01", "ItmTV01Drama" ], "nMin": 0, "nMax": 1, "fChance": 0.4 },
+      { "strRole": "Quarters", "aItems": [ "ItmDecorPoster00", "ItmDecorPoster02", "ItmDecorPoster03", "ItmDecorPoster04", "ItmDecorPoster09", "ItmDecorPoster10", "ItmDecorPoster11", "ItmDecorPoster12" ], "nMin": 0, "nMax": 2, "fChance": 0.6 },
+
+      { "strRole": "Galley", "aItems": [ "ItmFridge01" ], "nMin": 1, "nMax": 1, "bLoot": true },
+      { "strRole": "Galley", "aItems": [ "ItmTable02", "ItmTable01", "ItmTable03" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Galley", "aItems": [ "ItmChair02", "ItmChair01", "ItmChair03", "ItmChair04", "ItmChairCube01a", "ItmChairCube02b", "ItmChairCube03c" ], "nMin": 2, "nMax": 4 },
+      { "strRole": "Galley", "aItems": [ "ItmSink01Station" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "Galley", "aItems": [ "ItmVendingMachineCoffee" ], "nMin": 0, "nMax": 1, "fChance": 0.6 },
+      { "strRole": "Galley", "aItems": [ "ItmCouch01", "ItmArcadeGame01" ], "nMin": 0, "nMax": 1, "fChance": 0.4 },
+
+      { "strRole": "Storage", "aItems": [ "ItmCrate01", "ItmCrate01Lock" ], "nMin": 3, "nMax": 6, "bLoot": true },
+      { "strRole": "Storage", "aItems": [ "ItmStorageBin2x101", "ItmStorageBin2x104", "ItmStorageBin3x101", "ItmStorageBin2x2C01", "ItmStorageBin2x2C04" ], "nMin": 2, "nMax": 3, "bLoot": true },
+      { "strRole": "Storage", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmRack1x301", "ItmRack1x401" ], "nMin": 2, "nMax": 4, "bLoot": true },
+      { "strRole": "Storage", "aItems": [ "ItmCargoD2O01", "ItmCargoHE301", "ItmCargoOre01", "ItmCargoScience01", "ItmCargoVolatiles01" ], "nMin": 0, "nMax": 3, "fChance": 0.6 },
+
+      { "strRole": "Armory", "aItems": [ "ItmCrate01Lock", "ItmCrate01" ], "nMin": 2, "nMax": 3, "bLoot": true },
+      { "strRole": "Armory", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmRack1x301", "ItmRack2x2C01" ], "nMin": 3, "nMax": 6, "bLoot": true },
+
+      { "strRole": "Lab", "aItems": [ "ItmTable02", "ItmTable01", "ItmTable03" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Lab", "aItems": [ "ItmChair02", "ItmChair01" ], "nMin": 1, "nMax": 2 },
+      { "strRole": "Lab", "aItems": [ "ItmTerminal01" ], "nMin": 2, "nMax": 2 },
+      { "strRole": "Lab", "aItems": [ "ItmRack1x101", "ItmRack1x201", "ItmStorageBin2x101" ], "nMin": 2, "nMax": 3, "bLoot": true },
+      { "strRole": "Lab", "aItems": [ "ItmBedMedical01", "ItmPlanter2x101", "ItmPlanter1x101" ], "nMin": 0, "nMax": 1, "fChance": 0.5 },
+
+      { "strRole": "Checkpoint", "aItems": [ "ItmTerminal01" ], "nMin": 1, "nMax": 1 },
+      { "strRole": "Checkpoint", "aItems": [ "ItmChair02", "ItmChair04" ], "nMin": 0, "nMax": 1, "fChance": 0.5 }
+    ]
+  }
+]

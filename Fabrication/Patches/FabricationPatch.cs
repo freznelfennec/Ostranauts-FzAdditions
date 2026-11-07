@@ -67,7 +67,11 @@ namespace Freznel.FzAdditions.Patches
         {
             try
             {
-                __result = (__result ?? Array.Empty<string>()).Concat(new[] { Blueprints.SaveKey + "=" + Blueprints.Save() }).ToArray();
+                __result = (__result ?? Array.Empty<string>()).Concat(new[]
+                {
+                    Blueprints.SaveKey + "=" + Blueprints.Save(),
+                    Blueprints.ProgressKey + "=" + Blueprints.SaveProgress()
+                }).ToArray();
             }
             catch (Exception ex)
             {
@@ -90,6 +94,7 @@ namespace Freznel.FzAdditions.Patches
                     if (split <= 0) continue;
                     string key = input.Substring(0, split), value = input.Substring(split + 1);
                     if (key == Blueprints.SaveKey) Blueprints.Load(value);
+                    else if (key == Blueprints.ProgressKey) Blueprints.LoadProgress(value);
                     else if (key == Blueprints.AddKey && !Blueprints.Learn(value.Trim()) && !Blueprints.IsKnown(value.Trim()))
                     {
                         FzAdditions.Logger.LogWarning("An interaction granted blueprint " + value + ", which no recipe has");

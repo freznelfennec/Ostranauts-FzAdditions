@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Freznel.FzAdditions.Util.SiteGen
 {
@@ -161,6 +162,27 @@ namespace Freznel.FzAdditions.Util.SiteGen
                 }
             }
             return true;
+        }
+
+        //The first socket rule a placement breaks, for tracing, or null if it fits
+        public string Explain(Placement p)
+        {
+            ItemShape s = p.Shape;
+            int pw = s.W + 2;
+            for (int r = -1; r <= s.H; r++)
+            {
+                for (int c = -1; c <= s.W; c++)
+                {
+                    int i = (r + 1) * pw + (c + 1);
+                    var (x, y) = p.Tile(c, r);
+                    tiles.TryGetValue((x, y), out var set);
+                    string[] need = s.Reqs != null && i < s.Reqs.Length ? catalog.TagConds(s.Reqs[i]) : null;
+                    if (need != null && (set == null || need.Any(n => !set.Contains(n)))) return $"{s.Reqs[i]} needed at {x},{y} (row {r}, column {c}), which has {(set == null ? "nothing" : string.Join("+", set))}";
+                    string[] forbid = s.Forbids != null && i < s.Forbids.Length ? catalog.TagConds(s.Forbids[i]) : null;
+                    if (forbid != null && set != null && forbid.Any(set.Contains)) return $"{s.Forbids[i]} forbidden at {x},{y} (row {r}, column {c}), which has {string.Join("+", set)}";
+                }
+            }
+            return null;
         }
 
         public void Apply(Placement p)

@@ -1,0 +1,127 @@
+[
+  {
+    "strName" : "FzDataVaultGUI",
+    "strTitle" : "Access Vault",
+    "strDesc" : "[us] [accesses] [them]'s intrusion panel.",
+    "strTooltip" : "Opens the vault's archive and core storage to hack.",
+    "strActionGroup" : "Use",
+    "strTargetPoint" : "use",
+    "fTargetPointRange" : 2,
+    "strAnim" : "Use",
+    "strBubble" : "BblTouch",
+    "aInverse" : [
+      "FzDataVaultGUIAllow"
+    ],
+    "fDuration" : 0.00027,
+    "strThemType" : "Other",
+    "strRaiseUI" : null,
+    "nLogging" : 1,
+    "bOpener" : true,
+    "bHumanOnly" : true,
+    "bIgnoreFeelings" : true,
+    "LootCTsUs" : null,
+    "LootCTsThem" : null,
+    "CTTestUs" : "TIsHuman",
+    "CTTestThem" : "TIsFzDataVault",
+    "aLootItms" : [
+    ],
+    "objLootModeSwitch" : null
+  },
+  {
+    "strName" : "FzDataVaultGUIAllow",
+    "strTitle" : "",
+    "strDesc" : "[them] [checks] the panel.",
+    "strActionGroup" : "Use",
+    "strTargetPoint" : null,
+    "fTargetPointRange" : 0,
+    "strAnim" : null,
+    "strBubble" : "BblTouch",
+    "aInverse" : [
+    ],
+    "fDuration" : 1.0,
+    "strThemType" : "Other",
+    "strRaiseUI" : "FzDataVault",
+    "LootCTsUs" : null,
+    "LootCTsThem" : null,
+    "CTTestUs" : null,
+    "CTTestThem" : null,
+    "aLootItms" : [
+    ],
+    "objLootModeSwitch" : null
+  },
+  {
+    "strName" : "FzDataVaultStorage",
+    "strTitle" : "Open Core Storage",
+    "strDesc" : "[us] [opens] [them]'s data core storage.",
+    "strTooltip" : "Views the data cores in a vault whose storage has been hacked open.",
+    "strActionGroup" : "Use",
+    "strTargetPoint"   : "use",
+    "fTargetPointRange" : 1,
+    "strAnim"           : "Use",
+    "strBubble"         : "BblTouch",
+    "aInverse"          : [
+    ],
+    "fDuration"         : 0.00003,
+    "strThemType"       : "Other",
+    "strRaiseUI"        : "Inventory",
+    "nLogging"         : 1,
+    "bHumanOnly"     : true,
+    "LootCTsUs"       : null,
+    "LootCTsThem"     : null,
+    "CTTestUs"           : null,
+    "CTTestThem"         : "TIsFzVaultStorageOpen",
+    "aLootItms"       : [
+    ],
+    "objLootModeSwitch"    : null
+  },
+  {
+    "strName" : "FzLockoutGUI",
+    "strTitle" : "Access Lockout",
+    "strDesc" : "[us] [accesses] [them]'s security console.",
+    "strTooltip" : "Opens the equipment lockout to hack, releasing a kind of equipment to be uninstalled.",
+    "strActionGroup" : "Use",
+    "strTargetPoint" : "use",
+    "fTargetPointRange" : 2,
+    "strAnim" : "Use",
+    "strBubble" : "BblTouch",
+    "aInverse" : [
+      "FzLockoutGUIAllow"
+    ],
+    "fDuration" : 0.00027,
+    "strThemType" : "Other",
+    "strRaiseUI" : null,
+    "nLogging" : 1,
+    "bOpener" : true,
+    "bHumanOnly" : true,
+    "bIgnoreFeelings" : true,
+    "LootCTsUs" : null,
+    "LootCTsThem" : null,
+    "CTTestUs" : "TIsHuman",
+    "CTTestThem" : "TIsFzLockoutController",
+    "aLootItms" : [
+    ],
+    "objLootModeSwitch" : null
+  },
+  {
+    "strName" : "FzLockoutGUIAllow",
+    "strTitle" : "",
+    "strDesc" : "[them] [checks] the console.",
+    "strActionGroup" : "Use",
+    "strTargetPoint" : null,
+    "fTargetPointRange" : 0,
+    "strAnim" : null,
+    "strBubble" : "BblTouch",
+    "aInverse" : [
+    ],
+    "fDuration" : 1.0,
+    "strThemType" : "Other",
+    "strRaiseUI" : "FzLockout",
+    "LootCTsUs" : null,
+    "LootCTsThem" : null,
+    "CTTestUs" : null,
+    "CTTestThem" : null,
+    "aLootItms" : [
+    ],
+    "objLootModeSwitch" : null
+  }
+]

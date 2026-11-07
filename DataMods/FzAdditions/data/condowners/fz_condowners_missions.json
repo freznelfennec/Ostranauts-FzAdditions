@@ -1,0 +1,243 @@
+[
+  {
+    "strName" : "ItmFzDataVault01",
+    "strNameShort" : "Data Vault",
+    "strNameFriendly" : "Corporate Data Vault",
+    "strDesc" : "A hardened archive of design data, bolted to the deck and wired into the station's security, with a sealed bay of data cores behind its face. Everything in it is encrypted against everyone but the company that owns it, and the casing is built to outlast any attempt to carry it off.\n\nThe warranty covers tampering. It does not cover the tamperer.",
+    "strItemDef" : "ItmAICargo01",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+      "FzDataVaultGUI",
+      "FzDataVaultStorage"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzDataVault=1.0x1",
+      "IsContainer=1.0x1",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x2000.00",
+      "StatMass=1.0x900.0",
+      "StatSolidTemp=1.0x1773.0",
+      "StatDamageMax=1.0x40",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTDefaultDestroy,StatDamageMax,1.0"
+    ],
+    "mapPoints"      : [
+      "use,24,0",
+      "PowerSource,-24,0"
+    ],
+    "mapGUIPropMaps"  : [
+      "FzDataVault",
+      "FzDataVault"
+    ],
+    "strContainerCT" : "TIsFitContainerFzDataCore",
+    "nContainerHeight" : 1,
+    "nContainerWidth" : 3,
+    "strPortraitImg"  : "ItmAICargo01",
+    "strAudioEmitter"   : "ItmAICargoOnSound"
+  },
+  {
+    "strName" : "ItmFzDataCore01",
+    "strNameShort" : "Data Core",
+    "strNameFriendly" : "Corporate Data Core",
+    "strDesc" : "A sealed memory core from a corporate data vault: research logs, contracts, design archives, encrypted end to end. Nobody aboard your ship can read it, but the company's rivals will pay well to try. It's dense enough that it has to be dragged.\n\nHeavier than it looks. Worth more than it weighs.",
+    "strItemDef" : "ItmNavMod",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "nStackLimit" : 1,
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzDataCore=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x60000.00",
+      "StatMass=1.0x120.0",
+      "StatSolidTemp=1.0x1073.0",
+      "StatDamageMax=1.0x4",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTDefaultDestroy,StatDamageMax,1.0"
+    ],
+    "mapPoints"      : [
+      "use,0,0"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "mapGUIPropMaps"  : null,
+    "strPortraitImg"  : "navmod/ItmNavMod01",
+    "strAudioEmitter": "ItmBattery02Sound"
+  },
+  {
+    "strName" : "ItmFzExoticCanister",
+    "strNameShort" : "Exotics Canister",
+    "strNameFriendly" : "Faure-Zhang Exotic Matter Canister",
+    "strDesc" : "A magnetically sealed flask of refined exotic matter, five units, from Faure-Zhang's own refinery. A recycler recovers it whole. Nobody else makes it, and the company prefers it stays that way.\n\nDo not open. There is nothing to see, and that is the problem.",
+    "strItemDef" : "ItmUbiqWISPNode01",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzExoticCanister=1.0x1",
+      "IsHandheld=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "StatMass=1.0x4.0",
+      "IsRawMaterial=1.0x1.0",
+      "StatBasePrice=1.0x93333.0",
+      "StatDamageMax=1.0x20",
+      "IsCategoryIndustrialProducts=1.0x1"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTDefaultDestroy,StatDamageMax,1.0"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapGUIPropMaps"  : null,
+    "strPortraitImg"  : "ItmUbiqWISPNode01",
+    "mapSlotEffects" : [
+      "heldL","HeldItmDefaultL",
+      "heldR","HeldItmDefaultR",
+      "drag","Blank"
+    ],
+    "strAudioEmitter": "ItmMetalDrumSound"
+  },
+  {
+    "strName" : "ItmFzBreachSpike",
+    "strNameShort" : "Breach Spike",
+    "strNameFriendly" : "Breach Spike",
+    "strDesc" : "A grey-market intrusion kit: a pried-open lock controller, a cracking cartridge and a lot of tape. Carry it and it will work a powered PIN lock, or a data vault's encryption, for someone who has never hacked anything, slowly, or speed up someone who has. Good for ten jobs before the cartridge burns out.\n\nNo manufacturer has ever admitted to making one.",
+    "strItemDef" : "ItmTablet01",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "nStackLimit" : 1,
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzBreachSpike=1.0x1",
+      "StatFzBreachUses=1.0x10",
+      "StatFzBreachUsesMax=1.0x10",
+      "IsHandheld=1.0x1.0",
+      "IsPocketable=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsTechnology=1.0x1",
+      "StatMass=1.0x0.6",
+      "StatBasePrice=1.0x12000.0",
+      "StatDamageMax=1.0x6",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTDefaultDestroy,StatDamageMax,1.0"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapGUIPropMaps"  : null,
+    "strPortraitImg"  : "ItmTablet01",
+    "mapSlotEffects" : [
+      "heldL","HeldItmDefaultL",
+      "heldR","HeldItmDefaultR"
+    ]
+  },
+  {
+    "strName" : "ItmFzDataChip",
+    "strNameShort" : "Data Chip",
+    "strNameFriendly" : "Corporate Data Chip",
+    "strDesc" : "A copy of one design from a corporate data vault, lifted onto a chip. You already know how to make it, which the original owner would find more insulting than the theft. Its rivals pay for the copy all the same.\n\nThe label is handwritten. It usually is.",
+    "strItemDef" : "ItmPDACart00",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "nStackLimit" : 1,
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzDataChip=1.0x1",
+      "IsHandheld=1.0x1.0",
+      "IsPocketable=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsTechnology=1.0x1",
+      "StatMass=1.0x0.02",
+      "StatBasePrice=1.0x8000.0",
+      "StatDamageMax=1.0x2",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTDefaultDestroy,StatDamageMax,1.0"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapGUIPropMaps"  : null,
+    "strPortraitImg"  : "ItmPDACart00",
+    "mapSlotEffects" : [
+      "heldL","HeldItmDefaultL",
+      "heldR","HeldItmDefaultR"
+    ]
+  },
+  {
+    "strName" : "ItmFzLockoutController01",
+    "strNameShort" : "Lockout Controller",
+    "strNameFriendly" : "Equipment Lockout Controller",
+    "strDesc" : "A security terminal that holds the station's mounted equipment in its fittings: weapons, sensors, power and life support stay bolted down and won't come loose for any tool until it releases them. Its firmware is the corporation's own, and it doesn't take requests.\n\nFor the safety of all personnel. Mostly the equipment.",
+    "strItemDef" : "ItmTerminal01",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+      "FzLockoutGUI"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzLockoutController=1.0x1",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1.0",
+      "IsPowered=1.0x1",
+      "IsTerminal=1.0x1",
+      "StatBasePrice=1.0x488.00",
+      "StatMass=1.0x60.0",
+      "StatDamageMax=1.0x30",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapPoints"      : [
+      "use,16,-8",
+      "PowerA,-16,-8",
+      "PowerB,-16,8",
+      "PowerC,0,-24",
+      "PowerD,0,24"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTTechDestroy,StatDamageMax,1.0"
+    ],
+    "mapGUIPropMaps"  : [
+      "FzLockout",
+      "FzLockout"
+    ],
+    "strPortraitImg"  : "ItmTerminal01",
+    "aTickers" : [
+      "Power"
+    ],
+    "jsonPI"            : "Terminal01"
+  }
+]

@@ -48,6 +48,54 @@ namespace Freznel.FzAdditions.Util
             if (station.json?.objSS != null) station.json.objSS.fRot = rotation;
         }
 
+        //Spends every round on every test station, as if they'd fired until empty, so they can be docked with safely
+        public static int Disarm(out string message)
+        {
+            var lines = new List<string>();
+            int stations = 0;
+            foreach (Ship ship in CrewSim.system.dictShips.Values.ToList())
+            {
+                if (ship == null || FzSpawns.KindOf(ship) != SpawnKind) continue;
+                int rounds = FzWeapons.Disarm(ship);
+                stations++;
+                lines.Add($"  {ship.strRegID} ({ship.publicName}): {rounds} round(s) spent, {FzWeapons.Rounds(ship)} left");
+            }
+            message = stations == 0 ? "No test stations to disarm." : $"Disarmed {stations} test station(s):\n" + string.Join("\n", lines);
+            return stations;
+        }
+
+        //Removes everyone aboard test stations who isn't the player or their crew, such as Corsair's Hollow's pirates.
+        //Only loaded stations have people as COs; a shallow one spawns its crew when it loads.
+        public static int ClearNpcs(out string message)
+        {
+            int removed = 0, stations = 0;
+            foreach (Ship ship in CrewSim.system.dictShips.Values.ToList())
+            {
+                if (ship == null || FzSpawns.KindOf(ship) != SpawnKind) continue;
+                List<CondOwner> people = ship.GetPeople(false);
+                if (people == null) continue;
+                bool any = false;
+                foreach (CondOwner person in people.ToList())
+                {
+                    if (person == null || person.bDestroyed || SiteIdentity.IsPlayersPerson(person)) continue;
+                    try
+                    {
+                        ship.RemoveCO(person, bForce: true);
+                        person.Destroy();
+                        removed++;
+                        any = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        FzAdditions.Logger.LogWarning($"Removing {person.strName} from {ship.strRegID} failed: {ex.Message}");
+                    }
+                }
+                if (any) stations++;
+            }
+            message = removed == 0 ? "No NPCs aboard loaded test stations." : $"Removed {removed} NPC(s) from {stations} test station(s).";
+            return removed;
+        }
+
         //Takes every test station out of the system, except one the player is docked to
         public static int Clear(out string message)
         {

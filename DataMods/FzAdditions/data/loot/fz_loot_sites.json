@@ -1,0 +1,279 @@
+[
+  { "strName" : "FzFloorRelayEquipment", "aCOs" : [ ], "aLoots" : [ "ItmRandomTool=0.35x1|ItmRandomComponent=0.35x1|ItmRandomPartsScrap=0.2x1" ], "strType" : "item" },
+  { "strName" : "FzFloorRelayMunitions", "aCOs" : [ "ItmAmmo20mm=0.6x10-20|ItmAmmo150mm=0.4x2-4" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "FzFloorRelayServers", "aCOs" : [ ], "aLoots" : [ "ItmRandomDatafileMundane=0.5x1|ItmRandomComponent=0.3x1|ItmRandomPDACartStock=0.1x1" ], "strType" : "item" },
+  { "strName" : "FzFloorEngineering", "aCOs" : [ ], "aLoots" : [ "ItmRandomEngineeringLoot=0.5x1|ItmRandomTool=0.3x1|ItmRandomFusionPart=0.05x1" ], "strType" : "item" },
+  { "strName" : "FzFloorBlackSiteArmory", "aCOs" : [ ], "aLoots" : [ "ItmRandomWeaponRanged=0.3x1|ItmRandomAmmoFull=0.4x1|ItmRandomWeaponMelee=0.2x1", "ItmRandomAmmo=0.4x1" ], "strType" : "item" },
+  { "strName" : "FzFloorBlackSiteSecurity", "aCOs" : [ ], "aLoots" : [ "ItmRandomAmmo=0.4x1|ItmRandomWeaponMelee=0.25x1|ItmRandomMedicalItem=0.25x1" ], "strType" : "item" },
+  { "strName" : "FzFloorBlackSiteQuarters", "aCOs" : [ ], "aLoots" : [ "ItmRandomCrewLootPersonal=0.4x1|ItmRandomClothesLoot=0.3x1|ItmRandomDrinkLiquor=0.15x1|ItmRandomPDACartStock=0.05x1" ], "strType" : "item" },
+  { "strName" : "FzFloorBlackSiteGalley", "aCOs" : [ ], "aLoots" : [ "ItmRandomFood=0.5x1|ItmRandomDrinkNew=0.4x1" ], "strType" : "item" },
+  { "strName" : "FzFloorBlackSiteLab", "aCOs" : [ ], "aLoots" : [ "ItmRandomMedicalItem=0.35x1|ItmRandomComponent=0.35x1|ItmRandomDatafileMundaneRare=0.15x1|ItmRandomTool=0.15x1" ], "strType" : "item" },
+  { "strName" : "FzFloorBlackSiteStorage", "aCOs" : [ ], "aLoots" : [ "ItmRandomEngineeringLoot=0.35x1|ItmRandomComponent=0.3x1|ItmRandomProvisions=0.25x1" ], "strType" : "item" },
+  { "strName" : "FzFloorBlackSiteMunitions", "aCOs" : [ "ItmAmmo20mm=0.6x15-30|ItmAmmo150mm=0.4x3-6" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "FzFloorGenericMunitions", "aCOs" : [ "ItmAmmo150mm=0.6x2-5|ItmAmmo20mm=0.4x10-20" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "FzFloorProkofievMunitions", "aCOs" : [ "ItmAmmoMissile03=0.3x1|ItmAmmo20mm=0.7x15-30" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "FzFloorCCREMunitions", "aCOs" : [ "ItmAmmoMissile01=0.3x1|ItmAmmo20mm=0.7x10-20" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "FzFloorBNWMunitions", "aCOs" : [ "ItmAmmoMissile02=0.3x1|ItmAmmo20mm=0.7x10-20" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "FzFloorCloudbreakDecoys", "aCOs" : [ "ItmAmmoDecoyMissile01=0.7x1|ItmAmmoDecoyMissile02=0.3x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "FzFloorAyotimiwaSalvage", "aCOs" : [ ], "aLoots" : [ "ItmRandomPartsScrap=0.5x1-2|ItmRandomDamagedParts=0.3x1|ItmRandomTool=0.2x1" ], "strType" : "item" },
+  { "strName" : "FzFloorPeraltaSurvey", "aCOs" : [ ], "aLoots" : [ "ItmRandomMineralSClass=0.35x1-2|ItmRandomMineralMClass=0.3x1|ItmRandomMineralMClassHighValue=0.1x1|ItmRandomTool=0.25x1" ], "strType" : "item" },
+  { "strName" : "FzFloorFaureZhangLab", "aCOs" : [ "ItmFzBeamFormer01Spent=0.5x1|ItmFzBeamFormer01=0.15x1|ItmFzExoticCanister=0.05x1" ], "aLoots" : [ ], "strType" : "item" },
+  {
+    "strName" : "FzLootBeltPirateCrew",
+    "aCOs"    : [
+      "ItmFzBreachSpike=0.25x1"
+    ],
+    "aLoots"  : [
+      "ItmPirateStartLootSuitWeapon=1.0x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootRelayEquipment",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomPartsScrap=0.35x1|ItmRandomComponent=0.2x1|ItmRandomTool=0.1x1",
+      "ItmScrapTrash=0.2x1-2"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootRelayStorage",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomEngineeringLoot=0.3x1|ItmRandomComponent=0.25x1|ItmRandomDamagedParts=0.15x1",
+      "ItmScrapTrash=0.2x1-2"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootRelayServers",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomComponent=0.3x1|ItmRandomDatafileMundaneLow=0.15x1",
+      "ItmRandomPDACartStock=0.05x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootRelayVault",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomDatafileMundane=0.4x1|ItmRandomDatafileMundaneRare=0.15x1|ItmRandomDatafileMundaneEpic=0.03x1",
+      "ItmRandomComponent=0.3x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootBlackSiteStorage",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomEngineeringLoot=0.4x1|ItmRandomComponent=0.25x1-2|ItmRandomFusionPart=0.08x1",
+      "ItmRandomProvisions=0.3x1",
+      "ItmRandomMedical=0.15x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootBlackSiteEquipment",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomPartsScrap=0.3x1|ItmRandomComponent=0.3x1|ItmRandomTool=0.2x1",
+      "ItmRandomEngineeringLoot=0.2x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootBlackSiteQuarters",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomCrewLootPersonal=0.5x1",
+      "ItmRandomClothesLoot=0.3x1",
+      "ItmRandomDrinkLiquor=0.1x1|ItmRandomCigButts=0.1x1",
+      "ItmRandomPDACartStock=0.05x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootBlackSiteGalley",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomProvisionsQuality=0.4x1|ItmRandomProvisions=0.3x1",
+      "ItmRandomDrinkNew=0.4x1-2",
+      "ItmRandomFood=0.3x1-2"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootBlackSiteArmory",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomWeaponRangedNewFull=0.3x1|ItmRandomWeaponRanged=0.2x1|ItmRandomWeaponMelee=0.15x1",
+      "ItmRandomAmmoFull=0.4x1|ItmRandomAmmo=0.3x1-2",
+      "ItmRandomSpaceSuitLoot=0.1x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootBlackSiteSecurity",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomAmmo=0.3x1|ItmRandomWeaponMelee=0.15x1",
+      "ItmRandomMedicalItem=0.25x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootBlackSiteLab",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomComponent=0.4x1-2|ItmRandomDatafileMundaneRare=0.15x1",
+      "ItmRandomMedical=0.25x1",
+      "ItmRandomTool=0.2x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootBlackSiteServers",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomComponent=0.4x1-2",
+      "ItmRandomDatafileMundaneRare=0.2x1|ItmRandomDatafileMundaneEpic=0.05x1",
+      "ItmRandomPDACartModded=0.08x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootBlackSiteVault",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomDatafileMundaneRare=0.4x1|ItmRandomDatafileMundaneEpic=0.15x1|ItmRandomDatafileMerga=0.05x1",
+      "ItmRandomPDACartModded=0.2x1",
+      "ItmRandomFusionPart=0.2x1",
+      "ItmRandomWeaponRare=0.1x1"
+    ],
+    "strType" : "item"
+  },
+
+  {
+    "strName" : "FzLootProkofievArmory",
+    "aCOs"    : [
+      "ItmRandomWeaponRangedNewFull=0.35x1"
+    ],
+    "aLoots"  : [
+      "FzLootBlackSiteArmory=1.0x1",
+      "ItmRandomAmmoFull=0.4x1-2"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootProkofievQuarters",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomCrewLootPersonal=0.3x1",
+      "ItmRandomDrinkLiquor=0.3x1",
+      "ItmRandomCigButts=0.3x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootAyotimiwaStorage",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomPartsScrap=0.5x1-3|ItmRandomDamagedParts=0.3x1-2",
+      "ItmRandomComponent=0.3x1-2",
+      "ItmRandomFusionPartDamaged=0.15x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootCCREStorage",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomFusionPart=0.25x1|ItmRandomEngineeringLoot=0.3x1",
+      "ItmRandomMineralCClass=0.3x1-3|ItmRandomMineralMClassHighValue=0.1x1",
+      "ItmRandomProvisions=0.2x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootCCREVault",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "FzLootBlackSiteVault=1.0x1",
+      "ItmRandomFusionPart=0.35x1-2"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootPeraltaStorage",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomMineralSClass=0.3x1-3|ItmRandomMineralMClass=0.25x1-2|ItmRandomMineralMClassHighValue=0.1x1",
+      "ItmRandomTool=0.3x1",
+      "ItmRandomEngineeringLoot=0.2x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootCloudbreakQuarters",
+    "aCOs"    : [
+    ],
+    "aLoots"  : [
+      "ItmRandomCrewLootPersonal=0.5x1",
+      "ItmRandomOutfitVenus=0.25x1",
+      "ItmRandomDrinkLiquor=0.2x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootFaureZhangVault",
+    "aCOs"    : [
+      "ItmFzExoticCanister=0.6x1-2",
+      "ItmFzBeamFormer01=0.35x1|ItmFzBeamFormer02=0.1x1|ItmFzBeamFormer03=0.02x1"
+    ],
+    "aLoots"  : [
+      "ItmRandomDatafileMundaneRare=0.2x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootFaureZhangRelayVault",
+    "aCOs"    : [
+      "ItmFzExoticCanister=0.3x1",
+      "ItmFzBeamFormer01=0.2x1|ItmFzBeamFormer02=0.04x1"
+    ],
+    "aLoots"  : [
+      "ItmRandomComponent=0.3x1"
+    ],
+    "strType" : "item"
+  },
+  {
+    "strName" : "FzLootFaureZhangStorage",
+    "aCOs"    : [
+      "ItmFzBeamFormer01Spent=0.15x1"
+    ],
+    "aLoots"  : [
+      "FzLootBlackSiteStorage=1.0x1"
+    ],
+    "strType" : "item"
+  }
+]

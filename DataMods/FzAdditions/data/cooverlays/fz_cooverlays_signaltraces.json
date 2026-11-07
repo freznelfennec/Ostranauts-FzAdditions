@@ -1,0 +1,46 @@
+[
+    {
+        "strName" : "ItmFzSignalTraces",
+        "strNameFriendly" : "Signal Traces NavMod",
+        "strNameShort" : "Signal Traces",
+        "strDesc" : "A hot-swappable module for the Polaris \"Standard Navigation Console\" (PSNC). It works through the signals a ship's sideband interceptors log, one at a time, until it can say who sent them and from where. What you do with that is between you and the sender.",
+        "strImg" : "navmod/ItmNavModTargetData",
+        "strImgNorm" : "navmod/ItmNavModTargetDatan",
+        "strPortraitImg" : "navmod/ItmNavModTargetData",
+        "strCondLoot"    : "CNDOLFzSignalTraces",
+        "strCOBase"    : "ItmNavModMoboScreen",
+        "mapGUIPropMaps"  :[
+            "NavMod","FzSignalTraces"
+        ],
+        "mapModeSwitches"    : [
+            "ItmNavModMoboScreen", "ItmFzSignalTraces",
+            "ItmNavModMoboScreenDmg", "ItmFzSignalTracesDmg"
+        ],
+        "mapSlotEffects" : [
+            "heldL","HeldItmDefaultL",
+            "heldR","HeldItmDefaultR"
+        ]
+    },
+    {
+        "strName" : "ItmFzSignalTracesDmg",
+        "strNameFriendly" : "Signal Traces NavMod (Damaged)",
+        "strNameShort" : "Signal Traces (Dmg)",
+        "strDesc" : "A hot-swappable module for the Polaris \"Standard Navigation Console\" (PSNC). It works through the signals a ship's sideband interceptors log, one at a time, until it can say who sent them and from where. This one is damaged.",
+        "strImg" : "navmod/ItmNavModTargetDataDmg",
+        "strImgNorm" : "navmod/ItmNavModTargetDataDmgn",
+        "strPortraitImg" : "navmod/ItmNavModTargetDataDmg",
+        "strCondLoot"    : "CNDOLFzSignalTracesDmg",
+        "strCOBase"    : "ItmNavModMoboScreenDmg",
+        "mapGUIPropMaps"  :[
+            "NavMod","FzSignalTraces"
+        ],
+        "mapModeSwitches"    : [
+            "ItmNavModMoboScreen", "ItmFzSignalTraces",
+            "ItmNavModMoboScreenDmg", "ItmFzSignalTracesDmg"
+        ],
+        "mapSlotEffects" : [
+            "heldL","HeldItmDefaultL",
+            "heldR","HeldItmDefaultR"
+        ]
+    }
+]

@@ -263,11 +263,11 @@ Each major manufacturer keeps its designs at hidden stations around the system. 
 
 Any mod can add recipes and materials without depending on this one.
 
-**The folder:** every mod puts its files in its own `data/fzfabrecipes/`:
+**The folder:** every mod puts its files in its own `data/fz/fabrication/`:
 
 ```
-<mod>/data/fzfabrecipes/recipes/*.json     recipes
-<mod>/data/fzfabrecipes/materials/*.json   materials
+<mod>/data/fz/fabrication/recipes/*.json     recipes
+<mod>/data/fz/fabrication/materials/*.json   materials
 ```
 
 The two kinds sit in sibling folders because the game's loader searches a folder and everything under it.
@@ -277,7 +277,7 @@ The two kinds sit in sibling folders because the game's loader searches a folder
 **Hand-written recipes** sit beside them in files named `fz_manual_*.json`, which CostModel leaves alone (it only replaces `*recipes_*.json`). `fz_manual_liquids.json` gives water (`LiquidWater`, a 0.25 kg ration, the water in sinks and flasks) a recycling-only recipe of 25 Volatiles at full yield, by mass at 0.01 kg a unit. It isn't fabricable. Water Ice is costed the same way, by mass (24.7 kg is 2,470 Volatiles), through CostModel's `oresByMass`, rather than on the usual mass curve; deposits still weigh it on the curve, so ice in a deposit's mix doesn't swamp it. Ice Walls rose to match, as they break into Water Ice. **Balance point:** Water Ice is priced at 1,200, but its Volatiles are worth about 4,500, so buying ice to recycle and sell would pay if ice can be bought.
 
 **No dependency:**
-- **Without this mod:** the game never reads `fzfabrecipes`, so a mod shipping recipes loads and runs exactly as it would without them, with nothing logged.
+- **Without this mod:** the game never reads `fz/fabrication`, so a mod shipping recipes loads and runs exactly as it would without them, with nothing logged.
 - **With it:** its recipes take effect.
 - **References are plain strings:** a recipe pack refers to its own COs and to this mod's material IDs by name only, so it needs no code and no reference to this mod.
 
@@ -371,7 +371,7 @@ The yield is the recipe's own: ore loses nothing because it's raw material, and 
 ]
 ```
 
-**Materials have their own files,** in `data/fzfabrecipes/materials/`, so recipes refer to materials by ID and everything else about a material lives in one place. This mod defines the eleven materials, and other mods can add more:
+**Materials have their own files,** in `data/fz/fabrication/materials/`, so recipes refer to materials by ID and everything else about a material lives in one place. This mod defines the eleven materials, and other mods can add more:
 
 | Field | Meaning |
 |---|---|
@@ -413,7 +413,7 @@ The yield is the recipe's own: ore loses nothing because it's raw material, and 
 **A new code section, `Fabrication/`,** following the project layout:
 
 - `Util/`: the recipe loader, silos, recycling yields and blueprint knowledge.
-- `Patches/`: loading every mod's `fzfabrecipes` folders during `DataHandler.LoadMod`, hooks for the machines' updates, clearing a silo's contents when it's damaged, saving and loading learned blueprints through custom infos, and loot additions.
+- `Patches/`: loading every mod's `fz/fabrication` folders during `DataHandler.LoadMod`, hooks for the machines' updates, clearing a silo's contents when it's damaged, saving and loading learned blueprints through custom infos, and loot additions.
 - `UI/`: the silo, recycler and fabricator panels, the projected working areas, and the recycling and fabricating effects.
 - `FabricationSection.Init`, which registers the GUIs and console commands. Every command is under the mod's root command `fz`:
   - **Built:** `fz recipe` sums up the loaded data, shows one recipe, or finds recipes by text. `fz bplearn`, `fz bpforget` and `fz bplist` manage learned blueprints. `fz fabreload` reads every mod's data again.

@@ -42,6 +42,7 @@ namespace Freznel.FzAdditions.Patches
                 "'fz navmoddump NavModSensorsMFD' dumps that module");
             AIConsoleCommands.Register();
             SpawnConsoleCommands.Register();
+            SpawnConsoleCommands.RegisterUIDump();
         }
 
         //The first help line is the summary 'fz' lists the command with

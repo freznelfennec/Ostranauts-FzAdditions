@@ -1,7 +1,7 @@
 namespace Freznel.FzAdditions.Util.SiteGen
 {
-    //The base game items a site is built from. Two fixed styles for now; milestone 6 reads them from each mod's
-    //data/fzsites so every corporation can have its own.
+    //The base game items a site is built from. These two are each kind's defaults; a corporation's style from
+    //data/fz/sites/styles (SiteData) changes any of them.
     public class SiteStyle
     {
         public string HullWall;
@@ -50,5 +50,23 @@ namespace Freznel.FzAdditions.Util.SiteGen
         };
 
         public static SiteStyle For(SiteKind kind) => kind == SiteKind.Relay ? Relay : BlackSite;
+
+        //A style from fz/sites data, over the kind's own: anything it leaves out stays as the kind has it
+        public static SiteStyle From(JsonSiteStyle data, SiteKind kind)
+        {
+            SiteStyle style = (SiteStyle)For(kind).MemberwiseClone();
+            if (data == null) return style;
+            style.HullWall = data.strHullWall ?? style.HullWall;
+            style.TunnelWall = data.strTunnelWall ?? style.TunnelWall;
+            if (data.aRockWalls != null && data.aRockWalls.Length > 0) style.RockWalls = data.aRockWalls;
+            style.RoomFloor = data.strRoomFloor ?? style.RoomFloor;
+            style.CorridorFloor = data.strCorridorFloor ?? style.CorridorFloor;
+            style.CoreFloor = data.strCoreFloor ?? style.CoreFloor;
+            style.VaultFloor = data.strVaultFloor ?? style.VaultFloor;
+            style.DockFloor = data.strDockFloor ?? style.DockFloor;
+            style.TunnelFloor = data.strTunnelFloor ?? style.TunnelFloor;
+            style.Light = data.strLight ?? style.Light;
+            return style;
+        }
     }
 }
