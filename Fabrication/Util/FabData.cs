@@ -39,6 +39,35 @@ namespace Freznel.FzAdditions.Util
             return coName != null && recipeByCO.TryGetValue(coName, out JsonFabRecipe recipe) ? recipe : null;
         }
 
+        //The fabricable recipe a CO is a form of, or null. Installed and loose forms share their recipe, but damaged and
+        //patched forms have recipes of their own that can't be fabricated, and some forms, such as a COOverlay or an
+        //Off form, have none. So it tries the CO, then its overlay's base, then each with its state words taken off
+        //(Dmg, Patch, Loose, Off, On), looking each up as a CO and as a recipe name.
+        public static JsonFabRecipe GetFabricableFor(string coName)
+        {
+            if (string.IsNullOrEmpty(coName)) return null;
+            var names = new List<string> { coName };
+            if (DataHandler.dictCOOverlays != null && DataHandler.dictCOOverlays.TryGetValue(coName, out JsonCOOverlay overlay) && !string.IsNullOrEmpty(overlay.strCOBase))
+                names.Add(overlay.strCOBase);
+            foreach (string name in names.ToList())
+            {
+                string bare = StateWords.Replace(name, "");
+                if (bare.Length > 0 && bare != name) names.Add(bare);
+                names.Add(bare + "Loose");
+            }
+            foreach (string name in names.Distinct())
+            {
+                JsonFabRecipe recipe = GetRecipeForCO(name);
+                if (recipe != null && recipe.bFabricate) return recipe;
+                recipe = GetRecipe(name);
+                if (recipe != null && recipe.bFabricate) return recipe;
+            }
+            return null;
+        }
+
+        //A form's state, at the end of a CO's name: ItmWall1x1DmgLoose is a form of ItmWall1x1
+        private static readonly System.Text.RegularExpressions.Regex StateWords = new System.Text.RegularExpressions.Regex(@"(?:Dmg\d*|Patch|Loose|Off|On)+$");
+
         public static JsonFabRecipe GetRecipe(string name)
         {
             EnsureLoaded();

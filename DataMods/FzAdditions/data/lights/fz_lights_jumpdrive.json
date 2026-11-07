@@ -7,14 +7,5 @@
       "x": 3,
       "y": -12
     }
-  },
-  {
-    "strName" : "FzJumpCellGlow",
-    "strColor": "Blank",
-    "strImg": "jumpcell/FzPulsebankIdle_h12lit",
-    "ptPos": {
-      "x": 0,
-      "y": 0
-    }
   }
 ]

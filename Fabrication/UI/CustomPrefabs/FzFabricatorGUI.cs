@@ -111,7 +111,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         private FabCategory category; //The one being shown
         private readonly List<Entry> entries = new List<Entry>();
         private int selected = -1;
-        private KeyControl heldKey;
+        private FzHoldBtn bpUp, bpDown, bpBack, bpOpen;
         private float nextRepeat;
 
         protected override void InitPanel()
@@ -120,12 +120,16 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             blueprintCrumbs = UnityUtil.FindDescendant<TMP_Text>(transform, "BlueprintCrumbs");
             blueprintStatus = UnityUtil.FindDescendant<TMP_Text>(transform, "BlueprintStatus");
             blueprintPage = UnityUtil.FindDescendant<TMP_Text>(transform, "BlueprintPage");
-            UnityUtil.FindDescendant<FzHoldBtn>(transform, "BpUPBtn").Pressed += () => MoveSelection(-1);
-            UnityUtil.FindDescendant<FzHoldBtn>(transform, "BpDOWNBtn").Pressed += () => MoveSelection(1);
+            bpUp = UnityUtil.FindDescendant<FzHoldBtn>(transform, "BpUPBtn");
+            bpDown = UnityUtil.FindDescendant<FzHoldBtn>(transform, "BpDOWNBtn");
+            bpBack = UnityUtil.FindDescendant<FzHoldBtn>(transform, "BpBACKBtn");
+            bpOpen = UnityUtil.FindDescendant<FzHoldBtn>(transform, "BpOPENBtn");
+            bpUp.Pressed += () => { nextRepeat = Time.unscaledTime + KeyRepeatDelay; MoveSelection(-1); };
+            bpDown.Pressed += () => { nextRepeat = Time.unscaledTime + KeyRepeatDelay; MoveSelection(1); };
             UnityUtil.FindDescendant<FzHoldBtn>(transform, "BpPGUPBtn").Pressed += () => MoveSelection(-BlueprintLines);
             UnityUtil.FindDescendant<FzHoldBtn>(transform, "BpPGDNBtn").Pressed += () => MoveSelection(BlueprintLines);
-            UnityUtil.FindDescendant<FzHoldBtn>(transform, "BpBACKBtn").Pressed += Back;
-            UnityUtil.FindDescendant<FzHoldBtn>(transform, "BpOPENBtn").Pressed += Open;
+            bpBack.Pressed += Back;
+            bpOpen.Pressed += Open;
 
             costNames = Enumerable.Range(0, CostLines).Select(i => UnityUtil.FindDescendant<TMP_Text>(transform, "CostName" + i)).ToArray();
             costNeeds = Enumerable.Range(0, CostLines).Select(i => UnityUtil.FindDescendant<TMP_Text>(transform, "CostNeed" + i)).ToArray();
@@ -253,33 +257,33 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             ShowCategory(category.Parent, e => e.Category == left);
         }
 
-        //The arrow keys work the screen while the panel is open: up and down move, right opens, left goes back. A held
-        //up or down repeats. Shift with an arrow is the game's own panel switching, so it's left alone.
+        //The arrow keys work the screen while the panel is open, each holding down its key on the panel, with its
+        //pressed look and sounds, for as long as it's held: up and down move, right opens, left goes back. Shift with
+        //an arrow is the game's own panel switching, so it's left alone. UP and DOWN repeat while held, by key or by
+        //mouse.
         private void ReadKeys()
         {
             Keyboard keyboard = Keyboard.current;
-            if (keyboard == null || keyboard.shiftKey.isPressed) return;
-            if (keyboard.leftArrowKey.wasPressedThisFrame) Back();
-            if (keyboard.rightArrowKey.wasPressedThisFrame) Open();
-            foreach (KeyControl key in new[] { keyboard.upArrowKey, keyboard.downArrowKey })
+            if (keyboard != null)
             {
-                int step = key == keyboard.upArrowKey ? -1 : 1;
-                if (key.wasPressedThisFrame)
-                {
-                    heldKey = key;
-                    nextRepeat = Time.unscaledTime + KeyRepeatDelay;
-                    MoveSelection(step);
-                }
-                else if (heldKey == key && key.isPressed && Time.unscaledTime >= nextRepeat)
-                {
-                    nextRepeat = Time.unscaledTime + KeyRepeatInterval;
-                    MoveSelection(step);
-                }
-                else if (heldKey == key && !key.isPressed)
-                {
-                    heldKey = null;
-                }
+                bool shift = keyboard.shiftKey.isPressed;
+                Bind(keyboard.upArrowKey, bpUp, shift);
+                Bind(keyboard.downArrowKey, bpDown, shift);
+                Bind(keyboard.leftArrowKey, bpBack, shift);
+                Bind(keyboard.rightArrowKey, bpOpen, shift);
             }
+            FzHoldBtn held = bpUp.Held ? bpUp : bpDown.Held ? bpDown : null;
+            if (held != null && held.HeldTime >= KeyRepeatDelay && Time.unscaledTime >= nextRepeat)
+            {
+                nextRepeat = Time.unscaledTime + KeyRepeatInterval;
+                MoveSelection(held == bpUp ? -1 : 1);
+            }
+        }
+
+        private static void Bind(KeyControl key, FzHoldBtn button, bool shift)
+        {
+            if (key.wasPressedThisFrame && !shift) button.KeyDown();
+            else if (!key.isPressed) button.KeyUp();
         }
         private void ShowBlueprints()
         {

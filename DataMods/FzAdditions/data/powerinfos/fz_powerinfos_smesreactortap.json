@@ -1,0 +1,15 @@
+[
+  {
+    "strName" : "FzSmesReactorTap01",
+    "aInputPts"      : [
+      "Power"
+    ],
+    "fAmount": 0.011,
+    "strIntPowerOn": "MSFzSmesReactorTap01OnAllow",
+    "strIntPowerOff": "MSFzSmesReactorTap01OffAllow",
+    "strShutDownCT": "TIsConnctedSignalledOff",
+    "strUsePowerCT": "TIsReadyUsePower",
+    "strRechargeCT": null,
+    "bAllowExtPower" :  false
+  }
+]

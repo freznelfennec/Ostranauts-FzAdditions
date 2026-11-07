@@ -20,7 +20,7 @@ namespace Freznel.FzAdditions.Patches
         [HarmonyPostfix()]
         public static void Awake_Postfix(ModuleHost __instance)
         {
-            ItemModules(__instance) = ItemModules(__instance).Concat(new[] { FzEmitterModule.GetPrefab(), FzCellModule.GetPrefab(), FzTapModule.GetPrefab() }).ToArray();
+            ItemModules(__instance) = ItemModules(__instance).Concat(new[] { FzEmitterModule.GetPrefab() }).ToArray();
         }
     }
 }

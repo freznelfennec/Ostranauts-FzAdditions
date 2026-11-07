@@ -40,6 +40,8 @@ namespace Freznel.FzAdditions.Patches
             AddCommand("navmoddump", KeywordNavModDump,
                 "writes the layout of a nav module's prefab to the log",
                 "'fz navmoddump NavModSensorsMFD' dumps that module");
+            AIConsoleCommands.Register();
+            SpawnConsoleCommands.Register();
         }
 
         //The first help line is the summary 'fz' lists the command with

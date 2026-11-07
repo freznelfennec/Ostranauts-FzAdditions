@@ -1,4 +1,5 @@
 using Freznel.FzAdditions.Patches;
+using Freznel.FzAdditions.UI;
 using Freznel.FzAdditions.UI.CustomPrefabs;
 using Freznel.FzAdditions.Util;
 using System;
@@ -16,13 +17,18 @@ namespace Freznel.FzAdditions
         public static void Init()
         {
             CustomPrefabRegistry.Register("FzJumpFieldEmitterGUI", FzJumpFieldEmitterGUI.CreatePrefab);
-            CustomPrefabRegistry.Register("FzJumpEnergyCellGUI", FzJumpEnergyCellGUI.CreatePrefab);
-            CustomPrefabRegistry.Register("FzJumpReactorTapGUI", FzJumpReactorTapGUI.CreatePrefab);
             CustomPrefabRegistry.Register("FzJumpNavCom", FzJumpNavCom.CreatePrefab);
             CustomPrefabRegistry.Register("FzJumpNavComDmg", FzJumpNavCom.CreateDamagedPrefab);
 
             JumpConsoleCommands.Register();
             JumpSequence.Init();
+
+            //The jump drive draws on the ship's SMES units. A series recharges them itself through a time skip, even
+            //one it finishes partway through, a jump charging shows them discharging, and switching one on or off
+            //cancels what the drive was doing with it.
+            Smes.AddRechargeHold(co => GUIFFWD.Active && (JumpSequence.IsSeriesRunning(co.ship) || JumpSequence.IsSkipped(co.ship)));
+            Smes.AddDischargeCheck(co => FzJumpEffect.IsCharging(co.ship));
+            Smes.PowerSwitched += co => JumpSequence.CancelForDriveChange(co.ship);
         }
     }
 }

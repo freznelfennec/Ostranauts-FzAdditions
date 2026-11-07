@@ -20,7 +20,8 @@ namespace Freznel.FzAdditions.Patches
                 "'fz recipe find heater' lists recipes whose name, category or COs contain the text");
             ConsolePatch.AddCommand("bplearn", KeywordLearn,
                 "teaches the player a fabrication blueprint",
-                "'fz bplearn Heater01' learns one blueprint, 'fz bplearn all' learns every one");
+                "'fz bplearn Heater01' learns one blueprint, 'fz bplearn all' learns every one",
+                "'fz bplearn target' learns the blueprint of what's selected (click it so the info panel shows it). Any form of an item works: installed, loose, off or damaged");
             ConsolePatch.AddCommand("bpforget", KeywordForget,
                 "forgets a learned fabrication blueprint",
                 "'fz bpforget Heater01' forgets one blueprint, 'fz bpforget all' forgets every learned one");
@@ -88,9 +89,10 @@ namespace Freznel.FzAdditions.Patches
         {
             if (args.Length != 2)
             {
-                strInput += "\nUsage: fz bplearn <blueprint> or fz bplearn all";
+                strInput += "\nUsage: fz bplearn <blueprint>, fz bplearn target or fz bplearn all";
                 return false;
             }
+            if (args[1].ToLower() == "target") return LearnTarget(ref strInput);
             if (args[1].ToLower() == "all")
             {
                 int count = FabData.Blueprints.ToList().Count(Blueprints.Learn);
@@ -104,6 +106,31 @@ namespace Freznel.FzAdditions.Patches
                 return false;
             }
             strInput += Blueprints.Learn(blueprint) ? $"\nLearned {blueprint}." : $"\n{blueprint} is already known.";
+            return true;
+        }
+
+        //Learns the blueprint of what's selected, whichever of its forms it is. A click in play picks a thing for the
+        //info panel (GUIMegaToolTip.Selected, highlighted, cycled by clicking again) rather than bracketing it, so that
+        //comes first; the brackets (crew, or anything in ship edit and debug) are the fallback.
+        private static bool LearnTarget(ref string strInput)
+        {
+            CondOwner target = Ostranauts.UI.MegaToolTip.GUIMegaToolTip.Selected;
+            if (target == null && CrewSim.objInstance != null && CrewSim.aSelected != null) target = CrewSim.GetBracketTarget();
+            if (target == null)
+            {
+                strInput += "\nNothing selected. Click the thing so the info panel shows it, then try again.";
+                return false;
+            }
+            JsonFabRecipe recipe = FabData.GetFabricableFor(target.strCODef);
+            if (recipe == null)
+            {
+                strInput += $"\n{target.strNameFriendly} ({target.strCODef}) has no fabricable recipe.";
+                return false;
+            }
+            string blueprint = recipe.strBlueprint;
+            strInput += Blueprints.Learn(blueprint)
+                ? $"\nLearned {blueprint} from {target.strNameFriendly} ({target.strCODef}), which fabricates as {recipe.strCOFabricate}."
+                : $"\n{blueprint}, for {target.strNameFriendly} ({target.strCODef}), is already known.";
             return true;
         }
 

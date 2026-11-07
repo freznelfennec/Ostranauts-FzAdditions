@@ -1,0 +1,171 @@
+[
+  {
+    "strName" : "ItmFzSmes01",
+    "strNameShort" : "SMES Unit",
+    "strNameFriendly" : "Basic SMES Unit",
+    "strDesc" : "A superconducting magnetic energy storage unit. Its coil holds a large charge in a current that never decays, and can give it all up in moments, for equipment that needs more power than a ship's grid can supply. It connects to an adjacent conduit, and charges slowly from the grid or quickly from a SMES reactor tap.\n\nThe coil is proprietary. The casing carries no maker's mark, and opening it voids more than the warranty.",
+    "strItemDef" : "ItmFzSmes01",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+      "FzSmesGUI"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzSmes=1.0x1",
+      "StatFzSmesChargeMax=1.0x25000",
+      "StatFzSmesChargeRate=1.0x200",
+      "IsPowerRecalc=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x2623.0",
+      "StatDismantleProgressMax=1.0x140",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatMass=1.0x45.0",
+      "StatDamageMax=1.0x10",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapPoints"      : [
+      "use,0,0",
+      "PowerSource,-8,24"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzSmes01Damage,StatDamageMax,1.0"
+    ],
+    "mapGUIPropMaps"  : [
+      "FzSmesGUI",
+      "FzSmesGUI"
+    ],
+    "strPortraitImg"  : "smes/FzSmesIdle_h12",
+    "jsonPI"            : "FzSmes01",
+    "strAudioEmitter": "ItmBattery02Sound"
+  },
+  {
+    "strName" : "ItmFzSmes01Dmg",
+    "strNameShort" : "SMES Unit",
+    "strNameFriendly" : "Basic SMES Unit (Damaged)",
+    "strDesc" : "A superconducting magnetic energy storage unit. Its coil holds a large charge in a current that never decays, and can give it all up in moments, for equipment that needs more power than a ship's grid can supply. It connects to an adjacent conduit, and charges slowly from the grid or quickly from a SMES reactor tap.\n\nThe coil is proprietary. The casing carries no maker's mark, and opening it voids more than the warranty.",
+    "strItemDef" : "ItmFzSmes01Dmg",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+    ],
+    "aStartingConds" : [
+      "IsDamaged=1.0x1",
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFzSmes=1.0x1",
+      "StatFzSmesChargeMax=1.0x25000",
+      "StatFzSmesChargeRate=1.0x200",
+      "IsPowerRecalc=1.0x1",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x524.0",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatRepairProgressMax=1.0x3000",
+      "StatMass=1.0x45.0",
+      "StatDamageMax=1.0x30",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapPoints"      : [
+      "use,0,0",
+      "Output,-8,24"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzSmes01Destroy,StatDamageMax,1.0"
+    ],
+    "mapGUIPropMaps"  : [
+    ],
+    "strPortraitImg"  : "smes/FzSmesDmg"
+  },
+  {
+    "strName" : "ItmFzSmes01Loose",
+    "strNameShort" : "SMES Unit",
+    "strNameFriendly" : "Basic SMES Unit (Loose)",
+    "strDesc" : "A superconducting magnetic energy storage unit. Its coil holds a large charge in a current that never decays, and can give it all up in moments, for equipment that needs more power than a ship's grid can supply. It connects to an adjacent conduit, and charges slowly from the grid or quickly from a SMES reactor tap.\n\nThe coil is proprietary. The casing carries no maker's mark, and opening it voids more than the warranty.",
+    "strItemDef" : "ItmFzSmes01Loose",
+    "strType"    : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzSmes=1.0x1",
+      "StatFzSmesChargeMax=1.0x25000",
+      "StatFzSmesChargeRate=1.0x200",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x2623.0",
+      "StatDismantleProgressMax=1.0x140",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatMass=1.0x45.0",
+      "StatDamageMax=1.0x10",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzSmes01LooseDamage,StatDamageMax,1.0"
+    ],
+    "mapPoints"      : [
+      "use,0,-24"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "mapGUIPropMaps"  : [
+    ],
+    "strPortraitImg"  : "smes/FzSmesOff"
+  },
+  {
+    "strName" : "ItmFzSmes01DmgLoose",
+    "strNameShort" : "SMES Unit",
+    "strNameFriendly" : "Basic SMES Unit (Loose, Damaged)",
+    "strDesc" : "A superconducting magnetic energy storage unit. Its coil holds a large charge in a current that never decays, and can give it all up in moments, for equipment that needs more power than a ship's grid can supply. It connects to an adjacent conduit, and charges slowly from the grid or quickly from a SMES reactor tap.\n\nThe coil is proprietary. The casing carries no maker's mark, and opening it voids more than the warranty.",
+    "strItemDef" : "ItmFzSmes01DmgLoose",
+    "strType"    : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsFzSmes=1.0x1",
+      "StatFzSmesChargeMax=1.0x25000",
+      "StatFzSmesChargeRate=1.0x200",
+      "IsDamaged=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x524.0",
+      "StatDismantleProgressMax=1.0x140",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatRepairProgressMax=1.0x3000",
+      "StatMass=1.0x45.0",
+      "StatDamageMax=1.0x30",
+      "IsTechnology=1.0x1",
+      "IsCategoryElectronics=1.0x1"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzSmes01LooseDestroy,StatDamageMax,1.0"
+    ],
+    "mapPoints"      : [
+      "use,0,-24"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "mapGUIPropMaps"  : [
+    ],
+    "strPortraitImg"  : "smes/FzSmesDmgLoose"
+  }
+]

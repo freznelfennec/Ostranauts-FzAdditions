@@ -1,0 +1,54 @@
+[
+      {
+        "strName" : "MSFzSmes01Damage",
+        "strTitle" : "",
+        "strDesc" : "[us] [is] damaged.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Self",
+        "bIgnoreFeelings" : true,
+        "LootCTsUs"       : null,
+        "LootCTsThem"     : null,
+        "CTTestUs"           : null,
+        "CTTestThem"         : null,
+        "objLootModeSwitch"    : "ItmBatteryLargeComponentsAndSelf"
+      },
+      {
+        "strName" : "MSFzSmes01Destroy",
+        "strTitle" : "",
+        "strDesc" : "[us] [is] destroyed.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Self",
+        "bIgnoreFeelings" : true,
+        "LootCTsUs"       : null,
+        "LootCTsThem"     : null,
+        "CTTestUs"           : null,
+        "CTTestThem"         : null,
+        "objLootModeSwitch"    : "ItmBatteryLargeComponentsShell"
+      },
+      {
+        "strName" : "MSFzSmes01LooseDamage",
+        "strTitle" : "",
+        "strDesc" : "[us] [is] damaged.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Self",
+        "bIgnoreFeelings" : true,
+        "LootCTsUs"       : null,
+        "LootCTsThem"     : null,
+        "CTTestUs"           : null,
+        "CTTestThem"         : null,
+        "objLootModeSwitch"    : "ItmBatteryLargeLooseComponentsAndSelf"
+      },
+      {
+        "strName" : "MSFzSmes01LooseDestroy",
+        "strTitle" : "",
+        "strDesc" : "[us] [is] destroyed.",
+        "fDuration"         : 0.0,
+        "strThemType"       : "Self",
+        "bIgnoreFeelings" : true,
+        "LootCTsUs"       : null,
+        "LootCTsThem"     : null,
+        "CTTestUs"           : null,
+        "CTTestThem"         : null,
+        "objLootModeSwitch"    : "ItmBatteryLargeComponentsShell"
+      }
+]

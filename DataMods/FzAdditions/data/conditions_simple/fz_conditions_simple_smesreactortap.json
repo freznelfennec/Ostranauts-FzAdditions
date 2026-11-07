@@ -1,0 +1,8 @@
+[
+  {
+    "strName": "Fz SMES Reactor Tap Simple Conditions",
+    "aValues": [
+      "IsFzSmesReactorTap","SMES Reactor Tap","[us] [is] a SMES reactor tap.","2","2","Neutral","false"
+    ]
+  }
+]

@@ -6,13 +6,14 @@ Save anything new worth remembering about this project here, not in the auto-mem
 
 Code is split into sections at the project root, each keeping the same Patches, UI and Util folders:
 
-- `Propulsion/` holds everything directly about the jump drive, plus its art (`Art/`) and generator (`Tools/`).
+- `Propulsion/` holds everything directly about the jump drive.
 - `Profiling/` holds the timing profiler run by the `fz profile` console command. Its patches have no Harmony attributes and use their own Harmony instance, so they go on only with `fz profile start` and come off with `fz profile stop`. Keep it that way: anything there with `[HarmonyPatch]` would be applied whenever the game runs.
 - `Fabrication/` holds recycling, fabrication and blueprints. Recipes and materials load from every mod's `data/fzfabrecipes/` folder in load order (`FabData`), and learned blueprints are global state saved in the game save's custom infos (`Blueprints`).
 - `Tweaks/` holds changes to how the base game runs, for speed, that leave what it does the same. `ShipWear` spreads a loaded ship's periodic wear over several frames, and finishes any still queued before a save.
-- `Common/` holds everything else, shared code that doesn't know about any section.
+- `Missions/` holds missions at temporary corporate sites. So far that's the station defence pilot (`FzStationDefensePilot`) and the `fz encounter` test station (`TestEncounter`), the site generator (`Missions/Util/SiteGen` for shapes and shells, `fz site preview`), and `fz site spawn`, which registers a generated template (`SiteSpawner`) and spawns it beside the player (`StationPlacer`, shared with `fz encounter`). `SiteTemplatePatch` rebuilds a generated template from its name if the game asks for one after a load, which is plain C# so `Design/Missions/Tools/SitePreview` can run it outside the game. Its design and milestones are in `Design/Missions/StationGeneration.md`.
+- `Common/` holds everything else, shared code that doesn't know about any section. That includes the SMES units and SMES reactor taps, with their art (`Common/Art/smes`) and its generator (`Common/Tools/make_smes.ps1`), and `ReactorFuel`, the reactor's extra burn, and the mod's own AI (`Common/Util/AI`).
 
-Common doesn't reference a section. A section adds what it needs to Common when the plugin loads, through `ConsolePatch.AddCommand` and `CustomPrefabRegistry.Register`, from its own setup class (`PropulsionSection.Init`, `ProfilingSection.Init`, `TweaksSection.Init`, `FabricationSection.Init`).
+Common doesn't reference a section. A section adds what it needs to Common when the plugin loads, through `ConsolePatch.AddCommand`, `CustomPrefabRegistry.Register`, the SMES hooks (`Smes.AddRechargeHold`, `Smes.AddDischargeCheck`, `Smes.PowerSwitched`) and AI pilot types (`FzAI.RegisterPilot`), from its own setup class (`PropulsionSection.Init`, `ProfilingSection.Init`, `TweaksSection.Init`, `FabricationSection.Init`, `MissionsSection.Init`).
 
 Every console command the mod adds is a subcommand of one root command, `fz`, so the game's command list only gains one entry. `fz` on its own lists them, and `fz help <command>` explains one. Write a command's help and usage text with the `fz ` prefix. `FzAdditionsPlugin.cs` stays at the root and calls each section's setup. Namespaces weren't changed by the move. The data mod stays in `DataMods/`, since the game reads its layout.
 
@@ -38,9 +39,9 @@ Keep lasting state on the ship or its parts, where the game saves it: conditions
 
 Per the user, everything the mod adds carries an Fz prefix so it can't collide with the base game or other mods:
 
-- **Data files** start with `fz_`, for example `fz_items_jumpcell.json` or `fz_recipes_walls.json`. The exception is `mod_info.json`, whose name the game reads.
-- **strNames** of new data contain `Fz`, for example `ItmFzJumpEnergyCell`, `StatFzJumpCharge`, `TIsFzJumpEnergyCellInstalled` or `Fz Jump Cell Simple Conditions`. Keep the game's own type prefix (Itm, Stat, Is, TIs, MS, ACT) in front.
-- **Images** start with `Fz`, for example `jumpcell/FzPulsebankIdle_h0.png`, since the game keys images by their path under `images/`.
+- **Data files** start with `fz_`, for example `fz_items_smes.json` or `fz_recipes_walls.json`. The exception is `mod_info.json`, whose name the game reads.
+- **strNames** of new data contain `Fz`, for example `ItmFzSmes01`, `StatFzSmesCharge`, `TIsFzSmesInstalled` or `Fz SMES Simple Conditions`. Keep the game's own type prefix (Itm, Stat, Is, TIs, MS, ACT) in front.
+- **Images** start with `Fz`, for example `smes/FzSmesIdle_h0.png`, since the game keys images by their path under `images/`.
 
 Some names deliberately don't have the prefix:
 
@@ -95,7 +96,8 @@ Per the user, recyclers and fabricators come in tiers, set by conditions in each
 - Placement is its own fit test (`Fabricator.FindSpot`): the item's unturned size from its item definition, on open area tiles no loose item or person is on (`WorkArea.Occupied`, keyed by the ship's own tile index, `WorkArea.TileIndex`). Don't match tiles by rounding positions: tile centres are halfway between whole numbers, and a machine two tiles deep has its centre between rows, so rounding mixed up neighbouring rows and showed AREA FULL with room left. `Item.CheckFit` can't be used from a machine.
 - A run starts only with a whole item's materials in the silos, then draws them as it goes; short, it waits. A run stopped partway deletes the unfinished item and lets the stack go; what it used is lost. `FabricatorProcess.SweepOrphans` runs with the recycler's sweep.
 - Per the user, FABRICATE builds COUNT items, counting down and switching off at 0. AUTO forces FABRICATE's lamp on, ignores COUNT, and fills the area, retrying every 5 game seconds once it's full or short (`FabricatorProcess.nextTry`, a cache cleared on `EmptyScene`).
-- Per the user, BLUEPRINTS is browsed by category. `FabData.Categories` is a tree of `FabCategory` built once from the recipes' dotted `strCategory` paths as the data loads, each node holding the blueprints in it and below, and the panel shows only categories with a known blueprint. Subcategories come before blueprints, in their own colour with a `>` marker and their known blueprint count. The top line is breadcrumbs. BACK and OPEN keys, and the arrow keys (up and down move, left back, right open; read through the Input System's `Keyboard.current`, as the game's own keypad does, and ignored with Shift held, which is the game's panel switching). A highlighted blueprint is the chosen recipe.
+- Per the user, BLUEPRINTS is browsed by category. `FabData.Categories` is a tree of `FabCategory` built once from the recipes' dotted `strCategory` paths as the data loads, each node holding the blueprints in it and below, and the panel shows only categories with a known blueprint. Subcategories come before blueprints, in their own colour with a `>` marker and their known blueprint count. The top line is breadcrumbs. BACK and OPEN keys, and the arrow keys (up and down move, left back, right open; read through the Input System's `Keyboard.current`, as the game's own keypad does, and ignored with Shift held, which is the game's panel switching). Per the user, a keybind holds down its button on the panel for as long as the key is held, with its pressed sprite and sounds: `FzHoldBtn.KeyDown` and `KeyUp` call its `GUIAudioBtn`'s pointer handlers for the sounds and set the image's `overrideSprite` to the pressed sprite, as the Button's sprite swap does. UP and DOWN repeat while held, by key or mouse. A highlighted blueprint is the chosen recipe.
+- Per the user, `fz bplearn target` learns the blueprint of what's selected, whichever form it is. In play a click doesn't bracket an item: it picks it for the info panel, `GUIMegaToolTip.Selected`, so that's read first, then `CrewSim.GetBracketTarget` (crew, or anything in ship edit). `FabData.GetFabricableFor` resolves a CO to its fabricable recipe: installed and loose forms share a recipe, but damaged and patched forms have unfabricable recipes of their own, so it also tries a COOverlay's base and the name with trailing state words (Dmg, Patch, Loose, Off, On) taken off, as a CO and as a recipe name.
 - Per the user, FILL ITEMS (prop `FzFill`) fills canisters from the ship's reserves, and while it's on COST lists what a fresh one would take of each reserve (`Reserves.DefCapacity`, from its definition) against the ship's.
 - FILL ITEMS fills canisters from the ship's reserves. A made item with a reserve's vessel condition (`IsVesselO2` and so on) is emptied when it's spawned, and with FILL on is filled from the ship's installed canisters when done. Items that hold gas without a vessel condition, such as oxygen candles, keep what they start with.
 
@@ -105,21 +107,113 @@ Ostranauts loads every conditions_simple file of a mod into one dictionary keyed
 
 Give each new conditions_simple file its own strName. Suspect this when a data item loses an action or a condtrig fails with nothing in the log.
 
+## Lore: Faure-Zhang
+
+Per the user, the mod's technology is made by **Faure-Zhang**, a corporation chosen on 2026-11-06. Its initials match the mod's Fz prefix. Use it in item descriptions and other lore text.
+
+- How widely each technology is known:
+  - Fabrication and recycling (recyclers, fabricators, silos, beam formers) are public and widely distributed.
+  - Deflector shields (not built yet) are heavily restricted.
+  - SMES units, SMES reactor taps and jump drives are secret, known only to top executives and scientists.
+- Backstory draft, built from the base game's lore:
+  - It was founded in 2058 on Voltaire, Deimos, by Dr. Hélène Faure, a field physicist at Voltaire University, and Zhang Wenli, a Tharsis waste engineer.
+  - Its first contract was licensed reclamation for Tharsis, during the game's crackdown on unlicensed recyclers.
+  - It sells to every bloc, and earns from beam formers, whose exotic matter only it refines.
+  - Shields are leased, sealed units for navies only.
+  - The secret work hides inside an "exotic-matter refinery" project.
+  - The base game's radioactive ghost ships near Venus can be its failed test hulls.
+- The game's present is about 2079. Item text is dry and spec-like, often ending on a wry line, and ads are one-line punny slogans.
+
+## SMES units and reactor taps
+
+- Per the user, SMES units (superconducting magnetic energy storage, "Basic SMES Unit", `ItmFzSmes01`) and SMES reactor taps ("Basic SMES Reactor Tap", `ItmFzSmesReactorTap01`) are generic devices, used by more than the jump drive. In the lore they're Faure-Zhang's secret technology. They were the jump energy cell and jump drive reactor tap before 2026-11-06.
+- They live in Common (`Smes`, `SmesTap`, `SmesConstants`, `FzSmesGUI`, `FzSmesReactorTapGUI`, `FzSmesLook`, and the `FzSmesModule` and `FzSmesTapModule` tooltips), with their own save/load and tooltip patches. Their GUIs are registered in `CustomPrefabRegistry`'s static constructor.
+- What draws on them hooks in from its section's setup. The jump drive (`PropulsionSection.Init`) holds off their own recharge during a series time skip (`Smes.AddRechargeHold`), shows them discharging while a jump charges (`Smes.AddDischargeCheck`), and cancels on a panel power switch (`Smes.PowerSwitched`).
+- The `01` on their CO names is the tier, like the beam formers, so later tiers can be added beside them.
+
 ## Item sprites and looks
 
 - Animated looks are sprite sheets read from the top left, played by `objAnimation`. The normal and damage maps need the same sheet layout.
-- Each `Item.SetAlt` call with an animation adds another animation listener, and the game only removes them when the item is destroyed. `FzCellLook` removes the old listener before changing looks.
-- Discharge looks animated with `objAnimation` drew their whole sheet across the cell in game, though the deployed definitions had the animation. The cause wasn't found. The looks changed every fraction of a second, unlike charging, whose sheets drew fine. Discharge now flashes by `FzCellLook` switching still looks itself.
+- Each `Item.SetAlt` call with an animation adds another animation listener, and the game only removes them when the item is destroyed. `FzSmesLook` removes the old listener before changing looks.
+- Discharge looks animated with `objAnimation` drew their whole sheet across the SMES unit in game, though the deployed definitions had the animation. The cause wasn't found. The looks changed every fraction of a second, unlike charging, whose sheets drew fine. Discharge now flashes by `FzSmesLook` switching still looks itself.
 - Light sprites (a light's `strImg`) draw their whole texture and ignore the texture scale and offset that sheets use, so an animated glow needs one image per frame.
-- Simple conditions such as `IsPowered` aren't saved. After a load they're missing until the part's first `Powered.Run`, which waits for the game to unpause. `JumpCell.HasRun` says whether a cell has had that update.
+- Simple conditions such as `IsPowered` aren't saved. After a load they're missing until the part's first `Powered.Run`, which waits for the game to unpause. `Smes.HasRun` says whether a SMES unit has had that update.
 - `Item.NotifyPreRender` only runs for items that have a light with a real `strColor`. Sprite-only lights (`strColor` Blank) don't run it.
-- The jump cell's looks are COOverlays in `fz_cooverlays_jumpcell.json`, applied visually by `FzCellLook`. Its art and that COOverlay file are both generated by `Propulsion/Tools/make_pulsebank.ps1` from `Propulsion/Art/pulsebank`, so edit the script rather than the JSON.
+- The SMES unit's looks are COOverlays in `fz_cooverlays_smes.json`, applied visually by `FzSmesLook`. Its art and that COOverlay file are both generated by `Common/Tools/make_smes.ps1` from `Common/Art/smes`, so edit the script rather than the JSON. The source art keeps the artist's name for it, Pulsebank, and the script writes it out under the SMES names.
 
 ## Sound
 
 The game loads every sound effect from its own built-in assets (`Resources.Load<AudioClip>("Audio/...")`), so an `audioemitters` entry can only name a clip the game already has. New sounds have to come from the plugin.
 
 The jump sequence's sound is synthesised live by `Propulsion/UI/FzJumpAudio.cs`, on Unity's audio thread, using the building blocks in `Common/Util/AudioDsp.cs`. `FzJumpEffect` drives it with the charge's progress each frame, wave landings, the hit and power-downs, so it keeps step with the visuals at any game speed. It plays through the game's `PrefsEffects` mixer group, so the effects volume applies. Tune the sound in `FzJumpAudio.Synth`.
+
+The recycler's and fabricator's sounds are positional, heard from each machine. Sound added in `OnAudioFilterRead` isn't placed in 3D by Unity, and a synth per machine wouldn't scale, so `Fabrication/Util/MachineSounds.cs` renders short clips once as the plugin loads (`FzMachineSound.Prepare`, about a quarter of a second). Each machine plays them through its own 3D sources (`FzMachineSound`), set up like the game's CO2 scrubber: the `FalloffLogShallowMin20Max500` curve, a 20 to 50 unit range and the `Ambient` mixer group. Per the user, they're subtle and slow, like heavy printers driven by stepper motors, since a ship may have many. Per the user, a constant low hum carries the sound while a machine runs, with low, sparse printer moves on top, and starting is a swell of hum, so short runs aren't jarring. A machine keeps sounding as working for 2.5 s after a run (`LingerTime`), so runs back to back sound like one. Each machine plays up to 3% sharp or flat and from its own place in the loop. `FzAreaProjector` drives them from each machine's state, and they pause with the game. `MachineSounds` is plain C#, so it can be compiled with `AudioDsp.cs` by PowerShell's `Add-Type` to render previews outside the game.
+
+## Spawned stations and ships
+
+Per the user, everything the mod spawns into the system is marked so it can be cleared up if it's orphaned. `Common/Util/FzSpawns` handles this:
+
+- **Marks:** a spawn carries two persisted conditions, `IsFzSpawned` and `IsFzSpawn<Kind>`.
+- **Kinds:** sections register theirs with `FzSpawns.RegisterKind`. Each gives a unique registration prefix, an optional check for whether a spawn is still wanted, and an optional legacy condition, which the sweep moves onto the current marks.
+- **Registrations:** spawns take theirs from `FzSpawns.NewRegID(kind)`.
+- **Spawning a station:** use `StationPlacer` with a `Kind`. The game adds the orbit and ship before the starting conditions, so a spawn that throws or comes out unmarked is rolled back with `FzSpawns.RemoveRemains`.
+- **The sweep:** `FzSpawns.Sweep` removes these orphans:
+  - spawns whose kind says they aren't wanted;
+  - spawns of a kind no section registers any more;
+  - stations whose orbit has gone;
+  - unmarked ships with a kind's prefix, which failed partway;
+  - orbits with a kind's prefix but no ship.
+
+  It runs once after each load, on the first AI update, and before each save. It never removes what the player is aboard or docked to.
+- **The test kind:** `Test` (`FZT-`, legacy `IsFzTestEncounter`) covers `fz encounter` and `fz site spawn`. It's always wanted.
+- **Console:** `fz spawns` lists spawns and orphans, and `fz spawns sweep` sweeps now.
+
+## The mod's AI
+
+- Per the user, write AI in capitals in names, as in `FzAI`, `Util.AI` and `IsFzAIPilot`, never `Ai`.
+- `Common/Util/AI` is the mod's own AI, run apart from the game's `AIShipManager`, so the game never runs, saves or despawns our pilots. It can be extended to drones later.
+- **Pilots:** a pilot (`FzPilot`) is an `IAICharacter`, so the game's own commands can go in its tree beside ours. `FzThreatPilot` adds `IsHostileTo` and a threat range for `FzFindThreats`.
+- **Pilot types:** each section registers its types with `FzAI.RegisterPilot`. A ship is flown while its ShipCO has the type's persisted condition, `IsFzAIPilot<Type>`, which each section defines in its data. The alert level is `StatFzAIAlert` (0 calm, 1 alerted, 2 hostile), also persisted.
+- **Pilots are a cache:** found every 2 real seconds by a scan of `dictShips`, and cleared on `EmptyScene`.
+- **When pilots run:** `FzAI.Tick` runs from an `AIShipManager.Update` postfix, which the game only calls while unpaused, so pilots keep to game time. Each pilot sets its own `Interval` in game seconds, and a frame runs at most 16 pilots that are due. During `GUIFFWD` skips a pilot gets `FastForward` instead of `Think`.
+- **Firing:** pilots fire through `FzWeapons.Fire`. It uses `ShootShallow` on a shallow ship and `ShootAuto` on a loaded one, so rounds are used up either way. It also adds the game AI's aiming delay (arc over targeting speed) to the reload. `FzShoot` fires every gun whose real arc and range cover the target; the game's own AI shoot command uses a 5° cone, which suits ships that turn but not stations.
+- **Spent rounds:** when a flown ship loads, `FzWeapons.ClearSpentRounds` removes rounds marked spent while it was shallow.
+- **Test encounter:** `fz encounter [km] [template] [faction]` spawns a hostile `Station_COHO` (Corsair's Hollow: a railgun and two PDCs, all facing one way, with 3 to 5 rounds each). It goes in its own orbit around the body nearest the player, at the player's distance from that body. The orbit's clock (`fPeriodShift`) and direction (`nOrbitDirection`) are set so the station is at the chosen spot now and goes round the way the player is moving. The station is turned so its guns face the player. `fz encounter clear` removes test stations (FzSpawns kind `Test`), except one the player is docked to. `fz ai` lists flown ships.
+- **Station construction:** a `JsonSpawnStation` needs `nConstructionProgress = 100`, or the station spawns its construction template instead of its layout. A generated station template needs an `objSS` (an empty `JsonShipSitu` will do): `StarSystem.SpawnStation` sets `json.objSS.bIsBO` without checking, and fails partway, after adding the orbit and the ship but before the starting conditions.
+- **Docking ports:** `ItmDockSys02Closed` is 7 by 2 tiles and brings its own walls: unturned it faces north, its outer row is the port with two walls either side, and its inner row has a wall two tiles either side of a 3-tile alcove. Rotations go anticlockwise (0 north, 90 west, 180 south, 270 east), and its centre is half a tile in from the port. In templates, `vShipPos` is the top left tile, `fX = vShipPos.x + column` and `fY = vShipPos.y - row`. A template's `aDockingPorts` lists its docking items' IDs.
+- **Doors:** `ItmDoor01Closed` is 5 by 1 tiles and brings its own walls: a portal with two wall tiles either side, unturned lying east to west across a passage running north and south (rotation 90 for east to west passages), centred on its portal. It forbids anything else on its 5 tiles. So a door needs a straight 5-tile wall line across a passage 3 tiles wide inside its walls. `ItmHatch01Closed` is 1 by 1 but needs a wall tile either side of it. Per the user, generated sites are laid out for doors: spokes, pods and tunnels are 3 wide inside their walls, nothing walkable runs diagonally (a large relay's diagonal spokes are solid `Strut`s), and rooms are to be axis-aligned rectangles. `SiteGrid.PlaceDoor` checks a door fits, and `SiteShell.Check` reports doors that don't.
+- **Item sockets:** an item definition's `aSocketAdds` is `nCols` by rows, starting at its north edge unturned. `aSocketReqs` and `aSocketForbids` are padded a tile all round. Each entry names a loot entry (`TILWallAdds`, `TILFloor` and so on) whose `aCOs` are tile conditions (`IsWall`, `IsObstruction`). An item fits where each required tile has all of a tag's conditions and each forbidden tile has none. A cooverlay takes its item definition and `mapPoints` from its `strCOBase`. `mapPoints` are `name,x,y` in sixteenths of a tile from the item's centre (`CondOwner.GetPos`), so `PowerSource,0,16` is the tile north. `SiteCatalog` and `SiteTiles` simulate all of this from the game's data.
+- **Power:** installed `IsPowerGen` and `IsPowerStorage` items feed their `PowerOutput` point's tile, and power spreads through edge-adjacent tiles that are `IsPowerPath` (conduits, `ItmConduit01` on `ItmConduit00`, which needs nothing under it and allows one per tile) (`TileUtils`). A powered item draws from the sources on the tiles under its `Power*` input points (`Powered.UsePower`). A wall light's `PowerSource` is the wall tile behind it, so base stations run conduits under their walls. Stations draw on a "Power Uplink: Station" (`ItmReactorIC02IgnitionMini`).
+- **Locks and crime:** a locked door is its `Locked` form (`IsLocked`). Its PIN is `strPIN` in its "Panel A" prop map (the `LockDoor01Closed` guipropmap plus `strPIN`); without one, the panel's code is 1234. `GUILocks` lets a character with `SkillHacking` hack a powered PIN lock, and runs `HackingCrimePenalty` (crime "damage", -10 standing with the door's owner). `CrimeManager` only records an interaction's crime when the actor's ship has a `strLaw`, so per the user generated sites are spawned with no law.
+- **Standing and transponders:** per the user, standing costs at a site depend on whether the player docked with their transponder on (`SiteIdentity`, `IsFzSiteIdentified`, `SiteStandingPatch`). `Ship.IsFlyingDark` is true when the transponder antenna is off or has no code. Interactions change standing through `objThem.ApplyFactionReps(objUs, fFactionScoreChangeThem)`; for a non-person, `CondOwner.ApplyFactionReps` only applies a change if a person of its faction sees it. Weapons fire changes standing ship to ship through the ships' owners (`WeaponsSystem.ApplyFactionDamage`).
+- **Matching the player's velocity:** per the user, a spawned station matches the player ship's velocity. `StationPlacer` fits the player's orbit round the body pulling hardest on them with the game's own `BodyOrbit.CreateBOFromShip` (it returns null for an open orbit, or one it can't match to within about 0.1 m/s), from `StarSystem.GetGreatestGravBO`, then puts the station on that orbit `Km` ahead of or behind the player by shifting its clock. If the player isn't on an orbit it can follow, it falls back to a circular orbit and says so.
+- **Station positions:** a station is a body orbit (`Ship.IsStation` needs `objSS.bIsBO` and docking ports). Its position is the orbit's: with no eccentricity it starts at `fDegreesCW` when `(fEpoch + fPeriodShift) % fPeriod` is 0.
+
+## Game hooks for temporary stations (researched 2026-11-06, not yet used)
+
+For the planned corporate site missions. From the decompiled game, untested:
+
+- **Spawning:** build a `JsonSpawnStation` and call `CrewSim.system.SpawnStationFromJSON`, as `Endgame` does for its munitions depot. `strOrbitType` ORBIT, GEO, GROUND (on a body's surface, period from its rotation) or EX. It adds a `BodyOrbit` and the station ship, and applies `aFactions`, `strLaw` and `aStartingConds`.
+- **Saving:** the system saves every `BodyOrbit` (`aBOs`) and ship, and a shallow ship saves a copy of its whole `JsonShip`, items included, so a runtime station and a generated layout persist with no extra work.
+- **Removing:** `Ship.Destroy(isDespawning: false)` takes a ship out of the system, AI and loaded lists. Its orbit needs `StarSystem.RemoveBO` too.
+- **Self-destruct:** `ship.WeaponsSystem.Scuttle(min, max)` undocks every docked ship, throws shrapnel and marks the ship for removal. What happens to anyone still aboard isn't known.
+- **Generating layouts:** the game's `LayoutGenerator.GenerateLayout` builds asteroid `JsonShip`s from blueprints and merges a wreck template in with `GridUtils.CreateOffset` and `MergeShipOntoAsteroid`. A station could be assembled the same way from room templates. `SpawnShip` looks layouts up in `DataHandler.dictShips`, so a generated one has to be put there or spawned through the private `_SpawnShip`. A generated layout only needs `aItems`, `nCols`, `nRows` and `vShipPos`: rooms are rebuilt from walls and floors on load (`Ship.CreateRooms`), and a ship spawned from a template gets `bPrefill`, which fills its sealed rooms with air on its first full load. `MergeShipOntoAsteroid` keeps item IDs and compares every item with every other, so use our own merge. The base game ships unused round layouts (`LA_PORT_1`, `LA_MAINTENANCE_1`, hidden by the big ship setting) built from stepped 1x1 tile circles. The station generation design is in `Design/Missions/StationGeneration.md`.
+- **Defenders:** `AIShip.SpawnNewShip(faction, shipLoot, damage)`, then `SetFactions`, crew from `AIShip.AddCrew` and `AIShipManager.AddAIToShip(ship, AIType)` (see `ArenaModePilot.CreateAIShip` and `AIShipManager.SpawnNewBeaconResponse`). Stations themselves get a `StationPilot`, which never fights.
+- **Armed stations:** nothing stops a station shooting except its pilot. AI fire is the `Shoot` command: it takes the ship's installed undamaged weapons (`WeaponsSystem.AllWeapons`, read from the json items when the ship is shallow) and fires each one in arc and reloaded through `WeaponsSystem.ShootShallow`, so it needs no movement. An `IsShipWeaponArcAngle` of 360 fires all round. Target finding is `AreThreatsNearbyBlockade` and `InitiateAgainstBiggestThreat`, which set `shipCombatTarget`. A pilot is a `BaseCharacter` subclass with a behaviour tree of `ICommand`s, chosen by the private `AIShip.SetupAI` from the saved `AIType` enum, so a mod pilot needs a `SetupAI` patch. The run queue picks ships by `AIType` masks, so a new enum value may be skipped; keeping `AIType.Station` and swapping the pilot avoids that.
+- **How game AI sees other ships:** by ship, not by pilot. `ElectronicSystems.GetVisibleShipSignatures` lists loaded ships in sensor range but skips stations, derelicts and ships docked at stations, so game AI never targets or fights back at a station. The threat checks (`AreThreatsNearby`, `AreThreatsNearbyBlockade`) skip projectiles and, in `AreThreatsNearby`, unarmed ships, and they skip a ship with no captain whose `Classification` is `Default`, so a crewless armed drone is ignored even while it shoots. `Comms.GetCaptain` needs someone aboard. Firing through `ShootShallow` calls `AIShipManager.CheckShootingWitnesses`, which makes police and the target's faction treat the shooter as a combatant. Help calls (`AlertNearbyShips` sets `EmergencySignal`), dodging and comms reach only ships registered with `AIShipManager`. `WeaponsSystem.ShipFired` is a static event raised on every shot.
+- **Ship ammo:** rounds are items (`IsAmmoShip`, condtrig `TIsShipAmmo`) inside each weapon, and a weapon fires only what's loaded in it. A shallow ship's rounds are its json items under the weapon (`strParentID`, gathered once into `WeaponsSystem._dictAmmo`); `ShootShallow` marks the rounds it fires spent by setting their `StatDamage` to full health on the json item, so it's saved. A loaded ship fires through `ShootAuto`, which pops and destroys the round COs. The game's `Shoot` command only calls `ShootShallow`, and `_dictAmmo` is only filled while shallow, so a loaded ship (a station you're docked to) never fires through it; a mod pilot has to pick `ShootShallow` or `ShootAuto` by `LoadState`. `TIsShipAmmo` doesn't forbid damage, so whether rounds spent while shallow come back as live ammo when the ship loads is untested. Point defence (`WeaponsSystem.ActivateDefenseSystems`, every frame) fires every ship's defensive weapons at missiles, for any ship with weapons and an active sensor, AI or not, and uses ammo the same way.
+- **Corporations** are factions in `star_system.json`, several with their own security faction (Prokofiev and Prokofiev SecForce, Ayotimiwa and AyoSec, Cloudbreak and Cloudbreak Corporate Security). Reputation changes go through `JsonFaction.ApplyFactionRep`.
+- **Hacking:** the base game has `SkillHacking`, cracking software run from an unlocked PDA, and timed hack interactions (`interactions_hacking.json`, `HackRobot*`, `ENCHackPDA*`) to model a data vault on.
+
+## Checking a game update
+
+When the game updates, compiling only proves public signatures still match. Also:
+
+- Decompile the new `Assembly-CSharp.dll` with `ilspycmd -p -o <folder>`, and diff it against the last decompile to find changed files.
+- Check every name-based target still exists with the same overloads: Harmony patches given a string method name, the profiler's `ProfileTargets`, and `AccessTools` fields and methods.
+- Look for game data files the update changed (by date under `StreamingAssets/data`), and check the base names the mod uses from them.
+
+The 2026-11-06 update reworked the condition owner scheduler: `CatchUp` lost its parameter, `CrewSim.ProcessDeferredEndTurns` went, `GUIFFWD` completes pending end turns through `Scheduler`, and AI job claims moved to `WorkManager` claim jobs. It also changed `interactions.json`. The mod needed no changes for it.
 
 ## Ostranauts data modding wiki
 

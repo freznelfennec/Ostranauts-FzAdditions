@@ -1,0 +1,4 @@
+[
+  { "strName" : "StatFzSmesReactorTapChargeRate", "strNameFriendly" : "SMES Tap Charge Rate", "strColor" : "Neutral", "strDesc" : "[us]'s SMES charging rate in kW.", "nDisplaySelf" : 0, "nDisplayOther" : 0 },
+  { "strName" : "StatFzSmesReactorTapBurnRate", "strNameFriendly" : "SMES Tap Burn Rate", "strColor" : "Neutral", "strDesc" : "[us]'s extra reactor burn per kWh delivered.", "nDisplaySelf" : 0, "nDisplayOther" : 0 }
+]

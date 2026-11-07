@@ -1,0 +1,3 @@
+[
+  { "strName" : "StatFzAIAlert", "strNameFriendly" : "Alert Level", "strColor" : "Neutral", "strDesc" : "How ready [us] [is] to fight: 1 alerted, 2 hostile.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true }
+]

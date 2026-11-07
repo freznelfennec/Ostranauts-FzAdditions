@@ -18,7 +18,7 @@ namespace Freznel.FzAdditions.Patches
                 "removes everything outside the jump field contour on the current ship or station",
                 "'fz fieldremove' only reports what is outside the contour",
                 "'fz fieldremove confirm' permanently destroys it and characters fall away, objects crossing the contour break, the primary docking port is kept");
-            ConsolePatch.AddCommand("tapstatus", KeywordTapStatus, "lists everything a reactor tap needs to charge jump cells on the current ship or station");
+            ConsolePatch.AddCommand("tapstatus", KeywordTapStatus, "lists everything a SMES reactor tap needs to charge SMES units on the current ship or station");
             ConsolePatch.AddCommand("jumpcharge", KeywordJumpCharge, "plays the jump drive charge effect on the current ship's field contour, run it again while it plays to fade it out, and once more to stop it at once");
             ConsolePatch.AddCommand("jumpflash", KeywordJumpFlash, "plays the jump flash on its own, it also plays at the end of a completed jumpcharge");
         }
@@ -42,19 +42,19 @@ namespace Freznel.FzAdditions.Patches
             CondOwner reactor = ship.Reactor;
             strInput += $"\nReactor: {(reactor != null ? reactor.strName : "none")}, fusing {ReactorFuel.IsFusing(reactor)}";
 
-            List<CondOwner> taps = ship.GetCOs(DataHandler.GetCondTrigger(Constants.TapInstalledTrigger), bSubObjects: false, bAllowDocked: false, bAllowLocked: false);
-            int active = ship.GetCOs(DataHandler.GetCondTrigger(Constants.TapActiveTrigger), bSubObjects: false, bAllowDocked: false, bAllowLocked: false).Count;
+            List<CondOwner> taps = ship.GetCOs(DataHandler.GetCondTrigger(SmesConstants.TapInstalledTrigger), bSubObjects: false, bAllowDocked: false, bAllowLocked: false);
+            int active = ship.GetCOs(DataHandler.GetCondTrigger(SmesConstants.TapActiveTrigger), bSubObjects: false, bAllowDocked: false, bAllowLocked: false).Count;
             strInput += $"\nTaps: {taps.Count} installed, {active} active";
             foreach (CondOwner tap in taps)
             {
-                strInput += $"\n  {tap.strName}: powered {tap.HasCond("IsPowered")}, off {tap.HasCond("IsOff")}, override off {tap.HasCond("IsOverrideOff")}, rocker {JumpTap.IsChargeEnabled(tap)}, rate {JumpTap.GetRate(tap)}kW of {JumpTap.GetMaxRate(tap)}kW";
+                strInput += $"\n  {tap.strName}: powered {tap.HasCond("IsPowered")}, off {tap.HasCond("IsOff")}, override off {tap.HasCond("IsOverrideOff")}, rocker {SmesTap.IsChargeEnabled(tap)}, rate {SmesTap.GetRate(tap)}kW of {SmesTap.GetMaxRate(tap)}kW";
             }
 
-            List<CondOwner> cells = JumpCell.GetAllCells(ship);
-            strInput += $"\nCells: {cells.Count}";
+            List<CondOwner> cells = Smes.GetAllUnits(ship);
+            strInput += $"\nSMES units: {cells.Count}";
             foreach (CondOwner cell in cells)
             {
-                strInput += $"\n  {cell.strName}: powered {cell.HasCond("IsPowered")}, charge button {JumpCell.IsGridChargeEnabled(cell)}, missing {JumpCell.GetMissingCharge(cell)}kWh, tap charging {JumpCell.IsTapCharging(cell)}, rate {JumpCell.GetCurrentRate(cell)}kW";
+                strInput += $"\n  {cell.strName}: powered {cell.HasCond("IsPowered")}, charge button {Smes.IsGridChargeEnabled(cell)}, missing {Smes.GetMissingCharge(cell)}kWh, tap charging {Smes.IsTapCharging(cell)}, rate {Smes.GetCurrentRate(cell)}kW";
             }
             return true;
         }

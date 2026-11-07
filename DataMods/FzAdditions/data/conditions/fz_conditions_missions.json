@@ -1,0 +1,6 @@
+[
+  { "strName" : "IsFzAIPilotStationDefense", "strNameFriendly" : "Station Defence AI", "strColor" : "Neutral", "strDesc" : "[us] [is] defended by an automated gunnery system.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "IsFzSpawnTest", "strNameFriendly" : "Test Spawn", "strColor" : "Neutral", "strDesc" : "[us] [is] a test station spawned by 'fz encounter' or 'fz site spawn'.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "IsFzSiteIdentified", "strNameFriendly" : "Visitor Identified", "strColor" : "Neutral", "strDesc" : "[us] logged the transponder of a ship of the player's that docked, so what they do here costs them standing with its owner.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "IsFzTestEncounter", "strNameFriendly" : "Test Encounter", "strColor" : "Neutral", "strDesc" : "[us] [is] a test station from an older version, moved onto IsFzSpawnTest when swept.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true }
+]

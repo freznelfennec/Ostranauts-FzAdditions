@@ -415,7 +415,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
                 case JumpSequence.JumpFailure.FieldStrength: return "JUMP FAILED: AN EMITTER HAS NO FIELD STRENGTH";
                 case JumpSequence.JumpFailure.SettingTooLow: return "JUMP BLOCKED: SETTING IS BELOW THE FIELD'S NEED";
                 case JumpSequence.JumpFailure.NotCharged: return "JUMP BLOCKED: NOT ENOUGH CHARGE";
-                case JumpSequence.JumpFailure.CellsTooSmall: return "JUMP BLOCKED: CELLS CAN'T HOLD THE FIELD'S NEED";
+                case JumpSequence.JumpFailure.CellsTooSmall: return "JUMP BLOCKED: SMES CHARGE INSUFFICIENT FOR FIELD ENERGY";
                 case JumpSequence.JumpFailure.LandingBlocked: return "SERIES STOPPED: JUMP WOULD LAND INSIDE A BODY";
                 case JumpSequence.JumpFailure.NoContour: return "JUMP BLOCKED: NO FIELD CONTOUR";
                 case JumpSequence.JumpFailure.NoTarget: return "SERIES BLOCKED: NO TARGET TO PLOT";
@@ -551,7 +551,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             double energy = TargetEnergy;
             if (!target.CanPlot) ShowError("NO TARGET TO PLOT");
             else if (energy < minSetting) ShowError("TARGET OUT OF REACH");
-            else if (energy > MaxSetting) ShowError(seriesMode ? $"TARGET NEEDS MORE THAN {Constants.MaxSeriesJumps} JUMPS" : "TARGET NEEDS MORE THAN THE CELLS HOLD");
+            else if (energy > MaxSetting) ShowError(seriesMode ? $"TARGET NEEDS MORE THAN {Constants.MaxSeriesJumps} JUMPS" : "TARGET NEEDS MORE THAN THE SMES HOLD");
             else
             {
                 SetSetting((float)energy);
@@ -768,9 +768,9 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         private void ReadData()
         {
             Ship ship = COSelf.ship;
-            List<CondOwner> installed = JumpCell.GetAllCells(ship);
-            List<CondOwner> cells = installed.Where(JumpCell.IsOn).ToList();
-            List<CondOwner> taps = JumpTap.GetActiveTaps(ship);
+            List<CondOwner> installed = Smes.GetAllUnits(ship);
+            List<CondOwner> cells = installed.Where(Smes.IsOn).ToList();
+            List<CondOwner> taps = SmesTap.GetActiveTaps(ship);
 
             //Each of these would otherwise scan the dock group for itself
             List<CondOwner> installedEmitters = FieldContour.GetInstalledEmitters(ship);
@@ -778,20 +778,20 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
 
             cellCount = installed.Count;
             poweredCells = cells.Count;
-            available = JumpCell.GetTotalCharge(cells);
-            capacity = cells.Sum(JumpCell.GetCapacity);
-            chargeRate = cells.Sum(JumpCell.GetCurrentRate);
-            chargeTime = cells.Count > 0 ? cells.Max(JumpCell.GetChargeTime) : -1.0;
+            available = Smes.GetTotalCharge(cells);
+            capacity = cells.Sum(Smes.GetCapacity);
+            chargeRate = cells.Sum(Smes.GetCurrentRate);
+            chargeTime = cells.Count > 0 ? cells.Max(Smes.GetChargeTime) : -1.0;
             activeTaps = taps.Count;
             minSetting = FieldContour.GetTotalFieldEnergy(emitters);
             emitterStatus = FieldContour.GetEmitterStatus(installedEmitters);
             averageStrength = JumpDrive.GetAverageStrength(FieldContour.GetEmitters(emitters));
             uncertainty = JumpDrive.GetUncertainty(emitters);
             speed = JumpDrive.GetSpeed(ship);
-            fullMargin = JumpCell.GetFullMargin(cells);
-            fillRate = JumpCell.GetFillRate(ship, cells, taps);
-            burnPerKWh = ReactorFuel.IsFusing(ship?.Reactor) ? JumpTap.GetShipBurnRate(taps) : 0.0;
-            chargeWait = JumpCell.GetTimeUntilCharged(cells, setting - fullMargin);
+            fullMargin = Smes.GetFullMargin(cells);
+            fillRate = Smes.GetFillRate(ship, cells, taps);
+            burnPerKWh = ReactorFuel.IsFusing(ship?.Reactor) ? SmesTap.GetShipBurnRate(taps) : 0.0;
+            chargeWait = Smes.GetTimeUntilCharged(cells, setting - fullMargin);
             seriesEnergy = JumpSequence.GetSeriesEnergy(ship);
             seriesState = JumpSequence.GetSeriesState(ship, cells, out seriesWait);
             ReadTarget(ship);
@@ -914,7 +914,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             return new[]
             {
                 Title(EnergyKey),
-                $"CELLS POWERED: {poweredCells}/{cellCount}",
+                $"SMES POWERED: {poweredCells}/{cellCount}",
                 $"AVAILABLE: {FzNumeric.FormatEnergy((float)available)}",
                 $"CHARGE: {FormatPercent(available, capacity)}",
                 $"RATE: {FzNumeric.FormatPower((float)chargeRate)}",
@@ -1091,7 +1091,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
                     case JumpSequence.SeriesState.NoThrust: return "SERIES: STALLED, NO THRUST TO CORRECT";
                     case JumpSequence.SeriesState.Recharging:
                         if (seriesWait >= 0.0) return $"SERIES: NEXT JUMP IN {FzNumeric.FormatDuration((float)Math.Ceiling(seriesWait))}";
-                        if (capacity <= minSetting) return "SERIES: STALLED, CELLS TOO SMALL";
+                        if (capacity <= minSetting) return "SERIES: STALLED, SMES TOO SMALL";
                         return fillRate > 0.0 ? "SERIES: STALLED" : "SERIES: STALLED, NO CHARGE SOURCE";
                     default: return calcTarget != null ? "SERIES: IDLE, FOLLOWING TARGET" : "SERIES: IDLE";
                 }

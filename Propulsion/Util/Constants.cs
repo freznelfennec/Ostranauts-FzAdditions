@@ -16,28 +16,6 @@ namespace Freznel.FzAdditions.Util
         public const string EmitterGUIPropMap = "FzJumpFieldEmitterGUI";
         public const string FieldOffsetProp = "fOffset";
         public const string FieldReinforcementProp = "fReinforcement";
-        public const string CellCond = "IsFzJumpEnergyCell";
-        public const string CellGUIPropMap = "FzJumpEnergyCellGUI";
-        public const string CellChargeCond = "StatFzJumpCharge";
-        public const string CellChargeMaxCond = "StatFzJumpChargeMax";
-        public const string CellChargeRateCond = "StatFzJumpChargeRate";
-        public const string CellGridChargeProp = "bGridCharge";
-        public const string CellCO = "ItmFzJumpEnergyCell"; //The installed, working cell, the only one whose look follows its state
-        public const string CellLookOff = "ItmFzJumpEnergyCellOff"; //COOverlays giving the cell's look, the levels go on the end
-        public const string CellLookIdle = "ItmFzJumpEnergyCellIdle";
-        public const string CellLookGrid = "ItmFzJumpEnergyCellGrid";
-        public const string CellLookFast = "ItmFzJumpEnergyCellFast";
-        public const string CellLookDischarge = "ItmFzJumpEnergyCellDischarge";
-        public const string CellGlowSuffix = "lit"; //A look's emissive layer is its image with this on the end
-        public const int CellLevels = 6; //Pips in each of the cell's columns
-        public const int CellHalfLevels = 12; //Idle and discharging count in half pips, a part charged pip shows unlit and a full one lit
-        public const float CellFlashRate = 2f; //Flashes a real second of a discharging cell's part charged pip
-        public const string TapCond = "IsFzJumpReactorTap";
-        public const string TapInstalledTrigger = "TIsFzJumpReactorTapPresent";
-        public const string TapActiveTrigger = "TIsFzJumpReactorTapActive";
-        public const string TapOrCellTrigger = "TIsFzJumpReactorTapActiveOrCell";
-        public const string TapChargeRateCond = "StatFzReactorTapChargeRate";
-        public const string TapBurnRateCond = "StatFzReactorTapBurnRate";
         public const string SeriesEnergyCond = "StatFzJumpSeriesEnergy";
         public const string JumpFailureCond = "StatFzJumpFailure";
         public const string SeriesFinishedCond = "IsFzJumpSeriesFinished";
@@ -63,14 +41,7 @@ namespace Freznel.FzAdditions.Util
         public const string JumpChargingCond = "StatFzJumpCharging"; //The energy of a single jump charging, so a load starts it again
         public const string JumpDrainedCond = "StatFzJumpDrained"; //kWh the jump charging has taken from the cells so far, a load doesn't take it twice
         public const string NavComFollowProp = "strFzJumpFollow"; //The target a series setting follows after CALC
-        public const string TapGUIPropMap = "FzJumpReactorTapGUI";
-        public const string TapChargeProp = "bTapCharge";
-        public const string TapRateProp = "fTapRate";
-        public const string CellInstalledTrigger = "TIsFzJumpEnergyCellFitted";
         public const float MinFieldOffset = 0f;
-
-        //Used if a cell has no StatFzJumpChargeRate, in kW
-        public const double DefaultCellChargeRate = 200.0;
 
         //Game seconds of jump time for each kWh past the field's need
         public const double JumpSecondsPerKWh = 5.0;
@@ -135,12 +106,6 @@ namespace Freznel.FzAdditions.Util
         public const double JumpBufferPlanet = 300000000.0;
 
         public const double MetersPerAU = 149597870700.0;
-
-        //Used if a tap has no StatFzReactorTapChargeRate, in kW
-        public const double DefaultTapChargeRate = 100000.0;
-
-        //Used if a tap has no StatFzReactorTapBurnRate, in reactor burn units per kWh
-        public const double DefaultTapBurnRate = 0.002;
 
         //Multipliers at full reinforcement, a setting of 1
         public const float ReinforcementLengthBoost = 2f;

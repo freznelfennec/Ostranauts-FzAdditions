@@ -114,11 +114,65 @@ namespace Freznel.FzAdditions.UI.Controls
         public void OnPointerExit(PointerEventData eventData) => Release();
 
         //A panel closing mid-hold must not leave it running
-        private void OnDisable() => Release();
+        private void OnDisable()
+        {
+            if (keyHeld)
+            {
+                keyHeld = false;
+                ShowPressed(false);
+            }
+            Release();
+        }
+
+        //Pressing it from a keybind: it goes down as if clicked, with the pressed sprite and the key's sounds, and stays
+        //down until KeyUp. The sounds come from its GUIAudioBtn's pointer handlers, as a click's do.
+        private bool keyHeld;
+
+        public void KeyDown()
+        {
+            if (Held || !isActiveAndEnabled) return;
+            keyHeld = true;
+            GetComponent<GUIAudioBtn>()?.OnPointerDown(KeyEvent());
+            ShowPressed(true);
+            Held = true;
+            downTime = Time.unscaledTime;
+            Pressed?.Invoke();
+        }
+
+        public void KeyUp()
+        {
+            if (!keyHeld) return;
+            keyHeld = false;
+            GetComponent<GUIAudioBtn>()?.OnPointerUp(KeyEvent());
+            ShowPressed(false);
+            Release();
+        }
+
+        private static PointerEventData KeyEvent() => new PointerEventData(EventSystem.current) { button = PointerEventData.InputButton.Left };
+
+        //The Button's sprite swap shows its pressed sprite through the image's override, so a key press does the same,
+        //and puts it back when let go
+        private void ShowPressed(bool pressed)
+        {
+            Image image = GetComponent<Image>();
+            Button button = GetComponent<Button>();
+            if (image != null) image.overrideSprite = pressed && button != null ? button.spriteState.pressedSprite : null;
+        }
+
+        //The Button can redo its sprite swap when the pointer moves over it, so a key hold keeps the pressed sprite
+        private void LateUpdate()
+        {
+            if (keyHeld) ShowPressed(true);
+        }
 
         private void Release()
         {
             if (!Held) return;
+            if (keyHeld)
+            {
+                //The pointer leaving the key doesn't end a key hold
+                return;
+            }
             Held = false;
             Released?.Invoke();
         }

@@ -1,0 +1,253 @@
+[
+  {
+    "strName" : "ItmFzSmesReactorTap01Off",
+    "strNameShort" : "SMES Tap",
+    "strNameFriendly" : "Basic SMES Reactor Tap (Off)",
+    "strItemDef" : "ItmFzSmesReactorTap01Off",
+    "strDesc" : "A fusion reactor module that draws power straight from the reactor's plasma, to charge the ship's SMES units far faster than the grid can. Every kWh it delivers burns extra reactor fuel.\n\nSold only to licensed operators. Its manual is short, and most of it is a non-disclosure agreement.",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+      "FzSmesReactorTapGUI"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsOff=1.0x1",
+      "IsFusionCoreModule=1.0x1",
+      "IsFzSmesReactorTap=1.0x1",
+      "StatFzSmesReactorTapChargeRate=1.0x100000",
+      "StatFzSmesReactorTapBurnRate=1.0x0.002",
+      "IsPowerInputIgnore=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x5520.00",
+      "StatDismantleProgressMax=1.0x150",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatMass=1.0x28.0",
+      "StatDamageMax=1.0x6",
+      "IsTechnology=1.0x1",
+      "IsCategoryFusionParts=1.0x1",
+      "IsSignalable=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapPoints"      : [
+      "Power,0,-16",
+      "ReactorPlug,0,-16"
+    ],
+    "mapGUIPropMaps"  : [
+      "FzSmesReactorTapGUI",
+      "FzSmesReactorTapGUI",
+      "Electrical"
+    ],
+    "strPortraitImg"  : "ItmFusionLaserArray01",
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzSmesReactorTap01Damage,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "aTickers" : [ 
+      "Power"
+    ],
+    "jsonPI"            : "FzSmesReactorTap01",
+    "strAudioEmitter"   : null
+  },
+  {
+    "strName" : "ItmFzSmesReactorTap01Loose",
+    "strNameShort" : "SMES Tap",
+    "strNameFriendly" : "Basic SMES Reactor Tap (Loose)",
+    "strItemDef" : "ItmFzSmesReactorTap01Loose",
+    "strDesc" : "A fusion reactor module that draws power straight from the reactor's plasma, to charge the ship's SMES units far faster than the grid can. Every kWh it delivers burns extra reactor fuel.\n\nSold only to licensed operators. Its manual is short, and most of it is a non-disclosure agreement.",
+    "strType"    : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsOff=1.0x1",
+      "IsFusionCoreModule=1.0x1",
+      "IsFzSmesReactorTap=1.0x1",
+      "StatFzSmesReactorTapChargeRate=1.0x100000",
+      "StatFzSmesReactorTapBurnRate=1.0x0.002",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x5520.00",
+      "StatDismantleProgressMax=1.0x150",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatMass=1.0x28.0",
+      "StatDamageMax=1.0x6",
+      "IsTechnology=1.0x1",
+      "IsCategoryFusionParts=1.0x1"
+    ],
+    "mapPoints"      : [
+    ],
+    "mapGUIPropMaps"  : [
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzSmesReactorTap01LooseDamage,StatDamageMax,1.0"
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "strPortraitImg"  : "ItmFusionLaserArray01Loose"
+  },
+  {
+    "strName" : "ItmFzSmesReactorTap01",
+    "strNameShort" : "SMES Tap",
+    "strNameFriendly" : "Basic SMES Reactor Tap",
+    "strItemDef" : "ItmFzSmesReactorTap01",
+    "strDesc" : "A fusion reactor module that draws power straight from the reactor's plasma, to charge the ship's SMES units far faster than the grid can. Every kWh it delivers burns extra reactor fuel.\n\nSold only to licensed operators. Its manual is short, and most of it is a non-disclosure agreement.",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+      "FzSmesReactorTapGUI"
+    ],
+    "aStartingConds" : [
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsFusionCoreModule=1.0x1",
+      "IsFzSmesReactorTap=1.0x1",
+      "StatFzSmesReactorTapChargeRate=1.0x100000",
+      "StatFzSmesReactorTapBurnRate=1.0x0.002",
+      "IsPowerInputIgnore=1.0x1",
+      "IsReadyHeat=1.0x1",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x5520.00",
+      "StatDismantleProgressMax=1.0x150",
+      "StatHeatArea=1.0x0.5",
+      "StatHeatVol=1.0x1.0",
+      "StatSolidTemp=1.0x400.0",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatMass=1.0x28.0",
+      "IsPowered=1.0x1",
+      "StatDamageMax=1.0x6",
+      "IsTechnology=1.0x1",
+      "IsCategoryFusionParts=1.0x1",
+      "IsSignalable=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapPoints"      : [
+      "Power,0,-16",
+      "ReactorPlug,0,-16"
+    ],
+    "mapGUIPropMaps"  : [
+      "FzSmesReactorTapGUI",
+      "FzSmesReactorTapGUI",
+      "Panel A",
+      "FusionModuleGeneric",
+      "Electrical"
+    ],
+    "strPortraitImg"  : "ItmFusionLaserArray01",
+    "aTickers" : [ 
+      "Power"
+    ],
+    "aUpdateCommands" : [
+      "Heater,TIsAirtightNoHuman",
+      "Destructable,StatDamage,ACTFzSmesReactorTap01Damage,StatDamageMax,1.0",
+      "Electrical,Electrical"
+    ],
+    "jsonPI"            : "FzSmesReactorTap01",
+    "strAudioEmitter"   : null
+  },
+  {
+    "strName" : "ItmFzSmesReactorTap01Dmg",
+    "strNameShort" : "SMES Tap",
+    "strNameFriendly" : "Basic SMES Reactor Tap (Damaged)",
+    "strItemDef" : "ItmFzSmesReactorTap01Dmg",
+    "strDesc" : "A fusion reactor module that draws power straight from the reactor's plasma, to charge the ship's SMES units far faster than the grid can. Every kWh it delivers burns extra reactor fuel.\n\nSold only to licensed operators. Its manual is short, and most of it is a non-disclosure agreement.",
+    "strType"    : "Item",
+    "strLoot"    : null,
+    "aInteractions" : [
+    ],
+    "aStartingConds" : [
+      "IsDamaged=1.0x1",
+      "IsHiddenInv=1.0x1",
+      "IsInstalled=1.0x1",
+      "IsNonHighlightable=1.0x1",
+      "IsOff=1.0x1",
+      "IsFusionCoreModule=1.0x1",
+      "IsFzSmesReactorTap=1.0x1",
+      "StatFzSmesReactorTapChargeRate=1.0x100000",
+      "StatFzSmesReactorTapBurnRate=1.0x0.002",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "StatBasePrice=1.0x1112.00",
+      "StatDismantleProgressMax=1.0x50",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatRepairProgressMax=1.0x3000",
+      "StatMass=1.0x28.0",
+      "StatDamageMax=1.0x19",
+      "IsTechnology=1.0x1",
+      "IsCategoryFusionParts=1.0x1"
+    ],
+    "mapCondTolerance"       : [
+    ],
+    "mapPoints"      : [
+      "ReactorPlug,0,-16"
+    ],
+    "mapGUIPropMaps"  : [
+    ],
+    "strPortraitImg"  : "ItmFusionLaserArray01Dmg02",
+    "aTickers" : [ 
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzSmesReactorTap01Destroy,StatDamageMax,1.0"
+    ],
+    "strAudioEmitter"   : null
+  },
+  {
+    "strName" : "ItmFzSmesReactorTap01DmgLoose",
+    "strNameShort" : "SMES Tap",
+    "strNameFriendly" : "Basic SMES Reactor Tap (Loose, Damaged)",
+    "strItemDef" : "ItmFzSmesReactorTap01DmgLoose",
+    "strDesc" : "A fusion reactor module that draws power straight from the reactor's plasma, to charge the ship's SMES units far faster than the grid can. Every kWh it delivers burns extra reactor fuel.\n\nSold only to licensed operators. Its manual is short, and most of it is a non-disclosure agreement.",
+    "strType"    : "Item",
+    "aInteractions" : [
+      "DropItem",
+      "PickupItem"
+    ],
+    "aStartingConds" : [
+      "IsDamaged=1.0x1",
+      "IsOff=1.0x1",
+      "IsFusionCoreModule=1.0x1",
+      "IsFzSmesReactorTap=1.0x1",
+      "StatFzSmesReactorTapChargeRate=1.0x100000",
+      "StatFzSmesReactorTapBurnRate=1.0x0.002",
+      "IsSalvageValueHigh=1.0x1.0",
+      "IsShipSpecialItem=1.0x1.0",
+      "IsSolid=1.0x1.0",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x1112.00",
+      "StatDismantleProgressMax=1.0x50",
+      "StatInstallProgressMax=1.0x1000",
+      "StatUninstallProgressMax=1.0x1000",
+      "StatRepairProgressMax=1.0x3000",
+      "StatMass=1.0x28.0",
+      "StatDamageMax=1.0x19",
+      "IsTechnology=1.0x1",
+      "IsCategoryFusionParts=1.0x1"
+    ],
+    "mapPoints"      : [
+    ],
+    "mapGUIPropMaps"  : [
+    ],
+    "mapSlotEffects" : [
+      "drag", "Blank"
+    ],
+    "aUpdateCommands" : [
+      "Destructable,StatDamage,ACTFzSmesReactorTap01LooseDestroy,StatDamageMax,1.0"
+    ],
+    "strPortraitImg"  : "ItmFusionLaserArray01Dmg02Loose"
+  }
+]

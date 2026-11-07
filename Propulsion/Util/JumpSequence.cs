@@ -72,7 +72,7 @@ namespace Freznel.FzAdditions.Util
             if (!IsSeriesRunning(ship)) ship.ShipCO.SetCondAmount(Constants.JumpChargingCond, energy);
             drainEnergy = energy;
             drainProgress = 0f;
-            drainCells = JumpCell.GetCells(ship);
+            drainCells = Smes.GetUnits(ship);
             return true;
         }
 
@@ -91,7 +91,7 @@ namespace Freznel.FzAdditions.Util
             drainProgress = progress;
 
             //A cell switched off or replaced since the jump started has no part in it
-            drainCells.RemoveAll(cell => cell == null || !JumpCell.IsOn(cell));
+            drainCells.RemoveAll(cell => cell == null || !Smes.IsOn(cell));
             if (owed > 0.0) ship.ShipCO.AddCondAmount(Constants.JumpDrainedCond, SpendEnergy(drainCells, owed * share));
         }
 
@@ -145,7 +145,7 @@ namespace Freznel.FzAdditions.Util
         {
             JumpFailure failure = GetReadyFailure(ship, energy);
             if (failure != JumpFailure.None) return failure;
-            return HasCharge(JumpCell.GetCells(ship), GetOwed(ship, energy)) ? JumpFailure.None : JumpFailure.NotCharged;
+            return HasCharge(Smes.GetUnits(ship), GetOwed(ship, energy)) ? JumpFailure.None : JumpFailure.NotCharged;
         }
 
         //Why a series of this energy can't begin, it doesn't need to be charged yet
@@ -153,7 +153,7 @@ namespace Freznel.FzAdditions.Util
         {
             JumpFailure failure = GetReadyFailure(ship, energy);
             if (failure != JumpFailure.None) return failure;
-            return JumpCell.GetCells(ship).Sum(JumpCell.GetCapacity) > FieldContour.GetTotalFieldEnergy(ship) ? JumpFailure.None : JumpFailure.CellsTooSmall;
+            return Smes.GetUnits(ship).Sum(Smes.GetCapacity) > FieldContour.GetTotalFieldEnergy(ship) ? JumpFailure.None : JumpFailure.CellsTooSmall;
         }
 
         //A series with a target steers to it and has the ship's thrust to itself. One without runs along its velocity.
@@ -213,11 +213,11 @@ namespace Freznel.FzAdditions.Util
         private static List<string> GetStraightSeriesWarnings(Ship ship, double energy)
         {
             List<string> warnings = GetRemovalWarnings(ship);
-            List<CondOwner> cells = JumpCell.GetCells(ship);
+            List<CondOwner> cells = Smes.GetUnits(ship);
             double need = FieldContour.GetTotalFieldEnergy(ship);
-            double capacity = cells.Sum(JumpCell.GetCapacity);
-            double held = JumpCell.GetTotalCharge(cells);
-            double fillRate = JumpCell.GetFillRate(ship, cells, JumpTap.GetActiveTaps(ship));
+            double capacity = cells.Sum(Smes.GetCapacity);
+            double held = Smes.GetTotalCharge(cells);
+            double fillRate = Smes.GetFillRate(ship, cells, SmesTap.GetActiveTaps(ship));
             double strength = JumpDrive.GetAverageStrength(ship);
             GetDirection(ship, out double directionX, out double directionY, out double speed);
             JumpDrive.JumpSeries series = JumpDrive.GetSeries(energy, need, capacity, speed, strength);
@@ -245,7 +245,7 @@ namespace Freznel.FzAdditions.Util
         public static SeriesPlan PlanSeries(Ship ship, double energy, JumpDrive.AimTarget aim, bool torch)
         {
             ShipSitu situ = ship.objSS;
-            List<CondOwner> cells = JumpCell.GetCells(ship);
+            List<CondOwner> cells = Smes.GetUnits(ship);
             JumpDrive.JumpTarget target = JumpDrive.GetTarget(ship, aim, torch, series: true);
 
             return SeriesPlan.Build(new SeriesPlan.Input
@@ -262,10 +262,10 @@ namespace Freznel.FzAdditions.Util
                 StopDistance = target.StopDistance,
                 Energy = energy,
                 Need = FieldContour.GetTotalFieldEnergy(ship),
-                Capacity = cells.Sum(JumpCell.GetCapacity),
-                Held = JumpCell.GetTotalCharge(cells),
-                FullMargin = JumpCell.GetFullMargin(cells),
-                FillRate = JumpCell.GetFillRate(ship, cells, JumpTap.GetActiveTaps(ship)),
+                Capacity = cells.Sum(Smes.GetCapacity),
+                Held = Smes.GetTotalCharge(cells),
+                FullMargin = Smes.GetFullMargin(cells),
+                FillRate = Smes.GetFillRate(ship, cells, SmesTap.GetActiveTaps(ship)),
                 Strength = JumpDrive.GetAverageStrength(ship),
                 RcsAcceleration = JumpDrive.GetRcsAcceleration(ship),
                 RcsDeltaV = JumpDrive.GetRcsAcceleration(ship) > 0.0 ? ship.DeltaVRemainingRCS : 0.0,
@@ -318,7 +318,7 @@ namespace Freznel.FzAdditions.Util
         //An installed cell or emitter, in whatever state
         public static bool IsDrivePart(CondOwner co)
         {
-            return co != null && co.HasCond("IsInstalled") && (co.HasCond(Constants.CellCond) || co.HasCond(Constants.EmitterCond));
+            return co != null && co.HasCond("IsInstalled") && (co.HasCond(SmesConstants.UnitCond) || co.HasCond(Constants.EmitterCond));
         }
 
         public static bool IsWorkingDrivePart(CondOwner co)
@@ -359,13 +359,13 @@ namespace Freznel.FzAdditions.Util
             if (JumpCorrection.IsWaiting(ship)) return SeriesState.NoThrust;
             if (IsThrusting(ship.objSS)) return SeriesState.Thrusting;
 
-            wait = GetChargeWait(cells, Math.Min(GetSeriesEnergy(ship), cells.Sum(JumpCell.GetCapacity)));
+            wait = GetChargeWait(cells, Math.Min(GetSeriesEnergy(ship), cells.Sum(Smes.GetCapacity)));
             return SeriesState.Recharging;
         }
 
         private static double GetChargeWait(List<CondOwner> cells, double energy)
         {
-            return JumpCell.GetTimeUntilCharged(cells, energy - JumpCell.GetFullMargin(cells));
+            return Smes.GetTimeUntilCharged(cells, energy - Smes.GetFullMargin(cells));
         }
 
         //Energy is the total for the whole series in kWh. Station is the nav station it is started from, which keeps
@@ -406,8 +406,8 @@ namespace Freznel.FzAdditions.Util
                 return false;
             }
 
-            cells = JumpCell.GetCells(ship);
-            double capacity = cells.Sum(JumpCell.GetCapacity);
+            cells = Smes.GetUnits(ship);
+            double capacity = cells.Sum(Smes.GetCapacity);
             energy = Math.Min(seriesEnergy, capacity);
             return capacity > need;
         }
@@ -503,12 +503,12 @@ namespace Freznel.FzAdditions.Util
             if (ship == null || ship.strRegID != pendingSkipShip) return;
 
             pendingSkipShip = null;
-            List<CondOwner> cells = JumpCell.GetAllCells(ship);
+            List<CondOwner> cells = Smes.GetAllUnits(ship);
             foreach (CondOwner cell in cells)
             {
-                if (cell.Pwr != null) JumpCell.SetTimeSinceUpdate(cell.Pwr, 0.0);
+                if (cell.Pwr != null) Smes.SetTimeSinceUpdate(cell.Pwr, 0.0);
             }
-            FzAdditions.Logger.LogInfo($"{SkipLog} {ship.strRegID} skip finished, cells hold {JumpCell.GetTotalCharge(cells):0.0} of {cells.Sum(JumpCell.GetCapacity):0.0} kWh");
+            FzAdditions.Logger.LogInfo($"{SkipLog} {ship.strRegID} skip finished, SMES units hold {Smes.GetTotalCharge(cells):0.0} of {cells.Sum(Smes.GetCapacity):0.0} kWh");
         }
 
         //Plays out a running series over a super fast forward, which would otherwise apply its seconds to the ship all
@@ -652,7 +652,7 @@ namespace Freznel.FzAdditions.Util
             if (left > 0.0)
             {
                 if (outOfFuel) advance(left);
-                else Pass(left, JumpCell.GetCells(ship));
+                else Pass(left, Smes.GetUnits(ship));
             }
             LogRecharge(ship, jumps + 1, phaseSeconds, phaseCharge, phaseBurn);
             totalBurn.Add(phaseBurn);
@@ -702,10 +702,10 @@ namespace Freznel.FzAdditions.Util
                 return;
             }
 
-            List<CondOwner> cells = JumpCell.GetCells(ship);
+            List<CondOwner> cells = Smes.GetUnits(ship);
             double need = FieldContour.GetTotalFieldEnergy(ship);
-            double capacity = cells.Sum(JumpCell.GetCapacity);
-            double energy = JumpDrive.GetSeriesEnergy(target, need, capacity, target.RelativeSpeed, JumpDrive.GetAverageStrength(ship), JumpCell.GetTotalCharge(cells), JumpCell.GetFillRate(ship, cells, JumpTap.GetActiveTaps(ship)));
+            double capacity = cells.Sum(Smes.GetCapacity);
+            double energy = JumpDrive.GetSeriesEnergy(target, need, capacity, target.RelativeSpeed, JumpDrive.GetAverageStrength(ship), Smes.GetTotalCharge(cells), Smes.GetFillRate(ship, cells, SmesTap.GetActiveTaps(ship)));
 
             //Out of reach from here, what is left carries on as it was
             if (energy >= need) left = Math.Min(energy, capacity * Constants.MaxSeriesJumps);
@@ -730,14 +730,14 @@ namespace Freznel.FzAdditions.Util
         //Seconds of recharge for each cell, as if that long had passed since each last ran. Returns the kWh gained.
         private static double RechargeCells(List<CondOwner> cells, double seconds)
         {
-            double held = JumpCell.GetTotalCharge(cells);
+            double held = Smes.GetTotalCharge(cells);
             foreach (CondOwner cell in cells)
             {
                 if (cell.Pwr == null) continue;
-                JumpCell.SetTimeSinceUpdate(cell.Pwr, seconds);
-                JumpCell.Recharge(cell.Pwr, seconds);
+                Smes.SetTimeSinceUpdate(cell.Pwr, seconds);
+                Smes.Recharge(cell.Pwr, seconds);
             }
-            return JumpCell.GetTotalCharge(cells) - held;
+            return Smes.GetTotalCharge(cells) - held;
         }
 
         private static void LogRecharge(Ship ship, int jump, double seconds, double charge, ReactorFuel.BurnReceipt burn)
@@ -786,7 +786,7 @@ namespace Freznel.FzAdditions.Util
 
             //A series can wait for charge, anything else stops it
             bool inSeries = IsSeriesRunning(ship);
-            if (!HasCharge(JumpCell.GetCells(ship), GetOwed(ship, energy)))
+            if (!HasCharge(Smes.GetUnits(ship), GetOwed(ship, energy)))
             {
                 if (inSeries) ClearDrain(ship);
                 else FailJump(ship, JumpFailure.NotCharged);
@@ -874,7 +874,7 @@ namespace Freznel.FzAdditions.Util
 
         private static bool HasCharge(List<CondOwner> cells, double energy)
         {
-            return energy <= JumpCell.GetTotalCharge(cells) + JumpCell.GetFullMargin(cells);
+            return energy <= Smes.GetTotalCharge(cells) + Smes.GetFullMargin(cells);
         }
 
         //Gravity doesn't count, a ship is always falling towards something
@@ -950,19 +950,19 @@ namespace Freznel.FzAdditions.Util
 
         private static double SpendEnergy(Ship ship, double energy)
         {
-            return SpendEnergy(JumpCell.GetCells(ship), energy);
+            return SpendEnergy(Smes.GetUnits(ship), energy);
         }
 
         //Each cell gives up the same share of its charge. Returns the kWh taken, short of energy if the cells are.
         private static double SpendEnergy(List<CondOwner> cells, double energy)
         {
-            double available = JumpCell.GetTotalCharge(cells);
+            double available = Smes.GetTotalCharge(cells);
             if (available <= 0.0 || energy <= 0.0) return 0.0;
 
             double share = Math.Min(energy / available, 1.0);
             foreach (CondOwner cell in cells)
             {
-                cell.AddCondAmount(Constants.CellChargeCond, -JumpCell.GetCharge(cell) * share);
+                cell.AddCondAmount(SmesConstants.ChargeCond, -Smes.GetCharge(cell) * share);
             }
             return available * share;
         }

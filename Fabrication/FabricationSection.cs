@@ -17,6 +17,7 @@ namespace Freznel.FzAdditions
             UI.CustomPrefabs.CustomPrefabRegistry.Register(UI.CustomPrefabs.FzFabricatorGUI.PrefabName, UI.CustomPrefabs.FzFabricatorGUI.CreatePrefab);
             FabConsoleCommands.Register();
             UI.FzAreaProjector.Init();
+            UI.FzMachineSound.Prepare(); //Rendered now so the first machine heard doesn't hitch the game
         }
     }
 }

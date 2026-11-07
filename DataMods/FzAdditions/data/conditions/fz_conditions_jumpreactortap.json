@@ -1,4 +1,0 @@
-[
-  { "strName" : "StatFzReactorTapChargeRate", "strNameFriendly" : "Reactor Tap Charge Rate", "strColor" : "Neutral", "strDesc" : "[us]'s jump cell charging rate in kW.", "nDisplaySelf" : 0, "nDisplayOther" : 0 },
-  { "strName" : "StatFzReactorTapBurnRate", "strNameFriendly" : "Reactor Tap Burn Rate", "strColor" : "Neutral", "strDesc" : "[us]'s extra reactor burn per kWh delivered.", "nDisplaySelf" : 0, "nDisplayOther" : 0 }
-]

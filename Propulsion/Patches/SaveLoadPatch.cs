@@ -25,27 +25,10 @@ namespace Freznel.FzAdditions.Patches
                 JumpCorrection.Reset();
                 SeriesTarget.Reset();
                 MatchTarget.Reset();
-                JumpCell.Reset();
-                JumpTap.Reset();
-                ReactorFuel.Reset();
             }
             catch (Exception ex)
             {
                 FzAdditions.Logger.LogError("Jump drive reset failed: " + ex);
-            }
-        }
-
-        [HarmonyPatch(typeof(LoadManager), "SaveGameData")]
-        [HarmonyPrefix()]
-        public static void SaveGameData_Prefix()
-        {
-            try
-            {
-                ReactorFuel.PayAllPending();
-            }
-            catch (Exception ex)
-            {
-                FzAdditions.Logger.LogError("Jump drive save failed: " + ex);
             }
         }
     }

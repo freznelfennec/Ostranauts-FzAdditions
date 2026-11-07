@@ -1,0 +1,10 @@
+[
+  { "strName" : "TIsFzSmesReactorTapUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmesReactorTap" ], "aForbids" : [ "IsInstalled", "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSmesReactorTapUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmesReactorTap", "IsDamaged" ], "aForbids" : [ "IsInstalled" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSmesReactorTapInstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmesReactorTap", "IsInstalled" ], "aForbids" : [ "IsOff" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSmesReactorTapInstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmesReactorTap", "IsInstalled", "IsDamaged" ], "aForbids" : [ ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSmesReactorTapInstalledOff", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmesReactorTap", "IsInstalled", "IsOff" ], "aForbids" : [  ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSmesReactorTapPresent", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmesReactorTap", "IsInstalled" ], "aForbids" : [ "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSmesReactorTapActive", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmesReactorTap", "IsInstalled", "IsPowered" ], "aForbids" : [ "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSmesReactorTapActiveOrSmes", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ ], "aForbids" : [ ], "aTriggers" : [ "TIsFzSmesReactorTapActive", "TIsFzSmesFitted" ], "bAND" : false }
+]

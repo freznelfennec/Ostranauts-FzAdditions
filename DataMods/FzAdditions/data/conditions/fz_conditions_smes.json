@@ -1,0 +1,5 @@
+[
+  { "strName" : "StatFzSmesCharge", "strNameFriendly" : "SMES Charge", "strColor" : "Neutral", "strDesc" : "[us]'s stored charge in kWh.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzSmesChargeMax", "strNameFriendly" : "SMES Capacity", "strColor" : "Neutral", "strDesc" : "[us]'s maximum charge in kWh.", "nDisplaySelf" : 0, "nDisplayOther" : 0 },
+  { "strName" : "StatFzSmesChargeRate", "strNameFriendly" : "SMES Charge Rate", "strColor" : "Neutral", "strDesc" : "[us]'s maximum grid charging rate in kW.", "nDisplaySelf" : 0, "nDisplayOther" : 0 }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "strName" : "ACTFzSmes01Damage",
+    "aCOs"    : [
+      "MSFzSmes01Damage=1.0x1"
+    ],
+    "aLoots"  : [
+    ],
+    "strType" : "interaction"
+  },
+  {
+    "strName" : "ACTFzSmes01Destroy",
+    "aCOs"    : [
+      "MSFzSmes01Destroy=1.0x1"
+    ],
+    "aLoots"  : [
+    ],
+    "strType" : "interaction"
+  },
+  {
+    "strName" : "ACTFzSmes01LooseDamage",
+    "aCOs"    : [
+      "MSFzSmes01LooseDamage=1.0x1"
+    ],
+    "aLoots"  : [
+    ],
+    "strType" : "interaction"
+  },
+  {
+    "strName" : "ACTFzSmes01LooseDestroy",
+    "aCOs"    : [
+      "MSFzSmes01LooseDestroy=1.0x1"
+    ],
+    "aLoots"  : [
+    ],
+    "strType" : "interaction"
+  },
+  { "strName" : "ItmFzSmes01", "aCOs"    : [ "ItmFzSmes01=1.0x1" ], "aLoots"  : [ ], "strType" : "item" },
+  { "strName" : "ItmFzSmes01Dmg", "aCOs"    : [ "ItmFzSmes01Dmg=1.0x1" ], "aLoots"  : [ ], "strType" : "item" },
+  { "strName" : "ItmFzSmes01Loose", "aCOs"    : [ "ItmFzSmes01Loose=1.0x1" ], "aLoots"  : [ ], "strType" : "item" },
+  { "strName" : "ItmFzSmes01DmgLoose", "aCOs"    : [ "ItmFzSmes01DmgLoose=1.0x1" ], "aLoots"  : [ ], "strType" : "item" }
+]

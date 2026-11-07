@@ -49,11 +49,13 @@ namespace Freznel.FzAdditions.UI
             public FzAreaProjection.Look Look;
             public bool Working;
             public FzRecycleBeams Beams;
+            public FzMachineSound Sound;
 
             public void Destroy()
             {
                 if (Projection != null) UnityEngine.Object.Destroy(Projection.gameObject);
                 if (Beams != null) UnityEngine.Object.Destroy(Beams.gameObject);
+                if (Sound != null) UnityEngine.Object.Destroy(Sound.gameObject);
             }
         }
 
@@ -105,6 +107,23 @@ namespace Freznel.FzAdditions.UI
             area.Beams.Show(machine, item, share, working, building: true, grow: placed != null, materials: recipe.mapMaterials);
         }
 
+        //Heard from the machine: a hum while it's on and waiting or blocked, its working loop while it runs. Its run's
+        //item and progress let the sound hear an item finish.
+        private static void PlaySound(Area area, bool alive)
+        {
+            CondOwner machine = area.Machine;
+            if (!alive)
+            {
+                area.Sound?.Follow(null, FzMachineSound.State.Off, null, 0.0);
+                return;
+            }
+            if (area.Sound == null) area.Sound = FzMachineSound.Create(machine);
+
+            FzMachineSound.State state = !area.Show ? FzMachineSound.State.Off : area.Working ? FzMachineSound.State.Working : FzMachineSound.State.Idle;
+            CondOwner run = Fabricator.IsFabricator(machine) ? Fabricator.Building(machine) : Recycler.CurrentItem(machine);
+            area.Sound.Follow(machine.tf, state, run?.strID, WorkArea.Progress(machine));
+        }
+
         private readonly Dictionary<string, Area> areas = new Dictionary<string, Area>();
         private float nextScan;
 
@@ -123,6 +142,7 @@ namespace Freznel.FzAdditions.UI
                 bool preview = machine == Previewing;
                 bool alive = machine != null && !machine.bDestroyed && machine.tf != null;
                 if (alive) ShowBeams(area); else area.Beams?.Hide();
+                PlaySound(area, alive);
                 bool show = (area.Show || preview) && alive;
                 area.Projection.SetVisible(show);
                 if (!show) continue;

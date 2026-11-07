@@ -1,7 +1,0 @@
-[
-  { "strName" : "TIsFzJumpEnergyCellInstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzJumpEnergyCell", "IsInstalled" ], "aForbids" : [ "IsDamaged", "IsTypeB", "IsTypeC" ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzJumpEnergyCellInstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzJumpEnergyCell", "IsInstalled", "IsDamaged" ], "aForbids" : [ "IsTypeB", "IsTypeC" ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzJumpEnergyCellUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzJumpEnergyCell" ], "aForbids" : [ "IsInstalled", "IsDamaged", "IsTypeB", "IsTypeC" ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzJumpEnergyCellUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzJumpEnergyCell", "IsDamaged" ], "aForbids" : [ "IsInstalled", "IsTypeB", "IsTypeC" ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzJumpEnergyCellFitted", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzJumpEnergyCell", "IsInstalled" ], "aForbids" : [ ], "aTriggers" : [ ], "bAND" : true }
-]

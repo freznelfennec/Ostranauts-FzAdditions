@@ -1,0 +1,14 @@
+[
+  {
+    "strName" : "FzSmes01",
+    "aInputPts"      : [
+      "PowerSource"
+    ],
+    "fAmount": 1.0e-5,
+    "strIntPowerOn": "",
+    "strIntPowerOff": "",
+    "strUsePowerCT": "TIsFzSmesInstalled",
+    "strRechargeCT": null,
+    "bAllowExtPower" :  true
+  }
+]

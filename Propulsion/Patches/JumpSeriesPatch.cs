@@ -82,7 +82,7 @@ namespace Freznel.FzAdditions.Patches
             if (coNew == null) return;
 
             bool lost = JumpSequence.IsDrivePart(__instance) && !JumpSequence.IsWorkingDrivePart(coNew);
-            bool cellInstalled = JumpCell.IsCell(coNew) && coNew.HasCond("IsInstalled") && !__instance.HasCond("IsInstalled");
+            bool cellInstalled = Smes.IsUnit(coNew) && coNew.HasCond("IsInstalled") && !__instance.HasCond("IsInstalled");
             if (lost || cellInstalled) JumpSequence.CancelForDriveChange(__instance.ship);
         }
 
