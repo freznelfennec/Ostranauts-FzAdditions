@@ -34,6 +34,7 @@ namespace Freznel.FzAdditions
             TweaksSection.Init();
             FabricationSection.Init();
             MissionsSection.Init();
+            ReactorSection.Init();
 
             Logger.LogInfo("Attaching last chance exception handler");
             AppDomain.CurrentDomain.UnhandledException += (sender, e) =>

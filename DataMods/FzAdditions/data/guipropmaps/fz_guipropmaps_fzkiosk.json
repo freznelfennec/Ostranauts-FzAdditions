@@ -1,0 +1,14 @@
+[
+  {
+    "strName" : "FzTraderFaureZhangKiosk",
+    "dictGUIPropMap" : [
+      "strLoot", "FzLootFaureZhangKioskInv",
+      "strRestockCond", "IsReadyRestock",
+      "strTicker", "RestockSupplyKiosk",
+      "strLootBuyDiscount", "CONDTraderDiscountBuyKiosk",
+      "strLootSellDiscount", "CONDTraderDiscountSellKiosk",
+      "strLootCTsBuy", "FzTraderCTsBuyFaureZhangKiosk",
+      "strLootCTsSell", "FzTraderCTsSellFaureZhangKiosk"
+    ]
+  }
+]

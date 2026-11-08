@@ -16,50 +16,29 @@ namespace Freznel.FzAdditions.Patches
         public static void AllPostLoadAsync_Postfix()
         {
             FzAdditions.Logger.LogMessage("Starting data patch");
-            FzAdditions.Logger.LogMessage($"{DataHandler.dictCOs.Count}");
 
-            if (!DataHandler.dictCOs.TryGetValue("ItmAirPump02Off", out JsonCondOwner TruboPumpInstalledOff))
-                FzAdditions.Logger.LogError("Could not find condowner ItmAirPump02Off");
+            //Jump drives aren't sold anywhere: like the rest of Faure-Zhang's secret tech, they only come from its
+            //data vaults.
 
-            if (!DataHandler.dictCOs.TryGetValue("ItmAirPump02OnG", out JsonCondOwner TruboPumpInstalledOn))
-                FzAdditions.Logger.LogError("Could not find condowner ItmAirPump02OnG");
-
-            if (DataHandler.dictInteractions.TryGetValue("FzTestGUI", out JsonInteraction testGuiInteraction))
-            {
-                if (TruboPumpInstalledOff != null) TruboPumpInstalledOff.aInteractions = TruboPumpInstalledOff.aInteractions.Append(testGuiInteraction.strName).ToArray();
-                if (TruboPumpInstalledOn != null) TruboPumpInstalledOn.aInteractions = TruboPumpInstalledOn.aInteractions.Append(testGuiInteraction.strName).ToArray();
-            }
-            else
-            {
-                FzAdditions.Logger.LogError("Could not find interaction FzTestGUI");
-            }
-
-            if (DataHandler.dictGUIPropMapUnparsed.TryGetValue("FzTestGUI", out JsonGUIPropMap map))
-            {
-                string[] appMap = { "FzTestGUI", "FzTestGUI" };
-                if (TruboPumpInstalledOff != null) TruboPumpInstalledOff.mapGUIPropMaps = (appMap).Concat(TruboPumpInstalledOff.mapGUIPropMaps).ToArray();
-                if (TruboPumpInstalledOn != null) TruboPumpInstalledOn.mapGUIPropMaps = (appMap).Concat(TruboPumpInstalledOn.mapGUIPropMaps).ToArray();
-            }
-            else
-            {
-                FzAdditions.Logger.LogError("Could not find guipropmap FzTestGUI");
-            }
-
-            //Sundries Kiosk Patch
-            var kioskInv = DataHandler.GetLoot("ItmOKLGFurnishingsKioskInv");
-            if (kioskInv != null)
-            {
-                //kioskInv.aLoots = kioskInv.aLoots.Append("ItmFurnitureInvFzComputer=1.0x1-5").ToArray();
-                kioskInv.aLoots = kioskInv.aLoots.Append("ItmFzJumpFieldEmitterLoose=1.0x1-5").ToArray();
-            }
-            else
-            {
-                FzAdditions.Logger.LogError("Could not find loot ItmOKLGFurnishingsKioskInv");
-            }
-
-
+            //The Signal Traces navmod is sold at OKLG's supply kiosk, so players find it rather than knowing its
+            //blueprint. The base navmods are sold there by the station's fixer.
+            AddToLoot("ItmOKLGSupplyKioskInv", "ItmFzSignalTraces=0.6x1");
 
             FzAdditions.Logger.LogMessage("Data patch complete");
+        }
+
+        //Adds an entry to a base game loot table in place, so other mods' changes to it stay
+        private static void AddToLoot(string table, string entry)
+        {
+            Loot loot = DataHandler.GetLoot(table);
+            if (loot == null || loot.strName != table)
+            {
+                FzAdditions.Logger.LogError("Could not find loot " + table);
+                return;
+            }
+            string name = entry.Split('=')[0];
+            if (loot.aLoots.Any(e => e.Split('=')[0] == name)) return;
+            loot.aLoots = loot.aLoots.Append(entry).ToArray();
         }
 
     }

@@ -42,7 +42,7 @@ Mined ore and ice take their amount from the usual mass curve, about 6 units per
 | Silicates | Silicates |
 | Platinum, iridium, palladium, gold | Precious Metals |
 | Cobalt, wolfram | Metal Alloys |
-| Hydrates, water ice, methane ice, volatiles canister | Volatiles |
+| Hydrates, water ice, methane ice, volatiles canister | Volatiles. Water ice by mass (2,470), methane ice five times that for its rarity (12,350) |
 | Void opal | Exotics |
 | Regolith | Mostly Helium Fines and Silicates, with a little Base Metals and Rare Earths. The only source of Helium Fines |
 | Ore cargo | Mixed: Base Metals, Silicates, Rare Earths and Precious Metals |

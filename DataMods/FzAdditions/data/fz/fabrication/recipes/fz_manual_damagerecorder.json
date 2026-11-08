@@ -1,0 +1,27 @@
+[
+  {
+    "strName": "ItmFzDamageRecorder01",
+    "strNameFriendly": "Combat Damage Recorder",
+    "strCategory": "Electronics.Control",
+    "aCOs": [ "ItmFzDamageRecorder01Loose", "ItmFzDamageRecorder01", "ItmFzDamageRecorder01Off" ],
+    "strCOFabricate": "ItmFzDamageRecorder01Loose",
+    "mapMaterials": { "BaseMetals": 14, "PreciousMetals": 4, "RareEarths": 3, "Polymers": 6, "Silicates": 10 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzDamageRecorder01",
+    "nReverseEngineer": 3,
+    "strTier": "Ordinary"
+  },
+  {
+    "strName": "ItmFzDamageRecorder01Dmg",
+    "strNameFriendly": "Combat Damage Recorder",
+    "strCategory": "Electronics.Control",
+    "aCOs": [ "ItmFzDamageRecorder01DmgLoose", "ItmFzDamageRecorder01Dmg" ],
+    "mapMaterials": { "BaseMetals": 7, "PreciousMetals": 2, "RareEarths": 1, "Polymers": 3, "Silicates": 5 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Ordinary"
+  }
+]

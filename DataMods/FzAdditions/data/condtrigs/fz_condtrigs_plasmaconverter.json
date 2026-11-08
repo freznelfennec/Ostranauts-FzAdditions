@@ -1,0 +1,3 @@
+[
+  { "strName" : "TIsFitContainerFzPlasmaConverter", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzPlasmaConverter" ], "aForbids" : [ ], "aTriggers" : [ "TIsFitContainerSolid" ], "bAND" : true }
+]

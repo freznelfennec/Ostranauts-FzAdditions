@@ -1,0 +1,3 @@
+[
+  { "strName" : "TIsFzFaureZhangKioskWare", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzFabricator", "IsFzRecycler", "IsFzDamageRecorder", "IsFzBeamFormer", "IsFzSilo", "IsFzBreederBlanket" ], "aForbids" : [ "IsDamaged", "IsInstalled", "IsFzTier2", "IsFzTier3" ], "aTriggers" : [ ], "bAND" : false }
+]

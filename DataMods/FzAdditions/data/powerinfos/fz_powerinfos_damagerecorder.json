@@ -1,0 +1,13 @@
+[
+  {
+    "strName" : "FzDamageRecorder01",
+    "aInputPts" : [ "PowerA", "PowerB", "PowerC", "PowerD" ],
+    "fAmount" : 0.000028,
+    "strIntPowerOn" : "MSFzDamageRecorder01OnAllow",
+    "strIntPowerOff" : "MSFzDamageRecorder01OffAllow",
+    "strShutDownCT" : "TIsConnctedSignalledOff",
+    "strUsePowerCT" : "TIsReadyUsePower",
+    "strRechargeCT" : null,
+    "bAllowExtPower" : true
+  }
+]

@@ -1,8 +1,8 @@
 [
   { "strName" : "TIsFzSiloSmallInstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSiloSmall", "IsInstalled" ], "aForbids" : [ "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
   { "strName" : "TIsFzSiloSmallInstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSiloSmall", "IsInstalled", "IsDamaged" ], "aForbids" : [ ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzSiloSmallUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSiloSmall" ], "aForbids" : [ "IsInstalled", "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzSiloSmallUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSiloSmall", "IsDamaged" ], "aForbids" : [ "IsInstalled" ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzSiloSmallUninstalledDmgNotInContainer", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSiloSmall", "IsDamaged" ], "aForbids" : [ "IsInstalled", "IsInContainer" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSiloSmallUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSiloSmall" ], "aForbids" : [ "IsFzTier2", "IsFzTier3", "IsInstalled", "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSiloSmallUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSiloSmall", "IsDamaged" ], "aForbids" : [ "IsFzTier2", "IsFzTier3", "IsInstalled" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSiloSmallUninstalledDmgNotInContainer", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSiloSmall", "IsDamaged" ], "aForbids" : [ "IsFzTier2", "IsFzTier3", "IsInstalled", "IsInContainer" ], "aTriggers" : [ ], "bAND" : true },
   { "strName" : "TIsFzSiloWorking", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSilo", "IsInstalled" ], "aForbids" : [ "IsDamaged" ], "aTriggers" : [ ], "bAND" : true }
 ]

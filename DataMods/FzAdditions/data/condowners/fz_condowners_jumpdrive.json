@@ -2,7 +2,7 @@
   {
     "strName" : "ItmFzJumpFieldEmitterOff",
     "strNameShort" : "Jump Drive Field Emitter",
-    "strNameFriendly" : "Jump Drive Field Emitter (Off)",
+    "strNameFriendly" : "Jump Drive Field Emitter (Basic, Off)",
     "strItemDef" : "ItmFzJumpFieldEmitterOff",
     "strDesc" : "A field emitter for a jump drive. Generates the field that surrounds a ship during a jump.",
     "strType"    : "Item",
@@ -62,7 +62,7 @@
     "strName" : "ItmFzJumpFieldEmitterLoose",
     "strNameShort" : "Jump Drive Field Emitter",
     "strItemDef" : "ItmFzJumpFieldEmitterLoose",
-    "strNameFriendly" : "Jump Drive Field Emitter (Loose)",
+    "strNameFriendly" : "Jump Drive Field Emitter (Basic, Loose)",
     "strDesc" : "A field emitter for a jump drive. Generates the field that surrounds a ship during a jump.",
     "strType"    : "Item",
     "aInteractions" : [
@@ -109,7 +109,7 @@
   {
     "strName" : "ItmFzJumpFieldEmitter",
     "strNameShort" : "Jump Drive Field Emitter",
-    "strNameFriendly" : "Jump Drive Field Emitter",
+    "strNameFriendly" : "Jump Drive Field Emitter (Basic)",
     "strItemDef" : "ItmFzJumpFieldEmitter",
     "strDesc" : "A field emitter for a jump drive. Generates the field that surrounds a ship during a jump.",
     "strType"    : "Item",
@@ -170,7 +170,7 @@
   {
     "strName" : "ItmFzJumpFieldEmitterDmg",
     "strNameShort" : "Jump Drive Field Emitter",
-    "strNameFriendly" : "Jump Drive Field Emitter (Damaged)",
+    "strNameFriendly" : "Jump Drive Field Emitter (Basic, Damaged)",
     "strDesc" : "A field emitter for a jump drive. Generates the field that surrounds a ship during a jump.",
     "strItemDef" : "ItmFzJumpFieldEmitterDmg",
     "strType"    : "Item",
@@ -230,7 +230,7 @@
     "strName" : "ItmFzJumpFieldEmitterDmgLoose",
     "strNameShort" : "Jump Drive Field Emitter",
     "strItemDef" : "ItmFzJumpFieldEmitterDmgLoose",
-    "strNameFriendly" : "Jump Drive Field Emitter (Loose, Damaged)",
+    "strNameFriendly" : "Jump Drive Field Emitter (Basic, Loose, Damaged)",
     "strDesc" : "A field emitter for a jump drive. Generates the field that surrounds a ship during a jump.",
     "strType"    : "Item",
     "aInteractions" : [

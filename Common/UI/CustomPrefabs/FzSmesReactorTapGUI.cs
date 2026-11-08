@@ -32,9 +32,10 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
 
             GameObject powerPanel = Controls.Panel.CreatePanel("PowerPanel", 0.305f, 1f, 0.695f, 0f, root);
             Controls.Panel.AddTitle(powerPanel, "POWER", 0.12f);
-            FzLamp.Create(powerPanel, "PwrLamp", 0.8f, 0.12f, 0.1f, 0.73f, LampColor.Green, "POWER", stretch: true);
-            FzLamp.Create(powerPanel, "FusingLamp", 0.8f, 0.12f, 0.1f, 0.59f, LampColor.Green, "FUSING", stretch: true);
-            FzLamp.Create(powerPanel, "ChargingLamp", 0.8f, 0.12f, 0.1f, 0.45f, LampColor.Blue, "CHARGING", stretch: true);
+            FzLamp.Create(powerPanel, "PwrLamp", 0.8f, 0.1f, 0.1f, 0.765f, LampColor.Green, "POWER", stretch: true);
+            FzLamp.Create(powerPanel, "FusingLamp", 0.8f, 0.1f, 0.1f, 0.65f, LampColor.Green, "FUSING", stretch: true);
+            FzLamp.Create(powerPanel, "ConverterLamp", 0.8f, 0.1f, 0.1f, 0.535f, LampColor.Green, "CONVERTER", stretch: true);
+            FzLamp.Create(powerPanel, "ChargingLamp", 0.8f, 0.1f, 0.1f, 0.42f, LampColor.Blue, "CHARGING", stretch: true);
             FzRocker.Create(powerPanel, "ChargeRocker", 0.33f, 0.28f, 0.335f, 0.05f, topLabel: "CHARGE", showIO: true);
 
             return root;
@@ -43,6 +44,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
         private FzLamp pwrLamp;
         private FzLamp fusingLamp;
         private FzLamp chargingLamp;
+        private FzLamp converterLamp; //A plasma converter with life left, which the tap needs to charge
         private FzNumeric unitsDisplay;
         private FzNumeric chargeDisplay;
         private FzNumeric capacityDisplay;
@@ -57,6 +59,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             pwrLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "PwrLamp");
             fusingLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "FusingLamp");
             chargingLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "ChargingLamp");
+            converterLamp = UnityUtil.FindDescendant<FzLamp>(gameObject.transform, "ConverterLamp");
 
             FzRocker chargeRocker = UnityUtil.FindDescendant<FzRocker>(gameObject.transform, "ChargeRocker");
             chargeRocker.SetOnWithoutNotify(SmesTap.IsChargeEnabled(COSelf));
@@ -94,6 +97,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             pwrLamp.On = COSelf.HasCond("IsPowered");
             fusingLamp.On = ReactorFuel.IsFusing(COSelf.ship?.Reactor);
             chargingLamp.On = SmesTap.IsCharging(COSelf);
+            converterLamp.On = PlasmaConverter.IsWorking(COSelf);
         }
 
         private void UpdateDisplays()

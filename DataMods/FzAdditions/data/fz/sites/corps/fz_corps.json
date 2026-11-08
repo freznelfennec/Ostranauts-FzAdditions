@@ -189,8 +189,12 @@
       "FzSmes01", "FzSmes02", "FzSmes03",
       "FzSmesReactorTap01", "FzSmesReactorTap02", "FzSmesReactorTap03",
       "FzJumpFieldEmitter01", "FzJumpFieldEmitter02", "FzJumpFieldEmitter03", "FzJumpNavCom",
-      "FzRecycler02", "FzRecycler03", "FzFabricator02", "FzFabricator03"
+      "FzRecycler02", "FzRecycler03", "FzFabricator02", "FzFabricator03",
+      "FzSiloSmall02", "FzSiloSmall03",
+      "FzPlasmaConverter01", "FzPlasmaConverter02", "FzPlasmaConverter03",
+      "FzBreederBlanket02"
     ],
+    "aRareBlueprints": [ { "strBlueprint": "FzBreederBlanket03", "fChance": 0.05 } ],
     "aBlueprintCategories": [ "Fabrication", "FaureZhang" ],
     "mapStyles": { "Relay": "FzStyleFaureZhangRelay", "BlackSite": "FzStyleFaureZhangBlackSite" },
     "aFixtures": [

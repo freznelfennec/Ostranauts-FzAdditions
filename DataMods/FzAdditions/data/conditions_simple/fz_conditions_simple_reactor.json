@@ -1,0 +1,9 @@
+[
+  {
+    "strName": "Fz Reactor Simple Conditions",
+    "aValues": [
+      "IsFzBreederBlanket","Breeder Blanket","[us] [is] a reactor breeder blanket.","2","2","Neutral","false",
+      "IsFzBreederBlanketSpent","Spent Breeder Blanket","[us] [is] a spent reactor breeder blanket.","2","2","Neutral","false"
+    ]
+  }
+]

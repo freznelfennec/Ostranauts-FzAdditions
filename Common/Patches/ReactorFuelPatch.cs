@@ -16,12 +16,56 @@ namespace Freznel.FzAdditions.Patches
         private static readonly AccessTools.FieldRef<GUIReactor, GUI7Seg> SegDRate = AccessTools.FieldRefAccess<GUIReactor, GUI7Seg>("segDRate");
         private static readonly AccessTools.FieldRef<GUIReactor, GUI7Seg> SegHe3Rate = AccessTools.FieldRefAccess<GUIReactor, GUI7Seg>("segHe3Rate");
 
+        //What a watched reactor holds before its fusion update, so the update's whole burn can be measured
+        public struct Held
+        {
+            public bool Measured;
+            public double A;
+            public double B;
+        }
+
+        [HarmonyPatch(typeof(FusionIC), "Fusion")]
+        [HarmonyPrefix()]
+        public static void Fusion_Prefix(FusionIC __instance, out Held __state)
+        {
+            __state = new Held();
+            CondOwner reactor = __instance.COSelf;
+            if (!ReactorFuel.IsWatched(reactor)) return;
+            ReactorFuel.GetHeld(reactor, out __state.A, out __state.B);
+            __state.Measured = true;
+        }
+
         //Only runs while fusing, after the reactor has taken its own burn
         [HarmonyPatch(typeof(FusionIC), "Fusion")]
         [HarmonyPostfix()]
-        public static void Fusion_Postfix(FusionIC __instance, double fDeltaTime)
+        public static void Fusion_Postfix(FusionIC __instance, double fDeltaTime, Held __state)
         {
             ReactorFuel.PayBurn(__instance, fDeltaTime);
+            if (!__state.Measured) return;
+            try
+            {
+                ReactorFuel.GetHeld(__instance.COSelf, out double leftA, out double leftB);
+                ReactorFuel.ReportBurn(__instance.COSelf, Math.Max(0.0, __state.A - leftA), Math.Max(0.0, __state.B - leftB), fDeltaTime);
+            }
+            catch (Exception ex)
+            {
+                FzAdditions.Logger.LogError("Reporting a reactor's burn failed: " + ex);
+            }
+        }
+
+        //Every reactor update, fusing or not
+        [HarmonyPatch(typeof(FusionIC), "Run")]
+        [HarmonyPostfix()]
+        public static void Run_Postfix(FusionIC __instance, double fDeltaTime)
+        {
+            try
+            {
+                ReactorFuel.ReportRun(__instance.COSelf, fDeltaTime);
+            }
+            catch (Exception ex)
+            {
+                FzAdditions.Logger.LogError("Reporting a reactor's update failed: " + ex);
+            }
         }
 
         [HarmonyPatch(typeof(GUIReactor), "UpdateUI")]

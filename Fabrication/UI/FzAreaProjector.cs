@@ -173,7 +173,7 @@ namespace Freznel.FzAdditions.UI
                 area.Working = area.Show && machine.HasCond(fabricator ? Fabricator.FabricatingCond : Recycler.RecyclingCond);
                 //A fabricator is only blocked while it's trying to build
                 bool blocked = area.Show && (fabricator
-                    ? (Fabricator.IsFabricateOn(machine) || Fabricator.IsAuto(machine)) && !area.Working && Fabricator.Blocked(machine) != null
+                    ? Fabricator.IsTrying(machine) && !area.Working && Fabricator.Blocked(machine) != null
                     : Recycler.Blocked(machine) != null);
                 area.Look = !area.Show ? FzAreaProjection.Look.Idle : blocked ? FzAreaProjection.Look.Blocked : area.Working ? FzAreaProjection.Look.Working : FzAreaProjection.Look.Idle;
             }

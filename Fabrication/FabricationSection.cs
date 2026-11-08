@@ -15,6 +15,7 @@ namespace Freznel.FzAdditions
             UI.CustomPrefabs.CustomPrefabRegistry.Register(UI.CustomPrefabs.FzSiloGUI.PrefabName, UI.CustomPrefabs.FzSiloGUI.CreatePrefab);
             UI.CustomPrefabs.CustomPrefabRegistry.Register(UI.CustomPrefabs.FzRecyclerGUI.PrefabName, UI.CustomPrefabs.FzRecyclerGUI.CreatePrefab);
             UI.CustomPrefabs.CustomPrefabRegistry.Register(UI.CustomPrefabs.FzFabricatorGUI.PrefabName, UI.CustomPrefabs.FzFabricatorGUI.CreatePrefab);
+            UI.CustomPrefabs.CustomPrefabRegistry.Register(UI.CustomPrefabs.FzDamageRecorderGUI.PrefabName, UI.CustomPrefabs.FzDamageRecorderGUI.CreatePrefab);
             FabConsoleCommands.Register();
             UI.FzAreaProjector.Init();
             UI.FzMachineSound.Prepare(); //Rendered now so the first machine heard doesn't hitch the game

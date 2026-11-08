@@ -58,6 +58,7 @@ namespace Freznel.FzAdditions.Patches
             Blueprints.Reset();
             UI.FzAreaProjector.Clear();
             FabricatorProcess.Clear();
+            DamageRecorder.Clear();
         }
 
         //The save's custom infos are global state outside any ship, written as the game saves

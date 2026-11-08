@@ -15,7 +15,6 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
 
         static CustomPrefabRegistry()
         {
-            Factories.Add("FzTestGUI", FzTestGUI.CreatePrefab);
             Factories.Add("FzSmesGUI", FzSmesGUI.CreatePrefab);
             Factories.Add("FzSmesReactorTapGUI", FzSmesReactorTapGUI.CreatePrefab);
         }

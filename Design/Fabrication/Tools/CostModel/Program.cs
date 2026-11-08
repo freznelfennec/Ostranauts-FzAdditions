@@ -59,6 +59,10 @@ var ores = new Dictionary<string, double[]>
 var oresByMass = new HashSet<string> { "ItmIce01" };
 const double UnitMassKg = 0.01;
 
+// Ores costed as a multiple of another ore's recipe: methane ice, five times water ice, as it's about a fifth as
+// common (0.2 a mined ice wall against 1.0). Deposits weigh these on the curve too, like the ores costed by mass.
+var oreMultiples = new Dictionary<string, (string of, int times)> { ["ItmIce02"] = ("ItmIce01", 5) };
+
 // Deposits and placed regolith hold the ore their mining tables give (loot_mining.json), here as the expected count
 // of each. A deposit's makeup is that mix, its amount the usual mass curve, so the salvaging laser can cut one down.
 (string ore, double count)[] stony = { ("ItmMineral02", .3), ("ItmMineral01", .2), ("ItmMineral04", .2), ("ItmMineral08", .02), ("ItmMineral09", .03), ("ItmMineral05", .01), ("ItmMineral06", .01), ("ItmMineral07", .01), ("ItmMineral10", .02), ("ItmMineralStone01", .2) }; // ItmRandomMineralSClass
@@ -280,6 +284,11 @@ int[] Cost(string name)
             mats = und != null ? und.Select(x => (int)Math.Floor(x * 0.6)).ToArray() : Allocate(profiles.GetValueOrDefault(Category(r), profiles["Misc"]), Units(D(r["mass"])) * 0.6);
             b = "60% of undamaged";
         }
+        else if (oreMultiples.TryGetValue(name, out var multiple))
+        {
+            mats = Cost(multiple.of).Select(x => x * multiple.times).ToArray();
+            b = $"ore, {multiple.times}x {multiple.of}";
+        }
         else if (ores.TryGetValue(name, out var ore))
         {
             bool byMass = oresByMass.Contains(name);
@@ -292,7 +301,7 @@ int[] Cost(string name)
             foreach (var (oreName, count) in mix)
             {
                 //Each ore weighed on the curve, whatever its own recipe uses, so ice costed by mass doesn't swamp the mix
-                var oc = oresByMass.Contains(oreName) && ores.TryGetValue(oreName, out var oreMix) && by.TryGetValue(oreName, out var oreRow)
+                var oc = (oresByMass.Contains(oreName) || oreMultiples.ContainsKey(oreName)) && ores.TryGetValue(oreName, out var oreMix) && by.TryGetValue(oreName, out var oreRow)
                     ? Allocate(oreMix, Units(D(oreRow["mass"]))) : Cost(oreName);
                 for (int i = 0; i < w.Length; i++) w[i] += count * oc[i];
             }
@@ -455,8 +464,10 @@ void WriteData(string recipesDir, string materialsPath)
 
     // A material's unit price: low among the prices per unit of the items mostly made of it, at the 10th percentile.
     // Selling recycled material for more than an item's own price per unit would make buying and recycling it pay,
-    // and the low end lines up with the game's own scrap prices, such as scrap steel at 3.6.
-    var priced = outRows.Where(o => !o.Damaged && D(by[o.StatsFrom]["price"]) > 0 && o.Cost.Sum() > 0).ToList();
+    // and the low end lines up with the game's own scrap prices, such as scrap steel at 3.6. Ores costed as a multiple
+    // of another are left out: their yield is set for their rarity, not their price, and methane ice's would price
+    // Volatiles at nothing.
+    var priced = outRows.Where(o => !o.Damaged && !oreMultiples.ContainsKey(o.StatsFrom) && D(by[o.StatsFrom]["price"]) > 0 && o.Cost.Sum() > 0).ToList();
     var unitPrice = new double[Mats.Length];
     for (int i = 0; i < Mats.Length; i++)
     {
@@ -474,14 +485,17 @@ void WriteData(string recipesDir, string materialsPath)
     string[] colors = { "#9AA0A6", "#4A6FA5", "#D4AF37", "#6FBF73", "#3FB8AF", "#E8E2D6", "#8B5A2B", "#C2B280", "#7FD4FF", "#B39DDB", "#FF4FD8" };
     if (colors.Length != Mats.Length) throw new InvalidOperationException("every material needs a colour");
     // Game seconds a unit takes to recycle and to fabricate. Common, simple stock goes quickest, refined alloys and
-    // rare stock slower, and Exotics far slower. Fabricating takes longer than breaking down.
-    double[] recycleTimes = { 1, 2, 4, 4.5, 1.5, 1.5, 0.8, 1.2, 1, 6, 30 };
-    double[] fabricateTimes = { 1.5, 3, 6, 7, 2, 2.5, 1.2, 1.8, 1.5, 9, 60 };
+    // rare stock slower, and Exotics far slower. Fabricating takes longer than breaking down. Volatiles are quick both
+    // ways, as items hold them by the thousand (an ice chunk is 2,470, a breeder blanket up to 60,000).
+    double[] recycleTimes = { 1, 2, 4, 4.5, 1.5, 1.5, 0.8, 1.2, 0.05, 6, 30 };
+    double[] fabricateTimes = { 1.5, 3, 6, 7, 2, 2.5, 1.2, 1.8, 0.05, 9, 60 };
+    // Beam former life a unit uses, recycled or fabricated. Volatiles barely wear it, for the same reason.
+    double[] wearMultipliers = { 1, 1, 1, 1, 1, 1, 1, 1, 0.05, 1, 1 };
     // The power drawn while working each material, in kW. The harder a material is to separate or form, the more it
     // draws, so complex items draw more as well as taking longer. Fabricating draws half again as much.
     double[] recycleKw = { 3, 5, 8, 10, 3, 6, 2, 4, 3, 12, 40 };
     const double FabricateKwScale = 1.5;
-    if (recycleTimes.Length != Mats.Length || fabricateTimes.Length != Mats.Length || recycleKw.Length != Mats.Length)
+    if (recycleTimes.Length != Mats.Length || fabricateTimes.Length != Mats.Length || recycleKw.Length != Mats.Length || wearMultipliers.Length != Mats.Length)
         throw new InvalidOperationException("every material needs its times and power");
     // kWh a unit takes: its power over its time, then 25 times that, as the plain figure was too slight to matter
     const double EnergyScale = 25.0;
@@ -499,6 +513,7 @@ void WriteData(string recipesDir, string materialsPath)
         mjson.Append($"    \"fFabricateTime\": {fabricateTimes[i].ToString("0.##", inv)},\r\n");
         mjson.Append($"    \"fRecycleEnergy\": {Energy(recycleKw[i], recycleTimes[i]).ToString("0.######", inv)},\r\n");
         mjson.Append($"    \"fFabricateEnergy\": {Energy(recycleKw[i] * FabricateKwScale, fabricateTimes[i]).ToString("0.######", inv)},\r\n");
+        mjson.Append($"    \"fWearMultiplier\": {wearMultipliers[i].ToString("0.##", inv)},\r\n");
         mjson.Append($"    \"strBlockCO\": {J(i == Exotic ? "ItmFzExoticCanister" : "ItmFzCompacted" + ids[i])},\r\n");
         mjson.Append($"    \"strSiloCond\": {J("IsFzSilo" + ids[i])}\r\n");
         mjson.Append(i < Mats.Length - 1 ? "  },\r\n" : "  }\r\n");

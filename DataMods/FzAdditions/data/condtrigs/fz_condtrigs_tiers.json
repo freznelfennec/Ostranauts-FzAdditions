@@ -1,0 +1,428 @@
+[
+    {
+        "strName":  "TIsFzRecycler02Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzRecycler",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzRecycler02UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzRecycler",
+                      "IsDamaged",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzRecycler03Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzRecycler",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzRecycler03UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzRecycler",
+                      "IsDamaged",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzFabricator02Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzFabricator",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzFabricator02UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzFabricator",
+                      "IsDamaged",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzFabricator03Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzFabricator",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzFabricator03UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzFabricator",
+                      "IsDamaged",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzJumpFieldEmitter02Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzJumpFieldEmitter",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzJumpFieldEmitter02UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzJumpFieldEmitter",
+                      "IsDamaged",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzJumpFieldEmitter03Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzJumpFieldEmitter",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzJumpFieldEmitter03UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzJumpFieldEmitter",
+                      "IsDamaged",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSmesReactorTap02Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSmesReactorTap",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSmesReactorTap02UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSmesReactorTap",
+                      "IsDamaged",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSmesReactorTap03Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSmesReactorTap",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSmesReactorTap03UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSmesReactorTap",
+                      "IsDamaged",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSmes02Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSmes",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged",
+                         "IsTypeB",
+                         "IsTypeC"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSmes02UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSmes",
+                      "IsDamaged",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsTypeB",
+                         "IsTypeC"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSmes03Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSmes",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged",
+                         "IsTypeB",
+                         "IsTypeC"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSmes03UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSmes",
+                      "IsDamaged",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsTypeB",
+                         "IsTypeC"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSiloSmall02Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSiloSmall",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSiloSmall02UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSiloSmall",
+                      "IsDamaged",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSiloSmall02UninstalledDmgNotInContainer",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSiloSmall",
+                      "IsDamaged",
+                      "IsFzTier2"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsInContainer"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSiloSmall03Uninstalled",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSiloSmall",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsDamaged"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSiloSmall03UninstalledDmg",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSiloSmall",
+                      "IsDamaged",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    },
+    {
+        "strName":  "TIsFzSiloSmall03UninstalledDmgNotInContainer",
+        "strCondName":  "",
+        "fChance":  1.0,
+        "fCount":  1.0,
+        "aReqs":  [
+                      "IsFzSiloSmall",
+                      "IsDamaged",
+                      "IsFzTier3"
+                  ],
+        "aForbids":  [
+                         "IsInstalled",
+                         "IsInContainer"
+                     ],
+        "aTriggers":  null,
+        "bAND":  true
+    }
+]

@@ -1,0 +1,7 @@
+[
+  { "strName" : "TIsFzDamageRecorderInstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzDamageRecorder", "IsInstalled" ], "aForbids" : [ "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzDamageRecorderInstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzDamageRecorder", "IsInstalled", "IsDamaged" ], "aForbids" : [ ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzDamageRecorderUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzDamageRecorder" ], "aForbids" : [ "IsInstalled", "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzDamageRecorderUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzDamageRecorder", "IsDamaged" ], "aForbids" : [ "IsInstalled" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzDamageRecorderWorking", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzDamageRecorder", "IsInstalled", "IsPowered" ], "aForbids" : [ "IsDamaged", "IsOff" ], "aTriggers" : [ ], "bAND" : true }
+]

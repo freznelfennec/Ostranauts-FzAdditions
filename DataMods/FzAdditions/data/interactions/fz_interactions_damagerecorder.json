@@ -1,18 +1,18 @@
 [
   {
-    "strName": "FzTestGUI",
-    "strTitle": "FZ Test GUI",
-    "strDesc": "FZ Test GUI",
-    "strTooltip": "FZ Test GUI",
+    "strName": "FzDamageRecorderGUI",
+    "strTitle": "Control Panel",
+    "strDesc": "[us] [accesses] [them]'s panel.",
+    "strTooltip": "Opens the recorder's damage assessment, loss log and map.",
     "strActionGroup": "Use",
     "strTargetPoint": "use",
-    "fTargetPointRange": 1,
+    "fTargetPointRange": 2,
     "strAnim": "Use",
     "strBubble": "BblTouch",
     "aInverse": [
-      "FzTestGUIAllow"
+      "FzDamageRecorderGUIAllow"
     ],
-    "fDuration": 0.00001,
+    "fDuration": 0.00027,
     "strThemType": "Other",
     "strRaiseUI": null,
     "nLogging": 1,
@@ -22,15 +22,15 @@
     "LootCTsUs": null,
     "LootCTsThem": null,
     "CTTestUs": "TIsHuman",
-    "CTTestThem": "TIsAirPump",
+    "CTTestThem": "TIsFzDamageRecorderInstalled",
     "aLootItms": [
     ],
     "objLootModeSwitch": null
   },
   {
-    "strName": "FzTestGUIAllow",
+    "strName": "FzDamageRecorderGUIAllow",
     "strTitle": "",
-    "strDesc": "[them] [opens] the test GUI",
+    "strDesc": "[them] [checks] the panel.",
     "strActionGroup": "Use",
     "strTargetPoint": null,
     "fTargetPointRange": 0,
@@ -40,7 +40,7 @@
     ],
     "fDuration": 1.0,
     "strThemType": "Other",
-    "strRaiseUI": "FzTestGUI",
+    "strRaiseUI": "FzDamageRecorderGUI",
     "LootCTsUs": null,
     "LootCTsThem": null,
     "CTTestUs": null,

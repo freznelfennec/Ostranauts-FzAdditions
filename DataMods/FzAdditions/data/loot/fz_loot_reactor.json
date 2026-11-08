@@ -1,0 +1,9 @@
+[
+  { "strName" : "CTFzBreederBlanket", "aCOs" : [ "TIsFzBreederBlanket=1.0x1" ], "aLoots" : [ ], "strType" : "trigger" },
+  { "strName" : "ItmFzBreederBlanket01", "aCOs" : [ "ItmFzBreederBlanket01=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzBreederBlanket01Spent", "aCOs" : [ "ItmFzBreederBlanket01Spent=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzBreederBlanket02", "aCOs" : [ "ItmFzBreederBlanket02=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzBreederBlanket02Spent", "aCOs" : [ "ItmFzBreederBlanket02Spent=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzBreederBlanket03", "aCOs" : [ "ItmFzBreederBlanket03=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzBreederBlanket03Spent", "aCOs" : [ "ItmFzBreederBlanket03Spent=1.0x1" ], "aLoots" : [ ], "strType" : "item" }
+]

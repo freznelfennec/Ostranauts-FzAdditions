@@ -1,7 +1,7 @@
 [
   {
     "strName": "ItmFzSmes01",
-    "strNameFriendly": "Basic SMES Unit",
+    "strNameFriendly": "SMES Unit (Basic)",
     "strCategory": "FaureZhang.Energy",
     "aCOs": [ "ItmFzSmes01Loose", "ItmFzSmes01", "ItmFzSmes01Off" ],
     "strCOFabricate": "ItmFzSmes01Loose",
@@ -14,7 +14,7 @@
   },
   {
     "strName": "ItmFzSmesReactorTap01",
-    "strNameFriendly": "Basic SMES Reactor Tap",
+    "strNameFriendly": "SMES Reactor Tap (Basic)",
     "strCategory": "FaureZhang.Energy",
     "aCOs": [ "ItmFzSmesReactorTap01Loose", "ItmFzSmesReactorTap01", "ItmFzSmesReactorTap01Off" ],
     "strCOFabricate": "ItmFzSmesReactorTap01Loose",
@@ -27,7 +27,7 @@
   },
   {
     "strName": "ItmFzJumpFieldEmitter",
-    "strNameFriendly": "Jump Drive Field Emitter",
+    "strNameFriendly": "Jump Drive Field Emitter (Basic)",
     "strCategory": "FaureZhang.Propulsion",
     "aCOs": [ "ItmFzJumpFieldEmitterLoose", "ItmFzJumpFieldEmitter", "ItmFzJumpFieldEmitterOff" ],
     "strCOFabricate": "ItmFzJumpFieldEmitterLoose",

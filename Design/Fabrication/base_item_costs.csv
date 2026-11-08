@@ -617,7 +617,7 @@ Heavy Lift Rotor (Loose),Undamaged,ItmHeavyLiftRotor01Loose,ItmHeavyLiftRotor01O
 The Holden Patch,Undamaged,ItmHullPatch01,,Tools,1,15,1,0,0,0,0,0,1,0,0,0,0,2,"mass, Tools, raised to its scrap"
 Hygiene Pack,Undamaged,ItmHygieneWipes01,,Medical,0.01,80,0,0,0,0,1,0,1,0,0,0,0,2,"mass, Medical, raised to its scrap"
 Water Ice,Undamaged,ItmIce01,,Ore,24.7,1200,0,0,0,0,0,0,0,0,2470,0,0,2470,"ore, by mass"
-Methane Ice,Undamaged,ItmIce02,,Ore,24.84,20,0,0,0,0,0,0,0,0,11,0,0,11,ore
+Methane Ice,Undamaged,ItmIce02,,Ore,24.84,20,0,0,0,0,0,0,0,0,12350,0,0,12350,"ore, 5x ItmIce01"
 "Beydat ""Rock-It"" Jukebox (Loose)",Undamaged,ItmJukebox01Loose,ItmJukebox01 ItmJukebox01Off,Media,0.5,553,1,0,0,0,1,0,0,1,0,0,0,3,"mass, Media, raised to its scrap"
 "Beydat ""Rock-It"" Jukebox (Techno)",Undamaged,ItmJukebox01b,,Media,0.5,553,1,0,0,0,1,0,0,1,0,0,0,3,"mass, Media, raised to its scrap"
 "Beydat ""Rock-It"" Jukebox (Upscale)",Undamaged,ItmJukebox01c,,Media,0.5,553,1,0,0,0,1,0,0,1,0,0,0,3,"mass, Media, raised to its scrap"

@@ -37,7 +37,7 @@
     "strNameFriendly": "Methane Ice",
     "strCategory": "Ore",
     "aCOs": [ "ItmIce02" ],
-    "mapMaterials": { "Volatiles": 11 },
+    "mapMaterials": { "Volatiles": 12350 },
     "bFabricate": false,
     "bRecycle": true,
     "fRecycleYield": 1.0,

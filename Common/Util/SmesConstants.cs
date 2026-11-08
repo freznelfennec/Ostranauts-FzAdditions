@@ -17,6 +17,9 @@ namespace Freznel.FzAdditions.Util
         public const string GridChargeProp = "bGridCharge";
         public const string UnitFittedTrigger = "TIsFzSmesFitted";
         public const string UnitCO = "ItmFzSmes01"; //The installed, working unit, the only one whose look follows its state
+
+        //The installed, working unit of each tier, which all share the basic unit's looks
+        public static readonly HashSet<string> UnitCOs = new HashSet<string> { UnitCO, "ItmFzSmes02", "ItmFzSmes03" };
         public const string LookOff = "ItmFzSmes01Off"; //COOverlays giving the unit's look, the levels go on the end
         public const string LookIdle = "ItmFzSmes01Idle";
         public const string LookGrid = "ItmFzSmes01Grid";

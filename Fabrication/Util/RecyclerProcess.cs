@@ -94,7 +94,7 @@ namespace Freznel.FzAdditions.Util
             done += work;
             double after = runTime > 0.0 ? Math.Min(1.0, done / runTime) : 1.0;
             Deliver(co, item, after - before);
-            BeamFormer.Wear(co, Recycler.Units(item) * (after - before));
+            BeamFormer.Wear(co, Recycler.WearUnits(item) * (after - before));
             Recycler.SetProgress(co, done);
             SetWorking(co, true);
 
@@ -117,7 +117,7 @@ namespace Freznel.FzAdditions.Util
                 .FirstOrDefault();
             if (next == null) return null;
             if (!Recycler.IsDumpExcess(co) && Recycler.NoRoom(co.ship, Recycler.Breakdown(next), Recycler.ReservesIn(next)).Count > 0) return null;
-            if (BeamFormer.Check(co, Recycler.Units(next)) != null) return null;
+            if (BeamFormer.Check(co, Recycler.WearUnits(next)) != null) return null;
 
             Lock(next);
             Recycler.SetCurrent(co, next);
@@ -132,7 +132,7 @@ namespace Freznel.FzAdditions.Util
             double runTime = Recycler.RunTime(item);
             double left = runTime > 0.0 ? 1.0 - Math.Min(1.0, Recycler.Progress(co) / runTime) : 0.0;
             //Its beam former, taken out or swapped for one too worn for the rest of the item
-            if (left > 0.0 && BeamFormer.Check(co, Recycler.Units(item) * left) != null) return true;
+            if (left > 0.0 && BeamFormer.Check(co, Recycler.WearUnits(item) * left) != null) return true;
             if (Recycler.IsDumpExcess(co)) return false;
             if (left <= 0.0) return false;
             var materials = Recycler.Breakdown(item).ToDictionary(m => m.Key, m => m.Value * left);

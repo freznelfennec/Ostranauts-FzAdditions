@@ -1,0 +1,5 @@
+[
+  { "strName" : "StatFzConverterLife", "strNameFriendly" : "Converter Life", "strColor" : "Neutral", "strDesc" : "Hours of charging [us] can still run.", "nDisplaySelf" : 2, "nDisplayOther" : 2, "bPersists" : true },
+  { "strName" : "StatFzConverterLifeMax", "strNameFriendly" : "Converter Rating", "strColor" : "Neutral", "strDesc" : "Hours of charging [us] [is] rated for.", "nDisplaySelf" : 2, "nDisplayOther" : 2, "bPersists" : true },
+  { "strName" : "StatFzConverterEfficiency", "strNameFriendly" : "Converter Efficiency", "strColor" : "Neutral", "strDesc" : "How much more fuel efficient [us] makes a tap.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true }
+]

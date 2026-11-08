@@ -1,0 +1,12 @@
+[
+  { "strName" : "FzLootFaureZhangKioskInv", "aCOs" : [
+      "ItmFzFabricatorLoose=1.0x1-2",
+      "ItmFzRecyclerLoose=1.0x1-2",
+      "ItmFzDamageRecorder01Loose=1.0x2-3",
+      "ItmFzBeamFormer01=1.0x2-4",
+      "ItmFzSiloSmallLoose=1.0x2-4",
+      "ItmFzBreederBlanket01=1.0x1-3"
+    ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "FzTraderCTsBuyFaureZhangKiosk", "aCOs" : [ "TNever=1.0x1" ], "aLoots" : [ ], "strType" : "trigger" },
+  { "strName" : "FzTraderCTsSellFaureZhangKiosk", "aCOs" : [ "TIsFzFaureZhangKioskWare=1.0x1" ], "aLoots" : [ ], "strType" : "trigger" }
+]

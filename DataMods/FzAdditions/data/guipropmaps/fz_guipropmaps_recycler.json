@@ -3,7 +3,7 @@
     "strName" : "FzRecyclerGUI",
     "dictGUIPropMap" : [
       "strGUIPrefab", "FzRecyclerGUI",
-      "strFriendlyName", "Basic Recycler",
+      "strFriendlyName", "Recycler",
       "strGUIPrefabRight", null,
       "strGUIPrefabLeft", null,
       "strGUIPrefabUp", null,

@@ -9,9 +9,10 @@ namespace Freznel.FzAdditions.Util
     //Fabrication, run from each fabricator's power update about once a game second, so it stops while the game is
     //paused and keeps to game time under time acceleration. It doesn't run during a fast forward (GUIFFWD).
     //
-    //While FABRICATE or AUTO is on and the fabricator is working, it builds the chosen recipe one item at a time.
-    //FABRICATE builds COUNT of them, counting down, and switches itself off at 0. AUTO keeps building while there's
-    //room in the area, whatever the count, and looks again every few game seconds once there isn't.
+    //While FABRICATE, REPEAT or AUTO is on and the fabricator is working, it builds one item at a time. AUTO builds
+    //what the ship's build orders are waiting for (FabTasks) first. Otherwise it builds the chosen recipe: FABRICATE
+    //builds COUNT of them, counting down, and switches itself off at 0, and REPEAT keeps building while there's room
+    //in the area, whatever the count. With nothing it can start, it looks again every few game seconds.
     //
     //Each update draws that slice of the item's energy from the grid and the same share of its materials from the
     //silos. Short of materials it waits; short of power the run fails. An item can't be left part built, so a run
@@ -39,8 +40,7 @@ namespace Freznel.FzAdditions.Util
             if (!Fabricator.IsFabricator(co) || co.ship == null) return;
             if (GUIFFWD.Active) return;
 
-            bool auto = Fabricator.IsAuto(co);
-            bool running = Fabricator.IsWorking(co) && (Fabricator.IsFabricateOn(co) || auto);
+            bool running = Fabricator.IsWorking(co) && Fabricator.IsTrying(co);
             if (Fabricator.HasRun(co) && !RunIntact(co))
             {
                 FzAdditions.Logger.LogInfo($"Fabricator {co.strID} lost what it was building");
@@ -60,9 +60,9 @@ namespace Freznel.FzAdditions.Util
 
             if (!Fabricator.HasRun(co))
             {
-                if (!auto && Fabricator.GetCount(co) <= 0)
+                if (Fabricator.IsFabricateOn(co) && !Fabricator.IsRepeat(co) && Fabricator.GetCount(co) <= 0) Fabricator.SetFabricateOn(co, false);
+                if (!Fabricator.IsTrying(co))
                 {
-                    Fabricator.SetFabricateOn(co, false);
                     SetWorking(co, false);
                     return;
                 }
@@ -95,7 +95,7 @@ namespace Freznel.FzAdditions.Util
             double share = runTime > 0.0 ? work / runTime : 1.0;
 
             //A beam former good for the rest of the item: taken out, or swapped for one too worn, it waits
-            if (BeamFormer.Check(co, recipe.TotalUnits * (runTime > 0.0 ? Math.Max(0.0, 1.0 - done / runTime) : 0.0)) != null)
+            if (BeamFormer.Check(co, recipe.WearUnits * (runTime > 0.0 ? Math.Max(0.0, 1.0 - done / runTime) : 0.0)) != null)
             {
                 SetWorking(co, false);
                 return;
@@ -125,7 +125,7 @@ namespace Freznel.FzAdditions.Util
             if (share > 0.0)
             {
                 foreach (var material in recipe.mapMaterials.Where(m => m.Value > 0)) Silo.Draw(co.ship, material.Key, material.Value * share);
-                BeamFormer.Wear(co, recipe.TotalUnits * share);
+                BeamFormer.Wear(co, recipe.WearUnits * share);
             }
             done += work;
             Fabricator.SetProgress(co, done);
@@ -141,20 +141,21 @@ namespace Freznel.FzAdditions.Util
             return Fabricator.CurrentItem(co) != null || Fabricator.Target(co) != null;
         }
 
-        //Starts building the chosen recipe: onto a stack in the area with room, or as a new item in the nearest place
-        //it fits. False when there's no blueprint, materials or room, or someone's in the way.
+        //Starts building what's needed next (Fabricator.NextRecipe): onto a stack in the area with room, or as a new
+        //item in the nearest place it fits. False when there's nothing to build, no materials or room, or someone's in
+        //the way.
         private static bool Start(CondOwner co)
         {
-            JsonFabRecipe recipe = Fabricator.Selected(co);
+            JsonFabRecipe recipe = Fabricator.NextRecipe(co, out string task);
             if (recipe == null || Fabricator.CanBuild(co.ship, recipe) < 1 || WorkArea.AnyoneInArea(co)) return false;
-            if (BeamFormer.Check(co, recipe.TotalUnits) != null) return false;
+            if (BeamFormer.Check(co, recipe.WearUnits) != null) return false;
             string strCO = recipe.strCOFabricate;
 
             CondOwner stack = Fabricator.FindStack(co, strCO);
             if (stack != null)
             {
                 Lock(stack);
-                Fabricator.SetRun(co, recipe, null, stack);
+                Fabricator.SetRun(co, recipe, null, stack, task);
                 return true;
             }
 
@@ -173,7 +174,7 @@ namespace Freznel.FzAdditions.Util
             }
             item.AddCondAmount(UnfinishedCond, 1.0);
             Lock(item);
-            Fabricator.SetRun(co, recipe, item, null);
+            Fabricator.SetRun(co, recipe, item, null, task);
             return true;
         }
 
@@ -199,9 +200,10 @@ namespace Freznel.FzAdditions.Util
         }
 
         //The item is done: an unfinished one is unlocked where it is, and a stacking one is made and put on its
-        //stack. FILL fills it. FABRICATE counts down.
+        //stack. FILL fills it. FABRICATE counts down for its own recipe.
         private static void Finish(CondOwner co, JsonFabRecipe recipe)
         {
+            bool forOrders = Fabricator.RunTask(co) != null; //A build order's item doesn't count down FABRICATE's COUNT
             CondOwner item = Fabricator.CurrentItem(co);
             CondOwner stack = Fabricator.Target(co);
             if (item != null)
@@ -238,7 +240,7 @@ namespace Freznel.FzAdditions.Util
 
             Fabricator.SetRun(co, null, null, null);
             SetWorking(co, false);
-            if (!Fabricator.IsAuto(co) && Fabricator.IsFabricateOn(co))
+            if (!forOrders && !Fabricator.IsRepeat(co) && Fabricator.IsFabricateOn(co))
             {
                 int count = Fabricator.GetCount(co) - 1;
                 Fabricator.SetCount(co, count);

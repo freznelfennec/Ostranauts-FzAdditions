@@ -2,15 +2,20 @@
   {
     "strName" : "ItmFzSmesReactorTap01Off",
     "strNameShort" : "SMES Tap",
-    "strNameFriendly" : "Basic SMES Reactor Tap (Off)",
+    "strNameFriendly" : "SMES Reactor Tap (Basic, Off)",
     "strItemDef" : "ItmFzSmesReactorTap01Off",
     "strDesc" : "A fusion reactor module that draws power straight from the reactor's plasma, to charge the ship's SMES units far faster than the grid can. Every kWh it delivers burns extra reactor fuel.\n\nSold only to licensed operators. Its manual is short, and most of it is a non-disclosure agreement.",
     "strType"    : "Item",
     "strLoot"    : null,
+    "strContainerCT" : "TIsFitContainerFzPlasmaConverter",
+    "nContainerHeight" : 1,
+    "nContainerWidth" : 1,
     "aInteractions" : [
-      "FzSmesReactorTapGUI"
+      "FzSmesReactorTapGUI",
+      "Inventory"
     ],
     "aStartingConds" : [
+      "IsContainer=1.0x1",
       "IsHiddenInv=1.0x1",
       "IsInstalled=1.0x1",
       "IsOff=1.0x1",
@@ -57,15 +62,20 @@
   {
     "strName" : "ItmFzSmesReactorTap01Loose",
     "strNameShort" : "SMES Tap",
-    "strNameFriendly" : "Basic SMES Reactor Tap (Loose)",
+    "strNameFriendly" : "SMES Reactor Tap (Basic, Loose)",
     "strItemDef" : "ItmFzSmesReactorTap01Loose",
     "strDesc" : "A fusion reactor module that draws power straight from the reactor's plasma, to charge the ship's SMES units far faster than the grid can. Every kWh it delivers burns extra reactor fuel.\n\nSold only to licensed operators. Its manual is short, and most of it is a non-disclosure agreement.",
     "strType"    : "Item",
+    "strContainerCT" : "TIsFitContainerFzPlasmaConverter",
+    "nContainerHeight" : 1,
+    "nContainerWidth" : 1,
     "aInteractions" : [
       "DropItem",
-      "PickupItem"
+      "PickupItem",
+      "Inventory"
     ],
     "aStartingConds" : [
+      "IsContainer=1.0x1",
       "IsOff=1.0x1",
       "IsFusionCoreModule=1.0x1",
       "IsFzSmesReactorTap=1.0x1",
@@ -99,15 +109,20 @@
   {
     "strName" : "ItmFzSmesReactorTap01",
     "strNameShort" : "SMES Tap",
-    "strNameFriendly" : "Basic SMES Reactor Tap",
+    "strNameFriendly" : "SMES Reactor Tap (Basic)",
     "strItemDef" : "ItmFzSmesReactorTap01",
     "strDesc" : "A fusion reactor module that draws power straight from the reactor's plasma, to charge the ship's SMES units far faster than the grid can. Every kWh it delivers burns extra reactor fuel.\n\nSold only to licensed operators. Its manual is short, and most of it is a non-disclosure agreement.",
     "strType"    : "Item",
     "strLoot"    : null,
+    "strContainerCT" : "TIsFitContainerFzPlasmaConverter",
+    "nContainerHeight" : 1,
+    "nContainerWidth" : 1,
     "aInteractions" : [
-      "FzSmesReactorTapGUI"
+      "FzSmesReactorTapGUI",
+      "Inventory"
     ],
     "aStartingConds" : [
+      "IsContainer=1.0x1",
       "IsHiddenInv=1.0x1",
       "IsInstalled=1.0x1",
       "IsFusionCoreModule=1.0x1",
@@ -161,14 +176,19 @@
   {
     "strName" : "ItmFzSmesReactorTap01Dmg",
     "strNameShort" : "SMES Tap",
-    "strNameFriendly" : "Basic SMES Reactor Tap (Damaged)",
+    "strNameFriendly" : "SMES Reactor Tap (Basic, Damaged)",
     "strItemDef" : "ItmFzSmesReactorTap01Dmg",
     "strDesc" : "A fusion reactor module that draws power straight from the reactor's plasma, to charge the ship's SMES units far faster than the grid can. Every kWh it delivers burns extra reactor fuel.\n\nSold only to licensed operators. Its manual is short, and most of it is a non-disclosure agreement.",
     "strType"    : "Item",
     "strLoot"    : null,
+    "strContainerCT" : "TIsFitContainerFzPlasmaConverter",
+    "nContainerHeight" : 1,
+    "nContainerWidth" : 1,
     "aInteractions" : [
+      "Inventory"
     ],
     "aStartingConds" : [
+      "IsContainer=1.0x1",
       "IsDamaged=1.0x1",
       "IsHiddenInv=1.0x1",
       "IsInstalled=1.0x1",
@@ -209,15 +229,20 @@
   {
     "strName" : "ItmFzSmesReactorTap01DmgLoose",
     "strNameShort" : "SMES Tap",
-    "strNameFriendly" : "Basic SMES Reactor Tap (Loose, Damaged)",
+    "strNameFriendly" : "SMES Reactor Tap (Basic, Loose, Damaged)",
     "strItemDef" : "ItmFzSmesReactorTap01DmgLoose",
     "strDesc" : "A fusion reactor module that draws power straight from the reactor's plasma, to charge the ship's SMES units far faster than the grid can. Every kWh it delivers burns extra reactor fuel.\n\nSold only to licensed operators. Its manual is short, and most of it is a non-disclosure agreement.",
     "strType"    : "Item",
+    "strContainerCT" : "TIsFitContainerFzPlasmaConverter",
+    "nContainerHeight" : 1,
+    "nContainerWidth" : 1,
     "aInteractions" : [
       "DropItem",
-      "PickupItem"
+      "PickupItem",
+      "Inventory"
     ],
     "aStartingConds" : [
+      "IsContainer=1.0x1",
       "IsDamaged=1.0x1",
       "IsOff=1.0x1",
       "IsFusionCoreModule=1.0x1",

@@ -248,7 +248,8 @@
     "strName" : "FzLootFaureZhangVault",
     "aCOs"    : [
       "ItmFzExoticCanister=0.6x1-2",
-      "ItmFzBeamFormer01=0.35x1|ItmFzBeamFormer02=0.1x1|ItmFzBeamFormer03=0.02x1"
+      "ItmFzBeamFormer01=0.35x1|ItmFzBeamFormer02=0.1x1|ItmFzBeamFormer03=0.02x1",
+      "ItmFzPlasmaConverter01=0.3x1|ItmFzPlasmaConverter02=0.08x1|ItmFzPlasmaConverter03=0.02x1"
     ],
     "aLoots"  : [
       "ItmRandomDatafileMundaneRare=0.2x1"
@@ -259,7 +260,8 @@
     "strName" : "FzLootFaureZhangRelayVault",
     "aCOs"    : [
       "ItmFzExoticCanister=0.3x1",
-      "ItmFzBeamFormer01=0.2x1|ItmFzBeamFormer02=0.04x1"
+      "ItmFzBeamFormer01=0.2x1|ItmFzBeamFormer02=0.04x1",
+      "ItmFzPlasmaConverter01=0.15x1|ItmFzPlasmaConverter02=0.03x1"
     ],
     "aLoots"  : [
       "ItmRandomComponent=0.3x1"
@@ -269,7 +271,8 @@
   {
     "strName" : "FzLootFaureZhangStorage",
     "aCOs"    : [
-      "ItmFzBeamFormer01Spent=0.15x1"
+      "ItmFzBeamFormer01Spent=0.15x1",
+      "ItmFzPlasmaConverter01Spent=0.15x1"
     ],
     "aLoots"  : [
       "FzLootBlackSiteStorage=1.0x1"

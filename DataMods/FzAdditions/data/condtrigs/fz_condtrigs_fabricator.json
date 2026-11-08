@@ -1,7 +1,7 @@
 [
   { "strName" : "TIsFzFabricatorInstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzFabricator", "IsInstalled" ], "aForbids" : [ "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
   { "strName" : "TIsFzFabricatorInstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzFabricator", "IsInstalled", "IsDamaged" ], "aForbids" : [ ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzFabricatorUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzFabricator" ], "aForbids" : [ "IsInstalled", "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzFabricatorUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzFabricator", "IsDamaged" ], "aForbids" : [ "IsInstalled" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzFabricatorUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzFabricator" ], "aForbids" : [ "IsFzTier2", "IsFzTier3", "IsInstalled", "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzFabricatorUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzFabricator", "IsDamaged" ], "aForbids" : [ "IsFzTier2", "IsFzTier3", "IsInstalled" ], "aTriggers" : [ ], "bAND" : true },
   { "strName" : "TIsFzFabricatorWorking", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzFabricator", "IsInstalled", "IsPowered" ], "aForbids" : [ "IsDamaged", "IsOff" ], "aTriggers" : [ ], "bAND" : true }
 ]

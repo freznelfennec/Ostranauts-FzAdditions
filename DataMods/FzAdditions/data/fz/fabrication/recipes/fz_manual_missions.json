@@ -24,7 +24,7 @@
     "bRecycle": true,
     "fRecycleYield": 0.5,
     "strBlueprint": "FzInterceptor01",
-    "bStartKnown": true,
+    "nReverseEngineer": 3,
     "strTier": "Ordinary"
   },
   {
@@ -49,7 +49,7 @@
     "bRecycle": true,
     "fRecycleYield": 0.5,
     "strBlueprint": "FzSignalTraces",
-    "bStartKnown": true,
+    "nReverseEngineer": 3,
     "strTier": "Ordinary"
   },
   {

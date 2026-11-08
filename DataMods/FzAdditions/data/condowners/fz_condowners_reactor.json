@@ -1,0 +1,143 @@
+[
+  {
+    "strName" : "ItmFzBreederBlanket01",
+    "strNameShort" : "Breeder Blanket",
+    "strNameFriendly" : "Breeder Blanket (Basic)",
+    "strDesc" : "A Faure-Zhang breeder blanket for an inertial confinement fusion reactor. Fitted round the core, it catches the reactor's neutrons in 10000 units of loaded volatiles and breeds them into D2O and He-3: 15% of the fuel burned comes back, within about 24 hours. Good for 2000 kg of fuel, after which it's spent and wants recycling. It does not make a reactor free to run.",
+    "strItemDef" : "ItmFzBreederBlanket01",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsFzBreederBlanket=1.0x1",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x6000",
+      "StatMass=1.0x130",
+      "StatDamageMax=1.0x6",
+      "IsTechnology=1.0x1",
+      "IsCategoryFusionParts=1.0x1"
+    ],
+    "aUpdateCommands" : [ "Destructable,StatDamage,ACTMechDestroy,StatDamageMax,1.0" ],
+    "mapSlotEffects" : [ "drag", "Blank" ],
+    "strPortraitImg" : "reactor/FzBreederBlanket01"
+  },
+  {
+    "strName" : "ItmFzBreederBlanket01Spent",
+    "strNameShort" : "Spent Blanket",
+    "strNameFriendly" : "Spent Breeder Blanket (Basic)",
+    "strDesc" : "A basic breeder blanket with nothing left to breed. Its volatiles are converted and its lattice is tired, but most of the rest can be recycled.",
+    "strItemDef" : "ItmFzBreederBlanketSpent",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsFzBreederBlanketSpent=1.0x1",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x500",
+      "StatMass=1.0x30",
+      "StatDamageMax=1.0x6",
+      "IsCategoryFusionParts=1.0x1"
+    ],
+    "aUpdateCommands" : [ "Destructable,StatDamage,ACTMechDestroy,StatDamageMax,1.0" ],
+    "mapSlotEffects" : [ "drag", "Blank" ],
+    "strPortraitImg" : "reactor/FzBreederBlanketSpent"
+  },
+  {
+    "strName" : "ItmFzBreederBlanket02",
+    "strNameShort" : "Breeder Blanket",
+    "strNameFriendly" : "Breeder Blanket (Advanced)",
+    "strDesc" : "A Faure-Zhang breeder blanket for an inertial confinement fusion reactor. Fitted round the core, it catches the reactor's neutrons in 25000 units of loaded volatiles and breeds them into D2O and He-3: 25% of the fuel burned comes back, within about 12 hours. Good for 5000 kg of fuel, after which it's spent and wants recycling. It does not make a reactor free to run.",
+    "strItemDef" : "ItmFzBreederBlanket02",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsFzBreederBlanket=1.0x1",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x20000",
+      "StatMass=1.0x290",
+      "StatDamageMax=1.0x6",
+      "IsTechnology=1.0x1",
+      "IsCategoryFusionParts=1.0x1"
+    ],
+    "aUpdateCommands" : [ "Destructable,StatDamage,ACTMechDestroy,StatDamageMax,1.0" ],
+    "mapSlotEffects" : [ "drag", "Blank" ],
+    "strPortraitImg" : "reactor/FzBreederBlanket02"
+  },
+  {
+    "strName" : "ItmFzBreederBlanket02Spent",
+    "strNameShort" : "Spent Blanket",
+    "strNameFriendly" : "Spent Breeder Blanket (Advanced)",
+    "strDesc" : "A advanced breeder blanket with nothing left to breed. Its volatiles are converted and its lattice is tired, but most of the rest can be recycled.",
+    "strItemDef" : "ItmFzBreederBlanketSpent",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsFzBreederBlanketSpent=1.0x1",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x3900",
+      "StatMass=1.0x40",
+      "StatDamageMax=1.0x6",
+      "IsCategoryFusionParts=1.0x1"
+    ],
+    "aUpdateCommands" : [ "Destructable,StatDamage,ACTMechDestroy,StatDamageMax,1.0" ],
+    "mapSlotEffects" : [ "drag", "Blank" ],
+    "strPortraitImg" : "reactor/FzBreederBlanketSpent"
+  },
+  {
+    "strName" : "ItmFzBreederBlanket03",
+    "strNameShort" : "Breeder Blanket",
+    "strNameFriendly" : "Breeder Blanket (Superior)",
+    "strDesc" : "A Faure-Zhang breeder blanket for an inertial confinement fusion reactor. Fitted round the core, it catches the reactor's neutrons in 60000 units of loaded volatiles and breeds them into D2O and He-3: 40% of the fuel burned comes back, within about 3 hours. Exotic matter in its lattice speeds the breeding along. Good for 12000 kg of fuel, after which it's spent and wants recycling. It does not make a reactor free to run.",
+    "strItemDef" : "ItmFzBreederBlanket03",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsFzBreederBlanket=1.0x1",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x87000",
+      "StatMass=1.0x660",
+      "StatDamageMax=1.0x6",
+      "IsTechnology=1.0x1",
+      "IsCategoryFusionParts=1.0x1"
+    ],
+    "aUpdateCommands" : [ "Destructable,StatDamage,ACTMechDestroy,StatDamageMax,1.0" ],
+    "mapSlotEffects" : [ "drag", "Blank" ],
+    "strPortraitImg" : "reactor/FzBreederBlanket03"
+  },
+  {
+    "strName" : "ItmFzBreederBlanket03Spent",
+    "strNameShort" : "Spent Blanket",
+    "strNameFriendly" : "Spent Breeder Blanket (Superior)",
+    "strDesc" : "A superior breeder blanket with nothing left to breed. Its volatiles are converted and its lattice is tired, but most of the rest can be recycled.",
+    "strItemDef" : "ItmFzBreederBlanketSpent",
+    "strType" : "Item",
+    "nStackLimit" : 1,
+    "aInteractions" : [ "DropItem", "PickupItem" ],
+    "aStartingConds" : [
+      "IsFzBreederBlanketSpent=1.0x1",
+      "IsSolid=1.0x1.0",
+      "IsRigid=1.0x1",
+      "IsCumbersome=1.0x1.0",
+      "StatBasePrice=1.0x10000",
+      "StatMass=1.0x60",
+      "StatDamageMax=1.0x6",
+      "IsCategoryFusionParts=1.0x1"
+    ],
+    "aUpdateCommands" : [ "Destructable,StatDamage,ACTMechDestroy,StatDamageMax,1.0" ],
+    "mapSlotEffects" : [ "drag", "Blank" ],
+    "strPortraitImg" : "reactor/FzBreederBlanketSpent"
+  }
+]

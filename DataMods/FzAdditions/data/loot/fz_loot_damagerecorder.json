@@ -1,0 +1,11 @@
+[
+  { "strName" : "ACTFzDamageRecorder01Damage", "aCOs" : [ "MSFzDamageRecorder01Damage=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ACTFzDamageRecorder01LooseDamage", "aCOs" : [ "MSFzDamageRecorder01LooseDamage=1.0x1" ], "aLoots" : [ ], "strType" : "interaction" },
+  { "strName" : "ItmFzDamageRecorder01Damage", "aCOs" : [ "ItmFzDamageRecorder01Dmg=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzDamageRecorder01LooseDamage", "aCOs" : [ "ItmFzDamageRecorder01DmgLoose=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzDamageRecorder01", "aCOs" : [ "ItmFzDamageRecorder01=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzDamageRecorder01Off", "aCOs" : [ "ItmFzDamageRecorder01Off=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzDamageRecorder01Dmg", "aCOs" : [ "ItmFzDamageRecorder01Dmg=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzDamageRecorder01Loose", "aCOs" : [ "ItmFzDamageRecorder01Loose=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzDamageRecorder01DmgLoose", "aCOs" : [ "ItmFzDamageRecorder01DmgLoose=1.0x1" ], "aLoots" : [ ], "strType" : "item" }
+]

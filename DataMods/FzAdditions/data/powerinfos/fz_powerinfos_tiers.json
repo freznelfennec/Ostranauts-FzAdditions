@@ -1,0 +1,122 @@
+[
+    {
+        "strName":  "FzRecycler02",
+        "aInputPts":  [
+                          "PowerA",
+                          "PowerB"
+                      ],
+        "fAmount":  0.0003,
+        "strIntPowerOn":  "MSFzRecycler02OnAllow",
+        "strIntPowerOff":  "MSFzRecycler02OffAllow",
+        "strShutDownCT":  "TIsConnctedSignalledOff",
+        "strUsePowerCT":  "TIsReadyUsePower",
+        "strRechargeCT":  null,
+        "bAllowExtPower":  true
+    },
+    {
+        "strName":  "FzRecycler03",
+        "aInputPts":  [
+                          "PowerA",
+                          "PowerB"
+                      ],
+        "fAmount":  0.0003,
+        "strIntPowerOn":  "MSFzRecycler03OnAllow",
+        "strIntPowerOff":  "MSFzRecycler03OffAllow",
+        "strShutDownCT":  "TIsConnctedSignalledOff",
+        "strUsePowerCT":  "TIsReadyUsePower",
+        "strRechargeCT":  null,
+        "bAllowExtPower":  true
+    },
+    {
+        "strName":  "FzFabricator02",
+        "aInputPts":  [
+                          "PowerA",
+                          "PowerB"
+                      ],
+        "fAmount":  0.0003,
+        "strIntPowerOn":  "MSFzFabricator02OnAllow",
+        "strIntPowerOff":  "MSFzFabricator02OffAllow",
+        "strShutDownCT":  "TIsConnctedSignalledOff",
+        "strUsePowerCT":  "TIsReadyUsePower",
+        "strRechargeCT":  null,
+        "bAllowExtPower":  true
+    },
+    {
+        "strName":  "FzFabricator03",
+        "aInputPts":  [
+                          "PowerA",
+                          "PowerB"
+                      ],
+        "fAmount":  0.0003,
+        "strIntPowerOn":  "MSFzFabricator03OnAllow",
+        "strIntPowerOff":  "MSFzFabricator03OffAllow",
+        "strShutDownCT":  "TIsConnctedSignalledOff",
+        "strUsePowerCT":  "TIsReadyUsePower",
+        "strRechargeCT":  null,
+        "bAllowExtPower":  true
+    },
+    {
+        "strName":  "FzJumpFieldEmitter02",
+        "aInputPts":  "PowerA",
+        "fAmount":  0.000125,
+        "strIntPowerOn":  "MSFzJumpFieldEmitter02OnAllow",
+        "strIntPowerOff":  "MSFzJumpFieldEmitter02OffAllow",
+        "strShutDownCT":  "TIsConnctedSignalledOff",
+        "strUsePowerCT":  "TIsReadyUsePower",
+        "strRechargeCT":  null,
+        "bAllowExtPower":  true
+    },
+    {
+        "strName":  "FzJumpFieldEmitter03",
+        "aInputPts":  "PowerA",
+        "fAmount":  0.000125,
+        "strIntPowerOn":  "MSFzJumpFieldEmitter03OnAllow",
+        "strIntPowerOff":  "MSFzJumpFieldEmitter03OffAllow",
+        "strShutDownCT":  "TIsConnctedSignalledOff",
+        "strUsePowerCT":  "TIsReadyUsePower",
+        "strRechargeCT":  null,
+        "bAllowExtPower":  true
+    },
+    {
+        "strName":  "FzSmesReactorTap02",
+        "aInputPts":  "Power",
+        "fAmount":  0.011,
+        "strIntPowerOn":  "MSFzSmesReactorTap02OnAllow",
+        "strIntPowerOff":  "MSFzSmesReactorTap02OffAllow",
+        "strShutDownCT":  "TIsConnctedSignalledOff",
+        "strUsePowerCT":  "TIsReadyUsePower",
+        "strRechargeCT":  null,
+        "bAllowExtPower":  false
+    },
+    {
+        "strName":  "FzSmesReactorTap03",
+        "aInputPts":  "Power",
+        "fAmount":  0.011,
+        "strIntPowerOn":  "MSFzSmesReactorTap03OnAllow",
+        "strIntPowerOff":  "MSFzSmesReactorTap03OffAllow",
+        "strShutDownCT":  "TIsConnctedSignalledOff",
+        "strUsePowerCT":  "TIsReadyUsePower",
+        "strRechargeCT":  null,
+        "bAllowExtPower":  false
+    },
+    {
+        "strName":  "FzSmes02",
+        "aInputPts":  "PowerSource",
+        "fAmount":  1E-05,
+        "strIntPowerOn":  "",
+        "strIntPowerOff":  "",
+        "strUsePowerCT":  "TIsFzSmesInstalled",
+        "strRechargeCT":  null,
+        "bAllowExtPower":  true
+    },
+    {
+        "strName":  "FzSmes03",
+        "aInputPts":  "PowerSource",
+        "fAmount":  1E-05,
+        "strIntPowerOn":  "",
+        "strIntPowerOff":  "",
+        "strUsePowerCT":  "TIsFzSmesInstalled",
+        "strRechargeCT":  null,
+        "bAllowExtPower":  true
+    }
+]

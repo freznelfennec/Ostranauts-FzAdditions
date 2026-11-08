@@ -2,7 +2,7 @@
   {
     "strName" : "ItmFzSmes01",
     "strNameShort" : "SMES Unit",
-    "strNameFriendly" : "Basic SMES Unit",
+    "strNameFriendly" : "SMES Unit (Basic)",
     "strDesc" : "A superconducting magnetic energy storage unit. Its coil holds a large charge in a current that never decays, and can give it all up in moments, for equipment that needs more power than a ship's grid can supply. It connects to an adjacent conduit, and charges slowly from the grid or quickly from a SMES reactor tap.\n\nThe coil is proprietary. The casing carries no maker's mark, and opening it voids more than the warranty.",
     "strItemDef" : "ItmFzSmes01",
     "strType"    : "Item",
@@ -48,7 +48,7 @@
   {
     "strName" : "ItmFzSmes01Dmg",
     "strNameShort" : "SMES Unit",
-    "strNameFriendly" : "Basic SMES Unit (Damaged)",
+    "strNameFriendly" : "SMES Unit (Basic, Damaged)",
     "strDesc" : "A superconducting magnetic energy storage unit. Its coil holds a large charge in a current that never decays, and can give it all up in moments, for equipment that needs more power than a ship's grid can supply. It connects to an adjacent conduit, and charges slowly from the grid or quickly from a SMES reactor tap.\n\nThe coil is proprietary. The casing carries no maker's mark, and opening it voids more than the warranty.",
     "strItemDef" : "ItmFzSmes01Dmg",
     "strType"    : "Item",
@@ -89,7 +89,7 @@
   {
     "strName" : "ItmFzSmes01Loose",
     "strNameShort" : "SMES Unit",
-    "strNameFriendly" : "Basic SMES Unit (Loose)",
+    "strNameFriendly" : "SMES Unit (Basic, Loose)",
     "strDesc" : "A superconducting magnetic energy storage unit. Its coil holds a large charge in a current that never decays, and can give it all up in moments, for equipment that needs more power than a ship's grid can supply. It connects to an adjacent conduit, and charges slowly from the grid or quickly from a SMES reactor tap.\n\nThe coil is proprietary. The casing carries no maker's mark, and opening it voids more than the warranty.",
     "strItemDef" : "ItmFzSmes01Loose",
     "strType"    : "Item",
@@ -129,7 +129,7 @@
   {
     "strName" : "ItmFzSmes01DmgLoose",
     "strNameShort" : "SMES Unit",
-    "strNameFriendly" : "Basic SMES Unit (Loose, Damaged)",
+    "strNameFriendly" : "SMES Unit (Basic, Loose, Damaged)",
     "strDesc" : "A superconducting magnetic energy storage unit. Its coil holds a large charge in a current that never decays, and can give it all up in moments, for equipment that needs more power than a ship's grid can supply. It connects to an adjacent conduit, and charges slowly from the grid or quickly from a SMES reactor tap.\n\nThe coil is proprietary. The casing carries no maker's mark, and opening it voids more than the warranty.",
     "strItemDef" : "ItmFzSmes01DmgLoose",
     "strType"    : "Item",

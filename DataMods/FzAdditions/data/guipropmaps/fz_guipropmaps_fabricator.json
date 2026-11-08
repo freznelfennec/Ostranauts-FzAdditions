@@ -3,7 +3,7 @@
     "strName" : "FzFabricatorGUI",
     "dictGUIPropMap" : [
       "strGUIPrefab", "FzFabricatorGUI",
-      "strFriendlyName", "Basic Fabricator",
+      "strFriendlyName", "Fabricator",
       "strGUIPrefabRight", null,
       "strGUIPrefabLeft", null,
       "strGUIPrefabUp", null,
@@ -15,7 +15,9 @@
       "FzFabricate", "false",
       "FzFill", "false",
       "FzAuto", "false",
-      "FzAutoCovered", "true"
+      "FzAutoCovered", "true",
+      "FzTaskAuto", "false",
+      "FzTaskAutoCovered", "true"
     ]
   }
 ]

@@ -1,0 +1,5 @@
+[
+  { "strName" : "TIsFzBreederBlanket", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzBreederBlanket" ], "aForbids" : [ "IsDamaged", "IsInstalled" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzBlanketFittable", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsInstalled" ], "aForbids" : [ "StatFzBlanketTier", "IsDamaged" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzBlanketFitted", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsInstalled", "StatFzBlanketTier" ], "aForbids" : [ ], "aTriggers" : [ ], "bAND" : true }
+]

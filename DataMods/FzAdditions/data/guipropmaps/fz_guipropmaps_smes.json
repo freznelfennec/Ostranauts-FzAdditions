@@ -3,7 +3,7 @@
     "strName" : "FzSmesGUI",
     "dictGUIPropMap"       : [
       "strGUIPrefab", "FzSmesGUI",
-      "strFriendlyName", "Basic SMES Unit",
+      "strFriendlyName", "SMES Unit",
       "strGUIPrefabRight", null,
       "strGUIPrefabLeft", null,
       "strGUIPrefabUp", null,

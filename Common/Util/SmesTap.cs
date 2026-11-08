@@ -48,17 +48,19 @@ namespace Freznel.FzAdditions.Util
             return !bool.TryParse(GetProp(tap, SmesConstants.TapChargeProp), out bool enabled) || enabled;
         }
 
-        //In kW, what the tap's controls currently allow
+        //In kW, what the tap's controls currently allow. Nothing without a plasma converter with life left.
         public static double GetRate(CondOwner tap)
         {
-            return IsChargeEnabled(tap) ? GetRateSetting(tap) : 0.0;
+            return IsChargeEnabled(tap) && PlasmaConverter.IsWorking(tap) ? GetRateSetting(tap) : 0.0;
         }
 
-        //In burn units per kWh delivered, see ReactorFuel
+        //In burn units per kWh delivered, see ReactorFuel. Its plasma converter's efficiency gets that much more charge
+        //from the same burn.
         public static double GetBurnRate(CondOwner tap)
         {
             double burn = tap.GetCondAmount(SmesConstants.TapBurnRateCond);
-            return burn > 0.0 ? burn : SmesConstants.DefaultTapBurnRate;
+            if (burn <= 0.0) burn = SmesConstants.DefaultTapBurnRate;
+            return burn / (1.0 + PlasmaConverter.Efficiency(tap));
         }
 
         //The rate is shared by the ship's taps, so any tap that is on counts as charging while one delivers
@@ -88,6 +90,11 @@ namespace Freznel.FzAdditions.Util
 
             lastDelivery[reactor.strID] = StarSystem.fEpoch;
             ReactorFuel.AddBurn(reactor, amount * GetShipBurnRate(taps));
+
+            //Each tap delivers its share of this at its own rate, so the hours it spent charging are the energy over
+            //the ship's rate, the same for every tap. Summed over the units, that's the time the taps ran.
+            double hours = amount / rate;
+            foreach (CondOwner tap in taps.Where(t => GetRate(t) > 0.0).ToList()) PlasmaConverter.Wear(tap, hours);
             return amount;
         }
 

@@ -96,6 +96,19 @@ namespace Freznel.FzAdditions.Util
                 foreach (CondOwner part in WithContents(inside)) yield return part;
         }
 
+        //For items whose yield depends on their state, not just their recipe, such as a part used breeder blanket.
+        //Each gives a share of a material's recipe amount to keep, 1 when it has nothing to say. Registered as the
+        //plugin loads.
+        private static readonly List<Func<CondOwner, string, double>> yieldShares = new List<Func<CondOwner, string, double>>();
+
+        //For items holding reserves in their own conditions rather than the game's fuel and gas ones, in kg by
+        //reserve key, which recycling returns in full
+        private static readonly List<Func<CondOwner, Dictionary<string, double>>> reserveSources = new List<Func<CondOwner, Dictionary<string, double>>>();
+
+        public static void AddYieldShare(Func<CondOwner, string, double> share) => yieldShares.Add(share);
+
+        public static void AddReserveSource(Func<CondOwner, Dictionary<string, double>> source) => reserveSources.Add(source);
+
         //What an item, with its whole stack and its recyclable contents, breaks down into: material to units, after
         //each recipe's yield. Null when it can't be recycled.
         public static Dictionary<string, double> Breakdown(CondOwner item)
@@ -107,7 +120,10 @@ namespace Freznel.FzAdditions.Util
                 JsonFabRecipe recipe = FabData.GetRecipeForCO(part.strCODef);
                 int count = Math.Max(1, part.StackCount);
                 foreach (var material in recipe.mapMaterials.Where(m => m.Value > 0))
-                    total[material.Key] = (total.TryGetValue(material.Key, out double had) ? had : 0) + material.Value * recipe.fRecycleYield * count;
+                {
+                    double share = yieldShares.Aggregate(1.0, (kept, get) => kept * get(part, material.Key));
+                    total[material.Key] = (total.TryGetValue(material.Key, out double had) ? had : 0) + material.Value * recipe.fRecycleYield * count * share;
+                }
             }
             return total;
         }
@@ -115,12 +131,20 @@ namespace Freznel.FzAdditions.Util
         //Material units an item and its recyclable contents yield, which is what wears a beam former. Reserves don't.
         public static double Units(CondOwner item) => Breakdown(item)?.Values.Sum() ?? 0.0;
 
+        //Beam former life recycling an item uses, each material's units by its wear multiplier
+        public static double WearUnits(CondOwner item) => Breakdown(item)?.Sum(m => m.Value * FabData.WearMultiplier(m.Key)) ?? 0.0;
+
         //The reserves an item and its recyclable contents hold, in kg, which go to the ship's canisters
         public static Dictionary<string, double> ReservesIn(CondOwner item)
         {
             var total = new Dictionary<string, double>();
             foreach (CondOwner part in WithContents(item))
+            {
                 foreach (var held in Reserves.InItem(part)) total[held.Key] = (total.TryGetValue(held.Key, out double had) ? had : 0) + held.Value;
+                foreach (var source in reserveSources)
+                    foreach (var held in source(part) ?? new Dictionary<string, double>())
+                        if (held.Value > 0.0) total[held.Key] = (total.TryGetValue(held.Key, out double had) ? had : 0) + held.Value;
+            }
             return total;
         }
 

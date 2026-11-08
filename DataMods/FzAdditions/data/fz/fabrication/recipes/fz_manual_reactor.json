@@ -1,0 +1,75 @@
+[
+  {
+    "strName": "ItmFzBreederBlanket01",
+    "strNameFriendly": "Breeder Blanket (Basic)",
+    "strCategory": "Reactor.BreederBlankets",
+    "aCOs": [ "ItmFzBreederBlanket01" ],
+    "strCOFabricate": "ItmFzBreederBlanket01",
+    "mapMaterials": { "Volatiles": 10000, "MetalAlloys": 120, "Ceramics": 160, "BaseMetals": 80, "RareEarths": 30 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzBreederBlanket01",
+    "strTier": "Ordinary",
+    "nReverseEngineer": 3
+  },
+  {
+    "strName": "ItmFzBreederBlanket02",
+    "strNameFriendly": "Breeder Blanket (Advanced)",
+    "strCategory": "Reactor.BreederBlankets",
+    "aCOs": [ "ItmFzBreederBlanket02" ],
+    "strCOFabricate": "ItmFzBreederBlanket02",
+    "mapMaterials": { "Volatiles": 25000, "MetalAlloys": 300, "Ceramics": 400, "BaseMetals": 150, "RareEarths": 120, "Silicates": 100, "PreciousMetals": 20 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzBreederBlanket02",
+    "strTier": "Specialised"
+  },
+  {
+    "strName": "ItmFzBreederBlanket03",
+    "strNameFriendly": "Breeder Blanket (Superior)",
+    "strCategory": "Reactor.BreederBlankets",
+    "aCOs": [ "ItmFzBreederBlanket03" ],
+    "strCOFabricate": "ItmFzBreederBlanket03",
+    "mapMaterials": { "Volatiles": 60000, "MetalAlloys": 600, "Ceramics": 800, "BaseMetals": 250, "RareEarths": 300, "Silicates": 200, "PreciousMetals": 60, "Exotics": 2 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzBreederBlanket03",
+    "strTier": "Exotic"
+  },
+  {
+    "strName": "ItmFzBreederBlanket01Spent",
+    "strNameFriendly": "Spent Breeder Blanket (Basic)",
+    "strCategory": "Reactor.BreederBlankets",
+    "aCOs": [ "ItmFzBreederBlanket01Spent" ],
+    "mapMaterials": { "MetalAlloys": 120, "Ceramics": 160, "BaseMetals": 80, "RareEarths": 30 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Specialised"
+  },
+  {
+    "strName": "ItmFzBreederBlanket02Spent",
+    "strNameFriendly": "Spent Breeder Blanket (Advanced)",
+    "strCategory": "Reactor.BreederBlankets",
+    "aCOs": [ "ItmFzBreederBlanket02Spent" ],
+    "mapMaterials": { "MetalAlloys": 300, "Ceramics": 400, "BaseMetals": 150, "RareEarths": 120, "Silicates": 100, "PreciousMetals": 20 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Specialised"
+  },
+  {
+    "strName": "ItmFzBreederBlanket03Spent",
+    "strNameFriendly": "Spent Breeder Blanket (Superior)",
+    "strCategory": "Reactor.BreederBlankets",
+    "aCOs": [ "ItmFzBreederBlanket03Spent" ],
+    "mapMaterials": { "MetalAlloys": 600, "Ceramics": 800, "BaseMetals": 250, "RareEarths": 300, "Silicates": 200, "PreciousMetals": 60 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Specialised"
+  }
+]

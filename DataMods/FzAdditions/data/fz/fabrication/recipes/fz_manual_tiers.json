@@ -1,0 +1,538 @@
+[
+    {
+        "strName":  "ItmFzSmesReactorTap02",
+        "strNameFriendly":  "SMES Reactor Tap (Advanced)",
+        "strCategory":  "FaureZhang.Energy",
+        "aCOs":  [
+                     "ItmFzSmesReactorTap02Loose",
+                     "ItmFzSmesReactorTap02",
+                     "ItmFzSmesReactorTap02Off"
+                 ],
+        "strCOFabricate":  "ItmFzSmesReactorTap02Loose",
+        "mapMaterials":  {
+                             "MetalAlloys":  52,
+                             "RareEarths":  16,
+                             "PreciousMetals":  11,
+                             "Ceramics":  21,
+                             "Polymers":  8,
+                             "Exotics":  2
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzSmesReactorTap02",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02Dmg",
+        "strNameFriendly":  "SMES Reactor Tap (Advanced)",
+        "strCategory":  "FaureZhang.Energy",
+        "aCOs":  [
+                     "ItmFzSmesReactorTap02Dmg",
+                     "ItmFzSmesReactorTap02DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "MetalAlloys":  26,
+                             "RareEarths":  8,
+                             "PreciousMetals":  6,
+                             "Ceramics":  11,
+                             "Polymers":  4
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03",
+        "strNameFriendly":  "SMES Reactor Tap (Superior)",
+        "strCategory":  "FaureZhang.Energy",
+        "aCOs":  [
+                     "ItmFzSmesReactorTap03Loose",
+                     "ItmFzSmesReactorTap03",
+                     "ItmFzSmesReactorTap03Off"
+                 ],
+        "strCOFabricate":  "ItmFzSmesReactorTap03Loose",
+        "mapMaterials":  {
+                             "MetalAlloys":  68,
+                             "RareEarths":  21,
+                             "PreciousMetals":  14,
+                             "Ceramics":  28,
+                             "Polymers":  11,
+                             "Exotics":  3
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzSmesReactorTap03",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03Dmg",
+        "strNameFriendly":  "SMES Reactor Tap (Superior)",
+        "strCategory":  "FaureZhang.Energy",
+        "aCOs":  [
+                     "ItmFzSmesReactorTap03Dmg",
+                     "ItmFzSmesReactorTap03DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "MetalAlloys":  34,
+                             "RareEarths":  11,
+                             "PreciousMetals":  7,
+                             "Ceramics":  14,
+                             "Polymers":  6
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSiloSmall02",
+        "strNameFriendly":  "Small Silo (Advanced)",
+        "strCategory":  "Fabrication.Storage",
+        "aCOs":  [
+                     "ItmFzSiloSmall02Loose",
+                     "ItmFzSiloSmall02"
+                 ],
+        "strCOFabricate":  "ItmFzSiloSmall02Loose",
+        "mapMaterials":  {
+                             "BaseMetals":  40,
+                             "MetalAlloys":  12,
+                             "Polymers":  8,
+                             "Ceramics":  4,
+                             "Exotics":  1
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzSiloSmall02",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSiloSmall02Dmg",
+        "strNameFriendly":  "Small Silo (Advanced)",
+        "strCategory":  "Fabrication.Storage",
+        "aCOs":  [
+                     "ItmFzSiloSmall02Dmg",
+                     "ItmFzSiloSmall02DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "BaseMetals":  20,
+                             "MetalAlloys":  6,
+                             "Polymers":  4,
+                             "Ceramics":  2
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSiloSmall03",
+        "strNameFriendly":  "Small Silo (Superior)",
+        "strCategory":  "Fabrication.Storage",
+        "aCOs":  [
+                     "ItmFzSiloSmall03Loose",
+                     "ItmFzSiloSmall03"
+                 ],
+        "strCOFabricate":  "ItmFzSiloSmall03Loose",
+        "mapMaterials":  {
+                             "BaseMetals":  52,
+                             "MetalAlloys":  16,
+                             "Polymers":  11,
+                             "Ceramics":  6,
+                             "Exotics":  2
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzSiloSmall03",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSiloSmall03Dmg",
+        "strNameFriendly":  "Small Silo (Superior)",
+        "strCategory":  "Fabrication.Storage",
+        "aCOs":  [
+                     "ItmFzSiloSmall03Dmg",
+                     "ItmFzSiloSmall03DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "BaseMetals":  26,
+                             "MetalAlloys":  8,
+                             "Polymers":  6,
+                             "Ceramics":  3
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzRecycler02",
+        "strNameFriendly":  "Recycler (Advanced)",
+        "strCategory":  "Fabrication.Machines",
+        "aCOs":  [
+                     "ItmFzRecycler02Loose",
+                     "ItmFzRecycler02",
+                     "ItmFzRecycler02Off"
+                 ],
+        "strCOFabricate":  "ItmFzRecycler02Loose",
+        "mapMaterials":  {
+                             "BaseMetals":  120,
+                             "MetalAlloys":  60,
+                             "PreciousMetals":  14,
+                             "RareEarths":  10,
+                             "Polymers":  30,
+                             "Silicates":  24,
+                             "Ceramics":  16,
+                             "Exotics":  1
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzRecycler02",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzRecycler02Dmg",
+        "strNameFriendly":  "Recycler (Advanced)",
+        "strCategory":  "Fabrication.Machines",
+        "aCOs":  [
+                     "ItmFzRecycler02Dmg",
+                     "ItmFzRecycler02DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "BaseMetals":  60,
+                             "MetalAlloys":  30,
+                             "PreciousMetals":  7,
+                             "RareEarths":  5,
+                             "Polymers":  15,
+                             "Silicates":  12,
+                             "Ceramics":  8
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzRecycler03",
+        "strNameFriendly":  "Recycler (Superior)",
+        "strCategory":  "Fabrication.Machines",
+        "aCOs":  [
+                     "ItmFzRecycler03Loose",
+                     "ItmFzRecycler03",
+                     "ItmFzRecycler03Off"
+                 ],
+        "strCOFabricate":  "ItmFzRecycler03Loose",
+        "mapMaterials":  {
+                             "BaseMetals":  156,
+                             "MetalAlloys":  78,
+                             "PreciousMetals":  19,
+                             "RareEarths":  13,
+                             "Polymers":  39,
+                             "Silicates":  32,
+                             "Ceramics":  21,
+                             "Exotics":  2
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzRecycler03",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzRecycler03Dmg",
+        "strNameFriendly":  "Recycler (Superior)",
+        "strCategory":  "Fabrication.Machines",
+        "aCOs":  [
+                     "ItmFzRecycler03Dmg",
+                     "ItmFzRecycler03DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "BaseMetals":  78,
+                             "MetalAlloys":  39,
+                             "PreciousMetals":  10,
+                             "RareEarths":  7,
+                             "Polymers":  20,
+                             "Silicates":  16,
+                             "Ceramics":  11
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzFabricator02",
+        "strNameFriendly":  "Fabricator (Advanced)",
+        "strCategory":  "Fabrication.Machines",
+        "aCOs":  [
+                     "ItmFzFabricator02Loose",
+                     "ItmFzFabricator02",
+                     "ItmFzFabricator02Off"
+                 ],
+        "strCOFabricate":  "ItmFzFabricator02Loose",
+        "mapMaterials":  {
+                             "BaseMetals":  110,
+                             "MetalAlloys":  70,
+                             "PreciousMetals":  18,
+                             "RareEarths":  14,
+                             "Polymers":  26,
+                             "Silicates":  30,
+                             "Ceramics":  20,
+                             "Exotics":  1
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzFabricator02",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzFabricator02Dmg",
+        "strNameFriendly":  "Fabricator (Advanced)",
+        "strCategory":  "Fabrication.Machines",
+        "aCOs":  [
+                     "ItmFzFabricator02Dmg",
+                     "ItmFzFabricator02DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "BaseMetals":  55,
+                             "MetalAlloys":  35,
+                             "PreciousMetals":  9,
+                             "RareEarths":  7,
+                             "Polymers":  13,
+                             "Silicates":  15,
+                             "Ceramics":  10
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzFabricator03",
+        "strNameFriendly":  "Fabricator (Superior)",
+        "strCategory":  "Fabrication.Machines",
+        "aCOs":  [
+                     "ItmFzFabricator03Loose",
+                     "ItmFzFabricator03",
+                     "ItmFzFabricator03Off"
+                 ],
+        "strCOFabricate":  "ItmFzFabricator03Loose",
+        "mapMaterials":  {
+                             "BaseMetals":  143,
+                             "MetalAlloys":  91,
+                             "PreciousMetals":  24,
+                             "RareEarths":  19,
+                             "Polymers":  34,
+                             "Silicates":  39,
+                             "Ceramics":  26,
+                             "Exotics":  2
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzFabricator03",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzFabricator03Dmg",
+        "strNameFriendly":  "Fabricator (Superior)",
+        "strCategory":  "Fabrication.Machines",
+        "aCOs":  [
+                     "ItmFzFabricator03Dmg",
+                     "ItmFzFabricator03DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "BaseMetals":  72,
+                             "MetalAlloys":  46,
+                             "PreciousMetals":  12,
+                             "RareEarths":  10,
+                             "Polymers":  17,
+                             "Silicates":  20,
+                             "Ceramics":  13
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSmes02",
+        "strNameFriendly":  "SMES Unit (Advanced)",
+        "strCategory":  "FaureZhang.Energy",
+        "aCOs":  [
+                     "ItmFzSmes02Loose",
+                     "ItmFzSmes02"
+                 ],
+        "strCOFabricate":  "ItmFzSmes02Loose",
+        "mapMaterials":  {
+                             "MetalAlloys":  39,
+                             "RareEarths":  26,
+                             "PreciousMetals":  8,
+                             "Ceramics":  13,
+                             "Silicates":  11,
+                             "Exotics":  2
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzSmes02",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSmes02Dmg",
+        "strNameFriendly":  "SMES Unit (Advanced)",
+        "strCategory":  "FaureZhang.Energy",
+        "aCOs":  [
+                     "ItmFzSmes02Dmg",
+                     "ItmFzSmes02DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "MetalAlloys":  20,
+                             "RareEarths":  13,
+                             "PreciousMetals":  4,
+                             "Ceramics":  7,
+                             "Silicates":  6
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSmes03",
+        "strNameFriendly":  "SMES Unit (Superior)",
+        "strCategory":  "FaureZhang.Energy",
+        "aCOs":  [
+                     "ItmFzSmes03Loose",
+                     "ItmFzSmes03"
+                 ],
+        "strCOFabricate":  "ItmFzSmes03Loose",
+        "mapMaterials":  {
+                             "MetalAlloys":  51,
+                             "RareEarths":  34,
+                             "PreciousMetals":  11,
+                             "Ceramics":  17,
+                             "Silicates":  14,
+                             "Exotics":  3
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzSmes03",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzSmes03Dmg",
+        "strNameFriendly":  "SMES Unit (Superior)",
+        "strCategory":  "FaureZhang.Energy",
+        "aCOs":  [
+                     "ItmFzSmes03Dmg",
+                     "ItmFzSmes03DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "MetalAlloys":  26,
+                             "RareEarths":  17,
+                             "PreciousMetals":  6,
+                             "Ceramics":  9,
+                             "Silicates":  7
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02",
+        "strNameFriendly":  "Jump Drive Field Emitter (Advanced)",
+        "strCategory":  "FaureZhang.Propulsion",
+        "aCOs":  [
+                     "ItmFzJumpFieldEmitter02Loose",
+                     "ItmFzJumpFieldEmitter02",
+                     "ItmFzJumpFieldEmitter02Off"
+                 ],
+        "strCOFabricate":  "ItmFzJumpFieldEmitter02Loose",
+        "mapMaterials":  {
+                             "MetalAlloys":  104,
+                             "RareEarths":  52,
+                             "PreciousMetals":  26,
+                             "Ceramics":  39,
+                             "Silicates":  26,
+                             "Exotics":  5
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzJumpFieldEmitter02",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02Dmg",
+        "strNameFriendly":  "Jump Drive Field Emitter (Advanced)",
+        "strCategory":  "FaureZhang.Propulsion",
+        "aCOs":  [
+                     "ItmFzJumpFieldEmitter02Dmg",
+                     "ItmFzJumpFieldEmitter02DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "MetalAlloys":  52,
+                             "RareEarths":  26,
+                             "PreciousMetals":  13,
+                             "Ceramics":  20,
+                             "Silicates":  13
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03",
+        "strNameFriendly":  "Jump Drive Field Emitter (Superior)",
+        "strCategory":  "FaureZhang.Propulsion",
+        "aCOs":  [
+                     "ItmFzJumpFieldEmitter03Loose",
+                     "ItmFzJumpFieldEmitter03",
+                     "ItmFzJumpFieldEmitter03Off"
+                 ],
+        "strCOFabricate":  "ItmFzJumpFieldEmitter03Loose",
+        "mapMaterials":  {
+                             "MetalAlloys":  136,
+                             "RareEarths":  68,
+                             "PreciousMetals":  34,
+                             "Ceramics":  51,
+                             "Silicates":  34,
+                             "Exotics":  6
+                         },
+        "bFabricate":  true,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strBlueprint":  "FzJumpFieldEmitter03",
+        "strTier":  "Exotic"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03Dmg",
+        "strNameFriendly":  "Jump Drive Field Emitter (Superior)",
+        "strCategory":  "FaureZhang.Propulsion",
+        "aCOs":  [
+                     "ItmFzJumpFieldEmitter03Dmg",
+                     "ItmFzJumpFieldEmitter03DmgLoose"
+                 ],
+        "mapMaterials":  {
+                             "MetalAlloys":  68,
+                             "RareEarths":  34,
+                             "PreciousMetals":  17,
+                             "Ceramics":  26,
+                             "Silicates":  17
+                         },
+        "bFabricate":  false,
+        "bRecycle":  true,
+        "fRecycleYield":  0.5,
+        "strTier":  "Exotic"
+    }
+]

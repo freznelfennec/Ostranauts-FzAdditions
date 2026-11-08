@@ -36,6 +36,50 @@ namespace Freznel.FzAdditions.Patches
                 "'fz silo clear' empties every working silo");
             ConsolePatch.AddCommand("fabreload", KeywordReload,
                 "reads every mod's fabrication recipes and materials again, for checking edits without restarting");
+            ConsolePatch.AddCommand("fzkiosk", KeywordKiosk,
+                "puts in the Faure-Zhang kiosk",
+                "'fz fzkiosk' puts it in on the current station now, as it's put in at OKLG the first time OKLG Entrance loads");
+            ConsolePatch.AddCommand("damagelog", KeywordDamageLog,
+                "shows the current ship's combat damage log",
+                "'fz damagelog' lists what its working damage recorders have logged",
+                "'fz damagelog queue' queues build orders for every loss waiting, as QUEUE ALL does");
+        }
+
+        private static bool KeywordKiosk(ref string strInput, string[] args)
+        {
+            Ship ship = CrewSim.shipCurrentLoaded;
+            if (ship == null)
+            {
+                strInput += "\nNo ship or station loaded.";
+                return false;
+            }
+            strInput += $"\nFaure-Zhang kiosk on {ship.strRegID}: {FaureZhangKiosk.TryPlace(ship, force: true) ?? "nothing done"}.";
+            return true;
+        }
+
+        private static bool KeywordDamageLog(ref string strInput, string[] args)
+        {
+            Ship ship = CrewSim.shipCurrentLoaded;
+            List<DamageRecorder.Record> records = DamageRecorder.Records(ship);
+            if (ship == null || records == null)
+            {
+                strInput += "\nNo working damage recorder on the current ship, so no log.";
+                return false;
+            }
+            if (args.Length > 1 && args[1].ToLower() == "queue")
+            {
+                DamageRecorder.QueueAll(ship, out int queued, out int failed);
+                strInput += $"\nQueued {queued} build orders, {failed} couldn't be.";
+                return true;
+            }
+            strInput += $"\n{DamageRecorder.Working(ship).Count} recorder(s) online, {records.Count} loss(es) logged:";
+            foreach (DamageRecorder.Record record in records.Take(ListLimit))
+            {
+                string job = DamageRecorder.FindJob(record.CO)?.strName ?? "no build job";
+                strInput += $"\n  {record.CO} at {record.X:0.##},{record.Y:0.##} turned {record.Rotation:0}: {(record.Queued ? "queued " + record.Task : "waiting")} ({job})";
+            }
+            if (records.Count > ListLimit) strInput += $"\n  and {records.Count - ListLimit} more";
+            return true;
         }
 
         private static bool KeywordRecipe(ref string strInput, string[] args)

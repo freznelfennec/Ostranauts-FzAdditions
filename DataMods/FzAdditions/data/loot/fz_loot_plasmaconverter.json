@@ -1,0 +1,8 @@
+[
+  { "strName" : "ItmFzPlasmaConverter01", "aCOs" : [ "ItmFzPlasmaConverter01=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzPlasmaConverter01Spent", "aCOs" : [ "ItmFzPlasmaConverter01Spent=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzPlasmaConverter02", "aCOs" : [ "ItmFzPlasmaConverter02=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzPlasmaConverter02Spent", "aCOs" : [ "ItmFzPlasmaConverter02Spent=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzPlasmaConverter03", "aCOs" : [ "ItmFzPlasmaConverter03=1.0x1" ], "aLoots" : [ ], "strType" : "item" },
+  { "strName" : "ItmFzPlasmaConverter03Spent", "aCOs" : [ "ItmFzPlasmaConverter03Spent=1.0x1" ], "aLoots" : [ ], "strType" : "item" }
+]

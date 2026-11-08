@@ -2,7 +2,7 @@
   {
     "strName" : "ItmFzRecyclerOff",
     "strNameShort" : "Basic Recycler",
-    "strNameFriendly" : "Basic Recycler (Off)",
+    "strNameFriendly" : "Recycler (Basic, Off)",
     "strDesc" : "A basic floor-fed recycler. Items placed in its working area in front of it are broken down into their materials, which go into the material silos on the same ship.",
     "strItemDef" : "ItmFzRecyclerOff",
     "strType" : "Item",
@@ -42,7 +42,7 @@
   {
     "strName" : "ItmFzRecycler",
     "strNameShort" : "Basic Recycler",
-    "strNameFriendly" : "Basic Recycler",
+    "strNameFriendly" : "Recycler (Basic)",
     "strDesc" : "A basic floor-fed recycler. Items placed in its working area in front of it are broken down into their materials, which go into the material silos on the same ship.",
     "strItemDef" : "ItmFzRecycler",
     "strType" : "Item",
@@ -82,7 +82,7 @@
   {
     "strName" : "ItmFzRecyclerDmg",
     "strNameShort" : "Basic Recycler",
-    "strNameFriendly" : "Basic Recycler (Damaged)",
+    "strNameFriendly" : "Recycler (Basic, Damaged)",
     "strDesc" : "A basic floor-fed recycler. Items placed in its working area in front of it are broken down into their materials, which go into the material silos on the same ship.",
     "strItemDef" : "ItmFzRecyclerDmg",
     "strType" : "Item",
@@ -120,7 +120,7 @@
   {
     "strName" : "ItmFzRecyclerLoose",
     "strNameShort" : "Basic Recycler",
-    "strNameFriendly" : "Basic Recycler (Loose)",
+    "strNameFriendly" : "Recycler (Basic, Loose)",
     "strDesc" : "A basic floor-fed recycler. Items placed in its working area in front of it are broken down into their materials, which go into the material silos on the same ship.",
     "strItemDef" : "ItmFzRecyclerLoose",
     "strType" : "Item",
@@ -156,7 +156,7 @@
   {
     "strName" : "ItmFzRecyclerDmgLoose",
     "strNameShort" : "Basic Recycler",
-    "strNameFriendly" : "Basic Recycler (Loose, Damaged)",
+    "strNameFriendly" : "Recycler (Basic, Loose, Damaged)",
     "strDesc" : "A basic floor-fed recycler. Items placed in its working area in front of it are broken down into their materials, which go into the material silos on the same ship.",
     "strItemDef" : "ItmFzRecyclerDmgLoose",
     "strType" : "Item",

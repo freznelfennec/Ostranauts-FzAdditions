@@ -20,7 +20,8 @@
       "IsFzSiloSilicates","Holds Silicates","[us] can store silicates.","2","2","Neutral","false",
       "IsFzSiloVolatiles","Holds Volatiles","[us] can store volatiles.","2","2","Neutral","false",
       "IsFzSiloHeliumFines","Holds Helium Fines","[us] can store helium fines.","2","2","Neutral","false",
-      "IsFzSiloExotics","Holds Exotics","[us] can store exotic materials.","2","2","Neutral","false"
+      "IsFzSiloExotics","Holds Exotics","[us] can store exotic materials.","2","2","Neutral","false",
+      "IsFzDamageRecorder","Combat Damage Recorder","[us] [is] a combat damage recorder.","2","2","Neutral","false"
     ]
   }
 ]

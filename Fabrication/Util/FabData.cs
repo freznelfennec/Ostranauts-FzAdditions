@@ -28,6 +28,9 @@ namespace Freznel.FzAdditions.Util
 
         public static IReadOnlyDictionary<string, JsonFabRecipe> Recipes { get { EnsureLoaded(); return recipes; } }
         public static IReadOnlyDictionary<string, JsonFabMaterial> Materials { get { EnsureLoaded(); return materials; } }
+
+        //Beam former life one unit of a material uses, 1 for a material nothing defines
+        public static double WearMultiplier(string material) => Materials.TryGetValue(material, out JsonFabMaterial def) ? def.fWearMultiplier : 1.0;
         public static IEnumerable<string> Blueprints { get { EnsureLoaded(); return recipesByBlueprint.Keys; } }
         //Every fabricable recipe by category, built once as the data loads
         public static FabCategory Categories { get { EnsureLoaded(); return categories; } }

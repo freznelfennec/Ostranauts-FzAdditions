@@ -1,0 +1,838 @@
+[
+    {
+        "strName":  "ACTFzRecycler02Damage",
+        "aCOs":  "MSFzRecycler02Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzRecycler02Destroy",
+        "aCOs":  "MSFzRecycler02Destroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzRecycler02LooseDamage",
+        "aCOs":  "MSFzRecycler02LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzRecycler02LooseDestroy",
+        "aCOs":  "MSFzRecycler02LooseDestroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzRecycler02Damage",
+        "aCOs":  "ItmFzRecycler02Dmg=1.0x1",
+        "aLoots":  "ItmAtmoScrubberComponents=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler02LooseDamage",
+        "aCOs":  "ItmFzRecycler02DmgLoose=1.0x1",
+        "aLoots":  "ItmAtmoScrubberComponents=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler02",
+        "aCOs":  "ItmFzRecycler02=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler02Off",
+        "aCOs":  "ItmFzRecycler02Off=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler02Dmg",
+        "aCOs":  "ItmFzRecycler02Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler02Loose",
+        "aCOs":  "ItmFzRecycler02Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler02DmgLoose",
+        "aCOs":  "ItmFzRecycler02DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ACTFzRecycler03Damage",
+        "aCOs":  "MSFzRecycler03Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzRecycler03Destroy",
+        "aCOs":  "MSFzRecycler03Destroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzRecycler03LooseDamage",
+        "aCOs":  "MSFzRecycler03LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzRecycler03LooseDestroy",
+        "aCOs":  "MSFzRecycler03LooseDestroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzRecycler03Damage",
+        "aCOs":  "ItmFzRecycler03Dmg=1.0x1",
+        "aLoots":  "ItmAtmoScrubberComponents=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler03LooseDamage",
+        "aCOs":  "ItmFzRecycler03DmgLoose=1.0x1",
+        "aLoots":  "ItmAtmoScrubberComponents=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler03",
+        "aCOs":  "ItmFzRecycler03=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler03Off",
+        "aCOs":  "ItmFzRecycler03Off=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler03Dmg",
+        "aCOs":  "ItmFzRecycler03Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler03Loose",
+        "aCOs":  "ItmFzRecycler03Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzRecycler03DmgLoose",
+        "aCOs":  "ItmFzRecycler03DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ACTFzFabricator02Damage",
+        "aCOs":  "MSFzFabricator02Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzFabricator02Destroy",
+        "aCOs":  "MSFzFabricator02Destroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzFabricator02LooseDamage",
+        "aCOs":  "MSFzFabricator02LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzFabricator02LooseDestroy",
+        "aCOs":  "MSFzFabricator02LooseDestroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzFabricator02Damage",
+        "aCOs":  "ItmFzFabricator02Dmg=1.0x1",
+        "aLoots":  "ItmAtmoScrubberComponents=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator02LooseDamage",
+        "aCOs":  "ItmFzFabricator02DmgLoose=1.0x1",
+        "aLoots":  "ItmAtmoScrubberComponents=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator02",
+        "aCOs":  "ItmFzFabricator02=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator02Off",
+        "aCOs":  "ItmFzFabricator02Off=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator02Dmg",
+        "aCOs":  "ItmFzFabricator02Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator02Loose",
+        "aCOs":  "ItmFzFabricator02Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator02DmgLoose",
+        "aCOs":  "ItmFzFabricator02DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ACTFzFabricator03Damage",
+        "aCOs":  "MSFzFabricator03Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzFabricator03Destroy",
+        "aCOs":  "MSFzFabricator03Destroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzFabricator03LooseDamage",
+        "aCOs":  "MSFzFabricator03LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzFabricator03LooseDestroy",
+        "aCOs":  "MSFzFabricator03LooseDestroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzFabricator03Damage",
+        "aCOs":  "ItmFzFabricator03Dmg=1.0x1",
+        "aLoots":  "ItmAtmoScrubberComponents=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator03LooseDamage",
+        "aCOs":  "ItmFzFabricator03DmgLoose=1.0x1",
+        "aLoots":  "ItmAtmoScrubberComponents=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator03",
+        "aCOs":  "ItmFzFabricator03=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator03Off",
+        "aCOs":  "ItmFzFabricator03Off=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator03Dmg",
+        "aCOs":  "ItmFzFabricator03Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator03Loose",
+        "aCOs":  "ItmFzFabricator03Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzFabricator03DmgLoose",
+        "aCOs":  "ItmFzFabricator03DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02Off",
+        "aCOs":  "ItmFzJumpFieldEmitter02Off=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02Loose",
+        "aCOs":  "ItmFzJumpFieldEmitter02Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02",
+        "aCOs":  "ItmFzJumpFieldEmitter02=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02Dmg",
+        "aCOs":  "ItmFzJumpFieldEmitter02Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02DmgLoose",
+        "aCOs":  "ItmFzJumpFieldEmitter02DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02Damage",
+        "aCOs":  "ItmFzJumpFieldEmitter02Dmg=1.0x1",
+        "aLoots":  "ItmFzJumpFieldEmitter02Components=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02LooseDamage",
+        "aCOs":  "ItmFzJumpFieldEmitter02DmgLoose=1.0x1",
+        "aLoots":  "ItmFzJumpFieldEmitter02Components=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02Components",
+        "aCOs":  [
+                     "ItmComponentMotor01=0.5x1",
+                     "ItmComponentMobo01=0.5x1",
+                     "ItmPartsMechSmall01=1.0x1-2",
+                     "ItmPartsElecSmall01=1.0x1-2",
+                     "ItmScrapAluminum=1.0x1"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02ComponentsShell",
+        "aCOs":  [
+                     "ItmScrapTrash=1.0x1-2",
+                     "ItmScrapSteel=0.5x1-2"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter02Dismantle",
+        "aCOs":  [
+                     "ItmComponentMotor01=1.0x1",
+                     "ItmComponentMobo01=1.0x1",
+                     "ItmPartsMechSmall01=1.0x2",
+                     "ItmPartsElecSmall01=1.0x2",
+                     "ItmScrapTrash=1.0x2",
+                     "ItmScrapSteel=1.0x2",
+                     "ItmScrapAluminum=1.0x1"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ACTFzJumpFieldEmitter02Damage",
+        "aCOs":  "MSFzJumpFieldEmitter02Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzJumpFieldEmitter02Destroy",
+        "aCOs":  "MSFzJumpFieldEmitter02Destroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzJumpFieldEmitter02LooseDamage",
+        "aCOs":  "MSFzJumpFieldEmitter02LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzJumpFieldEmitter02LooseDestroy",
+        "aCOs":  "MSFzJumpFieldEmitter02LooseDestroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03Off",
+        "aCOs":  "ItmFzJumpFieldEmitter03Off=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03Loose",
+        "aCOs":  "ItmFzJumpFieldEmitter03Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03",
+        "aCOs":  "ItmFzJumpFieldEmitter03=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03Dmg",
+        "aCOs":  "ItmFzJumpFieldEmitter03Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03DmgLoose",
+        "aCOs":  "ItmFzJumpFieldEmitter03DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03Damage",
+        "aCOs":  "ItmFzJumpFieldEmitter03Dmg=1.0x1",
+        "aLoots":  "ItmFzJumpFieldEmitter03Components=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03LooseDamage",
+        "aCOs":  "ItmFzJumpFieldEmitter03DmgLoose=1.0x1",
+        "aLoots":  "ItmFzJumpFieldEmitter03Components=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03Components",
+        "aCOs":  [
+                     "ItmComponentMotor01=0.5x1",
+                     "ItmComponentMobo01=0.5x1",
+                     "ItmPartsMechSmall01=1.0x1-2",
+                     "ItmPartsElecSmall01=1.0x1-2",
+                     "ItmScrapAluminum=1.0x1"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03ComponentsShell",
+        "aCOs":  [
+                     "ItmScrapTrash=1.0x1-2",
+                     "ItmScrapSteel=0.5x1-2"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzJumpFieldEmitter03Dismantle",
+        "aCOs":  [
+                     "ItmComponentMotor01=1.0x1",
+                     "ItmComponentMobo01=1.0x1",
+                     "ItmPartsMechSmall01=1.0x2",
+                     "ItmPartsElecSmall01=1.0x2",
+                     "ItmScrapTrash=1.0x2",
+                     "ItmScrapSteel=1.0x2",
+                     "ItmScrapAluminum=1.0x1"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ACTFzJumpFieldEmitter03Damage",
+        "aCOs":  "MSFzJumpFieldEmitter03Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzJumpFieldEmitter03Destroy",
+        "aCOs":  "MSFzJumpFieldEmitter03Destroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzJumpFieldEmitter03LooseDamage",
+        "aCOs":  "MSFzJumpFieldEmitter03LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzJumpFieldEmitter03LooseDestroy",
+        "aCOs":  "MSFzJumpFieldEmitter03LooseDestroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmesReactorTap02Damage",
+        "aCOs":  "MSFzSmesReactorTap02Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmesReactorTap02Destroy",
+        "aCOs":  "MSFzSmesReactorTap02Destroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmesReactorTap02LooseDamage",
+        "aCOs":  "MSFzSmesReactorTap02LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmesReactorTap02LooseDestroy",
+        "aCOs":  "MSFzSmesReactorTap02LooseDestroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02Damage",
+        "aCOs":  "ItmFzSmesReactorTap02Dmg=1.0x1",
+        "aLoots":  "ItmFzSmesReactorTap02Components=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02LooseDamage",
+        "aCOs":  "ItmFzSmesReactorTap02DmgLoose=1.0x1",
+        "aLoots":  "ItmFzSmesReactorTap02Components=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02Components",
+        "aCOs":  [
+                     "ItmComponentMotor01=0.5x1",
+                     "ItmComponentMobo01=0.5x1",
+                     "ItmComponentMobo01=0.5x1",
+                     "ItmPartsMechSmall01=1.0x1-3",
+                     "ItmPartsElecSmall01=1.0x1-4"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02ComponentsShell",
+        "aCOs":  [
+                     "ItmScrapTrash=1.0x1-2",
+                     "ItmScrapAluminum=0.5x1",
+                     "ItmScrapCarbonFiber=0.5x1"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02Dismantle",
+        "aCOs":  [
+                     "ItmComponentMobo01=1.0x2",
+                     "ItmPartsElecSmall01=1.0x6",
+                     "ItmPartsMechSmall01=1.0x3",
+                     "ItmScrapTrash=1.0x2",
+                     "ItmScrapAluminum=1.0x1",
+                     "ItmScrapCarbonFiber=1.0x1"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02Loose",
+        "aCOs":  "ItmFzSmesReactorTap02Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02Off",
+        "aCOs":  "ItmFzSmesReactorTap02Off=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02",
+        "aCOs":  "ItmFzSmesReactorTap02=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02DmgLoose",
+        "aCOs":  "ItmFzSmesReactorTap02DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap02Dmg",
+        "aCOs":  "ItmFzSmesReactorTap02Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ACTFzSmesReactorTap03Damage",
+        "aCOs":  "MSFzSmesReactorTap03Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmesReactorTap03Destroy",
+        "aCOs":  "MSFzSmesReactorTap03Destroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmesReactorTap03LooseDamage",
+        "aCOs":  "MSFzSmesReactorTap03LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmesReactorTap03LooseDestroy",
+        "aCOs":  "MSFzSmesReactorTap03LooseDestroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03Damage",
+        "aCOs":  "ItmFzSmesReactorTap03Dmg=1.0x1",
+        "aLoots":  "ItmFzSmesReactorTap03Components=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03LooseDamage",
+        "aCOs":  "ItmFzSmesReactorTap03DmgLoose=1.0x1",
+        "aLoots":  "ItmFzSmesReactorTap03Components=1.0x1",
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03Components",
+        "aCOs":  [
+                     "ItmComponentMotor01=0.5x1",
+                     "ItmComponentMobo01=0.5x1",
+                     "ItmComponentMobo01=0.5x1",
+                     "ItmPartsMechSmall01=1.0x1-3",
+                     "ItmPartsElecSmall01=1.0x1-4"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03ComponentsShell",
+        "aCOs":  [
+                     "ItmScrapTrash=1.0x1-2",
+                     "ItmScrapAluminum=0.5x1",
+                     "ItmScrapCarbonFiber=0.5x1"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03Dismantle",
+        "aCOs":  [
+                     "ItmComponentMobo01=1.0x2",
+                     "ItmPartsElecSmall01=1.0x6",
+                     "ItmPartsMechSmall01=1.0x3",
+                     "ItmScrapTrash=1.0x2",
+                     "ItmScrapAluminum=1.0x1",
+                     "ItmScrapCarbonFiber=1.0x1"
+                 ],
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03Loose",
+        "aCOs":  "ItmFzSmesReactorTap03Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03Off",
+        "aCOs":  "ItmFzSmesReactorTap03Off=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03",
+        "aCOs":  "ItmFzSmesReactorTap03=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03DmgLoose",
+        "aCOs":  "ItmFzSmesReactorTap03DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmesReactorTap03Dmg",
+        "aCOs":  "ItmFzSmesReactorTap03Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ACTFzSmes02Damage",
+        "aCOs":  "MSFzSmes02Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmes02Destroy",
+        "aCOs":  "MSFzSmes02Destroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmes02LooseDamage",
+        "aCOs":  "MSFzSmes02LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmes02LooseDestroy",
+        "aCOs":  "MSFzSmes02LooseDestroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzSmes02",
+        "aCOs":  "ItmFzSmes02=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmes02Dmg",
+        "aCOs":  "ItmFzSmes02Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmes02Loose",
+        "aCOs":  "ItmFzSmes02Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmes02DmgLoose",
+        "aCOs":  "ItmFzSmes02DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ACTFzSmes03Damage",
+        "aCOs":  "MSFzSmes03Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmes03Destroy",
+        "aCOs":  "MSFzSmes03Destroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmes03LooseDamage",
+        "aCOs":  "MSFzSmes03LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSmes03LooseDestroy",
+        "aCOs":  "MSFzSmes03LooseDestroy=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzSmes03",
+        "aCOs":  "ItmFzSmes03=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmes03Dmg",
+        "aCOs":  "ItmFzSmes03Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmes03Loose",
+        "aCOs":  "ItmFzSmes03Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSmes03DmgLoose",
+        "aCOs":  "ItmFzSmes03DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ACTFzSiloSmall02Damage",
+        "aCOs":  "MSFzSiloSmall02Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSiloSmall02LooseDamage",
+        "aCOs":  "MSFzSiloSmall02LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzSiloSmall02",
+        "aCOs":  "ItmFzSiloSmall02=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSiloSmall02Dmg",
+        "aCOs":  "ItmFzSiloSmall02Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSiloSmall02Loose",
+        "aCOs":  "ItmFzSiloSmall02Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSiloSmall02DmgLoose",
+        "aCOs":  "ItmFzSiloSmall02DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ACTFzSiloSmall03Damage",
+        "aCOs":  "MSFzSiloSmall03Damage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ACTFzSiloSmall03LooseDamage",
+        "aCOs":  "MSFzSiloSmall03LooseDamage=1.0x1",
+        "aLoots":  null,
+        "strType":  "interaction"
+    },
+    {
+        "strName":  "ItmFzSiloSmall03",
+        "aCOs":  "ItmFzSiloSmall03=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSiloSmall03Dmg",
+        "aCOs":  "ItmFzSiloSmall03Dmg=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSiloSmall03Loose",
+        "aCOs":  "ItmFzSiloSmall03Loose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    },
+    {
+        "strName":  "ItmFzSiloSmall03DmgLoose",
+        "aCOs":  "ItmFzSiloSmall03DmgLoose=1.0x1",
+        "aLoots":  null,
+        "strType":  "item"
+    }
+]

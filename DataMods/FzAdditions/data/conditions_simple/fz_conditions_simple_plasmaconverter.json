@@ -1,0 +1,9 @@
+[
+  {
+    "strName": "Fz Plasma Converter Simple Conditions",
+    "aValues": [
+      "IsFzPlasmaConverter","Plasma Converter","[us] [is] a plasma converter.","2","2","Neutral","false",
+      "IsFzPlasmaConverterSpent","Spent Plasma Converter","[us] [is] a spent plasma converter.","2","2","Neutral","false"
+    ]
+  }
+]

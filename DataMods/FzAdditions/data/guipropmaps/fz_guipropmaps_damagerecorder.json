@@ -1,0 +1,14 @@
+[
+  {
+    "strName" : "FzDamageRecorderGUI",
+    "dictGUIPropMap" : [
+      "strGUIPrefab", "FzDamageRecorderGUI",
+      "strFriendlyName", "Combat Damage Recorder",
+      "strGUIPrefabRight", null,
+      "strGUIPrefabLeft", null,
+      "strGUIPrefabUp", null,
+      "strGUIPrefabDown", null,
+      "FzAutoQueue", "false"
+    ]
+  }
+]

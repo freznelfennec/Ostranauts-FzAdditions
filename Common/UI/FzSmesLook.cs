@@ -36,7 +36,7 @@ namespace Freznel.FzAdditions.UI
         //whose power updates wait for the game to unpause. The look goes with the item.
         public static void Attach(CondOwner co)
         {
-            if (co == null || co.strName != SmesConstants.UnitCO || co.Item == null || co.GetComponent<FzSmesLook>() != null) return;
+            if (co == null || !SmesConstants.UnitCOs.Contains(co.strName) || co.Item == null || co.GetComponent<FzSmesLook>() != null) return;
 
             FzSmesLook unitLook = co.gameObject.AddComponent<FzSmesLook>();
             unitLook.item = co.Item;
@@ -52,7 +52,7 @@ namespace Freznel.FzAdditions.UI
         private void LateUpdate()
         {
             CondOwner co = item != null ? item.CO : null;
-            if (co == null || co.strName != SmesConstants.UnitCO) return;
+            if (co == null || !SmesConstants.UnitCOs.Contains(co.strName)) return;
 
             bool flashOn = Time.unscaledTime * SmesConstants.FlashRate % 1f < 0.5f;
             string wanted = GetLook(co, animationUpdate != null, flashOn);

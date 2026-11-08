@@ -12,7 +12,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
 {
     //The fabricator's panel: SHIP RESOURCES, BLUEPRINTS to choose what to build, and COST, what one takes against what
     //the ship has and how many that makes, across the top. POWER, SETUP and OPERATION under them, OPERATION with a
-    //status screen, FABRICATE and FILL, COUNT and its keys, and AUTO under its cover. POWER, SHIP RESOURCES and SETUP
+    //status screen, FABRICATE and FILL, COUNT and its keys, and REPEAT and AUTO under their covers. POWER, SHIP RESOURCES and SETUP
     //are shared with the recycler (FzMachineGUI). Settings live in the fabricator's prop map through Fabricator.
     public class FzFabricatorGUI : FzMachineGUI
     {
@@ -76,19 +76,21 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             CreatePowerPanel(root, 0.1424f, BottomHeight, 0f, 0f);
             CreateSetupPanel(root, 0.3184f, BottomHeight, 0.1466f, 0f);
 
-            //A status screen, FABRICATE and FILL beside it, COUNT and AUTO under them. Sized for the recycler's
-            //proportions at this panel's size, for a 16:9 screen.
+            //A status screen, FABRICATE and FILL beside it, COUNT under them, and REPEAT and AUTO under their covers at
+            //the right. Sized for the recycler's proportions at this panel's size, for a 16:9 screen.
             GameObject operation = Controls.Panel.CreatePanel("OperationPanel", 0.5308f, BottomHeight, 0.4692f, 0f, root);
             Controls.Panel.AddTitle(operation, "OPERATION", 0.11f);
-            FzRecyclerGUI.CreateStatusScreen(operation, 0.46f, StatusLines);
-            LampBtn.Create(operation, "FabricateBtn", "FABRICATE", 0.215f, 0.26f, 0.51f, 0.6f);
-            LampBtn.Create(operation, "FillBtn", "FILL ITEMS", 0.215f, 0.26f, 0.745f, 0.6f);
-            FzHoldBtn.Create(operation, "CountLessBtn", "-", 0.075f, 0.13f, 0.51f, 0.33f);
-            FzNumeric.Create(operation, "CountDisplay", 0.14f, 0.16f, 0.595f, 0.315f, LampColor.Yellow, null, "0");
-            FzHoldBtn.Create(operation, "CountMoreBtn", "+", 0.075f, 0.13f, 0.745f, 0.33f);
-            FzSiloGUI.Caption(operation, "CountCaption", "COUNT", 0.235f, 0.31f, 0.51f, 0.06f);
-            FzCoveredToggle.Create(operation, "AutoSwitch", 0.07f, 0.41f, 0.875f, 0.08f);
-            FzSiloGUI.Caption(operation, "AutoCaption", "AUTO", 0.015f, 0.15f, 0.835f, 0.06f);
+            FzRecyclerGUI.CreateStatusScreen(operation, 0.42f, StatusLines);
+            LampBtn.Create(operation, "FabricateBtn", "FABRICATE", 0.2f, 0.26f, 0.47f, 0.6f);
+            LampBtn.Create(operation, "FillBtn", "FILL ITEMS", 0.2f, 0.26f, 0.69f, 0.6f);
+            FzHoldBtn.Create(operation, "CountLessBtn", "-", 0.07f, 0.13f, 0.47f, 0.33f);
+            FzNumeric.Create(operation, "CountDisplay", 0.13f, 0.16f, 0.55f, 0.315f, LampColor.Yellow, null, "0");
+            FzHoldBtn.Create(operation, "CountMoreBtn", "+", 0.07f, 0.13f, 0.69f, 0.33f);
+            FzSiloGUI.Caption(operation, "CountCaption", "COUNT", 0.235f, 0.29f, 0.47f, 0.06f);
+            FzCoveredToggle.Create(operation, "RepeatSwitch", 0.07f, 0.41f, 0.79f, 0.08f);
+            FzSiloGUI.Caption(operation, "RepeatCaption", "REPEAT", 0.015f, 0.12f, 0.765f, 0.06f);
+            FzCoveredToggle.Create(operation, "AutoSwitch", 0.07f, 0.41f, 0.89f, 0.08f);
+            FzSiloGUI.Caption(operation, "AutoCaption", "AUTO", 0.015f, 0.1f, 0.875f, 0.06f);
 
             return root;
         }
@@ -137,7 +139,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             statusLabels = Enumerable.Range(0, StatusLines).Select(i => UnityUtil.FindDescendant<TMP_Text>(transform, "StatusLabel" + i)).ToArray();
             statusValues = Enumerable.Range(0, StatusLines).Select(i => UnityUtil.FindDescendant<TMP_Text>(transform, "StatusValue" + i)).ToArray();
 
-            //Set the states first, the On setters raise OnChanged. AUTO keeps FABRICATE lit and locked on.
+            //Set the states first, the On setters raise OnChanged. REPEAT keeps FABRICATE lit and locked on.
             fabricateBtn = UnityUtil.FindDescendant<LampBtn>(transform, "FabricateBtn");
             fabricateBtn.SetOnWithoutNotify(Fabricator.IsFabricateOn(COSelf));
             fabricateBtn.OnChanged += SetFabricate;
@@ -151,11 +153,18 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             countLess.Pressed += () => { countHeld = 0f; StepCount(-1); };
             countMore.Pressed += () => { countHeld = 0f; StepCount(1); };
 
+            FzCoveredToggle repeatSwitch = UnityUtil.FindDescendant<FzCoveredToggle>(transform, "RepeatSwitch");
+            repeatSwitch.SetOnWithoutNotify(Fabricator.IsRepeat(COSelf));
+            repeatSwitch.SetClosedWithoutNotify(Fabricator.IsRepeatCovered(COSelf));
+            repeatSwitch.OnChanged += on => { Fabricator.SetRepeat(COSelf, on); UpdateLamps(); nextScan = 0f; };
+            repeatSwitch.OnCoverChanged += closed => Fabricator.SetRepeatCovered(COSelf, closed);
+
+            //AUTO builds what the ship's build orders are waiting for, ahead of its own recipe
             FzCoveredToggle autoSwitch = UnityUtil.FindDescendant<FzCoveredToggle>(transform, "AutoSwitch");
-            autoSwitch.SetOnWithoutNotify(Fabricator.IsAuto(COSelf));
-            autoSwitch.SetClosedWithoutNotify(Fabricator.IsAutoCovered(COSelf));
-            autoSwitch.OnChanged += on => { Fabricator.SetAuto(COSelf, on); UpdateLamps(); nextScan = 0f; };
-            autoSwitch.OnCoverChanged += closed => Fabricator.SetAutoCovered(COSelf, closed);
+            autoSwitch.SetOnWithoutNotify(Fabricator.IsTaskAuto(COSelf));
+            autoSwitch.SetClosedWithoutNotify(Fabricator.IsTaskAutoCovered(COSelf));
+            autoSwitch.OnChanged += on => { Fabricator.SetTaskAuto(COSelf, on); nextScan = 0f; };
+            autoSwitch.OnCoverChanged += closed => Fabricator.SetTaskAutoCovered(COSelf, closed);
 
             OpenAtChosen();
             UpdateLamps();
@@ -392,7 +401,7 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             bool hasRun = Fabricator.HasRun(COSelf);
             JsonFabRecipe running = hasRun ? Fabricator.RunRecipe(COSelf) : null;
             bool working = COSelf.HasCond(Fabricator.FabricatingCond);
-            bool trying = Fabricator.IsFabricateOn(COSelf) || Fabricator.IsAuto(COSelf);
+            bool trying = Fabricator.IsTrying(COSelf);
             string blocked = Fabricator.IsWorking(COSelf) && trying && !working ? Fabricator.Blocked(COSelf) : null;
             string state = !COSelf.HasCond("IsPowered") ? "NO POWER"
                 : working ? "FABRICATING"
@@ -407,25 +416,29 @@ namespace Freznel.FzAdditions.UI.CustomPrefabs
             double left = Math.Max(0.0, runTime - done) / speed;
             JsonFabRecipe batch = running ?? Fabricator.Selected(COSelf);
             int count = Fabricator.GetCount(COSelf);
-            bool counting = Fabricator.IsFabricateOn(COSelf) && !Fabricator.IsAuto(COSelf) && batch != null && count > 0;
+            bool forOrders = Fabricator.RunTask(COSelf) != null;
+            bool counting = Fabricator.IsFabricateOn(COSelf) && !Fabricator.IsRepeat(COSelf) && !forOrders && batch != null && count > 0;
             double batchLeft = counting ? left + Fabricator.RunTime(batch) / speed * Math.Max(0, count - (hasRun ? 1 : 0)) : 0.0;
 
             FzRecyclerGUI.SetStatus(statusLabels, statusValues, 0, "STATUS", state);
-            FzRecyclerGUI.SetStatus(statusLabels, statusValues, 1, "ITEM", running != null ? "" : "NONE");
+            FzRecyclerGUI.SetStatus(statusLabels, statusValues, 1, forOrders ? "ITEM FOR BUILD ORDER" : "ITEM", running != null ? "" : "NONE");
             FzRecyclerGUI.SetStatus(statusLabels, statusValues, 2, running != null ? " " + RecipeName(running) : "", "");
             FzRecyclerGUI.SetStatus(statusLabels, statusValues, 3, "TIME LEFT", running != null ? FzNumeric.FormatDuration((float)Math.Ceiling(left)) : "-");
             FzRecyclerGUI.SetStatus(statusLabels, statusValues, 4, "PROGRESS", running != null && runTime > 0.0 ? $"{Math.Floor(done / runTime * 100.0)}%" : "-");
-            FzRecyclerGUI.SetStatus(statusLabels, statusValues, 5, Fabricator.IsAuto(COSelf) ? "COUNT" : "COUNT ETA",
-                Fabricator.IsAuto(COSelf) ? "AUTO" : counting ? FzNumeric.FormatDuration((float)Math.Ceiling(batchLeft)) : "-");
+            if (Fabricator.IsTaskAuto(COSelf) && !forOrders && !counting && !Fabricator.IsRepeat(COSelf))
+                FzRecyclerGUI.SetStatus(statusLabels, statusValues, 5, "BUILD ORDERS WAITING", FabTasks.Waiting(COSelf.ship).ToString());
+            else
+                FzRecyclerGUI.SetStatus(statusLabels, statusValues, 5, Fabricator.IsRepeat(COSelf) ? "COUNT" : "COUNT ETA",
+                    Fabricator.IsRepeat(COSelf) ? "REPEAT" : counting ? FzNumeric.FormatDuration((float)Math.Ceiling(batchLeft)) : "-");
             FzRecyclerGUI.SetStatus(statusLabels, statusValues, 6, "BEAM FORMER", FzRecyclerGUI.FormerText(COSelf));
         }
 
-        //AUTO builds whatever the count, so while it's on FABRICATE shows lit and can't be switched off. Its own
-        //setting is kept, and shows again once AUTO is off.
+        //REPEAT builds whatever the count, so while it's on FABRICATE shows lit and can't be switched off. Its own
+        //setting is kept, and shows again once REPEAT is off.
         private void UpdateLamps()
         {
             if (fabricateBtn == null || COSelf == null) return;
-            bool auto = Fabricator.IsAuto(COSelf);
+            bool auto = Fabricator.IsRepeat(COSelf);
             fabricateBtn.Enabled = !auto;
             fabricateBtn.SetOnWithoutNotify(auto || Fabricator.IsFabricateOn(COSelf));
             fillBtn.SetOnWithoutNotify(Fabricator.IsFillOn(COSelf));

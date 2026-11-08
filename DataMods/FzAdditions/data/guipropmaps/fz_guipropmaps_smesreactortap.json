@@ -3,7 +3,7 @@
     "strName" : "FzSmesReactorTapGUI",
     "dictGUIPropMap"       : [
       "strGUIPrefab", "FzSmesReactorTapGUI",
-      "strFriendlyName", "Basic SMES Reactor Tap",
+      "strFriendlyName", "SMES Reactor Tap",
       "strGUIPrefabRight", null,
       "strGUIPrefabLeft", null,
       "strGUIPrefabUp", null,

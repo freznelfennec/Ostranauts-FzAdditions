@@ -2,7 +2,7 @@
   {
     "strName" : "ItmFzSiloSmall",
     "strNameShort" : "Silo",
-    "strNameFriendly" : "Small Material Silo",
+    "strNameFriendly" : "Small Silo (Basic)",
     "strDesc" : "A sealed canister for recycled material, holding up to 5,000 units of any everyday material in one mix. Recyclers and fabricators on the same ship draw on it while it's installed.",
     "strItemDef" : "ItmCanister04",
     "strType" : "Item",
@@ -52,7 +52,7 @@
   {
     "strName" : "ItmFzSiloSmallDmg",
     "strNameShort" : "Silo",
-    "strNameFriendly" : "Small Material Silo (Damaged)",
+    "strNameFriendly" : "Small Silo (Basic, Damaged)",
     "strDesc" : "A sealed canister for recycled material, holding up to 5,000 units of any everyday material in one mix. Recyclers and fabricators on the same ship draw on it while it's installed.",
     "strItemDef" : "ItmCanister04Dmg",
     "strType" : "Item",
@@ -97,7 +97,7 @@
   {
     "strName" : "ItmFzSiloSmallLoose",
     "strNameShort" : "Silo",
-    "strNameFriendly" : "Small Material Silo (Loose)",
+    "strNameFriendly" : "Small Silo (Basic, Loose)",
     "strDesc" : "A sealed canister for recycled material, holding up to 5,000 units of any everyday material in one mix. Recyclers and fabricators on the same ship draw on it while it's installed.",
     "strItemDef" : "ItmCanister04Loose",
     "strType" : "Item",
@@ -143,7 +143,7 @@
   {
     "strName" : "ItmFzSiloSmallDmgLoose",
     "strNameShort" : "Silo",
-    "strNameFriendly" : "Small Material Silo (Damaged, Loose)",
+    "strNameFriendly" : "Small Silo (Basic, Damaged, Loose)",
     "strDesc" : "A sealed canister for recycled material, holding up to 5,000 units of any everyday material in one mix. Recyclers and fabricators on the same ship draw on it while it's installed.",
     "strItemDef" : "ItmCanister04DmgLoose",
     "strType" : "Item",

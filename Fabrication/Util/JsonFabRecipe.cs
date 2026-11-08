@@ -31,6 +31,9 @@ namespace Freznel.FzAdditions.Util
         public int LoadOrder { get; set; }
 
         public int TotalUnits => mapMaterials?.Values.Sum() ?? 0;
+
+        //Beam former life fabricating one uses, each material's units by its wear multiplier
+        public double WearUnits => mapMaterials?.Sum(m => m.Value * FabData.WearMultiplier(m.Key)) ?? 0.0;
     }
 
     //One material from a mod's data/fz/fabrication/materials folder
@@ -44,6 +47,7 @@ namespace Freznel.FzAdditions.Util
         public float fFabricateTime { get; set; } = FabSilo.DefaultUnitTime; //Game seconds to fabricate with one unit of it
         public float fRecycleEnergy { get; set; } = FabSilo.DefaultUnitEnergy; //kWh to recycle one unit of it
         public float fFabricateEnergy { get; set; } = FabSilo.DefaultUnitEnergy; //kWh to fabricate with one unit of it
+        public float fWearMultiplier { get; set; } = 1f; //Units of beam former life one unit of it uses, recycled or fabricated
         public string strBlockCO { get; set; } //What it's compacted into
         public string strSiloCond { get; set; } //A silo can hold it only with this condition, IsFzSilo<strName> if not given
 

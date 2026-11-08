@@ -1,0 +1,9 @@
+[
+  {
+    "strName": "Fz Tier Simple Conditions",
+    "aValues": [
+      "IsFzTier2","Advanced Tier","[us] [is] an advanced-tier device.","0","0","Neutral","false",
+      "IsFzTier3","Superior Tier","[us] [is] a superior-tier device.","0","0","Neutral","false"
+    ]
+  }
+]

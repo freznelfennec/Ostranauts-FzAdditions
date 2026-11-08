@@ -1,7 +1,7 @@
 [
   { "strName" : "TIsFzSmesInstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmes", "IsInstalled" ], "aForbids" : [ "IsDamaged", "IsTypeB", "IsTypeC" ], "aTriggers" : [ ], "bAND" : true },
   { "strName" : "TIsFzSmesInstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmes", "IsInstalled", "IsDamaged" ], "aForbids" : [ "IsTypeB", "IsTypeC" ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzSmesUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmes" ], "aForbids" : [ "IsInstalled", "IsDamaged", "IsTypeB", "IsTypeC" ], "aTriggers" : [ ], "bAND" : true },
-  { "strName" : "TIsFzSmesUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmes", "IsDamaged" ], "aForbids" : [ "IsInstalled", "IsTypeB", "IsTypeC" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSmesUninstalled", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmes" ], "aForbids" : [ "IsFzTier2", "IsFzTier3", "IsInstalled", "IsDamaged", "IsTypeB", "IsTypeC" ], "aTriggers" : [ ], "bAND" : true },
+  { "strName" : "TIsFzSmesUninstalledDmg", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmes", "IsDamaged" ], "aForbids" : [ "IsFzTier2", "IsFzTier3", "IsInstalled", "IsTypeB", "IsTypeC" ], "aTriggers" : [ ], "bAND" : true },
   { "strName" : "TIsFzSmesFitted", "strCondName" : "", "fChance" : 1.0, "fCount" : 1.0, "aReqs" : [ "IsFzSmes", "IsInstalled" ], "aForbids" : [ ], "aTriggers" : [ ], "bAND" : true }
 ]

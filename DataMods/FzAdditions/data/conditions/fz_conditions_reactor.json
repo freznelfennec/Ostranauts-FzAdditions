@@ -1,0 +1,6 @@
+[
+  { "strName" : "StatFzBlanketTier", "strNameFriendly" : "Breeder Blanket Tier", "strColor" : "Neutral", "strDesc" : "The tier of the breeder blanket fitted to [us], 0 for none.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzBlanketConverted", "strNameFriendly" : "Blanket Volatiles Converted", "strColor" : "Neutral", "strDesc" : "Units of its loaded volatiles [us]'s breeder blanket has converted.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzBlanketD2O", "strNameFriendly" : "Blanket D2O Waiting", "strColor" : "Neutral", "strDesc" : "kg of D2O [us]'s breeder blanket has bred and is yet to return.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true },
+  { "strName" : "StatFzBlanketHe3", "strNameFriendly" : "Blanket He-3 Waiting", "strColor" : "Neutral", "strDesc" : "kg of He-3 [us]'s breeder blanket has bred and is yet to return.", "nDisplaySelf" : 0, "nDisplayOther" : 0, "bPersists" : true }
+]

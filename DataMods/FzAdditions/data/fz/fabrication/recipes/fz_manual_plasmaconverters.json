@@ -1,0 +1,74 @@
+[
+  {
+    "strName": "ItmFzPlasmaConverter01",
+    "strNameFriendly": "Plasma Converter (Basic)",
+    "strCategory": "FaureZhang.Energy",
+    "aCOs": [ "ItmFzPlasmaConverter01" ],
+    "strCOFabricate": "ItmFzPlasmaConverter01",
+    "mapMaterials": { "Exotics": 1, "PreciousMetals": 30, "RareEarths": 40, "Ceramics": 24, "MetalAlloys": 60, "Silicates": 20 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzPlasmaConverter01",
+    "strTier": "Exotic"
+  },
+  {
+    "strName": "ItmFzPlasmaConverter01Spent",
+    "strNameFriendly": "Spent Plasma Converter (Basic)",
+    "strCategory": "FaureZhang.Energy",
+    "aCOs": [ "ItmFzPlasmaConverter01Spent" ],
+    "mapMaterials": { "PreciousMetals": 30, "RareEarths": 40, "Ceramics": 24, "MetalAlloys": 60, "Silicates": 20 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Exotic"
+  },
+  {
+    "strName": "ItmFzPlasmaConverter02",
+    "strNameFriendly": "Plasma Converter (Advanced)",
+    "strCategory": "FaureZhang.Energy",
+    "aCOs": [ "ItmFzPlasmaConverter02" ],
+    "strCOFabricate": "ItmFzPlasmaConverter02",
+    "mapMaterials": { "Exotics": 2, "PreciousMetals": 60, "RareEarths": 80, "Ceramics": 48, "MetalAlloys": 120, "Silicates": 40 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzPlasmaConverter02",
+    "strTier": "Exotic"
+  },
+  {
+    "strName": "ItmFzPlasmaConverter02Spent",
+    "strNameFriendly": "Spent Plasma Converter (Advanced)",
+    "strCategory": "FaureZhang.Energy",
+    "aCOs": [ "ItmFzPlasmaConverter02Spent" ],
+    "mapMaterials": { "PreciousMetals": 60, "RareEarths": 80, "Ceramics": 48, "MetalAlloys": 120, "Silicates": 40 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Exotic"
+  },
+  {
+    "strName": "ItmFzPlasmaConverter03",
+    "strNameFriendly": "Plasma Converter (Superior)",
+    "strCategory": "FaureZhang.Energy",
+    "aCOs": [ "ItmFzPlasmaConverter03" ],
+    "strCOFabricate": "ItmFzPlasmaConverter03",
+    "mapMaterials": { "Exotics": 4, "PreciousMetals": 120, "RareEarths": 160, "Ceramics": 96, "MetalAlloys": 240, "Silicates": 80 },
+    "bFabricate": true,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strBlueprint": "FzPlasmaConverter03",
+    "strTier": "Exotic"
+  },
+  {
+    "strName": "ItmFzPlasmaConverter03Spent",
+    "strNameFriendly": "Spent Plasma Converter (Superior)",
+    "strCategory": "FaureZhang.Energy",
+    "aCOs": [ "ItmFzPlasmaConverter03Spent" ],
+    "mapMaterials": { "PreciousMetals": 120, "RareEarths": 160, "Ceramics": 96, "MetalAlloys": 240, "Silicates": 80 },
+    "bFabricate": false,
+    "bRecycle": true,
+    "fRecycleYield": 0.5,
+    "strTier": "Exotic"
+  }
+]

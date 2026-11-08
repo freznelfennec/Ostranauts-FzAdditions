@@ -25,6 +25,32 @@ namespace Freznel.FzAdditions.Util
 
         private static readonly Dictionary<string, BurnState> states = new Dictionary<string, BurnState>();
 
+        //Sections that want to know what a reactor burns, such as breeder blankets. Wants says which reactors are
+        //worth measuring, as measuring scans the ship. Burned gets the kg of each reactant a fusion update took, the
+        //reactor's own burn and the extra together. Registered as the plugin loads, so they outlast a load.
+        public delegate void BurnWatcher(CondOwner reactor, double burnedA, double burnedB, double seconds);
+        private static readonly List<(Func<CondOwner, bool> Wants, BurnWatcher Burned)> watchers = new List<(Func<CondOwner, bool>, BurnWatcher)>();
+
+        //Every reactor update, fusing or not, with the game time it covered
+        public static event Action<CondOwner, double> ReactorRun;
+
+        public static void AddBurnWatcher(Func<CondOwner, bool> wants, BurnWatcher burned)
+        {
+            watchers.Add((wants, burned));
+        }
+
+        public static bool IsWatched(CondOwner reactor) => reactor != null && watchers.Any(w => w.Wants(reactor));
+
+        public static void ReportBurn(CondOwner reactor, double burnedA, double burnedB, double seconds)
+        {
+            foreach (var watcher in watchers)
+            {
+                if (watcher.Wants(reactor)) watcher.Burned(reactor, burnedA, burnedB, seconds);
+            }
+        }
+
+        public static void ReportRun(CondOwner reactor, double seconds) => ReactorRun?.Invoke(reactor, seconds);
+
         //Extra burn is only paid for while this is true, systems should not draw from a reactor otherwise
         //Matches FusionIC.CTFuse without using it. Reading that property before the reactor's first update
         //makes the reactor skip its own initialisation, because it checks the same backing field.

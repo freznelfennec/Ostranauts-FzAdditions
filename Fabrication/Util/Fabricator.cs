@@ -24,9 +24,12 @@ namespace Freznel.FzAdditions.Util
         public const string CountProp = "FzCount"; //How many more FABRICATE builds
         public const string FabricateProp = "FzFabricate";
         public const string FillProp = "FzFill"; //Canisters it makes are filled from the ship's reserves
-        public const string AutoProp = "FzAuto"; //Fills the area, whatever the count
-        public const string AutoCoveredProp = "FzAutoCovered";
+        public const string RepeatProp = "FzAuto"; //REPEAT fills the area, whatever the count. It was AUTO, so saves keep the key.
+        public const string RepeatCoveredProp = "FzAutoCovered";
+        public const string TaskAutoProp = "FzTaskAuto"; //AUTO builds what the ship's build orders are missing (FabTasks)
+        public const string TaskAutoCoveredProp = "FzTaskAutoCovered";
         public const string RunRecipeProp = "FzRunRecipe"; //The recipe of the run under way, empty with none
+        public const string RunTaskProp = "FzRunTask"; //The build orders the run is for (FabTasks.Need.Key), empty for its own recipe
         public const string TargetProp = "FzTarget"; //The stack a stacking run builds onto
 
         public const int MaxCount = 999;
@@ -39,13 +42,20 @@ namespace Freznel.FzAdditions.Util
             return IsFabricator(co) && trigger != null && trigger.Triggered(co);
         }
 
-        public static bool IsAuto(CondOwner co) => WorkArea.GetBool(co, AutoProp);
-        public static bool IsAutoCovered(CondOwner co) => WorkArea.GetBool(co, AutoCoveredProp, true);
+        public static bool IsRepeat(CondOwner co) => WorkArea.GetBool(co, RepeatProp);
+        public static bool IsRepeatCovered(CondOwner co) => WorkArea.GetBool(co, RepeatCoveredProp, true);
+        public static bool IsTaskAuto(CondOwner co) => WorkArea.GetBool(co, TaskAutoProp);
+        public static bool IsTaskAutoCovered(CondOwner co) => WorkArea.GetBool(co, TaskAutoCoveredProp, true);
         public static bool IsFabricateOn(CondOwner co) => WorkArea.GetBool(co, FabricateProp);
         public static bool IsFillOn(CondOwner co) => WorkArea.GetBool(co, FillProp);
         public static int GetCount(CondOwner co) => Mathf.Clamp(WorkArea.GetInt(co, CountProp, 1), 0, MaxCount);
-        public static void SetAuto(CondOwner co, bool on) => WorkArea.SetProp(co, AutoProp, on.ToString().ToLower());
-        public static void SetAutoCovered(CondOwner co, bool closed) => WorkArea.SetProp(co, AutoCoveredProp, closed.ToString().ToLower());
+        public static void SetRepeat(CondOwner co, bool on) => WorkArea.SetProp(co, RepeatProp, on.ToString().ToLower());
+        public static void SetRepeatCovered(CondOwner co, bool closed) => WorkArea.SetProp(co, RepeatCoveredProp, closed.ToString().ToLower());
+        public static void SetTaskAuto(CondOwner co, bool on) => WorkArea.SetProp(co, TaskAutoProp, on.ToString().ToLower());
+        public static void SetTaskAutoCovered(CondOwner co, bool closed) => WorkArea.SetProp(co, TaskAutoCoveredProp, closed.ToString().ToLower());
+
+        //Whether anything has it building: FABRICATE, REPEAT or AUTO
+        public static bool IsTrying(CondOwner co) => IsFabricateOn(co) || IsRepeat(co) || IsTaskAuto(co);
         public static void SetFabricateOn(CondOwner co, bool on) => WorkArea.SetProp(co, FabricateProp, on.ToString().ToLower());
         public static void SetFillOn(CondOwner co, bool on) => WorkArea.SetProp(co, FillProp, on.ToString().ToLower());
         public static void SetCount(CondOwner co, int count) => WorkArea.SetProp(co, CountProp, Mathf.Clamp(count, 0, MaxCount).ToString(CultureInfo.InvariantCulture));
@@ -81,11 +91,36 @@ namespace Freznel.FzAdditions.Util
             return target != null && !target.bDestroyed ? target : null;
         }
 
-        public static void SetRun(CondOwner co, JsonFabRecipe recipe, CondOwner item, CondOwner target)
+        public static void SetRun(CondOwner co, JsonFabRecipe recipe, CondOwner item, CondOwner target, string task = null)
         {
             WorkArea.SetCurrent(co, item);
             WorkArea.SetProp(co, TargetProp, target != null ? target.strID : "");
             WorkArea.SetProp(co, RunRecipeProp, recipe != null ? recipe.strName : "");
+            WorkArea.SetProp(co, RunTaskProp, recipe != null ? task ?? "" : "");
+        }
+
+        //The build orders the run under way is for, or null when it's building its own recipe
+        public static string RunTask(CondOwner co)
+        {
+            string task = WorkArea.GetString(co, RunTaskProp);
+            return HasRun(co) && !string.IsNullOrEmpty(task) ? task : null;
+        }
+
+        //What it would start next: what the build orders are missing with AUTO on, otherwise its own recipe with
+        //FABRICATE or REPEAT on. Null with nothing to build.
+        public static JsonFabRecipe NextRecipe(CondOwner co, out string task)
+        {
+            task = null;
+            if (IsTaskAuto(co))
+            {
+                FabTasks.Need need = FabTasks.Pick(co);
+                if (need != null)
+                {
+                    task = need.Key;
+                    return need.Recipe;
+                }
+            }
+            return IsFabricateOn(co) || IsRepeat(co) ? Selected(co) : null;
         }
 
         //What the run is building on: the unfinished item, or the stack
@@ -216,10 +251,10 @@ namespace Freznel.FzAdditions.Util
         public static string Blocked(CondOwner co)
         {
             if (WorkArea.AnyoneInArea(co)) return "SOMEONE IN AREA";
-            JsonFabRecipe recipe = HasRun(co) ? RunRecipe(co) : Selected(co);
-            if (recipe == null) return "NO BLUEPRINT";
+            JsonFabRecipe recipe = HasRun(co) ? RunRecipe(co) : NextRecipe(co, out _);
+            if (recipe == null) return IsTaskAuto(co) && !IsFabricateOn(co) && !IsRepeat(co) ? "NO BUILD ORDERS" : "NO BLUEPRINT";
             double share = HasRun(co) ? 1.0 - Math.Min(1.0, Progress(co) / Math.Max(1e-9, RunTime(recipe))) : 1.0;
-            string former = BeamFormer.Check(co, recipe.TotalUnits * share);
+            string former = BeamFormer.Check(co, recipe.WearUnits * share);
             if (former != null) return former;
             if (HasRun(co)) return HasShare(co.ship, recipe, 0.0001) ? null : "NO MATERIALS";
             if (CanBuild(co.ship, recipe) < 1) return "NO MATERIALS";

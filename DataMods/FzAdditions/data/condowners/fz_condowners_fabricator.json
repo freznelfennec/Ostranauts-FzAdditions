@@ -2,7 +2,7 @@
   {
     "strName" : "ItmFzFabricatorOff",
     "strNameShort" : "Basic Fabricator",
-    "strNameFriendly" : "Basic Fabricator (Off)",
+    "strNameFriendly" : "Fabricator (Basic, Off)",
     "strDesc" : "A basic floor-fed fabricator. It builds items from known blueprints in its working area in front of it, drawing materials from the material silos on the same ship.",
     "strItemDef" : "ItmFzFabricatorOff",
     "strType" : "Item",
@@ -42,7 +42,7 @@
   {
     "strName" : "ItmFzFabricator",
     "strNameShort" : "Basic Fabricator",
-    "strNameFriendly" : "Basic Fabricator",
+    "strNameFriendly" : "Fabricator (Basic)",
     "strDesc" : "A basic floor-fed fabricator. It builds items from known blueprints in its working area in front of it, drawing materials from the material silos on the same ship.",
     "strItemDef" : "ItmFzFabricator",
     "strType" : "Item",
@@ -82,7 +82,7 @@
   {
     "strName" : "ItmFzFabricatorDmg",
     "strNameShort" : "Basic Fabricator",
-    "strNameFriendly" : "Basic Fabricator (Damaged)",
+    "strNameFriendly" : "Fabricator (Basic, Damaged)",
     "strDesc" : "A basic floor-fed fabricator. It builds items from known blueprints in its working area in front of it, drawing materials from the material silos on the same ship.",
     "strItemDef" : "ItmFzFabricatorDmg",
     "strType" : "Item",
@@ -120,7 +120,7 @@
   {
     "strName" : "ItmFzFabricatorLoose",
     "strNameShort" : "Basic Fabricator",
-    "strNameFriendly" : "Basic Fabricator (Loose)",
+    "strNameFriendly" : "Fabricator (Basic, Loose)",
     "strDesc" : "A basic floor-fed fabricator. It builds items from known blueprints in its working area in front of it, drawing materials from the material silos on the same ship.",
     "strItemDef" : "ItmFzFabricatorLoose",
     "strType" : "Item",
@@ -156,7 +156,7 @@
   {
     "strName" : "ItmFzFabricatorDmgLoose",
     "strNameShort" : "Basic Fabricator",
-    "strNameFriendly" : "Basic Fabricator (Loose, Damaged)",
+    "strNameFriendly" : "Fabricator (Basic, Loose, Damaged)",
     "strDesc" : "A basic floor-fed fabricator. It builds items from known blueprints in its working area in front of it, drawing materials from the material silos on the same ship.",
     "strItemDef" : "ItmFzFabricatorDmgLoose",
     "strType" : "Item",
